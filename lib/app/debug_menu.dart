@@ -5,6 +5,7 @@ import 'package:parcel_khata/dev/seeder.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
+import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
@@ -44,6 +45,20 @@ class DebugMenuScreen extends ConsumerWidget {
               ref.read(courierRepositoryProvider),
             ).seedOrders(ref.read(orderRepositoryProvider));
             m.showSnackBar(const SnackBar(content: Text('Seeded orders')));
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.timeline),
+          title: const Text('Apply realistic status mix to seeded orders'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            await DevSeeder(
+              ref.read(customerRepositoryProvider),
+              ref.read(productRepositoryProvider),
+              ref.read(courierRepositoryProvider),
+            ).seedStatusMix(
+                ref.read(orderRepositoryProvider), ref.read(orderStatusServiceProvider));
+            m.showSnackBar(const SnackBar(content: Text('Status mix applied')));
           },
         ),
         const ListTile(title: Text('Clock override'), subtitle: Text('Not implemented yet')),

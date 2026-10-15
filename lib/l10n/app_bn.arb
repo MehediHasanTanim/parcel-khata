@@ -212,5 +212,91 @@
   "orderUpdated": "অর্ডার আপডেট হয়েছে",
   "change": "পরিবর্তন",
   "statusEventCreated": "তৈরি হয়েছে",
-  "fieldChanged": "পরিবর্তিত"
+  "fieldChanged": "পরিবর্তিত",
+  "actionPacked": "প্যাকড করুন",
+  "actionHanded": "কুরিয়ারে দিন",
+  "actionInTransit": "পথে আছে",
+  "actionDelivered": "ডেলিভারি হয়েছে",
+  "actionFailed": "ডেলিভারি ব্যর্থ",
+  "actionReturnTransit": "রিটার্ন পথে",
+  "actionReturned": "ফেরত পেয়েছি",
+  "actionCancel": "অর্ডার বাতিল",
+  "changeStatusTitle": "স্ট্যাটাস পরিবর্তন",
+  "whenLabel": "কখন",
+  "reasonLabel": "কারণ",
+  "noteOptional": "নোট (ঐচ্ছিক)",
+  "reasonCustomerRefused": "গ্রাহক নেয়নি",
+  "reasonNotReachable": "ফোনে পাওয়া যায়নি",
+  "reasonWrongAddress": "ভুল ঠিকানা",
+  "reasonCustomerCancelled": "গ্রাহক বাতিল করেছে",
+  "reasonOutOfStock": "স্টক নেই",
+  "reasonCourierIssue": "কুরিয়ার সমস্যা",
+  "reasonOther": "অন্যান্য",
+  "reasonCorrection": "সংশোধন",
+  "correctStatus": "স্ট্যাটাস সংশোধন",
+  "correctionNote": "কেন সংশোধন করছেন?",
+  "errCourierRequired": "আগে কুরিয়ার নির্বাচন করুন",
+  "errCnRequired": "আগে CN নম্বর দিন",
+  "errReasonRequired": "কারণ নির্বাচন করুন",
+  "errFutureDate": "ভবিষ্যতের তারিখ হবে না",
+  "errNotAllowed": "এই পরিবর্তন অনুমোদিত নয়",
+  "errBeforeInitiated": "ফেরতের তারিখ শুরুর আগে হতে পারে না",
+  "assignCourier": "কুরিয়ার ও CN",
+  "markHandedOver": "হস্তান্তর হয়েছে হিসেবে চিহ্নিত করুন",
+  "paste": "পেস্ট",
+  "cnPatternWarn": "CN সাধারণ প্যাটার্নের সাথে মেলে না",
+  "trackParcel": "পার্সেল ট্র্যাক করুন",
+  "lastUpdatedByYou": "আপনি সর্বশেষ আপডেট করেছেন",
+  "daysAgo": "{n, plural, =0{আজ} =1{১ দিন আগে} other{{n} দিন আগে}}",
+  "@daysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "bulkSummary": "{changed}টি আপডেট, {skipped}টি বাদ",
+  "@bulkSummary": {
+    "placeholders": {
+      "changed": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedCount": "{n}টি নির্বাচিত",
+  "@selectedCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "selectAll": "সব নির্বাচন",
+  "stuckParcels": "আটকে থাকা পার্সেল",
+  "withCourierDays": "কুরিয়ারের কাছে {n} দিন",
+  "@withCourierDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fastCnEntry": "দ্রুত CN এন্ট্রি",
+  "skip": "বাদ দিন",
+  "saveNext": "সংরক্ষণ ও পরবর্তী",
+  "allHaveCn": "সব অর্ডারে CN আছে",
+  "remainingCount": "{n}টি বাকি",
+  "@remainingCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "trackUnavailable": "আগে কুরিয়ারে ট্র্যাকিং লিংক যোগ করুন",
+  "warnDialogTitle": "কুরিয়ারের সাথে মিলিয়ে নিন",
+  "ok": "ঠিক আছে"
 }

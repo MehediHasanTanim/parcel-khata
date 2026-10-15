@@ -1375,6 +1375,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'changed'**
   String get fieldChanged;
+
+  /// No description provided for @actionPacked.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark packed'**
+  String get actionPacked;
+
+  /// No description provided for @actionHanded.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand to courier'**
+  String get actionHanded;
+
+  /// No description provided for @actionInTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark in transit'**
+  String get actionInTransit;
+
+  /// No description provided for @actionDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark delivered'**
+  String get actionDelivered;
+
+  /// No description provided for @actionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery failed'**
+  String get actionFailed;
+
+  /// No description provided for @actionReturnTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'Return in transit'**
+  String get actionReturnTransit;
+
+  /// No description provided for @actionReturned.
+  ///
+  /// In en, this message translates to:
+  /// **'Received back'**
+  String get actionReturned;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel order'**
+  String get actionCancel;
+
+  /// No description provided for @changeStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change status'**
+  String get changeStatusTitle;
+
+  /// No description provided for @whenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get whenLabel;
+
+  /// No description provided for @reasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reasonLabel;
+
+  /// No description provided for @noteOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get noteOptional;
+
+  /// No description provided for @reasonCustomerRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer refused'**
+  String get reasonCustomerRefused;
+
+  /// No description provided for @reasonNotReachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not reachable'**
+  String get reasonNotReachable;
+
+  /// No description provided for @reasonWrongAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong address'**
+  String get reasonWrongAddress;
+
+  /// No description provided for @reasonCustomerCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer cancelled'**
+  String get reasonCustomerCancelled;
+
+  /// No description provided for @reasonOutOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get reasonOutOfStock;
+
+  /// No description provided for @reasonCourierIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier issue'**
+  String get reasonCourierIssue;
+
+  /// No description provided for @reasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reasonOther;
+
+  /// No description provided for @reasonCorrection.
+  ///
+  /// In en, this message translates to:
+  /// **'Correction'**
+  String get reasonCorrection;
+
+  /// No description provided for @correctStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct status'**
+  String get correctStatus;
+
+  /// No description provided for @correctionNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Why is this being corrected?'**
+  String get correctionNote;
+
+  /// No description provided for @errCourierRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a courier first'**
+  String get errCourierRequired;
+
+  /// No description provided for @errCnRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the consignment number first'**
+  String get errCnRequired;
+
+  /// No description provided for @errReasonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a reason'**
+  String get errReasonRequired;
+
+  /// No description provided for @errFutureDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date cannot be in the future'**
+  String get errFutureDate;
+
+  /// No description provided for @errNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This change is not allowed'**
+  String get errNotAllowed;
+
+  /// No description provided for @errBeforeInitiated.
+  ///
+  /// In en, this message translates to:
+  /// **'Received date is before the return started'**
+  String get errBeforeInitiated;
+
+  /// No description provided for @assignCourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier & CN'**
+  String get assignCourier;
+
+  /// No description provided for @markHandedOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as handed over'**
+  String get markHandedOver;
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
+
+  /// No description provided for @cnPatternWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'CN does not match the usual pattern'**
+  String get cnPatternWarn;
+
+  /// No description provided for @trackParcel.
+  ///
+  /// In en, this message translates to:
+  /// **'Track parcel'**
+  String get trackParcel;
+
+  /// No description provided for @lastUpdatedByYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated by you'**
+  String get lastUpdatedByYou;
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{today} =1{1 day ago} other{{n} days ago}}'**
+  String daysAgo(int n);
+
+  /// No description provided for @bulkSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{changed} updated, {skipped} skipped'**
+  String bulkSummary(int changed, int skipped);
+
+  /// No description provided for @selectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} selected'**
+  String selectedCount(int n);
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get selectAll;
+
+  /// No description provided for @stuckParcels.
+  ///
+  /// In en, this message translates to:
+  /// **'Stuck parcels'**
+  String get stuckParcels;
+
+  /// No description provided for @withCourierDays.
+  ///
+  /// In en, this message translates to:
+  /// **'With courier {n} days'**
+  String withCourierDays(int n);
+
+  /// No description provided for @fastCnEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast CN entry'**
+  String get fastCnEntry;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @saveNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & next'**
+  String get saveNext;
+
+  /// No description provided for @allHaveCn.
+  ///
+  /// In en, this message translates to:
+  /// **'All orders have a CN'**
+  String get allHaveCn;
+
+  /// No description provided for @remainingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} left'**
+  String remainingCount(int n);
+
+  /// No description provided for @trackUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tracking link to this courier first'**
+  String get trackUnavailable;
+
+  /// No description provided for @warnDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check with the courier'**
+  String get warnDialogTitle;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
 }
 
 class _AppLocalizationsDelegate

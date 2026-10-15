@@ -7,7 +7,16 @@ import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
+import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/core/time/providers.dart';
+import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
+import 'package:parcel_khata/features/couriers/domain/tracking_url.dart';
+import 'package:parcel_khata/features/orders/application/order_status_service.dart';
+import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
+import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
+import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
 
 final orderDetailProvider =
@@ -18,6 +27,9 @@ final orderDetailProvider =
     yield await repo.detail(id);
   }
 });
+
+final _courierProvider = FutureProvider.family<Courier?, String>(
+    (ref, id) => ref.watch(courierRepositoryProvider).getById(id));
 
 class OrderDetailScreen extends ConsumerWidget {
   const OrderDetailScreen({required this.orderId, super.key});
@@ -49,6 +61,12 @@ class OrderDetailScreen extends ConsumerWidget {
                   switch (v) {
                     case 'edit':
                       unawaited(nav.push('/orders/$orderId/edit'));
+                    case 'change':
+                      await _changeStatusDialog(context, ref, o);
+                    case 'courier':
+                      await showCourierSheet(context, ref, order: o);
+                    case 'correct':
+                      await _correctDialog(context, ref, o);
                     case 'dup':
                       final r = await repo.duplicate(orderId);
                       r.when(
@@ -71,6 +89,12 @@ class OrderDetailScreen extends ConsumerWidget {
                 },
                 itemBuilder: (_) => [
                   PopupMenuItem(value: 'edit', child: Text(l.edit)),
+                  if (status != OrderStatus.draft)
+                    PopupMenuItem(value: 'change', child: Text(l.changeStatusTitle)),
+                  if (status != OrderStatus.draft)
+                    PopupMenuItem(value: 'courier', child: Text(l.assignCourier)),
+                  if (status != OrderStatus.draft)
+                    PopupMenuItem(value: 'correct', child: Text(l.correctStatus)),
                   PopupMenuItem(value: 'dup', child: Text(l.duplicateOrder)),
                   PopupMenuItem(value: 'del', child: Text(l.deleteOrder)),
                 ],
@@ -89,6 +113,8 @@ class OrderDetailScreen extends ConsumerWidget {
                     icon: Icons.payments_outlined,
                     tone: codTone(cod)),
             ]),
+            const SizedBox(height: 12),
+            _ActionBar(order: o),
             const SizedBox(height: 16),
             _section(context, l.customer, [
               ListTile(
@@ -148,10 +174,8 @@ class OrderDetailScreen extends ConsumerWidget {
                     Money(c.actualAmount ?? c.expectedAmount).format(),
                   ),
               ]),
-            if (o.courierId != null || o.consignmentNo != null)
-              _section(context, l.courier, [
-                _kv(context, l.consignmentNo, o.consignmentNo ?? '—'),
-              ]),
+            if (status != OrderStatus.draft)
+              _CourierCard(order: o, lastEventAt: d.events.isEmpty ? null : d.events.last.at),
             _section(context, l.timeline, _timeline(l, d)),
           ]),
         );
@@ -165,10 +189,12 @@ class OrderDetailScreen extends ConsumerWidget {
         (
           e.at,
           statusIcon(OrderStatus.fromDb(e.toStatus)),
-          e.fromStatus == null
-              ? statusLabel(l, OrderStatus.fromDb(e.toStatus))
-              : '${statusLabel(l, OrderStatus.fromDb(e.fromStatus!))} → '
-                  '${statusLabel(l, OrderStatus.fromDb(e.toStatus))}',
+          (e.fromStatus == null
+                  ? statusLabel(l, OrderStatus.fromDb(e.toStatus))
+                  : '${statusLabel(l, OrderStatus.fromDb(e.fromStatus!))} → '
+                      '${statusLabel(l, OrderStatus.fromDb(e.toStatus))}') +
+              (e.reason == null ? '' : ' · ${reasonLabel(l, e.reason!)}') +
+              (e.note == null ? '' : ' — ${e.note}'),
         ),
       for (final e in d.edits)
         (
@@ -208,6 +234,159 @@ class OrderDetailScreen extends ConsumerWidget {
         Flexible(child: Text(k, style: style)),
         Text(v, style: style),
       ]),
+    );
+  }
+}
+
+Future<void> _changeStatusDialog(BuildContext context, WidgetRef ref, Order o) async {
+  final l = context.l10n;
+  final settings = await ref.read(settingsRepositoryProvider).read();
+  final machine = OrderStatusMachine(
+    packedEnabled: settings.packedStepEnabled,
+    inTransitEnabled: settings.inTransitStepEnabled,
+  );
+  if (!context.mounted) return;
+  final next = machine.allowedNext(OrderStatus.fromDb(o.status));
+  final to = await showModalBottomSheet<OrderStatus>(
+    context: context,
+    builder: (_) => SafeArea(
+      child: ListView(shrinkWrap: true, children: [
+        for (final s in next)
+          ListTile(
+            leading: Icon(actionIcon(s)),
+            title: Text(actionLabel(l, s)),
+            onTap: () => Navigator.pop(context, s),
+          ),
+      ]),
+    ),
+  );
+  if (to == null || !context.mounted) return;
+  await runStatusAction(context, ref, order: o, to: to, askDetails: true);
+}
+
+Future<void> _correctDialog(BuildContext context, WidgetRef ref, Order o) async {
+  final l = context.l10n;
+  final note = TextEditingController();
+  var target = OrderStatus.fromDb(o.status);
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (c) => StatefulBuilder(
+      builder: (c, setState) => AlertDialog(
+        title: Text(l.correctStatus),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          DropdownButtonFormField<OrderStatus>(
+            initialValue: target,
+            items: [
+              for (final s in OrderStatus.values.where((s) => s != OrderStatus.draft))
+                DropdownMenuItem(value: s, child: Text(statusLabel(l, s))),
+            ],
+            onChanged: (v) => setState(() => target = v ?? target),
+          ),
+          const SizedBox(height: 12),
+          TextField(controller: note, decoration: InputDecoration(labelText: l.correctionNote)),
+        ]),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(c, false), child: Text(l.cancel)),
+          FilledButton(onPressed: () => Navigator.pop(c, true), child: Text(l.confirm)),
+        ],
+      ),
+    ),
+  );
+  if (ok != true || !context.mounted) return;
+  final r = await ref
+      .read(orderStatusServiceProvider)
+      .correctStatus(o.id, to: target, note: note.text);
+  if (!context.mounted) return;
+  final f = r.failureOrNull;
+  if (f != null) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(f is TransitionFailure ? transitionErrorText(l, f.error) : f.message)));
+  }
+}
+
+class _ActionBar extends ConsumerWidget {
+  const _ActionBar({required this.order});
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final s = ref.watch(shopSettingsProvider).value;
+    final machine = OrderStatusMachine(
+      packedEnabled: s?.packedStepEnabled ?? true,
+      inTransitEnabled: s?.inTransitStepEnabled ?? true,
+    );
+    final next = machine.allowedNext(OrderStatus.fromDb(order.status));
+    if (next.isEmpty) return const SizedBox.shrink();
+    return Wrap(spacing: 8, runSpacing: 8, children: [
+      for (var i = 0; i < next.length; i++)
+        i == 0
+            ? FilledButton.icon(
+                onPressed: () => runStatusAction(context, ref, order: order, to: next[i]),
+                icon: Icon(actionIcon(next[i])),
+                label: Text(actionLabel(l, next[i])),
+              )
+            : OutlinedButton.icon(
+                onPressed: () => runStatusAction(context, ref, order: order, to: next[i]),
+                icon: Icon(actionIcon(next[i])),
+                label: Text(actionLabel(l, next[i])),
+              ),
+    ]);
+  }
+}
+
+class _CourierCard extends ConsumerWidget {
+  const _CourierCard({required this.order, required this.lastEventAt});
+
+  final Order order;
+  final DateTime? lastEventAt;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final courier =
+        order.courierId == null ? null : ref.watch(_courierProvider(order.courierId!)).value;
+    final cn = order.consignmentNo;
+    final url = (courier?.trackingUrlTemplate == null || cn == null)
+        ? null
+        : TrackingUrl.build(courier!.trackingUrlTemplate!, cn);
+    final now = ref.watch(clockProvider).now();
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(l.courier, style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 8),
+          Text(courier?.name ?? l.noCourier),
+          if (cn != null) Text('${l.consignmentNo}: $cn'),
+          if (lastEventAt != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '${l.lastUpdatedByYou}: ${l.daysAgo(now.difference(lastEventAt!).inDays)}',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, children: [
+            OutlinedButton.icon(
+              onPressed: () => showCourierSheet(context, ref, order: order),
+              icon: const Icon(Icons.local_shipping_outlined),
+              label: Text(l.assignCourier),
+            ),
+            if (courier != null && cn != null)
+              OutlinedButton.icon(
+                onPressed: url == null
+                    ? () => ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(l.trackUnavailable)))
+                    : () => launchUrl(url, mode: LaunchMode.externalApplication),
+                icon: const Icon(Icons.open_in_new),
+                label: Text(l.trackParcel),
+              ),
+          ]),
+        ]),
+      ),
     );
   }
 }

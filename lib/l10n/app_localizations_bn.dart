@@ -649,4 +649,165 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get fieldChanged => 'পরিবর্তিত';
+
+  @override
+  String get actionPacked => 'প্যাকড করুন';
+
+  @override
+  String get actionHanded => 'কুরিয়ারে দিন';
+
+  @override
+  String get actionInTransit => 'পথে আছে';
+
+  @override
+  String get actionDelivered => 'ডেলিভারি হয়েছে';
+
+  @override
+  String get actionFailed => 'ডেলিভারি ব্যর্থ';
+
+  @override
+  String get actionReturnTransit => 'রিটার্ন পথে';
+
+  @override
+  String get actionReturned => 'ফেরত পেয়েছি';
+
+  @override
+  String get actionCancel => 'অর্ডার বাতিল';
+
+  @override
+  String get changeStatusTitle => 'স্ট্যাটাস পরিবর্তন';
+
+  @override
+  String get whenLabel => 'কখন';
+
+  @override
+  String get reasonLabel => 'কারণ';
+
+  @override
+  String get noteOptional => 'নোট (ঐচ্ছিক)';
+
+  @override
+  String get reasonCustomerRefused => 'গ্রাহক নেয়নি';
+
+  @override
+  String get reasonNotReachable => 'ফোনে পাওয়া যায়নি';
+
+  @override
+  String get reasonWrongAddress => 'ভুল ঠিকানা';
+
+  @override
+  String get reasonCustomerCancelled => 'গ্রাহক বাতিল করেছে';
+
+  @override
+  String get reasonOutOfStock => 'স্টক নেই';
+
+  @override
+  String get reasonCourierIssue => 'কুরিয়ার সমস্যা';
+
+  @override
+  String get reasonOther => 'অন্যান্য';
+
+  @override
+  String get reasonCorrection => 'সংশোধন';
+
+  @override
+  String get correctStatus => 'স্ট্যাটাস সংশোধন';
+
+  @override
+  String get correctionNote => 'কেন সংশোধন করছেন?';
+
+  @override
+  String get errCourierRequired => 'আগে কুরিয়ার নির্বাচন করুন';
+
+  @override
+  String get errCnRequired => 'আগে CN নম্বর দিন';
+
+  @override
+  String get errReasonRequired => 'কারণ নির্বাচন করুন';
+
+  @override
+  String get errFutureDate => 'ভবিষ্যতের তারিখ হবে না';
+
+  @override
+  String get errNotAllowed => 'এই পরিবর্তন অনুমোদিত নয়';
+
+  @override
+  String get errBeforeInitiated => 'ফেরতের তারিখ শুরুর আগে হতে পারে না';
+
+  @override
+  String get assignCourier => 'কুরিয়ার ও CN';
+
+  @override
+  String get markHandedOver => 'হস্তান্তর হয়েছে হিসেবে চিহ্নিত করুন';
+
+  @override
+  String get paste => 'পেস্ট';
+
+  @override
+  String get cnPatternWarn => 'CN সাধারণ প্যাটার্নের সাথে মেলে না';
+
+  @override
+  String get trackParcel => 'পার্সেল ট্র্যাক করুন';
+
+  @override
+  String get lastUpdatedByYou => 'আপনি সর্বশেষ আপডেট করেছেন';
+
+  @override
+  String daysAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n দিন আগে',
+      one: '১ দিন আগে',
+      zero: 'আজ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bulkSummary(int changed, int skipped) {
+    return '$changedটি আপডেট, $skippedটি বাদ';
+  }
+
+  @override
+  String selectedCount(int n) {
+    return '$nটি নির্বাচিত';
+  }
+
+  @override
+  String get selectAll => 'সব নির্বাচন';
+
+  @override
+  String get stuckParcels => 'আটকে থাকা পার্সেল';
+
+  @override
+  String withCourierDays(int n) {
+    return 'কুরিয়ারের কাছে $n দিন';
+  }
+
+  @override
+  String get fastCnEntry => 'দ্রুত CN এন্ট্রি';
+
+  @override
+  String get skip => 'বাদ দিন';
+
+  @override
+  String get saveNext => 'সংরক্ষণ ও পরবর্তী';
+
+  @override
+  String get allHaveCn => 'সব অর্ডারে CN আছে';
+
+  @override
+  String remainingCount(int n) {
+    return '$nটি বাকি';
+  }
+
+  @override
+  String get trackUnavailable => 'আগে কুরিয়ারে ট্র্যাকিং লিংক যোগ করুন';
+
+  @override
+  String get warnDialogTitle => 'কুরিয়ারের সাথে মিলিয়ে নিন';
+
+  @override
+  String get ok => 'ঠিক আছে';
 }

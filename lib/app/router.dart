@@ -10,6 +10,7 @@ import 'package:parcel_khata/features/customers/presentation/customer_form_scree
 import 'package:parcel_khata/features/customers/presentation/customers_screen.dart';
 import 'package:parcel_khata/features/home/presentation/home_screen.dart';
 import 'package:parcel_khata/features/more/presentation/more_screen.dart';
+import 'package:parcel_khata/features/orders/presentation/cn_entry_screen.dart';
 import 'package:parcel_khata/features/orders/presentation/deleted_orders_screen.dart';
 import 'package:parcel_khata/features/orders/presentation/drafts_screen.dart';
 import 'package:parcel_khata/features/orders/presentation/order_detail_screen.dart';
@@ -29,6 +30,7 @@ final appRouter = GoRouter(
       GoRoute(path: '/debug', builder: (_, __) => const DebugMenuScreen()),
     // Static order routes must precede '/orders/:id'.
     GoRoute(path: '/orders/new', builder: (_, __) => const OrderFormScreen()),
+    GoRoute(path: '/orders/cn-entry', builder: (_, __) => const CnEntryScreen()),
     GoRoute(path: '/orders/drafts', builder: (_, __) => const DraftsScreen()),
     GoRoute(path: '/orders/deleted', builder: (_, __) => const DeletedOrdersScreen()),
     GoRoute(

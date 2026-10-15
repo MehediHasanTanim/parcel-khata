@@ -26,7 +26,7 @@ analyzer:
     cascade_invocations: ignore
     unnecessary_raw_strings: ignore
     prefer_initializing_formals: ignore
-    directives_ordering: info
+    directives_ordering: ignore
     always_put_required_named_parameters_first: ignore
     omit_local_variable_types: ignore
     specify_nonobvious_property_types: ignore
@@ -38,3 +38,4 @@ analyzer:
     prefer_foreach: ignore
     avoid_function_literals_in_foreach_calls: ignore
     use_is_even_rather_than_modulo: ignore
+    prefer_if_elements_to_conditional_expressions: ignore

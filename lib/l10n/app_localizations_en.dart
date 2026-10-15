@@ -649,4 +649,165 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fieldChanged => 'changed';
+
+  @override
+  String get actionPacked => 'Mark packed';
+
+  @override
+  String get actionHanded => 'Hand to courier';
+
+  @override
+  String get actionInTransit => 'Mark in transit';
+
+  @override
+  String get actionDelivered => 'Mark delivered';
+
+  @override
+  String get actionFailed => 'Delivery failed';
+
+  @override
+  String get actionReturnTransit => 'Return in transit';
+
+  @override
+  String get actionReturned => 'Received back';
+
+  @override
+  String get actionCancel => 'Cancel order';
+
+  @override
+  String get changeStatusTitle => 'Change status';
+
+  @override
+  String get whenLabel => 'When';
+
+  @override
+  String get reasonLabel => 'Reason';
+
+  @override
+  String get noteOptional => 'Note (optional)';
+
+  @override
+  String get reasonCustomerRefused => 'Customer refused';
+
+  @override
+  String get reasonNotReachable => 'Not reachable';
+
+  @override
+  String get reasonWrongAddress => 'Wrong address';
+
+  @override
+  String get reasonCustomerCancelled => 'Customer cancelled';
+
+  @override
+  String get reasonOutOfStock => 'Out of stock';
+
+  @override
+  String get reasonCourierIssue => 'Courier issue';
+
+  @override
+  String get reasonOther => 'Other';
+
+  @override
+  String get reasonCorrection => 'Correction';
+
+  @override
+  String get correctStatus => 'Correct status';
+
+  @override
+  String get correctionNote => 'Why is this being corrected?';
+
+  @override
+  String get errCourierRequired => 'Select a courier first';
+
+  @override
+  String get errCnRequired => 'Enter the consignment number first';
+
+  @override
+  String get errReasonRequired => 'Select a reason';
+
+  @override
+  String get errFutureDate => 'Date cannot be in the future';
+
+  @override
+  String get errNotAllowed => 'This change is not allowed';
+
+  @override
+  String get errBeforeInitiated => 'Received date is before the return started';
+
+  @override
+  String get assignCourier => 'Courier & CN';
+
+  @override
+  String get markHandedOver => 'Mark as handed over';
+
+  @override
+  String get paste => 'Paste';
+
+  @override
+  String get cnPatternWarn => 'CN does not match the usual pattern';
+
+  @override
+  String get trackParcel => 'Track parcel';
+
+  @override
+  String get lastUpdatedByYou => 'Last updated by you';
+
+  @override
+  String daysAgo(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days ago',
+      one: '1 day ago',
+      zero: 'today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bulkSummary(int changed, int skipped) {
+    return '$changed updated, $skipped skipped';
+  }
+
+  @override
+  String selectedCount(int n) {
+    return '$n selected';
+  }
+
+  @override
+  String get selectAll => 'Select all';
+
+  @override
+  String get stuckParcels => 'Stuck parcels';
+
+  @override
+  String withCourierDays(int n) {
+    return 'With courier $n days';
+  }
+
+  @override
+  String get fastCnEntry => 'Fast CN entry';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get saveNext => 'Save & next';
+
+  @override
+  String get allHaveCn => 'All orders have a CN';
+
+  @override
+  String remainingCount(int n) {
+    return '$n left';
+  }
+
+  @override
+  String get trackUnavailable => 'Add a tracking link to this courier first';
+
+  @override
+  String get warnDialogTitle => 'Check with the courier';
+
+  @override
+  String get ok => 'OK';
 }

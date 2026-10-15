@@ -3,6 +3,7 @@ import 'package:parcel_khata/features/couriers/application/courier_repository.da
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
+import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_input.dart';
@@ -61,6 +62,42 @@ class DevSeeder {
         courierId: courier?.id,
         zone: 'inside_dhaka',
       ));
+    }
+  }
+
+  /// Seeds a realistic status mix with timestamps spread over the window
+  /// (S3-18): ~60% delivered, ~15% in transit, ~10% failed/returned, rest
+  /// confirmed or cancelled. Orders need a courier and CN to be handed over.
+  Future<void> seedStatusMix(
+    OrderRepository orders,
+    OrderStatusService status, {
+    int limit = 2000,
+  }) async {
+    final rows = await orders.fetchPage(limit: limit);
+    var n = 0;
+    for (final item in rows.reversed) {
+      final o = item.order;
+      n++;
+      final bucket = n % 20;
+      if (bucket >= 16) continue; // leave ~20% confirmed
+      if (o.courierId == null) continue;
+      final handed = o.orderDate.add(Duration(hours: 4 + n % 20));
+      await orders.assignCourier(o.id,
+          courierId: o.courierId!, consignmentNo: 'SEED${o.orderNumber}', zone: 'inside_dhaka');
+      final r = await status.changeStatus(o.id,
+          to: OrderStatus.handedToCourier, at: handed);
+      if (!r.isOk) continue;
+      if (bucket < 12) {
+        await status.changeStatus(o.id,
+            to: OrderStatus.delivered, at: handed.add(Duration(days: 1 + n % 3)));
+      } else if (bucket < 14) {
+        // still with the courier: some will show as stuck
+      } else if (bucket < 15) {
+        await status.changeStatus(o.id,
+            to: OrderStatus.deliveryFailed,
+            at: handed.add(const Duration(days: 2)),
+            reason: 'customer_refused');
+      }
     }
   }
 

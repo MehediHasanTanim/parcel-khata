@@ -212,5 +212,91 @@
   "orderUpdated": "Order updated",
   "change": "Change",
   "statusEventCreated": "Created",
-  "fieldChanged": "changed"
+  "fieldChanged": "changed",
+  "actionPacked": "Mark packed",
+  "actionHanded": "Hand to courier",
+  "actionInTransit": "Mark in transit",
+  "actionDelivered": "Mark delivered",
+  "actionFailed": "Delivery failed",
+  "actionReturnTransit": "Return in transit",
+  "actionReturned": "Received back",
+  "actionCancel": "Cancel order",
+  "changeStatusTitle": "Change status",
+  "whenLabel": "When",
+  "reasonLabel": "Reason",
+  "noteOptional": "Note (optional)",
+  "reasonCustomerRefused": "Customer refused",
+  "reasonNotReachable": "Not reachable",
+  "reasonWrongAddress": "Wrong address",
+  "reasonCustomerCancelled": "Customer cancelled",
+  "reasonOutOfStock": "Out of stock",
+  "reasonCourierIssue": "Courier issue",
+  "reasonOther": "Other",
+  "reasonCorrection": "Correction",
+  "correctStatus": "Correct status",
+  "correctionNote": "Why is this being corrected?",
+  "errCourierRequired": "Select a courier first",
+  "errCnRequired": "Enter the consignment number first",
+  "errReasonRequired": "Select a reason",
+  "errFutureDate": "Date cannot be in the future",
+  "errNotAllowed": "This change is not allowed",
+  "errBeforeInitiated": "Received date is before the return started",
+  "assignCourier": "Courier & CN",
+  "markHandedOver": "Mark as handed over",
+  "paste": "Paste",
+  "cnPatternWarn": "CN does not match the usual pattern",
+  "trackParcel": "Track parcel",
+  "lastUpdatedByYou": "Last updated by you",
+  "daysAgo": "{n, plural, =0{today} =1{1 day ago} other{{n} days ago}}",
+  "@daysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "bulkSummary": "{changed} updated, {skipped} skipped",
+  "@bulkSummary": {
+    "placeholders": {
+      "changed": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedCount": "{n} selected",
+  "@selectedCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "selectAll": "Select all",
+  "stuckParcels": "Stuck parcels",
+  "withCourierDays": "With courier {n} days",
+  "@withCourierDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fastCnEntry": "Fast CN entry",
+  "skip": "Skip",
+  "saveNext": "Save & next",
+  "allHaveCn": "All orders have a CN",
+  "remainingCount": "{n} left",
+  "@remainingCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "trackUnavailable": "Add a tracking link to this courier first",
+  "warnDialogTitle": "Check with the courier",
+  "ok": "OK"
 }

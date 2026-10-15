@@ -256,8 +256,18 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
       }
       if (!mounted) return;
       if (r.isOk && r.valueOrNull!.warnings.isNotEmpty) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(l.warnEditAfterHandover)));
+        await showDialog<void>(
+          context: context,
+          builder: (c) => AlertDialog(
+            icon: const Icon(Icons.warning_amber),
+            title: Text(l.warnDialogTitle),
+            content: Text(l.warnEditAfterHandover),
+            actions: [
+              FilledButton(onPressed: () => Navigator.pop(c), child: Text(l.ok)),
+            ],
+          ),
+        );
+        if (!mounted) return;
       }
       result = r.when(ok: (o) => Result.ok(o.order), err: Result.err);
     }

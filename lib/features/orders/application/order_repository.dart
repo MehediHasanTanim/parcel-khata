@@ -86,9 +86,12 @@ class OrderFilter {
 }
 
 class OrderListItem {
-  const OrderListItem(this.order, this.customerName);
+  const OrderListItem(this.order, this.customerName, {this.courierStuckDays});
   final Order order;
   final String? customerName;
+
+  /// Stuck threshold of the order's courier (null when no courier).
+  final int? courierStuckDays;
 }
 
 class OrderDetail {
@@ -114,6 +117,14 @@ class OrderUpdateOutcome {
   const OrderUpdateOutcome(this.order, {this.warnings = const []});
   final Order order;
   final List<OrderWarning> warnings;
+}
+
+enum AssignWarning { cnPatternMismatch }
+
+class AssignOutcome {
+  const AssignOutcome(this.order, this.warnings);
+  final Order order;
+  final List<AssignWarning> warnings;
 }
 
 enum OrderWarning {
@@ -163,7 +174,7 @@ class OrderRepository {
       final bad = input.validateForConfirm();
       if (bad != null) return Result.err(ValidationFailure(bad));
     }
-    final conflict = await _cnConflict(input.courierId, input.consignmentNo, null);
+    final conflict = await cnConflict(input.courierId, input.consignmentNo, null);
     if (conflict != null) return Result.err(conflict);
 
     final settings = await _settings.read();
@@ -251,7 +262,7 @@ class OrderRepository {
       final bad = input.validateForConfirm();
       if (bad != null) return Result.err(ValidationFailure(bad));
     }
-    final conflict = await _cnConflict(input.courierId, input.consignmentNo, id);
+    final conflict = await cnConflict(input.courierId, input.consignmentNo, id);
     if (conflict != null) return Result.err(conflict);
 
     final b = input.breakdown;
@@ -466,7 +477,7 @@ class OrderRepository {
   Future<Result<void>> restore(String id) async {
     final o = await _order(id);
     if (o == null) return const Result.err(NotFoundFailure('Order not found'));
-    final conflict = await _cnConflict(o.courierId, o.consignmentNo, id);
+    final conflict = await cnConflict(o.courierId, o.consignmentNo, id);
     if (conflict != null) return Result.err(conflict);
     final now = _clock.now();
     await _db.transaction(() async {
@@ -512,6 +523,83 @@ class OrderRepository {
       await (_db.delete(_db.orders)..where((o) => o.id.isIn(ids))).go();
     });
     return ids.length;
+  }
+
+  // ------------------------------------------------------- assign courier
+
+  /// Sets courier / CN / zone / weight and re-derives expected rate-card
+  /// charges. Returns soft warnings (e.g. CN pattern mismatch).
+  Future<Result<AssignOutcome>> assignCourier(
+    String orderId, {
+    required String courierId,
+    String? consignmentNo,
+    String? zone,
+    int? weightG,
+  }) async {
+    final cur = await _order(orderId);
+    if (cur == null || cur.deletedAt != null) {
+      return const Result.err(NotFoundFailure('Order not found'));
+    }
+    final courier = await _couriers.getById(courierId);
+    if (courier == null) return const Result.err(NotFoundFailure('Courier not found'));
+    final cn = _blank(consignmentNo);
+    final conflict = await cnConflict(courierId, cn, orderId);
+    if (conflict != null) return Result.err(conflict);
+
+    final warnings = <AssignWarning>[];
+    final pattern = courier.cnRegex;
+    if (cn != null && pattern != null && pattern.isNotEmpty) {
+      try {
+        if (!RegExp(pattern).hasMatch(cn)) warnings.add(AssignWarning.cnPatternMismatch);
+      } on FormatException {
+        // Invalid saved pattern: ignore, validation is soft.
+      }
+    }
+    final feeRules = await _couriers.feeRules(courierId);
+    final now = _clock.now();
+    await _db.transaction(() async {
+      await (_db.update(_db.orders)..where((o) => o.id.equals(orderId))).write(
+        OrdersCompanion(
+          courierId: Value(courierId),
+          consignmentNo: Value(cn),
+          zone: Value(zone ?? cur.zone),
+          weightG: Value(weightG ?? cur.weightG),
+          updatedAt: Value(now),
+          rowVersion: Value(cur.rowVersion + 1),
+        ),
+      );
+      await (_db.delete(_db.orderCharges)
+            ..where((c) => c.orderId.equals(orderId) & c.source.equals('rate_card')))
+          .go();
+      await _writeExpectedCharges(
+        orderId: orderId,
+        feeRules: feeRules,
+        zone: zone ?? cur.zone,
+        weightG: weightG ?? cur.weightG,
+        cod: Money(cur.codExpected),
+        packaging: null,
+        now: now,
+      );
+      Future<void> edit(String f, String? a, String? b) async {
+        if (a == b) return;
+        await _db.into(_db.orderEditLog).insert(OrderEditLogCompanion.insert(
+              id: _ids.generate(),
+              shopId: _shopId,
+              createdAt: now,
+              updatedAt: now,
+              orderId: orderId,
+              field: f,
+              oldValue: Value(a),
+              newValue: Value(b),
+              at: now,
+            ));
+      }
+      await edit('courier_id', cur.courierId, courierId);
+      await edit('consignment_no', cur.consignmentNo, cn);
+      await _audit.write(
+          entity: 'order', entityId: orderId, action: 'assign_courier');
+    });
+    return Result.ok(AssignOutcome((await _order(orderId))!, warnings));
   }
 
   // ----------------------------------------------------------------- reads
@@ -562,6 +650,7 @@ class OrderRepository {
     final o = _db.orders;
     final q = _db.select(o).join([
       leftOuterJoin(_db.customers, _db.customers.id.equalsExp(o.customerId)),
+      leftOuterJoin(_db.couriers, _db.couriers.id.equalsExp(o.courierId)),
     ]);
     Expression<bool> w = o.shopId.equals(_shopId) & o.deletedAt.isNull();
     if (filter.onlyDrafts) {
@@ -588,7 +677,31 @@ class OrderRepository {
     final rows = await q.get();
     return [
       for (final r in rows)
-        OrderListItem(r.readTable(o), r.readTableOrNull(_db.customers)?.name),
+        OrderListItem(
+          r.readTable(o),
+          r.readTableOrNull(_db.customers)?.name,
+          courierStuckDays: r.readTableOrNull(_db.couriers)?.stuckDays,
+        ),
+    ];
+  }
+
+  /// List rows for specific ids (newest first), e.g. the stuck-parcel view.
+  Future<List<OrderListItem>> fetchByIds(List<String> ids) async {
+    if (ids.isEmpty) return const [];
+    final o = _db.orders;
+    final q = _db.select(o).join([
+      leftOuterJoin(_db.customers, _db.customers.id.equalsExp(o.customerId)),
+      leftOuterJoin(_db.couriers, _db.couriers.id.equalsExp(o.courierId)),
+    ])
+      ..where(o.id.isIn(ids))
+      ..orderBy([OrderingTerm.desc(o.orderDate), OrderingTerm.desc(o.id)]);
+    return [
+      for (final r in await q.get())
+        OrderListItem(
+          r.readTable(o),
+          r.readTableOrNull(_db.customers)?.name,
+          courierStuckDays: r.readTableOrNull(_db.couriers)?.stuckDays,
+        ),
     ];
   }
 
@@ -629,7 +742,7 @@ class OrderRepository {
     return max == null ? start : (max + 1 < start ? start : max + 1);
   }
 
-  Future<ConflictFailure?> _cnConflict(
+  Future<ConflictFailure?> cnConflict(
       String? courierId, String? cn, String? exceptOrderId) async {
     final c = _blank(cn);
     if (courierId == null || c == null) return null;
