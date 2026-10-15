@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:parcel_khata/core/db/sync_schema.dart';
 import 'package:parcel_khata/core/db/tables.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
@@ -19,7 +20,7 @@ const _customIndexes = [
 
 // Added in schema v3 (orders).
 const _orderIndexes = [
-  'CREATE UNIQUE INDEX IF NOT EXISTS uq_orders_number ON orders(shop_id, order_number)',
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_orders_device_number ON orders(shop_id, device_code, order_number)',
   'CREATE UNIQUE INDEX IF NOT EXISTS uq_orders_cn ON orders(courier_id, consignment_no) WHERE deleted_at IS NULL AND consignment_no IS NOT NULL',
   'CREATE INDEX IF NOT EXISTS ix_orders_status_date ON orders(shop_id, status, order_date DESC)',
   'CREATE INDEX IF NOT EXISTS ix_orders_date ON orders(shop_id, order_date DESC, id DESC)',
@@ -135,6 +136,10 @@ WHERE o.deleted_at IS NULL AND trim(j.value) != ''
 ''';
 
 @DriftDatabase(tables: [
+  SyncState,
+  SyncDirty,
+  SyncRows,
+  SyncConflicts,
   StatementProfiles,
   StatementImports,
   ImportBatches,
@@ -171,7 +176,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -273,6 +278,18 @@ class AppDatabase extends _$AppDatabase {
               await customStatement(sql);
             }
           }
+          if (from < 13) {
+            await m.addColumn(orders, orders.deviceCode);
+            await customStatement('DROP INDEX IF EXISTS uq_orders_number');
+            await customStatement(
+              'CREATE UNIQUE INDEX IF NOT EXISTS uq_orders_device_number '
+              'ON orders(shop_id, device_code, order_number)',
+            );
+            await m.createTable(syncState);
+            await m.createTable(syncDirty);
+            await m.createTable(syncRows);
+            await m.createTable(syncConflicts);
+          }
           if (from < 12) {
             await m.createTable(statementProfiles);
             await m.createTable(statementImports);
@@ -283,6 +300,14 @@ class AppDatabase extends _$AppDatabase {
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
+          // This device's sync identity (stable; sync itself is opt-in).
+          await customStatement(
+            'INSERT OR IGNORE INTO sync_state(id, device_id, device_code, enabled, applying, cursor) '
+            "VALUES(1, lower(hex(randomblob(16))), substr(upper(hex(randomblob(4))), 1, 5), 0, 0, 0)",
+          );
+          for (final sql in syncTriggerSql()) {
+            await customStatement(sql);
+          }
         },
       );
 

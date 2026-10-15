@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/core/db/sync_schema.dart';
 
 /// Builds a database at the latest schema, then rewinds it to what an older
 /// release left on disk (later tables/columns removed, user_version lowered)
@@ -35,6 +36,20 @@ void main() {
 
   Future<void> rewindTo(AppDatabase db, int version) async {
     await db.customStatement('PRAGMA foreign_keys = OFF');
+    if (version < 13) {
+      for (final t in kSyncedTables) {
+        for (final k in ['ins', 'upd', 'del']) {
+          await db.customStatement('DROP TRIGGER IF EXISTS sync_${t}_$k');
+        }
+      }
+      for (final t in ['sync_state', 'sync_dirty', 'sync_rows', 'sync_conflicts']) {
+        await db.customStatement('DROP TABLE IF EXISTS $t');
+      }
+      await db.customStatement('DROP INDEX IF EXISTS uq_orders_device_number');
+      await db.customStatement('ALTER TABLE orders DROP COLUMN device_code');
+      await db.customStatement(
+          'CREATE UNIQUE INDEX IF NOT EXISTS uq_orders_number ON orders(shop_id, order_number)');
+    }
     if (version < 12) {
       for (final t in ['statement_profiles', 'statement_imports']) {
         await db.customStatement('DROP TABLE IF EXISTS $t');
@@ -112,6 +127,13 @@ void main() {
     expect(await columns(db, 'return_records'), contains('exchange_order_id'));
     expect(await tableExists(db, 'import_batches'), isTrue);
     expect(await tableExists(db, 'column_mappings'), isTrue);
+    // v13
+    expect(await tableExists(db, 'sync_state'), isTrue);
+    expect(await tableExists(db, 'sync_conflicts'), isTrue);
+    expect(await columns(db, 'orders'), contains('device_code'));
+    final st = await db.customSelect('SELECT enabled, device_code FROM sync_state').getSingle();
+    expect(st.read<int>('enabled'), 0, reason: 'sync is opt-in');
+    expect(st.read<String>('device_code'), isNotEmpty);
     // v12
     expect(await tableExists(db, 'statement_profiles'), isTrue);
     expect(await tableExists(db, 'statement_imports'), isTrue);

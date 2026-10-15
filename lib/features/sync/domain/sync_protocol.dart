@@ -1,8 +1,8 @@
-/// Sync protocol SPIKE (S15, docs/decisions/002-sync-backend.md).
+/// Sync protocol (S15 spike -> S16 contract, docs/decisions/002-sync-backend.md).
 ///
-/// Pure Dart, in-memory: proves the pull(since) / push(batch) semantics and
-/// the conflict rules against simulated devices. It is NOT wired to the app
-/// database or any network, and is not a production sync engine.
+/// Pure Dart: HLC, per-field merge rules, and an in-memory reference server
+/// that defines what a real backend must do. The Drift-backed client engine
+/// lives in `application/sync_engine.dart`.
 library;
 
 import 'package:meta/meta.dart';
@@ -38,6 +38,14 @@ class Hlc implements Comparable<Hlc> {
 
   @override
   String toString() => '$wallMs:$counter:$node';
+
+  String encode() => toString();
+
+  static Hlc parse(String s) {
+    final i = s.indexOf(':');
+    final j = s.indexOf(':', i + 1);
+    return Hlc(int.parse(s.substring(0, i)), int.parse(s.substring(i + 1, j)), s.substring(j + 1));
+  }
 }
 
 class HlcClock {
@@ -53,6 +61,18 @@ class HlcClock {
     final w = _wallMs();
     if (w > _lastWall) {
       _lastWall = w;
+      _counter = 0;
+    } else {
+      _counter++;
+    }
+    return Hlc(_lastWall, _counter, node);
+  }
+
+  /// Stamp an edit that happened at [wallMs] (the row's own `updated_at`),
+  /// never earlier than anything already issued or seen.
+  Hlc tickAt(int wallMs) {
+    if (wallMs > _lastWall) {
+      _lastWall = wallMs;
       _counter = 0;
     } else {
       _counter++;
@@ -111,6 +131,7 @@ class TableSpec {
   const TableSpec(
     this.policy, {
     this.synced = const {},
+    this.excluded = const {},
     this.monotonic = const {},
     this.writeRoles = const {'owner', 'manager', 'helper'},
   });
@@ -120,6 +141,13 @@ class TableSpec {
   /// Columns that sync. Anything else (derived ledger/profit caches) stays
   /// local and is recomputed after merge. Empty = every field.
   final Set<String> synced;
+
+  /// Columns that never sync (derived caches, order status: it is derived
+  /// from the append-only status events).
+  final Set<String> excluded;
+
+  bool carries(String field) =>
+      !excluded.contains(field) && (synced.isEmpty || synced.contains(field));
 
   /// field -> allowed values in increasing rank; a higher rank always wins.
   final Map<String, List<String>> monotonic;
@@ -194,9 +222,16 @@ Map<String, Versioned>? mergeFields(
     if (spec.policy == TablePolicy.appendOnly) {
       final ranks = spec.monotonic[f];
       if (ranks == null) {
-        // Insert-once field: the earliest writer (lowest HLC) wins on every
-        // replica regardless of arrival order. A different later value is a
-        // protocol violation: kept out and reported.
+        // Insert-once field. null -> value is allowed once (a return being
+        // received); among non-null values the earliest writer (lowest HLC)
+        // wins on every replica regardless of arrival order. A different
+        // later value is a protocol violation: kept out and reported.
+        if (cur.value == null && inc.value != null) {
+          out[f] = inc;
+          changed = true;
+          continue;
+        }
+        if (inc.value == null) continue;
         if (inc.hlc.compareTo(cur.hlc) < 0) {
           if (cur.value != inc.value) rejected?.add(f);
           out[f] = inc;
@@ -256,7 +291,12 @@ class PushResult {
     this.accepted = const [],
     this.duplicates = const [],
     this.rejected = const {},
+    this.lost = const {},
   });
+
+  /// changeId -> fields where this change lost to a different existing value
+  /// (LWW overwritten): the client shows these in its conflict log.
+  final Map<String, List<String>> lost;
 
   final List<String> accepted;
   final List<String> duplicates;
@@ -289,6 +329,9 @@ class SyncServer {
 
   int get seq => _seq;
 
+  /// Monotonic version assigned by the server (spec: `server_version`).
+  int get serverVersion => _seq;
+
   RowState? row(String table, String id) => _rows['$table/$id'];
 
   List<RowState> get allRows => _rows.values.toList();
@@ -297,6 +340,7 @@ class SyncServer {
     final accepted = <String>[];
     final dups = <String>[];
     final rejected = <String, String>{};
+    final lost = <String, List<String>>{};
     for (final c in batch) {
       final key = '$deviceId/${c.changeId}';
       if (_seenChanges.contains(key)) {
@@ -323,8 +367,16 @@ class SyncServer {
       final bad = <String>[];
       final incoming = {
         for (final e in c.fields.entries)
-          if (spec.synced.isEmpty || spec.synced.contains(e.key)) e.key: e.value,
+          if (spec.carries(e.key)) e.key: e.value,
       };
+      if (spec.policy == TablePolicy.lww) {
+        for (final e in incoming.entries) {
+          final cur = current[e.key];
+          if (cur != null && cur.hlc > e.value.hlc && cur.value != e.value.value) {
+            lost.putIfAbsent(c.changeId, () => []).add(e.key);
+          }
+        }
+      }
       final merged = mergeFields(spec, current, incoming, rejected: bad);
       if (bad.isNotEmpty) rejected[c.changeId] = 'immutable_field:${bad.first}';
       if (merged != null) {
@@ -332,7 +384,18 @@ class SyncServer {
         _rowSeq[rowKey] = ++_seq;
       }
     }
-    return PushResult(accepted: accepted, duplicates: dups, rejected: rejected);
+    return PushResult(accepted: accepted, duplicates: dups, rejected: rejected, lost: lost);
+  }
+
+  /// Row counts per table for a shop (restore-style preview before choosing
+  /// "replace with cloud"). Tombstoned rows are not counted.
+  Map<String, int> summary(Principal who) {
+    final out = <String, int>{};
+    for (final r in _rows.values) {
+      if (r.shopId != who.shopId || r['deleted_at'] != null) continue;
+      out[r.table] = (out[r.table] ?? 0) + 1;
+    }
+    return out;
   }
 
   /// Rows changed after [since] in this shop, oldest change first.

@@ -170,7 +170,8 @@ class OrderRepository {
     final status = draft ? OrderStatus.draft : OrderStatus.confirmed;
 
     await _db.transaction(() async {
-      final number = await _nextOrderNumber(settings.orderStartNumber);
+      final code = await _deviceCode();
+      final number = await _nextOrderNumber(settings.orderStartNumber, code);
       final b = input.breakdown;
       await _db.into(_db.orders).insert(OrdersCompanion.insert(
             id: id,
@@ -178,7 +179,10 @@ class OrderRepository {
             createdAt: now,
             updatedAt: now,
             orderNumber: number,
-            orderNo: '${settings.orderPrefix}${number.toString().padLeft(4, '0')}',
+            orderNo: code.isEmpty
+                ? '${settings.orderPrefix}${number.toString().padLeft(4, '0')}'
+                : '${settings.orderPrefix}$code-${number.toString().padLeft(4, '0')}',
+            deviceCode: Value(code),
             orderDate: input.orderDate ?? now,
             status: status.dbValue,
             channel: Value(input.channel.dbValue),
@@ -913,11 +917,21 @@ class OrderRepository {
   // --------------------------------------------------------------- helpers
 
   /// Next sequence number; never reused because deleted orders keep theirs.
-  Future<int> _nextOrderNumber(int start) async {
+  /// '' until cloud sync is enabled; then this device's code, so order
+  /// numbers are unique per (shop, device) and offline devices never collide.
+  Future<String> _deviceCode() async {
+    final r = await _db
+        .customSelect('SELECT enabled, device_code FROM sync_state WHERE id = 1')
+        .getSingleOrNull();
+    if (r == null || r.read<int>('enabled') != 1) return '';
+    return r.read<String>('device_code');
+  }
+
+  Future<int> _nextOrderNumber(int start, String code) async {
     final maxCol = _db.orders.orderNumber.max();
     final row = await (_db.selectOnly(_db.orders)
           ..addColumns([maxCol])
-          ..where(_db.orders.shopId.equals(_shopId)))
+          ..where(_db.orders.shopId.equals(_shopId) & _db.orders.deviceCode.equals(code)))
         .getSingle();
     final max = row.read(maxCol);
     return max == null ? start : (max + 1 < start ? start : max + 1);

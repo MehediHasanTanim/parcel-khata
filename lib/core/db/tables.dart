@@ -149,6 +149,9 @@ class Orders extends Table with BaseColumns {
   // Set on a replacement order: the delivered order it exchanges (S11).
   TextColumn get exchangeOfOrderId => text().nullable()();
   TextColumn get importBatchId => text().nullable()();
+  // Device that numbered the order: order numbers are unique per
+  // (shop, device) so offline devices never collide. '' = before sync.
+  TextColumn get deviceCode => text().withDefault(const Constant(''))();
 }
 
 class OrderLines extends Table with BaseColumns {
@@ -345,4 +348,56 @@ class StatementImports extends Table with BaseColumns {
   TextColumn get payoutId => text().nullable()();
   IntColumn get rowCount => integer().withDefault(const Constant(0))();
   IntColumn get appliedCount => integer().withDefault(const Constant(0))();
+}
+
+/// Single row (id = 1): this device's sync identity and state.
+class SyncState extends Table {
+  IntColumn get id => integer()();
+  TextColumn get deviceId => text()();
+  TextColumn get deviceCode => text()();
+  BoolColumn get enabled => boolean().withDefault(const Constant(false))();
+  // 1 while remote rows are being applied (suppresses outbox triggers).
+  BoolColumn get applying => boolean().withDefault(const Constant(false))();
+  IntColumn get cursor => integer().withDefault(const Constant(0))();
+  IntColumn get lastSyncAt => integer().nullable()();
+  TextColumn get lastError => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Outbox: rows changed locally and not yet pushed (captured by triggers).
+class SyncDirty extends Table {
+  TextColumn get tbl => text()();
+  TextColumn get rowId => text()();
+
+  @override
+  Set<Column> get primaryKey => {tbl, rowId};
+}
+
+/// Last values + per-field clocks known to be in sync with the server.
+class SyncRows extends Table {
+  TextColumn get tbl => text()();
+  TextColumn get rowId => text()();
+  TextColumn get valuesJson => text()();
+  TextColumn get clocksJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {tbl, rowId};
+}
+
+/// Visible conflict log: edits that lost, rows that could not be applied,
+/// money inconsistencies a merge produced.
+class SyncConflicts extends Table {
+  TextColumn get id => text()();
+  IntColumn get at => integer()();
+  TextColumn get tbl => text()();
+  TextColumn get rowId => text()();
+  // lost_edit | unique_violation | over_allocation | rejected
+  TextColumn get kind => text()();
+  TextColumn get detail => text().withDefault(const Constant(''))();
+  BoolColumn get resolved => boolean().withDefault(const Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
