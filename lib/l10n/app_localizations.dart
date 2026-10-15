@@ -1663,6 +1663,420 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get ok;
+
+  /// No description provided for @pendingWithCourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending with couriers'**
+  String get pendingWithCourier;
+
+  /// No description provided for @inTransitCod.
+  ///
+  /// In en, this message translates to:
+  /// **'COD in transit'**
+  String get inTransitCod;
+
+  /// No description provided for @settledThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Received this month'**
+  String get settledThisMonth;
+
+  /// No description provided for @recordPayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Record payout'**
+  String get recordPayout;
+
+  /// No description provided for @ageingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COD ageing'**
+  String get ageingTitle;
+
+  /// No description provided for @payoutsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts'**
+  String get payoutsHistory;
+
+  /// No description provided for @overdueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get overdueLabel;
+
+  /// No description provided for @ordersCountN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} orders'**
+  String ordersCountN(int n);
+
+  /// No description provided for @oldestDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest: {n} days'**
+  String oldestDays(int n);
+
+  /// No description provided for @ledgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COD ledger'**
+  String get ledgerTitle;
+
+  /// No description provided for @expectedCod.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected COD'**
+  String get expectedCod;
+
+  /// No description provided for @collectedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected by courier'**
+  String get collectedAmount;
+
+  /// No description provided for @deductionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier deductions'**
+  String get deductionsLabel;
+
+  /// No description provided for @netReceivable.
+  ///
+  /// In en, this message translates to:
+  /// **'Net receivable'**
+  String get netReceivable;
+
+  /// No description provided for @settledAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get settledAmount;
+
+  /// No description provided for @writtenOffAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Written off'**
+  String get writtenOffAmount;
+
+  /// No description provided for @outstandingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outstanding'**
+  String get outstandingLabel;
+
+  /// No description provided for @recordCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Record collected amount'**
+  String get recordCollected;
+
+  /// No description provided for @collectedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for the difference'**
+  String get collectedReason;
+
+  /// No description provided for @enterActual.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter actual fee'**
+  String get enterActual;
+
+  /// No description provided for @actualFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual'**
+  String get actualFee;
+
+  /// No description provided for @markDispute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as disputed'**
+  String get markDispute;
+
+  /// No description provided for @resolveDispute.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve dispute'**
+  String get resolveDispute;
+
+  /// No description provided for @disputeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get disputeNote;
+
+  /// No description provided for @disputedOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Disputed orders'**
+  String get disputedOrders;
+
+  /// No description provided for @payoutNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record payout'**
+  String get payoutNewTitle;
+
+  /// No description provided for @totalReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Total received'**
+  String get totalReceived;
+
+  /// No description provided for @payMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get payMethod;
+
+  /// No description provided for @methodBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get methodBank;
+
+  /// No description provided for @methodBkash.
+  ///
+  /// In en, this message translates to:
+  /// **'bKash'**
+  String get methodBkash;
+
+  /// No description provided for @methodNagad.
+  ///
+  /// In en, this message translates to:
+  /// **'Nagad'**
+  String get methodNagad;
+
+  /// No description provided for @methodCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get methodCash;
+
+  /// No description provided for @methodOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get methodOther;
+
+  /// No description provided for @referenceNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference no.'**
+  String get referenceNo;
+
+  /// No description provided for @paidOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid on'**
+  String get paidOn;
+
+  /// No description provided for @nextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextStep;
+
+  /// No description provided for @backStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get backStep;
+
+  /// No description provided for @expectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected'**
+  String get expectedLabel;
+
+  /// No description provided for @receivedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get receivedLabel;
+
+  /// No description provided for @differenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difference'**
+  String get differenceLabel;
+
+  /// No description provided for @shortfallLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortfall'**
+  String get shortfallLabel;
+
+  /// No description provided for @surplusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Surplus'**
+  String get surplusLabel;
+
+  /// No description provided for @autoAllocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-allocate (oldest first)'**
+  String get autoAllocate;
+
+  /// No description provided for @shortfallHandling.
+  ///
+  /// In en, this message translates to:
+  /// **'How to handle the shortfall?'**
+  String get shortfallHandling;
+
+  /// No description provided for @handleAllocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the balance outstanding'**
+  String get handleAllocate;
+
+  /// No description provided for @handleDispute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark unpaid orders as disputed'**
+  String get handleDispute;
+
+  /// No description provided for @handleWriteOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Write off (accept the loss)'**
+  String get handleWriteOff;
+
+  /// No description provided for @allowOverpayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow overpayment'**
+  String get allowOverpayment;
+
+  /// No description provided for @confirmPayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Save payout'**
+  String get confirmPayout;
+
+  /// No description provided for @payoutSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout saved'**
+  String get payoutSaved;
+
+  /// No description provided for @reversePayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse payout'**
+  String get reversePayout;
+
+  /// No description provided for @reverseReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for reversal'**
+  String get reverseReason;
+
+  /// No description provided for @payoutReversed.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout reversed'**
+  String get payoutReversed;
+
+  /// No description provided for @noPayableOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is owed by this courier'**
+  String get noPayableOrders;
+
+  /// No description provided for @errAllocationMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocated amounts must equal the cash received'**
+  String get errAllocationMismatch;
+
+  /// No description provided for @errExceedsOutstanding.
+  ///
+  /// In en, this message translates to:
+  /// **'An amount is more than the balance owed on an order'**
+  String get errExceedsOutstanding;
+
+  /// No description provided for @errShortfallPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how to handle the shortfall'**
+  String get errShortfallPolicy;
+
+  /// No description provided for @errNoOrdersSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one order'**
+  String get errNoOrdersSelected;
+
+  /// No description provided for @errTotalPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the total received'**
+  String get errTotalPositive;
+
+  /// No description provided for @payoutStatusReversed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reversed'**
+  String get payoutStatusReversed;
+
+  /// No description provided for @allocationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocations'**
+  String get allocationsTitle;
+
+  /// No description provided for @bucket0to3.
+  ///
+  /// In en, this message translates to:
+  /// **'0–3 days'**
+  String get bucket0to3;
+
+  /// No description provided for @bucket4to7.
+  ///
+  /// In en, this message translates to:
+  /// **'4–7 days'**
+  String get bucket4to7;
+
+  /// No description provided for @bucket8to14.
+  ///
+  /// In en, this message translates to:
+  /// **'8–14 days'**
+  String get bucket8to14;
+
+  /// No description provided for @bucket15plus.
+  ///
+  /// In en, this message translates to:
+  /// **'15+ days'**
+  String get bucket15plus;
+
+  /// No description provided for @allCouriers.
+  ///
+  /// In en, this message translates to:
+  /// **'All couriers'**
+  String get allCouriers;
+
+  /// No description provided for @selectOrdersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders covered by this payout'**
+  String get selectOrdersTitle;
+
+  /// No description provided for @amountApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount applied'**
+  String get amountApplied;
+
+  /// No description provided for @noPayouts.
+  ///
+  /// In en, this message translates to:
+  /// **'No payouts yet'**
+  String get noPayouts;
 }
 
 class _AppLocalizationsDelegate

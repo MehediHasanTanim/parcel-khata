@@ -39,3 +39,4 @@ analyzer:
     avoid_function_literals_in_foreach_calls: ignore
     use_is_even_rather_than_modulo: ignore
     prefer_if_elements_to_conditional_expressions: ignore
+    use_null_aware_elements: ignore

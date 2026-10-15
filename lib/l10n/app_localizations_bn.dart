@@ -810,4 +810,215 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get ok => 'ঠিক আছে';
+
+  @override
+  String get pendingWithCourier => 'কুরিয়ারের কাছে বাকি';
+
+  @override
+  String get inTransitCod => 'পথে থাকা COD';
+
+  @override
+  String get settledThisMonth => 'এ মাসে পাওয়া';
+
+  @override
+  String get recordPayout => 'পেআউট রেকর্ড করুন';
+
+  @override
+  String get ageingTitle => 'COD বয়স';
+
+  @override
+  String get payoutsHistory => 'পেআউট';
+
+  @override
+  String get overdueLabel => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String ordersCountN(int n) {
+    return '$nটি অর্ডার';
+  }
+
+  @override
+  String oldestDays(int n) {
+    return 'সবচেয়ে পুরনো: $n দিন';
+  }
+
+  @override
+  String get ledgerTitle => 'COD হিসাব';
+
+  @override
+  String get expectedCod => 'প্রত্যাশিত COD';
+
+  @override
+  String get collectedAmount => 'কুরিয়ার আদায় করেছে';
+
+  @override
+  String get deductionsLabel => 'কুরিয়ারের কর্তন';
+
+  @override
+  String get netReceivable => 'নিট প্রাপ্য';
+
+  @override
+  String get settledAmount => 'পেয়েছি';
+
+  @override
+  String get writtenOffAmount => 'অবলুপ্ত';
+
+  @override
+  String get outstandingLabel => 'বাকি';
+
+  @override
+  String get recordCollected => 'আদায়ের পরিমাণ লিখুন';
+
+  @override
+  String get collectedReason => 'পার্থক্যের কারণ';
+
+  @override
+  String get enterActual => 'প্রকৃত ফি দিন';
+
+  @override
+  String get actualFee => 'প্রকৃত';
+
+  @override
+  String get markDispute => 'বিরোধ হিসেবে চিহ্নিত করুন';
+
+  @override
+  String get resolveDispute => 'বিরোধ নিষ্পত্তি';
+
+  @override
+  String get disputeNote => 'নোট';
+
+  @override
+  String get disputedOrders => 'বিরোধপূর্ণ অর্ডার';
+
+  @override
+  String get payoutNewTitle => 'পেআউট রেকর্ড';
+
+  @override
+  String get totalReceived => 'মোট পেয়েছি';
+
+  @override
+  String get payMethod => 'মাধ্যম';
+
+  @override
+  String get methodBank => 'ব্যাংক';
+
+  @override
+  String get methodBkash => 'বিকাশ';
+
+  @override
+  String get methodNagad => 'নগদ';
+
+  @override
+  String get methodCash => 'নগদ টাকা';
+
+  @override
+  String get methodOther => 'অন্যান্য';
+
+  @override
+  String get referenceNo => 'রেফারেন্স নং';
+
+  @override
+  String get paidOn => 'পরিশোধের তারিখ';
+
+  @override
+  String get nextStep => 'পরবর্তী';
+
+  @override
+  String get backStep => 'পেছনে';
+
+  @override
+  String get expectedLabel => 'প্রত্যাশিত';
+
+  @override
+  String get receivedLabel => 'প্রাপ্ত';
+
+  @override
+  String get differenceLabel => 'পার্থক্য';
+
+  @override
+  String get shortfallLabel => 'ঘাটতি';
+
+  @override
+  String get surplusLabel => 'অতিরিক্ত';
+
+  @override
+  String get autoAllocate => 'স্বয়ংক্রিয় বণ্টন (পুরনো আগে)';
+
+  @override
+  String get shortfallHandling => 'ঘাটতি কীভাবে সামলাবেন?';
+
+  @override
+  String get handleAllocate => 'বাকি অংশ বাকি রাখুন';
+
+  @override
+  String get handleDispute => 'অপরিশোধিত অর্ডার বিরোধপূর্ণ করুন';
+
+  @override
+  String get handleWriteOff => 'অবলুপ্ত করুন (ক্ষতি মেনে নিন)';
+
+  @override
+  String get allowOverpayment => 'অতিরিক্ত পরিশোধ অনুমোদন';
+
+  @override
+  String get confirmPayout => 'পেআউট সংরক্ষণ';
+
+  @override
+  String get payoutSaved => 'পেআউট সংরক্ষিত হয়েছে';
+
+  @override
+  String get reversePayout => 'পেআউট বাতিল';
+
+  @override
+  String get reverseReason => 'বাতিলের কারণ';
+
+  @override
+  String get payoutReversed => 'পেআউট বাতিল হয়েছে';
+
+  @override
+  String get noPayableOrders => 'এই কুরিয়ারের কাছে কিছু পাওনা নেই';
+
+  @override
+  String get errAllocationMismatch => 'বণ্টিত অর্থ প্রাপ্ত অর্থের সমান হতে হবে';
+
+  @override
+  String get errExceedsOutstanding => 'একটি পরিমাণ অর্ডারের বাকির চেয়ে বেশি';
+
+  @override
+  String get errShortfallPolicy => 'ঘাটতি সামলানোর উপায় বাছুন';
+
+  @override
+  String get errNoOrdersSelected => 'কমপক্ষে একটি অর্ডার বাছুন';
+
+  @override
+  String get errTotalPositive => 'প্রাপ্ত মোট লিখুন';
+
+  @override
+  String get payoutStatusReversed => 'বাতিল';
+
+  @override
+  String get allocationsTitle => 'বণ্টন';
+
+  @override
+  String get bucket0to3 => '০–৩ দিন';
+
+  @override
+  String get bucket4to7 => '৪–৭ দিন';
+
+  @override
+  String get bucket8to14 => '৮–১৪ দিন';
+
+  @override
+  String get bucket15plus => '১৫+ দিন';
+
+  @override
+  String get allCouriers => 'সব কুরিয়ার';
+
+  @override
+  String get selectOrdersTitle => 'এই পেআউটে কোন অর্ডার';
+
+  @override
+  String get amountApplied => 'প্রয়োগকৃত পরিমাণ';
+
+  @override
+  String get noPayouts => 'এখনও কোনো পেআউট নেই';
 }

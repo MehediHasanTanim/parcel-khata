@@ -8,6 +8,7 @@ import 'package:parcel_khata/core/providers.dart';
 import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/core/time/clock.dart';
 import 'package:parcel_khata/core/time/providers.dart';
+import 'package:parcel_khata/features/cod/application/ledger_writer.dart';
 import 'package:parcel_khata/features/couriers/domain/stuck_parcel_policy.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
@@ -65,6 +66,7 @@ class OrderStatusService {
     this._audit,
     this._shopId,
     this._settings,
+    this._ledger,
   );
 
   final AppDatabase _db;
@@ -73,6 +75,7 @@ class OrderStatusService {
   final AuditWriter _audit;
   final String _shopId;
   final SettingsRepository _settings;
+  final LedgerWriter _ledger;
 
   static const undoWindow = Duration(seconds: 30);
 
@@ -250,6 +253,7 @@ class OrderStatusService {
             rowVersion: Value(o.rowVersion),
           ),
         );
+        await _ledger.refresh(o.id);
       }
       await _audit.write(
         entity: 'order',
@@ -380,6 +384,8 @@ class OrderStatusService {
         rowVersion: Value(o.rowVersion + 1),
       ),
     );
+    // Cached net receivable / outstanding / COD status come from one place.
+    await _ledger.refresh(o.id);
   }
 }
 
@@ -390,4 +396,5 @@ final orderStatusServiceProvider = Provider<OrderStatusService>((ref) => OrderSt
       ref.watch(auditWriterProvider),
       ref.watch(shopIdProvider),
       ref.watch(settingsRepositoryProvider),
+      LedgerWriter(ref.watch(databaseProvider)),
     ));

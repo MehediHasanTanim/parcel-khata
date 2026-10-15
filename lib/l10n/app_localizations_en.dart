@@ -810,4 +810,217 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ok => 'OK';
+
+  @override
+  String get pendingWithCourier => 'Pending with couriers';
+
+  @override
+  String get inTransitCod => 'COD in transit';
+
+  @override
+  String get settledThisMonth => 'Received this month';
+
+  @override
+  String get recordPayout => 'Record payout';
+
+  @override
+  String get ageingTitle => 'COD ageing';
+
+  @override
+  String get payoutsHistory => 'Payouts';
+
+  @override
+  String get overdueLabel => 'Overdue';
+
+  @override
+  String ordersCountN(int n) {
+    return '$n orders';
+  }
+
+  @override
+  String oldestDays(int n) {
+    return 'Oldest: $n days';
+  }
+
+  @override
+  String get ledgerTitle => 'COD ledger';
+
+  @override
+  String get expectedCod => 'Expected COD';
+
+  @override
+  String get collectedAmount => 'Collected by courier';
+
+  @override
+  String get deductionsLabel => 'Courier deductions';
+
+  @override
+  String get netReceivable => 'Net receivable';
+
+  @override
+  String get settledAmount => 'Received';
+
+  @override
+  String get writtenOffAmount => 'Written off';
+
+  @override
+  String get outstandingLabel => 'Outstanding';
+
+  @override
+  String get recordCollected => 'Record collected amount';
+
+  @override
+  String get collectedReason => 'Reason for the difference';
+
+  @override
+  String get enterActual => 'Enter actual fee';
+
+  @override
+  String get actualFee => 'Actual';
+
+  @override
+  String get markDispute => 'Mark as disputed';
+
+  @override
+  String get resolveDispute => 'Resolve dispute';
+
+  @override
+  String get disputeNote => 'Note';
+
+  @override
+  String get disputedOrders => 'Disputed orders';
+
+  @override
+  String get payoutNewTitle => 'Record payout';
+
+  @override
+  String get totalReceived => 'Total received';
+
+  @override
+  String get payMethod => 'Method';
+
+  @override
+  String get methodBank => 'Bank';
+
+  @override
+  String get methodBkash => 'bKash';
+
+  @override
+  String get methodNagad => 'Nagad';
+
+  @override
+  String get methodCash => 'Cash';
+
+  @override
+  String get methodOther => 'Other';
+
+  @override
+  String get referenceNo => 'Reference no.';
+
+  @override
+  String get paidOn => 'Paid on';
+
+  @override
+  String get nextStep => 'Next';
+
+  @override
+  String get backStep => 'Back';
+
+  @override
+  String get expectedLabel => 'Expected';
+
+  @override
+  String get receivedLabel => 'Received';
+
+  @override
+  String get differenceLabel => 'Difference';
+
+  @override
+  String get shortfallLabel => 'Shortfall';
+
+  @override
+  String get surplusLabel => 'Surplus';
+
+  @override
+  String get autoAllocate => 'Auto-allocate (oldest first)';
+
+  @override
+  String get shortfallHandling => 'How to handle the shortfall?';
+
+  @override
+  String get handleAllocate => 'Leave the balance outstanding';
+
+  @override
+  String get handleDispute => 'Mark unpaid orders as disputed';
+
+  @override
+  String get handleWriteOff => 'Write off (accept the loss)';
+
+  @override
+  String get allowOverpayment => 'Allow overpayment';
+
+  @override
+  String get confirmPayout => 'Save payout';
+
+  @override
+  String get payoutSaved => 'Payout saved';
+
+  @override
+  String get reversePayout => 'Reverse payout';
+
+  @override
+  String get reverseReason => 'Reason for reversal';
+
+  @override
+  String get payoutReversed => 'Payout reversed';
+
+  @override
+  String get noPayableOrders => 'Nothing is owed by this courier';
+
+  @override
+  String get errAllocationMismatch =>
+      'Allocated amounts must equal the cash received';
+
+  @override
+  String get errExceedsOutstanding =>
+      'An amount is more than the balance owed on an order';
+
+  @override
+  String get errShortfallPolicy => 'Choose how to handle the shortfall';
+
+  @override
+  String get errNoOrdersSelected => 'Select at least one order';
+
+  @override
+  String get errTotalPositive => 'Enter the total received';
+
+  @override
+  String get payoutStatusReversed => 'Reversed';
+
+  @override
+  String get allocationsTitle => 'Allocations';
+
+  @override
+  String get bucket0to3 => '0–3 days';
+
+  @override
+  String get bucket4to7 => '4–7 days';
+
+  @override
+  String get bucket8to14 => '8–14 days';
+
+  @override
+  String get bucket15plus => '15+ days';
+
+  @override
+  String get allCouriers => 'All couriers';
+
+  @override
+  String get selectOrdersTitle => 'Orders covered by this payout';
+
+  @override
+  String get amountApplied => 'Amount applied';
+
+  @override
+  String get noPayouts => 'No payouts yet';
 }

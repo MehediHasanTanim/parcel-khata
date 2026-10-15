@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/features/cod/presentation/ledger_panel.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/tracking_url.dart';
@@ -165,6 +166,7 @@ class OrderDetailScreen extends ConsumerWidget {
                       tone: StatusTone.warning),
                 ),
             ]),
+            if (status != OrderStatus.draft) LedgerPanel(order: o, charges: d.charges),
             if (d.charges.isNotEmpty)
               _section(context, l.charges, [
                 for (final c in d.charges)

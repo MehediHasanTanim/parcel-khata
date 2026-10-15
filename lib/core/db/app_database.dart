@@ -32,6 +32,13 @@ const _orderIndexes = [
   'CREATE INDEX IF NOT EXISTS ix_order_attachments ON order_attachments(order_id)',
 ];
 
+// Added in schema v4 (COD ledger & payouts).
+const _ledgerIndexes = [
+  'CREATE INDEX IF NOT EXISTS ix_payouts_courier ON payouts(courier_id, paid_at DESC)',
+  'CREATE INDEX IF NOT EXISTS ix_alloc_order ON payout_allocations(order_id)',
+  'CREATE INDEX IF NOT EXISTS ix_alloc_payout ON payout_allocations(payout_id)',
+];
+
 @DriftDatabase(tables: [
   Shops,
   Customers,
@@ -47,6 +54,8 @@ const _orderIndexes = [
   OrderStatusEvents,
   OrderEditLog,
   OrderAttachments,
+  Payouts,
+  PayoutAllocations,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -55,13 +64,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._customIndexes, ..._orderIndexes]) {
+          for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes]) {
             await customStatement(sql);
           }
         },
@@ -87,6 +96,15 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(orderEditLog);
             await m.createTable(orderAttachments);
             for (final sql in _orderIndexes) {
+              await customStatement(sql);
+            }
+          }
+          if (from < 4) {
+            await m.addColumn(orders, orders.isDisputed);
+            await m.addColumn(orders, orders.disputeNote);
+            await m.createTable(payouts);
+            await m.createTable(payoutAllocations);
+            for (final sql in _ledgerIndexes) {
               await customStatement(sql);
             }
           }

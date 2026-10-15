@@ -134,6 +134,9 @@ class Orders extends Table with BaseColumns {
   IntColumn get outstanding => integer().nullable()();
   IntColumn get profit => integer().nullable()();
   TextColumn get profitState => text().nullable()();
+  // Explicit dispute flag (never inferred); set by payout shortfall handling.
+  BoolColumn get isDisputed => boolean().withDefault(const Constant(false))();
+  TextColumn get disputeNote => text().nullable()();
 }
 
 class OrderLines extends Table with BaseColumns {
@@ -182,4 +185,31 @@ class OrderAttachments extends Table with BaseColumns {
   TextColumn get orderId => text().references(Orders, #id)();
   TextColumn get path => text()();
   TextColumn get kind => text().withDefault(const Constant('chat_screenshot'))();
+}
+
+class Payouts extends Table with BaseColumns {
+  TextColumn get courierId => text().references(Couriers, #id)();
+  DateTimeColumn get paidAt => dateTime()();
+  // bank | bkash | nagad | cash | other
+  TextColumn get method => text().withDefault(const Constant('bank'))();
+  TextColumn get reference => text().nullable()();
+  IntColumn get totalReceived => integer()();
+  TextColumn get note => text().nullable()();
+  // active | reversed
+  TextColumn get status => text().withDefault(const Constant('active'))();
+  TextColumn get reversedReason => text().nullable()();
+  DateTimeColumn get reversedAt => dateTime().nullable()();
+  // allocate | dispute | write_off (null when there was no shortfall)
+  TextColumn get policy => text().nullable()();
+}
+
+class PayoutAllocations extends Table with BaseColumns {
+  TextColumn get payoutId => text().references(Payouts, #id)();
+  TextColumn get orderId => text().references(Orders, #id)();
+  IntColumn get amountApplied => integer()();
+  IntColumn get deductionsApplied => integer().withDefault(const Constant(0))();
+  IntColumn get writeOffAmount => integer().withDefault(const Constant(0))();
+  BoolColumn get disputedSet => boolean().withDefault(const Constant(false))();
+  BoolColumn get isOverpayment => boolean().withDefault(const Constant(false))();
+  TextColumn get note => text().nullable()();
 }

@@ -1,4 +1,6 @@
 import 'package:parcel_khata/core/money/money.dart';
+import 'package:parcel_khata/features/cod/application/payout_service.dart';
+import 'package:parcel_khata/features/cod/domain/payout_reconciler.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
@@ -97,6 +99,40 @@ class DevSeeder {
             to: OrderStatus.deliveryFailed,
             at: handed.add(const Duration(days: 2)),
             reason: 'customer_refused');
+      }
+    }
+  }
+
+  /// Realistic payouts for delivered orders (S4-22): per courier, settle the
+  /// oldest delivered COD orders in lump sums; some with a shortfall that is
+  /// disputed or written off.
+  Future<void> seedPayouts(PayoutService payouts) async {
+    final couriers = await _couriers.watchAll().first;
+    var k = 0;
+    for (final c in couriers) {
+      var rows = await payouts.payableOrders(c.id);
+      while (rows.length >= 5) {
+        final batch = rows.take(5 + k % 6).toList();
+        final expected = PayoutReconciler.expectedTotal([for (final r in batch) r.reconcile]);
+        k++;
+        final shortfall = k % 4 == 0 ? const Money.taka(40) : Money.zero;
+        final received = expected - shortfall;
+        final lines = PayoutReconciler.autoAllocate(
+            [for (final r in batch) r.reconcile], received);
+        final r = await payouts.recordPayout(RecordPayoutInput(
+          courierId: c.id,
+          totalReceived: received,
+          selectedOrderIds: [for (final r in batch) r.order.id],
+          allocations: lines,
+          policy: shortfall.isZero
+              ? null
+              : (k % 8 == 0 ? ShortfallPolicy.writeOff : ShortfallPolicy.dispute),
+          reference: 'SEED-$k',
+        ));
+        if (!r.isOk) break;
+        rows = await payouts.payableOrders(c.id);
+        // Leave the newest ~15 orders pending so the hub has data.
+        if (rows.length < 15) break;
       }
     }
   }

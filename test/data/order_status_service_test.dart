@@ -4,6 +4,7 @@ import 'package:parcel_khata/core/db/audit_writer.dart';
 import 'package:parcel_khata/core/ids/uuid_v7.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/time/clock.dart';
+import 'package:parcel_khata/features/cod/application/ledger_writer.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/stuck_parcel_policy.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
@@ -51,7 +52,7 @@ void main() {
     settings = SettingsRepository(db, clock, 's');
     await settings.ensureShop();
     orders = OrderRepository(db, ids, clock, audit, 's', couriers, settings);
-    status = OrderStatusService(db, ids, clock, audit, 's', settings);
+    status = OrderStatusService(db, ids, clock, audit, 's', settings, LedgerWriter(db));
     customerId = (await customers.create(const CustomerInput(name: 'A', phone: '01712345678')))
         .valueOrNull!
         .id;
