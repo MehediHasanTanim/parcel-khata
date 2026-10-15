@@ -23,6 +23,8 @@ import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/returns/presentation/exchange_screen.dart';
+import 'package:parcel_khata/features/sync/application/role_providers.dart';
+import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
@@ -202,18 +204,20 @@ class OrderDetailScreen extends ConsumerWidget {
                       tone: StatusTone.warning),
                 ),
             ]),
-            if (status != OrderStatus.draft) LedgerPanel(order: o, charges: d.charges),
-            if (status != OrderStatus.draft) ProfitPanel(detail: d),
+            if (status != OrderStatus.draft && ref.watch(canProvider(Capability.recordPayout)))
+              LedgerPanel(order: o, charges: d.charges),
+            if (status != OrderStatus.draft && ref.watch(canProvider(Capability.viewCostAndProfit)))
+              ProfitPanel(detail: d),
             if (const {
               OrderStatus.delivered,
               OrderStatus.deliveryFailed,
               OrderStatus.returnInTransit,
               OrderStatus.returned,
-            }.contains(status))
+            }.contains(status) && ref.watch(canProvider(Capability.manageReturns)))
               _ReturnCard(order: o),
             if (o.exchangeOfOrderId != null || status == OrderStatus.delivered)
               ExchangeLinkCard(orderId: o.id),
-            if (d.charges.isNotEmpty)
+            if (d.charges.isNotEmpty && ref.watch(canProvider(Capability.viewCostAndProfit)))
               _section(context, l.charges, [
                 for (final c in d.charges)
                   _kv(

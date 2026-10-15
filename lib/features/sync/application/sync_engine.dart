@@ -59,6 +59,7 @@ abstract class SyncTransport {
   Future<PushResult> push(String deviceId, List<Change> batch);
   Future<PullResult> pull(int since, {int limit = 200});
   Future<Map<String, int>> summary();
+  Future<List<ActivityEntry>> activity({String? actor, bool moneyOnly = false});
 }
 
 /// Reference transport over the in-memory server (tests, local demos).
@@ -78,11 +79,15 @@ class InMemoryTransport implements SyncTransport {
 
   @override
   Future<Map<String, int>> summary() async => server.summary(principal);
+
+  @override
+  Future<List<ActivityEntry>> activity({String? actor, bool moneyOnly = false}) async =>
+      server.activity(principal, actor: actor, moneyOnly: moneyOnly);
 }
 
 // --------------------------------------------------------------- status
 
-enum SyncPhase { disabled, synced, pending, error }
+enum SyncPhase { disabled, synced, pending, error, revoked }
 
 class SyncStatus {
   const SyncStatus(this.phase, {this.pending = 0, this.conflicts = 0, this.lastError, this.lastSyncAt});
@@ -94,11 +99,14 @@ class SyncStatus {
 }
 
 class SyncOutcome {
-  const SyncOutcome({required this.pushed, required this.pulled, this.error});
+  const SyncOutcome({required this.pushed, required this.pulled, this.error, this.revoked = false});
   final int pushed;
   final int pulled;
   final Object? error;
-  bool get ok => error == null;
+
+  /// The account's access was revoked: the shop cache has been wiped.
+  final bool revoked;
+  bool get ok => error == null && !revoked;
 }
 
 /// Exponential backoff with a cap; deterministic for tests.
@@ -198,6 +206,49 @@ class SyncEngine {
     await syncOnce(transport);
   }
 
+  /// Revoked (or signed out): remove every synced row from this device and
+  /// return to local-only with no shop data, so a helper's phone keeps
+  /// nothing of the owner's business.
+  Future<void> wipeShopCache() async {
+    await _db.customStatement('PRAGMA foreign_keys = OFF');
+    try {
+      await _db.transaction(() async {
+        await _db.customStatement('UPDATE sync_state SET applying = 1 WHERE id = 1');
+        for (final t in kSyncedTables.reversed) {
+          await _db.customStatement('DELETE FROM "$t"');
+        }
+        await _db.customStatement('DELETE FROM audit_log');
+        await _db.customStatement('DELETE FROM sync_dirty');
+        await _db.customStatement('DELETE FROM sync_rows');
+        await _db.customStatement('DELETE FROM sync_conflicts');
+        await _db.customStatement(
+          "UPDATE sync_state SET applying = 0, enabled = 0, cursor = 0, user_id = '', "
+          "role = 'owner', last_error = 'revoked' WHERE id = 1",
+        );
+      });
+    } finally {
+      await _db.customStatement('PRAGMA foreign_keys = ON');
+    }
+  }
+
+  /// Set after sign-in / accepting an invite (account identity + role).
+  Future<void> setIdentity({required String userId, required String role}) =>
+      _db.customStatement(
+          'UPDATE sync_state SET user_id = ?, role = ? WHERE id = 1', [userId, role]);
+
+  /// The role to gate the UI with. Always owner without an account.
+  Future<String> currentRole() async {
+    final st = await _db
+        .customSelect('SELECT enabled, role FROM sync_state WHERE id = 1')
+        .getSingle();
+    return st.read<int>('enabled') == 1 ? st.read<String>('role') : 'owner';
+  }
+
+  /// "Who changed what": authoritative server log (owner only).
+  Future<List<ActivityEntry>> fetchActivity(SyncTransport t,
+          {String? actor, bool moneyOnly = false}) =>
+      t.activity(actor: actor, moneyOnly: moneyOnly);
+
   Future<Map<String, int>> localCounts() async {
     final out = <String, int>{};
     for (final t in kSyncedTables) {
@@ -214,7 +265,11 @@ class SyncEngine {
 
   Future<SyncStatus> status() async {
     final st = await _state();
-    if (!st.enabled) return const SyncStatus(SyncPhase.disabled);
+    if (!st.enabled) {
+      return st.error == 'revoked'
+          ? const SyncStatus(SyncPhase.revoked, lastError: 'revoked')
+          : const SyncStatus(SyncPhase.disabled);
+    }
     final pending = (await _db.customSelect('SELECT COUNT(*) n FROM sync_dirty').getSingle())
         .read<int>('n');
     final conflicts = (await _db
@@ -260,6 +315,9 @@ class SyncEngine {
         [_clock.now().millisecondsSinceEpoch],
       );
       return SyncOutcome(pushed: pushed, pulled: pulled);
+    } on RevokedException {
+      await wipeShopCache();
+      return SyncOutcome(pushed: pushed, pulled: pulled, revoked: true);
     } on Object catch (e) {
       await _db.customStatement(
           'UPDATE sync_state SET last_error = ? WHERE id = 1', ['$e'.substring(0, ('$e').length.clamp(0, 300))]);

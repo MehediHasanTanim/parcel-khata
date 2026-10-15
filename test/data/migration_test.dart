@@ -36,6 +36,13 @@ void main() {
 
   Future<void> rewindTo(AppDatabase db, int version) async {
     await db.customStatement('PRAGMA foreign_keys = OFF');
+    if (version < 14) {
+      await db.customStatement('ALTER TABLE audit_log DROP COLUMN actor_user_id');
+      if (version == 13) {
+        await db.customStatement('ALTER TABLE sync_state DROP COLUMN user_id');
+        await db.customStatement('ALTER TABLE sync_state DROP COLUMN role');
+      }
+    }
     if (version < 13) {
       for (final t in kSyncedTables) {
         for (final k in ['ins', 'upd', 'del']) {
@@ -127,6 +134,9 @@ void main() {
     expect(await columns(db, 'return_records'), contains('exchange_order_id'));
     expect(await tableExists(db, 'import_batches'), isTrue);
     expect(await tableExists(db, 'column_mappings'), isTrue);
+    // v14
+    expect(await columns(db, 'audit_log'), contains('actor_user_id'));
+    expect(await columns(db, 'sync_state'), containsAll(['user_id', 'role']));
     // v13
     expect(await tableExists(db, 'sync_state'), isTrue);
     expect(await tableExists(db, 'sync_conflicts'), isTrue);
@@ -183,6 +193,21 @@ void main() {
           "INSERT INTO column_mappings (id, shop_id, created_at, updated_at, signature, kind, mapping_json) VALUES ('m2','s',0,0,'abc','products','{}')"),
       throwsA(anything),
     );
+    await db.close();
+  });
+
+  test('13 -> latest adds role/actor columns without touching sync data', () async {
+    var db = open();
+    await db.customSelect('SELECT 1').get();
+    await seedFixture(db);
+    await rewindTo(db, 13);
+    await db.close();
+    db = open();
+    expect(await columns(db, 'sync_state'), containsAll(['user_id', 'role']));
+    expect(await columns(db, 'audit_log'), contains('actor_user_id'));
+    final st = await db.customSelect('SELECT role FROM sync_state').getSingle();
+    expect(st.read<String>('role'), 'owner');
+    expect((await db.select(db.customers).get()), hasLength(1));
     await db.close();
   });
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/sync/presentation/activity_screen.dart';
+import 'package:parcel_khata/features/sync/domain/permissions.dart';
+import 'package:parcel_khata/shared/permission_gate.dart';
+
 import 'package:parcel_khata/features/orders/application/order_prefill.dart';
 import 'package:parcel_khata/features/orders/presentation/paste_order_screen.dart';
 import 'package:parcel_khata/features/cod/presentation/statement_import_screen.dart';
@@ -70,7 +74,7 @@ final appRouter = GoRouter(
         );
       },
     ),
-    GoRoute(path: '/reports', builder: (_, __) => const ReportsScreen()),
+    GoRoute(path: '/reports', builder: (_, __) => const PermissionGate(action: Capability.viewReports, child: ReportsScreen())),
     GoRoute(
       path: '/reports/:kind',
       builder: (_, st) => ReportScreen(
@@ -80,14 +84,14 @@ final appRouter = GoRouter(
         ),
       ),
     ),
-    GoRoute(path: '/expenses', builder: (_, __) => const ExpensesScreen()),
-    GoRoute(path: '/campaigns', builder: (_, __) => const CampaignsScreen()),
+    GoRoute(path: '/expenses', builder: (_, __) => const PermissionGate(action: Capability.manageExpenses, child: ExpensesScreen())),
+    GoRoute(path: '/campaigns', builder: (_, __) => const PermissionGate(action: Capability.manageExpenses, child: CampaignsScreen())),
     GoRoute(path: '/campaigns/new', builder: (_, __) => const CampaignScreen()),
     GoRoute(
       path: '/campaigns/:id',
       builder: (_, st) => CampaignScreen(campaignId: st.pathParameters['id']),
     ),
-    GoRoute(path: '/returns', builder: (_, __) => const ReturnsScreen()),
+    GoRoute(path: '/returns', builder: (_, __) => const PermissionGate(action: Capability.manageReturns, child: ReturnsScreen())),
     GoRoute(path: '/orders/cn-entry', builder: (_, __) => const CnEntryScreen()),
     GoRoute(path: '/orders/drafts', builder: (_, __) => const DraftsScreen()),
     GoRoute(path: '/orders/deleted', builder: (_, __) => const DeletedOrdersScreen()),
@@ -107,9 +111,9 @@ final appRouter = GoRouter(
       path: '/customers/:id/orders',
       builder: (_, st) => OrdersScreen(customerId: st.pathParameters['id']),
     ),
-    GoRoute(path: '/cod/ageing', builder: (_, __) => const AgeingScreen()),
-    GoRoute(path: '/cod/disputed', builder: (_, __) => const DisputedScreen()),
-    GoRoute(path: '/cod/payouts', builder: (_, __) => const PayoutsScreen()),
+    GoRoute(path: '/cod/ageing', builder: (_, __) => const PermissionGate(action: Capability.recordPayout, child: AgeingScreen())),
+    GoRoute(path: '/cod/disputed', builder: (_, __) => const PermissionGate(action: Capability.recordPayout, child: DisputedScreen())),
+    GoRoute(path: '/cod/payouts', builder: (_, __) => const PermissionGate(action: Capability.recordPayout, child: PayoutsScreen())),
     GoRoute(
       path: '/cod/payout/statement',
       builder: (_, st) => StatementImportScreen(courierId: st.uri.queryParameters['courier']),
@@ -148,10 +152,11 @@ final appRouter = GoRouter(
       path: '/couriers/:id/edit',
       builder: (_, st) => CourierFormScreen(courierId: st.pathParameters['id']),
     ),
-    GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
+    GoRoute(path: '/settings', builder: (_, __) => const PermissionGate(action: Capability.manageSettings, child: SettingsScreen())),
     GoRoute(path: '/settings/security', builder: (_, __) => const SecurityScreen()),
-    GoRoute(path: '/settings/data', builder: (_, __) => const DataScreen()),
-    GoRoute(path: '/settings/import', builder: (_, __) => const ImportScreen()),
+    GoRoute(path: '/settings/data', builder: (_, __) => const PermissionGate(action: Capability.manageSettings, child: DataScreen())),
+    GoRoute(path: '/settings/import', builder: (_, __) => const PermissionGate(action: Capability.manageSettings, child: ImportScreen())),
+    GoRoute(path: '/settings/activity', builder: (_, __) => const PermissionGate(action: Capability.viewActivity, child: ActivityScreen())),
     GoRoute(
       path: '/settings/notifications',
       builder: (_, __) => const NotificationSettingsScreen(),
@@ -168,7 +173,7 @@ final appRouter = GoRouter(
           GoRoute(path: '/orders', builder: (_, __) => const OrdersScreen()),
         ]),
         StatefulShellBranch(routes: [
-          GoRoute(path: '/cod', builder: (_, __) => const CodScreen()),
+          GoRoute(path: '/cod', builder: (_, __) => const PermissionGate(action: Capability.recordPayout, child: CodScreen())),
         ]),
         StatefulShellBranch(routes: [
           GoRoute(path: '/more', builder: (_, __) => const MoreScreen()),

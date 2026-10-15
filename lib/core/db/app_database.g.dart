@@ -102,6 +102,26 @@ class $SyncStateTable extends SyncState
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('owner'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -112,6 +132,8 @@ class $SyncStateTable extends SyncState
     cursor,
     lastSyncAt,
     lastError,
+    userId,
+    role,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -177,6 +199,18 @@ class $SyncStateTable extends SyncState
         lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta),
       );
     }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    }
     return context;
   }
 
@@ -218,6 +252,14 @@ class $SyncStateTable extends SyncState
         DriftSqlType.string,
         data['${effectivePrefix}last_error'],
       ),
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_id'],
+      )!,
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
     );
   }
 
@@ -236,6 +278,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
   final int cursor;
   final int? lastSyncAt;
   final String? lastError;
+  final String userId;
+  final String role;
   const SyncStateData({
     required this.id,
     required this.deviceId,
@@ -245,6 +289,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
     required this.cursor,
     this.lastSyncAt,
     this.lastError,
+    required this.userId,
+    required this.role,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -261,6 +307,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
     if (!nullToAbsent || lastError != null) {
       map['last_error'] = Variable<String>(lastError);
     }
+    map['user_id'] = Variable<String>(userId);
+    map['role'] = Variable<String>(role);
     return map;
   }
 
@@ -278,6 +326,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
       lastError: lastError == null && nullToAbsent
           ? const Value.absent()
           : Value(lastError),
+      userId: Value(userId),
+      role: Value(role),
     );
   }
 
@@ -295,6 +345,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
       cursor: serializer.fromJson<int>(json['cursor']),
       lastSyncAt: serializer.fromJson<int?>(json['lastSyncAt']),
       lastError: serializer.fromJson<String?>(json['lastError']),
+      userId: serializer.fromJson<String>(json['userId']),
+      role: serializer.fromJson<String>(json['role']),
     );
   }
   @override
@@ -309,6 +361,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
       'cursor': serializer.toJson<int>(cursor),
       'lastSyncAt': serializer.toJson<int?>(lastSyncAt),
       'lastError': serializer.toJson<String?>(lastError),
+      'userId': serializer.toJson<String>(userId),
+      'role': serializer.toJson<String>(role),
     };
   }
 
@@ -321,6 +375,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
     int? cursor,
     Value<int?> lastSyncAt = const Value.absent(),
     Value<String?> lastError = const Value.absent(),
+    String? userId,
+    String? role,
   }) => SyncStateData(
     id: id ?? this.id,
     deviceId: deviceId ?? this.deviceId,
@@ -330,6 +386,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
     cursor: cursor ?? this.cursor,
     lastSyncAt: lastSyncAt.present ? lastSyncAt.value : this.lastSyncAt,
     lastError: lastError.present ? lastError.value : this.lastError,
+    userId: userId ?? this.userId,
+    role: role ?? this.role,
   );
   SyncStateData copyWithCompanion(SyncStateCompanion data) {
     return SyncStateData(
@@ -345,6 +403,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
           ? data.lastSyncAt.value
           : this.lastSyncAt,
       lastError: data.lastError.present ? data.lastError.value : this.lastError,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      role: data.role.present ? data.role.value : this.role,
     );
   }
 
@@ -358,7 +418,9 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
           ..write('applying: $applying, ')
           ..write('cursor: $cursor, ')
           ..write('lastSyncAt: $lastSyncAt, ')
-          ..write('lastError: $lastError')
+          ..write('lastError: $lastError, ')
+          ..write('userId: $userId, ')
+          ..write('role: $role')
           ..write(')'))
         .toString();
   }
@@ -373,6 +435,8 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
     cursor,
     lastSyncAt,
     lastError,
+    userId,
+    role,
   );
   @override
   bool operator ==(Object other) =>
@@ -385,7 +449,9 @@ class SyncStateData extends DataClass implements Insertable<SyncStateData> {
           other.applying == this.applying &&
           other.cursor == this.cursor &&
           other.lastSyncAt == this.lastSyncAt &&
-          other.lastError == this.lastError);
+          other.lastError == this.lastError &&
+          other.userId == this.userId &&
+          other.role == this.role);
 }
 
 class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
@@ -397,6 +463,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
   final Value<int> cursor;
   final Value<int?> lastSyncAt;
   final Value<String?> lastError;
+  final Value<String> userId;
+  final Value<String> role;
   const SyncStateCompanion({
     this.id = const Value.absent(),
     this.deviceId = const Value.absent(),
@@ -406,6 +474,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
     this.cursor = const Value.absent(),
     this.lastSyncAt = const Value.absent(),
     this.lastError = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.role = const Value.absent(),
   });
   SyncStateCompanion.insert({
     this.id = const Value.absent(),
@@ -416,6 +486,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
     this.cursor = const Value.absent(),
     this.lastSyncAt = const Value.absent(),
     this.lastError = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.role = const Value.absent(),
   }) : deviceId = Value(deviceId),
        deviceCode = Value(deviceCode);
   static Insertable<SyncStateData> custom({
@@ -427,6 +499,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
     Expression<int>? cursor,
     Expression<int>? lastSyncAt,
     Expression<String>? lastError,
+    Expression<String>? userId,
+    Expression<String>? role,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -437,6 +511,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
       if (cursor != null) 'cursor': cursor,
       if (lastSyncAt != null) 'last_sync_at': lastSyncAt,
       if (lastError != null) 'last_error': lastError,
+      if (userId != null) 'user_id': userId,
+      if (role != null) 'role': role,
     });
   }
 
@@ -449,6 +525,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
     Value<int>? cursor,
     Value<int?>? lastSyncAt,
     Value<String?>? lastError,
+    Value<String>? userId,
+    Value<String>? role,
   }) {
     return SyncStateCompanion(
       id: id ?? this.id,
@@ -459,6 +537,8 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
       cursor: cursor ?? this.cursor,
       lastSyncAt: lastSyncAt ?? this.lastSyncAt,
       lastError: lastError ?? this.lastError,
+      userId: userId ?? this.userId,
+      role: role ?? this.role,
     );
   }
 
@@ -489,6 +569,12 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
     if (lastError.present) {
       map['last_error'] = Variable<String>(lastError.value);
     }
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
     return map;
   }
 
@@ -502,7 +588,9 @@ class SyncStateCompanion extends UpdateCompanion<SyncStateData> {
           ..write('applying: $applying, ')
           ..write('cursor: $cursor, ')
           ..write('lastSyncAt: $lastSyncAt, ')
-          ..write('lastError: $lastError')
+          ..write('lastError: $lastError, ')
+          ..write('userId: $userId, ')
+          ..write('role: $role')
           ..write(')'))
         .toString();
   }
@@ -9664,6 +9752,18 @@ class $AuditLogTable extends AuditLog
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _actorUserIdMeta = const VerificationMeta(
+    'actorUserId',
+  );
+  @override
+  late final GeneratedColumn<String> actorUserId = GeneratedColumn<String>(
+    'actor_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -9673,6 +9773,7 @@ class $AuditLogTable extends AuditLog
     action,
     payloadJson,
     at,
+    actorUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -9737,6 +9838,15 @@ class $AuditLogTable extends AuditLog
     } else if (isInserting) {
       context.missing(_atMeta);
     }
+    if (data.containsKey('actor_user_id')) {
+      context.handle(
+        _actorUserIdMeta,
+        actorUserId.isAcceptableOrUnknown(
+          data['actor_user_id']!,
+          _actorUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -9774,6 +9884,10 @@ class $AuditLogTable extends AuditLog
         DriftSqlType.dateTime,
         data['${effectivePrefix}at'],
       )!,
+      actorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actor_user_id'],
+      )!,
     );
   }
 
@@ -9791,6 +9905,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
   final String action;
   final String payloadJson;
   final DateTime at;
+  final String actorUserId;
   const AuditLogData({
     required this.id,
     required this.shopId,
@@ -9799,6 +9914,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
     required this.action,
     required this.payloadJson,
     required this.at,
+    required this.actorUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -9810,6 +9926,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
     map['action'] = Variable<String>(action);
     map['payload_json'] = Variable<String>(payloadJson);
     map['at'] = Variable<DateTime>(at);
+    map['actor_user_id'] = Variable<String>(actorUserId);
     return map;
   }
 
@@ -9822,6 +9939,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
       action: Value(action),
       payloadJson: Value(payloadJson),
       at: Value(at),
+      actorUserId: Value(actorUserId),
     );
   }
 
@@ -9838,6 +9956,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
       action: serializer.fromJson<String>(json['action']),
       payloadJson: serializer.fromJson<String>(json['payloadJson']),
       at: serializer.fromJson<DateTime>(json['at']),
+      actorUserId: serializer.fromJson<String>(json['actorUserId']),
     );
   }
   @override
@@ -9851,6 +9970,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
       'action': serializer.toJson<String>(action),
       'payloadJson': serializer.toJson<String>(payloadJson),
       'at': serializer.toJson<DateTime>(at),
+      'actorUserId': serializer.toJson<String>(actorUserId),
     };
   }
 
@@ -9862,6 +9982,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
     String? action,
     String? payloadJson,
     DateTime? at,
+    String? actorUserId,
   }) => AuditLogData(
     id: id ?? this.id,
     shopId: shopId ?? this.shopId,
@@ -9870,6 +9991,7 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
     action: action ?? this.action,
     payloadJson: payloadJson ?? this.payloadJson,
     at: at ?? this.at,
+    actorUserId: actorUserId ?? this.actorUserId,
   );
   AuditLogData copyWithCompanion(AuditLogCompanion data) {
     return AuditLogData(
@@ -9882,6 +10004,9 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
           ? data.payloadJson.value
           : this.payloadJson,
       at: data.at.present ? data.at.value : this.at,
+      actorUserId: data.actorUserId.present
+          ? data.actorUserId.value
+          : this.actorUserId,
     );
   }
 
@@ -9894,14 +10019,23 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
           ..write('entityId: $entityId, ')
           ..write('action: $action, ')
           ..write('payloadJson: $payloadJson, ')
-          ..write('at: $at')
+          ..write('at: $at, ')
+          ..write('actorUserId: $actorUserId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, shopId, entity, entityId, action, payloadJson, at);
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    entity,
+    entityId,
+    action,
+    payloadJson,
+    at,
+    actorUserId,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -9912,7 +10046,8 @@ class AuditLogData extends DataClass implements Insertable<AuditLogData> {
           other.entityId == this.entityId &&
           other.action == this.action &&
           other.payloadJson == this.payloadJson &&
-          other.at == this.at);
+          other.at == this.at &&
+          other.actorUserId == this.actorUserId);
 }
 
 class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
@@ -9923,6 +10058,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
   final Value<String> action;
   final Value<String> payloadJson;
   final Value<DateTime> at;
+  final Value<String> actorUserId;
   final Value<int> rowid;
   const AuditLogCompanion({
     this.id = const Value.absent(),
@@ -9932,6 +10068,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
     this.action = const Value.absent(),
     this.payloadJson = const Value.absent(),
     this.at = const Value.absent(),
+    this.actorUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   AuditLogCompanion.insert({
@@ -9942,6 +10079,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
     required String action,
     this.payloadJson = const Value.absent(),
     required DateTime at,
+    this.actorUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        shopId = Value(shopId),
@@ -9957,6 +10095,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
     Expression<String>? action,
     Expression<String>? payloadJson,
     Expression<DateTime>? at,
+    Expression<String>? actorUserId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -9967,6 +10106,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
       if (action != null) 'action': action,
       if (payloadJson != null) 'payload_json': payloadJson,
       if (at != null) 'at': at,
+      if (actorUserId != null) 'actor_user_id': actorUserId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -9979,6 +10119,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
     Value<String>? action,
     Value<String>? payloadJson,
     Value<DateTime>? at,
+    Value<String>? actorUserId,
     Value<int>? rowid,
   }) {
     return AuditLogCompanion(
@@ -9989,6 +10130,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
       action: action ?? this.action,
       payloadJson: payloadJson ?? this.payloadJson,
       at: at ?? this.at,
+      actorUserId: actorUserId ?? this.actorUserId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -10017,6 +10159,9 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
     if (at.present) {
       map['at'] = Variable<DateTime>(at.value);
     }
+    if (actorUserId.present) {
+      map['actor_user_id'] = Variable<String>(actorUserId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -10033,6 +10178,7 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogData> {
           ..write('action: $action, ')
           ..write('payloadJson: $payloadJson, ')
           ..write('at: $at, ')
+          ..write('actorUserId: $actorUserId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -22956,6 +23102,8 @@ typedef $$SyncStateTableCreateCompanionBuilder = SyncStateCompanion Function({
   Value<int> cursor,
   Value<int?> lastSyncAt,
   Value<String?> lastError,
+  Value<String> userId,
+  Value<String> role,
 });
 typedef $$SyncStateTableUpdateCompanionBuilder = SyncStateCompanion Function({
   Value<int> id,
@@ -22966,6 +23114,8 @@ typedef $$SyncStateTableUpdateCompanionBuilder = SyncStateCompanion Function({
   Value<int> cursor,
   Value<int?> lastSyncAt,
   Value<String?> lastError,
+  Value<String> userId,
+  Value<String> role,
 });
 
 class $$SyncStateTableFilterComposer
@@ -23014,6 +23164,16 @@ class $$SyncStateTableFilterComposer
 
   ColumnFilters<String> get lastError => $composableBuilder(
     column: $table.lastError,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -23066,6 +23226,16 @@ class $$SyncStateTableOrderingComposer
     column: $table.lastError,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SyncStateTableAnnotationComposer
@@ -23104,6 +23274,12 @@ class $$SyncStateTableAnnotationComposer
 
   GeneratedColumn<String> get lastError =>
       $composableBuilder(column: $table.lastError, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
 }
 
 class $$SyncStateTableTableManager
@@ -23145,6 +23321,8 @@ class $$SyncStateTableTableManager
                 Value<int> cursor = const Value.absent(),
                 Value<int?> lastSyncAt = const Value.absent(),
                 Value<String?> lastError = const Value.absent(),
+                Value<String> userId = const Value.absent(),
+                Value<String> role = const Value.absent(),
               }) => SyncStateCompanion(
                 id: id,
                 deviceId: deviceId,
@@ -23154,6 +23332,8 @@ class $$SyncStateTableTableManager
                 cursor: cursor,
                 lastSyncAt: lastSyncAt,
                 lastError: lastError,
+                userId: userId,
+                role: role,
               ),
           createCompanionCallback:
               ({
@@ -23165,6 +23345,8 @@ class $$SyncStateTableTableManager
                 Value<int> cursor = const Value.absent(),
                 Value<int?> lastSyncAt = const Value.absent(),
                 Value<String?> lastError = const Value.absent(),
+                Value<String> userId = const Value.absent(),
+                Value<String> role = const Value.absent(),
               }) => SyncStateCompanion.insert(
                 id: id,
                 deviceId: deviceId,
@@ -23174,6 +23356,8 @@ class $$SyncStateTableTableManager
                 cursor: cursor,
                 lastSyncAt: lastSyncAt,
                 lastError: lastError,
+                userId: userId,
+                role: role,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -28678,6 +28862,7 @@ typedef $$AuditLogTableCreateCompanionBuilder = AuditLogCompanion Function({
   required String action,
   Value<String> payloadJson,
   required DateTime at,
+  Value<String> actorUserId,
   Value<int> rowid,
 });
 typedef $$AuditLogTableUpdateCompanionBuilder = AuditLogCompanion Function({
@@ -28688,6 +28873,7 @@ typedef $$AuditLogTableUpdateCompanionBuilder = AuditLogCompanion Function({
   Value<String> action,
   Value<String> payloadJson,
   Value<DateTime> at,
+  Value<String> actorUserId,
   Value<int> rowid,
 });
 
@@ -28732,6 +28918,11 @@ class $$AuditLogTableFilterComposer
 
   ColumnFilters<DateTime> get at => $composableBuilder(
     column: $table.at,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -28779,6 +28970,11 @@ class $$AuditLogTableOrderingComposer
     column: $table.at,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$AuditLogTableAnnotationComposer
@@ -28812,6 +29008,11 @@ class $$AuditLogTableAnnotationComposer
 
   GeneratedColumn<DateTime> get at =>
       $composableBuilder(column: $table.at, builder: (column) => column);
+
+  GeneratedColumn<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => column,
+  );
 }
 
 class $$AuditLogTableTableManager
@@ -28852,6 +29053,7 @@ class $$AuditLogTableTableManager
                 Value<String> action = const Value.absent(),
                 Value<String> payloadJson = const Value.absent(),
                 Value<DateTime> at = const Value.absent(),
+                Value<String> actorUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AuditLogCompanion(
                 id: id,
@@ -28861,6 +29063,7 @@ class $$AuditLogTableTableManager
                 action: action,
                 payloadJson: payloadJson,
                 at: at,
+                actorUserId: actorUserId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -28872,6 +29075,7 @@ class $$AuditLogTableTableManager
                 required String action,
                 Value<String> payloadJson = const Value.absent(),
                 required DateTime at,
+                Value<String> actorUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AuditLogCompanion.insert(
                 id: id,
@@ -28881,6 +29085,7 @@ class $$AuditLogTableTableManager
                 action: action,
                 payloadJson: payloadJson,
                 at: at,
+                actorUserId: actorUserId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

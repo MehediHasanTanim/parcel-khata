@@ -4861,6 +4861,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other numbers'**
   String get pasteMoreNumbers;
+
+  /// No description provided for @notAllowedForRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role does not have access to this.'**
+  String get notAllowedForRole;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who changed what'**
+  String get activityTitle;
+
+  /// No description provided for @activityMoneyOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Money-affecting only'**
+  String get activityMoneyOnly;
+
+  /// No description provided for @activityAllActors.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get activityAllActors;
+
+  /// No description provided for @activityYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You (owner)'**
+  String get activityYou;
+
+  /// No description provided for @activityNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity yet.'**
+  String get activityNone;
+
+  /// No description provided for @roleOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get roleOwner;
+
+  /// No description provided for @roleOrderTaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Order taker'**
+  String get roleOrderTaker;
+
+  /// No description provided for @rolePacker.
+  ///
+  /// In en, this message translates to:
+  /// **'Packer'**
+  String get rolePacker;
+
+  /// No description provided for @activityMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get activityMoney;
 }
 
 class _AppLocalizationsDelegate

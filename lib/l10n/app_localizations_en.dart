@@ -2488,4 +2488,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pasteMoreNumbers => 'Other numbers';
+
+  @override
+  String get notAllowedForRole => 'Your role does not have access to this.';
+
+  @override
+  String get activityTitle => 'Who changed what';
+
+  @override
+  String get activityMoneyOnly => 'Money-affecting only';
+
+  @override
+  String get activityAllActors => 'Everyone';
+
+  @override
+  String get activityYou => 'You (owner)';
+
+  @override
+  String get activityNone => 'No activity yet.';
+
+  @override
+  String get roleOwner => 'Owner';
+
+  @override
+  String get roleOrderTaker => 'Order taker';
+
+  @override
+  String get rolePacker => 'Packer';
+
+  @override
+  String get activityMoney => 'Money';
 }

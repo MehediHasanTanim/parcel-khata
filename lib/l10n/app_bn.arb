@@ -1012,5 +1012,15 @@
   "pasteCheck": "যাচাই করুন",
   "pasteSure": "ঠিক মনে হচ্ছে",
   "pasteAmbiguous": "একাধিক পণ্য মিলেছে",
-  "pasteMoreNumbers": "অন্যান্য সংখ্যা"
+  "pasteMoreNumbers": "অন্যান্য সংখ্যা",
+  "notAllowedForRole": "আপনার ভূমিকায় এটি দেখার অনুমতি নেই।",
+  "activityTitle": "কে কী বদলেছে",
+  "activityMoneyOnly": "শুধু টাকার হিসাব সংক্রান্ত",
+  "activityAllActors": "সবাই",
+  "activityYou": "আপনি (মালিক)",
+  "activityNone": "এখনো কোনো কাজ নেই।",
+  "roleOwner": "মালিক",
+  "roleOrderTaker": "অর্ডার নেওয়ার সহকারী",
+  "rolePacker": "প্যাকার",
+  "activityMoney": "টাকা"
 }

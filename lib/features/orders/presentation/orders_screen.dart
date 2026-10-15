@@ -17,6 +17,8 @@ import 'package:parcel_khata/features/reports/application/dashboard_service.dart
 import 'package:parcel_khata/features/reports/presentation/format.dart';
 import 'package:parcel_khata/features/search/presentation/order_filter_sheet.dart';
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
+import 'package:parcel_khata/features/sync/application/role_providers.dart';
+import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/cn_scanner.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
@@ -666,7 +668,9 @@ class OrderTile extends ConsumerWidget {
           if (cod != CodStatus.notApplicable && status != OrderStatus.draft)
             StatusChip(
                 label: codLabel(l, cod), icon: Icons.payments_outlined, tone: codTone(cod)),
-          if (!hideProfit && status != OrderStatus.draft)
+          if (!hideProfit &&
+              status != OrderStatus.draft &&
+              ref.watch(canProvider(Capability.viewCostAndProfit)))
             ProfitChip(profit: o.profit, stateDb: o.profitState),
           if (o.exchangeOfOrderId != null)
             StatusChip(

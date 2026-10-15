@@ -103,6 +103,8 @@ class AuditLog extends Table {
   TextColumn get action => text()();
   TextColumn get payloadJson => text().withDefault(const Constant('{}'))();
   DateTimeColumn get at => dateTime()();
+  // Who did it ('' = the local owner without an account).
+  TextColumn get actorUserId => text().withDefault(const Constant(''))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -361,6 +363,10 @@ class SyncState extends Table {
   IntColumn get cursor => integer().withDefault(const Constant(0))();
   IntColumn get lastSyncAt => integer().nullable()();
   TextColumn get lastError => text().nullable()();
+  // Signed-in account and its role. Roles are inert without an account:
+  // role stays 'owner' for local-only use.
+  TextColumn get userId => text().withDefault(const Constant(''))();
+  TextColumn get role => text().withDefault(const Constant('owner'))();
 
   @override
   Set<Column> get primaryKey => {id};

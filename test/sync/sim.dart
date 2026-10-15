@@ -77,6 +77,10 @@ class ChaosTransport implements SyncTransport {
 
   @override
   Future<Map<String, int>> summary() => inner.summary();
+
+  @override
+  Future<List<ActivityEntry>> activity({String? actor, bool moneyOnly = false}) =>
+      inner.activity(actor: actor, moneyOnly: moneyOnly);
 }
 
 /// One virtual device: a real Drift database + repositories + sync engine.
@@ -90,6 +94,7 @@ class Dev {
   final SyncEngine engine;
   final ChaosTransport transport;
 
+  late final AuditWriter audit;
   late final CustomerRepository customers;
   late final CourierRepository couriers;
   late final OrderRepository orders;
@@ -111,6 +116,7 @@ class Dev {
     final d = Dev._(name, db, clock, ids, engine,
         ChaosTransport(InMemoryTransport(server, principal)));
     final audit = AuditWriter(db, ids, clock, 's');
+    d.audit = audit;
     d.customers = CustomerRepository(db, ids, clock, audit, 's');
     d.couriers = CourierRepository(db, ids, clock, audit, 's');
     d.settings = SettingsRepository(db, clock, 's');

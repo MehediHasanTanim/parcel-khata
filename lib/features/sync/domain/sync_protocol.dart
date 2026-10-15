@@ -314,20 +314,132 @@ class PullResult {
   final bool hasMore;
 }
 
+// -------------------------------------------------------- authorization
+
+/// Per-role policy used by the server (see `permissions.dart`).
+abstract class Authorizer {
+  bool knows(String table);
+
+  /// Reason to reject, or null. Hidden fields are ignored, not rejected.
+  String? authorizeWrite(String role, String table, Map<String, Object?> fields,
+      {required bool rowExists});
+
+  /// Drop fields the role may not write (it cannot see them either).
+  Map<String, Versioned> filterWrite(String role, String table, Map<String, Versioned> fields);
+
+  /// Row as this role may see it, or null when the table is hidden.
+  RowState? projectRead(String role, RowState row);
+
+  /// Activity-log flag: does this change affect money?
+  bool isMoney(String table, Map<String, Object?> fields);
+
+  /// False when the role's reads omit cost fields: the server then fills
+  /// cost snapshots on order lines it creates.
+  bool seesCost(String role);
+}
+
+/// The caller's membership was revoked: the device must wipe the shop cache.
+class RevokedException implements Exception {
+  const RevokedException();
+  @override
+  String toString() => 'revoked';
+}
+
+/// One accepted change, authoritative (the server stamps the actor from the
+/// authenticated principal, never from the payload).
+@immutable
+class ActivityEntry {
+  const ActivityEntry({
+    required this.version,
+    required this.atMs,
+    required this.actorUserId,
+    required this.role,
+    required this.table,
+    required this.rowId,
+    required this.fields,
+    required this.money,
+  });
+
+  final int version;
+  final int atMs;
+  final String actorUserId;
+  final String role;
+  final String table;
+  final String rowId;
+  final List<String> fields;
+  final bool money;
+}
+
+@immutable
+class Invite {
+  const Invite({required this.code, required this.phone, required this.role, required this.shopId});
+  final String code;
+  final String phone;
+  final String role;
+  final String shopId;
+}
+
 // --------------------------------------------------------------- server
 
 /// Server model of what Postgres would do: a row store, a monotonically
 /// increasing `server_seq` per change, an idempotency log, RLS-like checks.
 class SyncServer {
-  SyncServer({Map<String, TableSpec> schema = kSpikeSchema}) : _schema = schema;
+  SyncServer({
+    Map<String, TableSpec> schema = kSpikeSchema,
+    this.authorizer,
+    int Function()? nowMs,
+  })  : _schema = schema,
+        _nowMs = nowMs ?? (() => 0);
 
   final Map<String, TableSpec> _schema;
+  final Authorizer? authorizer;
+  final int Function() _nowMs;
+  final List<ActivityEntry> _activity = [];
+  final Set<String> _revoked = {};
+  final Map<String, Invite> _invites = {};
+  var _userSeq = 0;
   final Map<String, RowState> _rows = {};
   final Map<String, int> _rowSeq = {};
   final Set<String> _seenChanges = {};
   int _seq = 0;
 
   int get seq => _seq;
+
+  // ----- membership: invites by phone, instant revoke ---------------------
+
+  /// Owner invites a helper by phone; returns the one-time code to share.
+  String invite(Principal owner, {required String phone, required String role}) {
+    if (owner.role != 'owner') throw StateError('only the owner can invite');
+    final code = (100000 + (_invites.length * 7919 + phone.hashCode.abs()) % 900000).toString();
+    _invites[code] = Invite(code: code, phone: phone, role: role, shopId: owner.shopId);
+    return code;
+  }
+
+  /// The invited phone joins the shop with the invited role.
+  Principal accept({required String phone, required String code}) {
+    final inv = _invites[code];
+    if (inv == null || inv.phone != phone) throw StateError('invalid invite');
+    _invites.remove(code);
+    return Principal(userId: 'user-${++_userSeq}', shopId: inv.shopId, role: inv.role);
+  }
+
+  /// Takes effect on the helper's very next push/pull.
+  void revoke(Principal owner, String userId) {
+    if (owner.role != 'owner') throw StateError('only the owner can revoke');
+    _revoked.add(userId);
+  }
+
+  List<ActivityEntry> activity(Principal who, {String? actor, bool moneyOnly = false}) {
+    if (who.role != 'owner') return const [];
+    return [
+      for (final a in _activity)
+        if ((actor == null || a.actorUserId == actor) && (!moneyOnly || a.money)) a,
+    ];
+  }
+
+  void _guard(Principal who) {
+    if (_revoked.contains(who.userId)) throw const RevokedException();
+  }
 
   /// Monotonic version assigned by the server (spec: `server_version`).
   int get serverVersion => _seq;
@@ -337,6 +449,7 @@ class SyncServer {
   List<RowState> get allRows => _rows.values.toList();
 
   PushResult push(Principal who, String deviceId, List<Change> batch) {
+    _guard(who);
     final accepted = <String>[];
     final dups = <String>[];
     final rejected = <String, String>{};
@@ -356,7 +469,20 @@ class SyncServer {
         rejected[c.changeId] = 'wrong_shop';
         continue;
       }
-      if (!spec.writeRoles.contains(who.role)) {
+      final rowKey0 = '${c.table}/${c.rowId}';
+      final az = authorizer;
+      if (az != null) {
+        final why = az.authorizeWrite(
+          who.role,
+          c.table,
+          {for (final e in c.fields.entries) e.key: e.value.value},
+          rowExists: _rows.containsKey(rowKey0),
+        );
+        if (why != null) {
+          rejected[c.changeId] = why;
+          continue;
+        }
+      } else if (!spec.writeRoles.contains(who.role)) {
         rejected[c.changeId] = 'forbidden_role';
         continue;
       }
@@ -365,10 +491,26 @@ class SyncServer {
       final rowKey = '${c.table}/${c.rowId}';
       final current = _rows[rowKey]?.fields ?? const <String, Versioned>{};
       final bad = <String>[];
-      final incoming = {
+      var incoming = {
         for (final e in c.fields.entries)
           if (spec.carries(e.key)) e.key: e.value,
       };
+      if (authorizer != null) {
+        incoming = authorizer!.filterWrite(who.role, c.table, incoming);
+        // A role that cannot see cost still creates order lines: the server
+        // snapshots the cost from the catalog so margins stay complete.
+        if (c.table == 'order_lines' &&
+            !authorizer!.seesCost(who.role) &&
+            !(current.containsKey('unit_cost_price'))) {
+          final pid = incoming['product_id']?.value ?? current['product_id']?.value;
+          final product = pid == null ? null : _rows['products/$pid'];
+          final cost = product?['default_cost_price'];
+          if (cost != null && incoming.isNotEmpty) {
+            incoming['unit_cost_price'] =
+                Versioned(cost, incoming.values.first.hlc);
+          }
+        }
+      }
       if (spec.policy == TablePolicy.lww) {
         for (final e in incoming.entries) {
           final cur = current[e.key];
@@ -382,6 +524,17 @@ class SyncServer {
       if (merged != null) {
         _rows[rowKey] = RowState(c.table, c.rowId, c.shopId, merged);
         _rowSeq[rowKey] = ++_seq;
+        final plain = {for (final e in incoming.entries) e.key: e.value.value};
+        _activity.add(ActivityEntry(
+          version: _seq,
+          atMs: _nowMs(),
+          actorUserId: who.userId,
+          role: who.role,
+          table: c.table,
+          rowId: c.rowId,
+          fields: incoming.keys.toList()..sort(),
+          money: authorizer?.isMoney(c.table, plain) ?? false,
+        ));
       }
     }
     return PushResult(accepted: accepted, duplicates: dups, rejected: rejected, lost: lost);
@@ -390,9 +543,12 @@ class SyncServer {
   /// Row counts per table for a shop (restore-style preview before choosing
   /// "replace with cloud"). Tombstoned rows are not counted.
   Map<String, int> summary(Principal who) {
+    _guard(who);
     final out = <String, int>{};
-    for (final r in _rows.values) {
-      if (r.shopId != who.shopId || r['deleted_at'] != null) continue;
+    for (final r0 in _rows.values) {
+      if (r0.shopId != who.shopId || r0['deleted_at'] != null) continue;
+      final r = authorizer == null ? r0 : authorizer!.projectRead(who.role, r0);
+      if (r == null) continue;
       out[r.table] = (out[r.table] ?? 0) + 1;
     }
     return out;
@@ -400,13 +556,20 @@ class SyncServer {
 
   /// Rows changed after [since] in this shop, oldest change first.
   PullResult pull(Principal who, int since, {int limit = 100}) {
+    _guard(who);
     final changed = [
       for (final e in _rowSeq.entries)
         if (e.value > since && _rows[e.key]!.shopId == who.shopId) e,
     ]..sort((a, b) => a.value.compareTo(b.value));
     final page = changed.take(limit).toList();
+    final out = <RowState>[];
+    for (final e in page) {
+      final r = _rows[e.key]!;
+      final p = authorizer == null ? r : authorizer!.projectRead(who.role, r);
+      if (p != null) out.add(p);
+    }
     return PullResult(
-      [for (final e in page) _rows[e.key]!],
+      out,
       page.isEmpty ? since : page.last.value,
       changed.length > page.length,
     );

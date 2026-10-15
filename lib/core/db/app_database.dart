@@ -176,7 +176,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -278,6 +278,13 @@ class AppDatabase extends _$AppDatabase {
               await customStatement(sql);
             }
           }
+          if (from < 12) {
+            await m.createTable(statementProfiles);
+            await m.createTable(statementImports);
+            for (final sql in _statementIndexes) {
+              await customStatement(sql);
+            }
+          }
           if (from < 13) {
             await m.addColumn(orders, orders.deviceCode);
             await customStatement('DROP INDEX IF EXISTS uq_orders_number');
@@ -290,12 +297,13 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(syncRows);
             await m.createTable(syncConflicts);
           }
-          if (from < 12) {
-            await m.createTable(statementProfiles);
-            await m.createTable(statementImports);
-            for (final sql in _statementIndexes) {
-              await customStatement(sql);
+          if (from < 14) {
+            // Tables created by the v13 step already have the current columns.
+            if (from >= 13) {
+              await m.addColumn(syncState, syncState.userId);
+              await m.addColumn(syncState, syncState.role);
             }
+            await m.addColumn(auditLog, auditLog.actorUserId);
           }
         },
         beforeOpen: (details) async {

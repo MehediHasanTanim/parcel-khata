@@ -2483,4 +2483,34 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get pasteMoreNumbers => 'অন্যান্য সংখ্যা';
+
+  @override
+  String get notAllowedForRole => 'আপনার ভূমিকায় এটি দেখার অনুমতি নেই।';
+
+  @override
+  String get activityTitle => 'কে কী বদলেছে';
+
+  @override
+  String get activityMoneyOnly => 'শুধু টাকার হিসাব সংক্রান্ত';
+
+  @override
+  String get activityAllActors => 'সবাই';
+
+  @override
+  String get activityYou => 'আপনি (মালিক)';
+
+  @override
+  String get activityNone => 'এখনো কোনো কাজ নেই।';
+
+  @override
+  String get roleOwner => 'মালিক';
+
+  @override
+  String get roleOrderTaker => 'অর্ডার নেওয়ার সহকারী';
+
+  @override
+  String get rolePacker => 'প্যাকার';
+
+  @override
+  String get activityMoney => 'টাকা';
 }

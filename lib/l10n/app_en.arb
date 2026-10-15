@@ -1012,5 +1012,15 @@
   "pasteCheck": "Check",
   "pasteSure": "Looks right",
   "pasteAmbiguous": "Several products match",
-  "pasteMoreNumbers": "Other numbers"
+  "pasteMoreNumbers": "Other numbers",
+  "notAllowedForRole": "Your role does not have access to this.",
+  "activityTitle": "Who changed what",
+  "activityMoneyOnly": "Money-affecting only",
+  "activityAllActors": "Everyone",
+  "activityYou": "You (owner)",
+  "activityNone": "No activity yet.",
+  "roleOwner": "Owner",
+  "roleOrderTaker": "Order taker",
+  "rolePacker": "Packer",
+  "activityMoney": "Money"
 }

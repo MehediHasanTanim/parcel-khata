@@ -19,8 +19,11 @@ class AuditWriter {
     required String entityId,
     required String action,
     Map<String, Object?> payload = const {},
-  }) {
-    return _db.into(_db.auditLog).insert(AuditLogCompanion.insert(
+  }) async {
+    final r = await _db
+        .customSelect('SELECT user_id FROM sync_state WHERE id = 1')
+        .getSingleOrNull();
+    await _db.into(_db.auditLog).insert(AuditLogCompanion.insert(
           id: _ids.generate(),
           shopId: _shopId,
           entity: entity,
@@ -28,6 +31,7 @@ class AuditWriter {
           action: action,
           payloadJson: Value(jsonEncode(payload)),
           at: _clock.now(),
+          actorUserId: Value(r?.read<String>('user_id') ?? ''),
         ));
   }
 }
