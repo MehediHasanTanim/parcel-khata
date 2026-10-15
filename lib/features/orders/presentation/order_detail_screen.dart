@@ -9,7 +9,10 @@ import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/features/cod/presentation/ledger_panel.dart';
+import 'package:parcel_khata/features/export/application/pdf_documents.dart';
+import 'package:parcel_khata/features/export/application/pdf_theme.dart';
 import 'package:parcel_khata/features/profit/presentation/profit_panel.dart';
+import 'package:printing/printing.dart';
 import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/returns/presentation/return_sheets.dart';
 import 'package:parcel_khata/core/time/providers.dart';
@@ -65,6 +68,34 @@ class OrderDetailScreen extends ConsumerWidget {
                   switch (v) {
                     case 'edit':
                       unawaited(nav.push('/orders/$orderId/edit'));
+                    case 'slip':
+                      final settings = await ref.read(settingsRepositoryProvider).read();
+                      final courier = o.courierId == null
+                          ? null
+                          : await ref.read(courierRepositoryProvider).getById(o.courierId!);
+                      final bytes = await PdfDocuments.orderSlip(
+                        OrderSlipData(
+                          shopName: settings.businessName.isEmpty ? l.appName : settings.businessName,
+                          shopPhone: settings.businessPhone.isEmpty ? null : settings.businessPhone,
+                          orderNo: o.orderNo,
+                          date: formatDate(o.orderDate),
+                          customerName: d.customer?.name ?? '',
+                          phone: d.customer?.phonePrimary ?? '',
+                          address: o.addressSnapshot,
+                          lines: [
+                            for (final x in d.lines)
+                              SlipLine(x.nameSnapshot, x.qty, Money(x.unitSellPrice)),
+                          ],
+                          deliveryCharge: Money(o.deliveryChargeCustomer),
+                          discount: Money(o.discountTotal),
+                          codAmount: Money(o.codExpected),
+                          courier: courier?.name,
+                          consignmentNo: o.consignmentNo,
+                          notes: o.notes,
+                        ),
+                        theme: await loadPdfTheme(),
+                      );
+                      await Printing.sharePdf(bytes: bytes, filename: '${o.orderNo}.pdf');
                     case 'change':
                       await _changeStatusDialog(context, ref, o);
                     case 'courier':
@@ -100,6 +131,7 @@ class OrderDetailScreen extends ConsumerWidget {
                   if (status != OrderStatus.draft)
                     PopupMenuItem(value: 'correct', child: Text(l.correctStatus)),
                   PopupMenuItem(value: 'dup', child: Text(l.duplicateOrder)),
+                  PopupMenuItem(value: 'slip', child: Text(l.shareOrderSlip)),
                   PopupMenuItem(value: 'del', child: Text(l.deleteOrder)),
                 ],
               ),

@@ -1448,4 +1448,298 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get noData => 'এই সময়ে কোনো তথ্য নেই';
+
+  @override
+  String get attentionTitle => 'মনোযোগ দরকার';
+
+  @override
+  String get attentionEmpty => 'সব ঠিক আছে';
+
+  @override
+  String attStale(int n) {
+    return '$n দিন কোনো আপডেট নেই। ডেলিভারি হয়েছে?';
+  }
+
+  @override
+  String attOverdueCod(int n) {
+    return 'COD $n দিন বাকি';
+  }
+
+  @override
+  String attReturn(int n) {
+    return 'রিটার্ন $n দিন ধরে পথে';
+  }
+
+  @override
+  String get attDraft => 'এক দিনের বেশি পুরনো খসড়া';
+
+  @override
+  String get attDispute => 'বিরোধপূর্ণ নিষ্পত্তি';
+
+  @override
+  String get attDispatch => 'পাঠানোর অপেক্ষায়';
+
+  @override
+  String attBackup(int n) {
+    return '$n দিন ব্যাকআপ নেই';
+  }
+
+  @override
+  String get stillInTransit => 'এখনও পথে';
+
+  @override
+  String get snooze1d => '১ দিন পিছিয়ে দিন';
+
+  @override
+  String get snooze3d => '৩ দিন পিছিয়ে দিন';
+
+  @override
+  String get dismissItem => 'বাদ দিন';
+
+  @override
+  String get dismissReasonLabel => 'কেন বাদ দিচ্ছেন?';
+
+  @override
+  String get dismissDone => 'আগেই সামলেছি';
+
+  @override
+  String get dismissNotNeeded => 'দরকার নেই';
+
+  @override
+  String get callCustomer => 'কল করুন';
+
+  @override
+  String get whatsappCustomer => 'হোয়াটসঅ্যাপ';
+
+  @override
+  String get openTracking => 'ট্র্যাক';
+
+  @override
+  String get viewAll => 'সব দেখুন';
+
+  @override
+  String get messageTemplates => 'বার্তার টেমপ্লেট';
+
+  @override
+  String get tplConfirmation => 'অর্ডার নিশ্চিতকরণ';
+
+  @override
+  String get tplDispatch => 'পাঠানোর বার্তা';
+
+  @override
+  String get tplFollowUp => 'ডেলিভারি ফলো-আপ';
+
+  @override
+  String get tplBeAvailable => 'ফোন খোলা রাখুন';
+
+  @override
+  String get tplPlaceholders =>
+      'প্লেসহোল্ডার: {name} {cn} {amount} {order} {courier} {shop}';
+
+  @override
+  String get tplReset => 'ডিফল্টে ফিরুন';
+
+  @override
+  String get tplUnknown => 'অজানা প্লেসহোল্ডার';
+
+  @override
+  String get sendViaWhatsapp => 'হোয়াটসঅ্যাপে পাঠান';
+
+  @override
+  String get digestSettings => 'দৈনিক ডাইজেস্ট';
+
+  @override
+  String get digestEnable => 'প্রতিদিন রিমাইন্ডার দিন';
+
+  @override
+  String get digestTime => 'সময়';
+
+  @override
+  String get quietHours => 'নীরব সময়';
+
+  @override
+  String get quietFrom => 'থেকে';
+
+  @override
+  String get quietTo => 'পর্যন্ত';
+
+  @override
+  String get digestTitle => 'পার্সেল খাতা';
+
+  @override
+  String digestStale(int n) {
+    return '$nটি পার্সেলের স্ট্যাটাস আপডেট দরকার';
+  }
+
+  @override
+  String digestOverdue(String amount, int n) {
+    return '$amount COD বাকি ($nটি অর্ডার)';
+  }
+
+  @override
+  String digestReturns(int n) {
+    return '$nটি রিটার্ন অপেক্ষায়';
+  }
+
+  @override
+  String digestDrafts(int n) {
+    return '$nটি পুরনো খসড়া';
+  }
+
+  @override
+  String digestDisputes(int n) {
+    return '$nটি বিরোধ';
+  }
+
+  @override
+  String digestDispatch(int n) {
+    return '$nটি পাঠানো বাকি';
+  }
+
+  @override
+  String get digestBackup => 'ব্যাকআপ নেওয়ার সময়';
+
+  @override
+  String get batteryGuideTitle => 'রিমাইন্ডার চালু রাখুন';
+
+  @override
+  String get batteryGuideBody =>
+      'কিছু ফোন ব্যাকগ্রাউন্ডে অ্যাপ বন্ধ করে দেয়। রিমাইন্ডার পেতে পার্সেল খাতাকে ব্যাটারি সীমাবদ্ধতা ছাড়া চলতে দিন। অ্যাপের তালিকা সবসময় কাজ করে।';
+
+  @override
+  String get batteryGuideOpen => 'কীভাবে অনুমতি দেবেন';
+
+  @override
+  String get gotIt => 'বুঝেছি';
+
+  @override
+  String get dataSection => 'ডেটা';
+
+  @override
+  String get backupNow => 'ব্যাকআপ তৈরি করুন';
+
+  @override
+  String get backupPassphrase => 'পাসফ্রেজ (ঐচ্ছিক)';
+
+  @override
+  String get backupCreated => 'ব্যাকআপ তৈরি হয়েছে';
+
+  @override
+  String get restoreBackup => 'ব্যাকআপ থেকে পুনরুদ্ধার';
+
+  @override
+  String get restorePreview => 'এই ব্যাকআপে আছে';
+
+  @override
+  String get restoreReplace => 'এই ফোনের সব কিছু প্রতিস্থাপন';
+
+  @override
+  String get restoreMerge => 'মার্জ: যা নেই তা যোগ করুন';
+
+  @override
+  String get restoreDone => 'পুনরুদ্ধার সম্পন্ন';
+
+  @override
+  String get errBackupNotBackup => 'এটি পার্সেল খাতার ব্যাকআপ নয়';
+
+  @override
+  String get errBackupCorrupted => 'ব্যাকআপ ফাইলটি নষ্ট';
+
+  @override
+  String get errBackupChecksum => 'ব্যাকআপের সামঞ্জস্য পরীক্ষা ব্যর্থ';
+
+  @override
+  String get errBackupNewer => 'এটি নতুন অ্যাপ সংস্করণের ব্যাকআপ';
+
+  @override
+  String get errBackupPass => 'ভুল পাসফ্রেজ';
+
+  @override
+  String get errBackupNeedPass => 'ব্যাকআপ এনক্রিপ্টেড: পাসফ্রেজ দিন';
+
+  @override
+  String get lastBackup => 'সর্বশেষ ব্যাকআপ';
+
+  @override
+  String get neverBackedUp => 'কখনও না';
+
+  @override
+  String get exportData => 'ডেটা এক্সপোর্ট (CSV)';
+
+  @override
+  String get exportOrders => 'অর্ডার';
+
+  @override
+  String get exportCustomers => 'গ্রাহক';
+
+  @override
+  String get exportProducts => 'পণ্য';
+
+  @override
+  String get exportPayouts => 'পেআউট';
+
+  @override
+  String get exportReturns => 'রিটার্ন';
+
+  @override
+  String get importCsv => 'CSV থেকে ইম্পোর্ট';
+
+  @override
+  String get importCustomers => 'গ্রাহক ইম্পোর্ট';
+
+  @override
+  String get importOrders => 'অর্ডার ইম্পোর্ট';
+
+  @override
+  String get downloadTemplate => 'CSV টেমপ্লেট শেয়ার';
+
+  @override
+  String get mapColumns => 'কলাম মেলান';
+
+  @override
+  String get notMapped => '— ব্যবহার হবে না —';
+
+  @override
+  String get importPreview => 'প্রিভিউ';
+
+  @override
+  String importValid(int n) {
+    return '$nটি সারি প্রস্তুত';
+  }
+
+  @override
+  String importErrors(int n) {
+    return '$nটি সারিতে সমস্যা';
+  }
+
+  @override
+  String importDuplicates(int n) {
+    return '$nটি আগে থেকেই আছে, বাদ যাবে';
+  }
+
+  @override
+  String get importSkipBad => 'ভুল সারি বাদ দিয়ে বাকিগুলো ইম্পোর্ট করুন';
+
+  @override
+  String get importAllOrNothing => 'সব সারি সঠিক হলে তবেই ইম্পোর্ট';
+
+  @override
+  String get importRun => 'ইম্পোর্ট';
+
+  @override
+  String importDone(int n) {
+    return '$nটি ইম্পোর্ট হয়েছে';
+  }
+
+  @override
+  String get pickFile => 'ফাইল বাছুন';
+
+  @override
+  String get shareOrderSlip => 'অর্ডার স্লিপ শেয়ার (PDF)';
+
+  @override
+  String get shareStatement => 'কুরিয়ার স্টেটমেন্ট (PDF)';
+
+  @override
+  String get exportPdf => 'PDF এক্সপোর্ট';
 }

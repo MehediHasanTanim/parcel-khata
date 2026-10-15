@@ -1451,4 +1451,299 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noData => 'No data for this period';
+
+  @override
+  String get attentionTitle => 'Needs attention';
+
+  @override
+  String get attentionEmpty => 'All caught up';
+
+  @override
+  String attStale(int n) {
+    return 'No update for $n days. Delivered?';
+  }
+
+  @override
+  String attOverdueCod(int n) {
+    return 'COD overdue by $n days';
+  }
+
+  @override
+  String attReturn(int n) {
+    return 'Return in transit $n days';
+  }
+
+  @override
+  String get attDraft => 'Draft older than a day';
+
+  @override
+  String get attDispute => 'Disputed settlement';
+
+  @override
+  String get attDispatch => 'Waiting to be dispatched';
+
+  @override
+  String attBackup(int n) {
+    return 'No backup for $n days';
+  }
+
+  @override
+  String get stillInTransit => 'Still in transit';
+
+  @override
+  String get snooze1d => 'Snooze 1 day';
+
+  @override
+  String get snooze3d => 'Snooze 3 days';
+
+  @override
+  String get dismissItem => 'Dismiss';
+
+  @override
+  String get dismissReasonLabel => 'Why dismiss?';
+
+  @override
+  String get dismissDone => 'Already handled';
+
+  @override
+  String get dismissNotNeeded => 'Not needed';
+
+  @override
+  String get callCustomer => 'Call';
+
+  @override
+  String get whatsappCustomer => 'WhatsApp';
+
+  @override
+  String get openTracking => 'Track';
+
+  @override
+  String get viewAll => 'View all';
+
+  @override
+  String get messageTemplates => 'Message templates';
+
+  @override
+  String get tplConfirmation => 'Order confirmation';
+
+  @override
+  String get tplDispatch => 'Dispatch notice';
+
+  @override
+  String get tplFollowUp => 'Delivery follow-up';
+
+  @override
+  String get tplBeAvailable => 'Please be available';
+
+  @override
+  String get tplPlaceholders =>
+      'Placeholders: {name} {cn} {amount} {order} {courier} {shop}';
+
+  @override
+  String get tplReset => 'Reset to default';
+
+  @override
+  String get tplUnknown => 'Unknown placeholder';
+
+  @override
+  String get sendViaWhatsapp => 'Send via WhatsApp';
+
+  @override
+  String get digestSettings => 'Daily digest';
+
+  @override
+  String get digestEnable => 'Send a daily reminder';
+
+  @override
+  String get digestTime => 'Time';
+
+  @override
+  String get quietHours => 'Quiet hours';
+
+  @override
+  String get quietFrom => 'From';
+
+  @override
+  String get quietTo => 'To';
+
+  @override
+  String get digestTitle => 'Parcel Khata';
+
+  @override
+  String digestStale(int n) {
+    return '$n parcels need a status update';
+  }
+
+  @override
+  String digestOverdue(String amount, int n) {
+    return '$amount COD overdue ($n orders)';
+  }
+
+  @override
+  String digestReturns(int n) {
+    return '$n returns waiting';
+  }
+
+  @override
+  String digestDrafts(int n) {
+    return '$n old drafts';
+  }
+
+  @override
+  String digestDisputes(int n) {
+    return '$n disputes';
+  }
+
+  @override
+  String digestDispatch(int n) {
+    return '$n to dispatch';
+  }
+
+  @override
+  String get digestBackup => 'Backup due';
+
+  @override
+  String get batteryGuideTitle => 'Keep reminders working';
+
+  @override
+  String get batteryGuideBody =>
+      'Some phones stop apps in the background. Allow Parcel Khata to run without battery restrictions so reminders arrive. The in-app list always works.';
+
+  @override
+  String get batteryGuideOpen => 'How to allow';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get dataSection => 'Data';
+
+  @override
+  String get backupNow => 'Create backup';
+
+  @override
+  String get backupPassphrase => 'Passphrase (optional)';
+
+  @override
+  String get backupCreated => 'Backup created';
+
+  @override
+  String get restoreBackup => 'Restore from backup';
+
+  @override
+  String get restorePreview => 'This backup contains';
+
+  @override
+  String get restoreReplace => 'Replace everything on this phone';
+
+  @override
+  String get restoreMerge => 'Merge: add what is missing';
+
+  @override
+  String get restoreDone => 'Restore complete';
+
+  @override
+  String get errBackupNotBackup => 'This is not a Parcel Khata backup';
+
+  @override
+  String get errBackupCorrupted => 'The backup file is damaged';
+
+  @override
+  String get errBackupChecksum => 'The backup failed its integrity check';
+
+  @override
+  String get errBackupNewer => 'This backup is from a newer app version';
+
+  @override
+  String get errBackupPass => 'Wrong passphrase';
+
+  @override
+  String get errBackupNeedPass =>
+      'This backup is encrypted: enter its passphrase';
+
+  @override
+  String get lastBackup => 'Last backup';
+
+  @override
+  String get neverBackedUp => 'Never';
+
+  @override
+  String get exportData => 'Export data (CSV)';
+
+  @override
+  String get exportOrders => 'Orders';
+
+  @override
+  String get exportCustomers => 'Customers';
+
+  @override
+  String get exportProducts => 'Products';
+
+  @override
+  String get exportPayouts => 'Payouts';
+
+  @override
+  String get exportReturns => 'Returns';
+
+  @override
+  String get importCsv => 'Import from CSV';
+
+  @override
+  String get importCustomers => 'Import customers';
+
+  @override
+  String get importOrders => 'Import orders';
+
+  @override
+  String get downloadTemplate => 'Share CSV template';
+
+  @override
+  String get mapColumns => 'Match columns';
+
+  @override
+  String get notMapped => '— not used —';
+
+  @override
+  String get importPreview => 'Preview';
+
+  @override
+  String importValid(int n) {
+    return '$n rows ready';
+  }
+
+  @override
+  String importErrors(int n) {
+    return '$n rows have problems';
+  }
+
+  @override
+  String importDuplicates(int n) {
+    return '$n already exist and will be skipped';
+  }
+
+  @override
+  String get importSkipBad => 'Skip bad rows and import the rest';
+
+  @override
+  String get importAllOrNothing => 'Import only if every row is valid';
+
+  @override
+  String get importRun => 'Import';
+
+  @override
+  String importDone(int n) {
+    return '$n imported';
+  }
+
+  @override
+  String get pickFile => 'Choose file';
+
+  @override
+  String get shareOrderSlip => 'Share order slip (PDF)';
+
+  @override
+  String get shareStatement => 'Courier statement (PDF)';
+
+  @override
+  String get exportPdf => 'Export PDF';
 }

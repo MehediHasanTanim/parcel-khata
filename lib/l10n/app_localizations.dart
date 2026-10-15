@@ -2917,6 +2917,534 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No data for this period'**
   String get noData;
+
+  /// No description provided for @attentionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get attentionTitle;
+
+  /// No description provided for @attentionEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up'**
+  String get attentionEmpty;
+
+  /// No description provided for @attStale.
+  ///
+  /// In en, this message translates to:
+  /// **'No update for {n} days. Delivered?'**
+  String attStale(int n);
+
+  /// No description provided for @attOverdueCod.
+  ///
+  /// In en, this message translates to:
+  /// **'COD overdue by {n} days'**
+  String attOverdueCod(int n);
+
+  /// No description provided for @attReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Return in transit {n} days'**
+  String attReturn(int n);
+
+  /// No description provided for @attDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft older than a day'**
+  String get attDraft;
+
+  /// No description provided for @attDispute.
+  ///
+  /// In en, this message translates to:
+  /// **'Disputed settlement'**
+  String get attDispute;
+
+  /// No description provided for @attDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting to be dispatched'**
+  String get attDispatch;
+
+  /// No description provided for @attBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup for {n} days'**
+  String attBackup(int n);
+
+  /// No description provided for @stillInTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'Still in transit'**
+  String get stillInTransit;
+
+  /// No description provided for @snooze1d.
+  ///
+  /// In en, this message translates to:
+  /// **'Snooze 1 day'**
+  String get snooze1d;
+
+  /// No description provided for @snooze3d.
+  ///
+  /// In en, this message translates to:
+  /// **'Snooze 3 days'**
+  String get snooze3d;
+
+  /// No description provided for @dismissItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get dismissItem;
+
+  /// No description provided for @dismissReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Why dismiss?'**
+  String get dismissReasonLabel;
+
+  /// No description provided for @dismissDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Already handled'**
+  String get dismissDone;
+
+  /// No description provided for @dismissNotNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not needed'**
+  String get dismissNotNeeded;
+
+  /// No description provided for @callCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get callCustomer;
+
+  /// No description provided for @whatsappCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsappCustomer;
+
+  /// No description provided for @openTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Track'**
+  String get openTracking;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get viewAll;
+
+  /// No description provided for @messageTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Message templates'**
+  String get messageTemplates;
+
+  /// No description provided for @tplConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Order confirmation'**
+  String get tplConfirmation;
+
+  /// No description provided for @tplDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatch notice'**
+  String get tplDispatch;
+
+  /// No description provided for @tplFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery follow-up'**
+  String get tplFollowUp;
+
+  /// No description provided for @tplBeAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Please be available'**
+  String get tplBeAvailable;
+
+  /// No description provided for @tplPlaceholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Placeholders: \'{name}\' \'{cn}\' \'{amount}\' \'{order}\' \'{courier}\' \'{shop}\''**
+  String get tplPlaceholders;
+
+  /// No description provided for @tplReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get tplReset;
+
+  /// No description provided for @tplUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown placeholder'**
+  String get tplUnknown;
+
+  /// No description provided for @sendViaWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send via WhatsApp'**
+  String get sendViaWhatsapp;
+
+  /// No description provided for @digestSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily digest'**
+  String get digestSettings;
+
+  /// No description provided for @digestEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a daily reminder'**
+  String get digestEnable;
+
+  /// No description provided for @digestTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get digestTime;
+
+  /// No description provided for @quietHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet hours'**
+  String get quietHours;
+
+  /// No description provided for @quietFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get quietFrom;
+
+  /// No description provided for @quietTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get quietTo;
+
+  /// No description provided for @digestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Parcel Khata'**
+  String get digestTitle;
+
+  /// No description provided for @digestStale.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} parcels need a status update'**
+  String digestStale(int n);
+
+  /// No description provided for @digestOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} COD overdue ({n} orders)'**
+  String digestOverdue(String amount, int n);
+
+  /// No description provided for @digestReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} returns waiting'**
+  String digestReturns(int n);
+
+  /// No description provided for @digestDrafts.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} old drafts'**
+  String digestDrafts(int n);
+
+  /// No description provided for @digestDisputes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} disputes'**
+  String digestDisputes(int n);
+
+  /// No description provided for @digestDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} to dispatch'**
+  String digestDispatch(int n);
+
+  /// No description provided for @digestBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup due'**
+  String get digestBackup;
+
+  /// No description provided for @batteryGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep reminders working'**
+  String get batteryGuideTitle;
+
+  /// No description provided for @batteryGuideBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Some phones stop apps in the background. Allow Parcel Khata to run without battery restrictions so reminders arrive. The in-app list always works.'**
+  String get batteryGuideBody;
+
+  /// No description provided for @batteryGuideOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'How to allow'**
+  String get batteryGuideOpen;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get gotIt;
+
+  /// No description provided for @dataSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get dataSection;
+
+  /// No description provided for @backupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Create backup'**
+  String get backupNow;
+
+  /// No description provided for @backupPassphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase (optional)'**
+  String get backupPassphrase;
+
+  /// No description provided for @backupCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created'**
+  String get backupCreated;
+
+  /// No description provided for @restoreBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from backup'**
+  String get restoreBackup;
+
+  /// No description provided for @restorePreview.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup contains'**
+  String get restorePreview;
+
+  /// No description provided for @restoreReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace everything on this phone'**
+  String get restoreReplace;
+
+  /// No description provided for @restoreMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge: add what is missing'**
+  String get restoreMerge;
+
+  /// No description provided for @restoreDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore complete'**
+  String get restoreDone;
+
+  /// No description provided for @errBackupNotBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a Parcel Khata backup'**
+  String get errBackupNotBackup;
+
+  /// No description provided for @errBackupCorrupted.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup file is damaged'**
+  String get errBackupCorrupted;
+
+  /// No description provided for @errBackupChecksum.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup failed its integrity check'**
+  String get errBackupChecksum;
+
+  /// No description provided for @errBackupNewer.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup is from a newer app version'**
+  String get errBackupNewer;
+
+  /// No description provided for @errBackupPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong passphrase'**
+  String get errBackupPass;
+
+  /// No description provided for @errBackupNeedPass.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup is encrypted: enter its passphrase'**
+  String get errBackupNeedPass;
+
+  /// No description provided for @lastBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup'**
+  String get lastBackup;
+
+  /// No description provided for @neverBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get neverBackedUp;
+
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data (CSV)'**
+  String get exportData;
+
+  /// No description provided for @exportOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get exportOrders;
+
+  /// No description provided for @exportCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get exportCustomers;
+
+  /// No description provided for @exportProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get exportProducts;
+
+  /// No description provided for @exportPayouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts'**
+  String get exportPayouts;
+
+  /// No description provided for @exportReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns'**
+  String get exportReturns;
+
+  /// No description provided for @importCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from CSV'**
+  String get importCsv;
+
+  /// No description provided for @importCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Import customers'**
+  String get importCustomers;
+
+  /// No description provided for @importOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Import orders'**
+  String get importOrders;
+
+  /// No description provided for @downloadTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Share CSV template'**
+  String get downloadTemplate;
+
+  /// No description provided for @mapColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Match columns'**
+  String get mapColumns;
+
+  /// No description provided for @notMapped.
+  ///
+  /// In en, this message translates to:
+  /// **'— not used —'**
+  String get notMapped;
+
+  /// No description provided for @importPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get importPreview;
+
+  /// No description provided for @importValid.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} rows ready'**
+  String importValid(int n);
+
+  /// No description provided for @importErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} rows have problems'**
+  String importErrors(int n);
+
+  /// No description provided for @importDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} already exist and will be skipped'**
+  String importDuplicates(int n);
+
+  /// No description provided for @importSkipBad.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip bad rows and import the rest'**
+  String get importSkipBad;
+
+  /// No description provided for @importAllOrNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Import only if every row is valid'**
+  String get importAllOrNothing;
+
+  /// No description provided for @importRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get importRun;
+
+  /// No description provided for @importDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} imported'**
+  String importDone(int n);
+
+  /// No description provided for @pickFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose file'**
+  String get pickFile;
+
+  /// No description provided for @shareOrderSlip.
+  ///
+  /// In en, this message translates to:
+  /// **'Share order slip (PDF)'**
+  String get shareOrderSlip;
+
+  /// No description provided for @shareStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier statement (PDF)'**
+  String get shareStatement;
+
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get exportPdf;
 }
 
 class _AppLocalizationsDelegate

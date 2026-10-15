@@ -243,3 +243,23 @@ class SavedViews extends Table with BaseColumns {
   TextColumn get sort => text().withDefault(const Constant('newest'))();
   BoolColumn get isPinned => boolean().withDefault(const Constant(true))();
 }
+
+class Reminders extends Table with BaseColumns {
+  // `kind:orderId` or `backupDue`; matches NeedsAttentionBuilder.keyFor.
+  TextColumn get key => text()();
+  TextColumn get kind => text()();
+  TextColumn get orderId => text().nullable()();
+  DateTimeColumn get snoozedUntil => dateTime().nullable()();
+  DateTimeColumn get dismissedAt => dateTime().nullable()();
+  TextColumn get dismissReason => text().nullable()();
+}
+
+@DataClassName('MessageTemplateRow')
+class MessageTemplateRows extends Table with BaseColumns {
+  @override
+  String get tableName => 'message_templates';
+
+  TextColumn get kind => text()();
+  TextColumn get lang => text()();
+  TextColumn get body => text()();
+}

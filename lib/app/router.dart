@@ -26,7 +26,12 @@ import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
 import 'package:parcel_khata/features/reports/presentation/reports_screens.dart';
 import 'package:parcel_khata/features/returns/presentation/returns_screen.dart';
+import 'package:parcel_khata/features/backup/presentation/data_screen.dart';
+import 'package:parcel_khata/features/backup/presentation/import_screen.dart';
+import 'package:parcel_khata/features/reminders/presentation/attention_screen.dart';
+import 'package:parcel_khata/features/reminders/presentation/notification_settings_screen.dart';
 import 'package:parcel_khata/features/settings/presentation/settings_screen.dart';
+import 'package:parcel_khata/features/templates/presentation/templates_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 
@@ -111,6 +116,14 @@ final appRouter = GoRouter(
       builder: (_, st) => CourierFormScreen(courierId: st.pathParameters['id']),
     ),
     GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
+    GoRoute(path: '/settings/data', builder: (_, __) => const DataScreen()),
+    GoRoute(path: '/settings/import', builder: (_, __) => const ImportScreen()),
+    GoRoute(
+      path: '/settings/notifications',
+      builder: (_, __) => const NotificationSettingsScreen(),
+    ),
+    GoRoute(path: '/templates', builder: (_, __) => const TemplatesScreen()),
+    GoRoute(path: '/attention', builder: (_, __) => const AttentionScreen()),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => ShellScaffold(shell: shell),
       branches: [

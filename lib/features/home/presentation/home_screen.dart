@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/orders/domain/order_filter.dart';
+import 'package:parcel_khata/features/reminders/application/attention_service.dart';
+import 'package:parcel_khata/features/reminders/presentation/attention_widgets.dart';
 import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
 import 'package:parcel_khata/features/reports/domain/report_math.dart';
 import 'package:parcel_khata/features/reports/presentation/format.dart';
@@ -36,6 +38,7 @@ class HomeScreen extends ConsumerWidget {
     final preset = ref.watch(periodPresetProvider);
     final dash = ref.watch(dashboardProvider);
     final views = ref.watch(savedViewsProvider).value ?? const <SavedViewItem>[];
+    final attention = ref.watch(attentionProvider).value ?? const [];
 
     String presetLabel(PeriodPreset p) => switch (p) {
           PeriodPreset.today => l.periodToday,
@@ -47,7 +50,21 @@ class HomeScreen extends ConsumerWidget {
         };
 
     return Scaffold(
-      appBar: AppBar(title: Text(l.homeTitle)),
+      appBar: AppBar(
+        title: Text(l.homeTitle),
+        actions: [
+          IconButton(
+            tooltip: l.attentionTitle,
+            onPressed: () => context.push('/attention'),
+            // One badge; its number is exactly the queue length (F11 AC1).
+            icon: Badge(
+              isLabelVisible: attention.isNotEmpty,
+              label: Text('${attention.length}'),
+              child: const Icon(Icons.notifications_none),
+            ),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(dashboardProvider),
         child: ListView(padding: const EdgeInsets.all(16), children: [
@@ -103,6 +120,20 @@ class HomeScreen extends ConsumerWidget {
                   ),
               ]),
             ),
+          if (attention.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Row(children: [
+              Expanded(
+                child: Text('${l.attentionTitle} (${attention.length})',
+                    style: Theme.of(context).textTheme.titleMedium),
+              ),
+              TextButton(
+                onPressed: () => context.push('/attention'),
+                child: Text(l.viewAll),
+              ),
+            ]),
+            for (final i in attention.take(3)) AttentionTile(item: i),
+          ],
           const SizedBox(height: 8),
           dash.when(
             loading: () => const Padding(

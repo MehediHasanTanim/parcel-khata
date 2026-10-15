@@ -115,6 +115,34 @@ class PayoutService {
     ];
   }
 
+  /// Delivered COD orders of one courier in a period with what the seller
+  /// expected (net receivable) vs cash actually received: the data behind the
+  /// courier dispute statement (feature spec F14).
+  Future<List<({Order order, int expected, int received})>> statementRows(
+    String courierId,
+    DateTime from,
+    DateTime to,
+  ) async {
+    final orders = await (_db.select(_db.orders)
+          ..where((o) =>
+              o.shopId.equals(_shopId) &
+              o.deletedAt.isNull() &
+              o.courierId.equals(courierId) &
+              o.codCollected.isNotNull() &
+              o.deliveredAt.isBiggerOrEqualValue(from) &
+              o.deliveredAt.isSmallerThanValue(to))
+          ..orderBy([(o) => OrderingTerm.asc(o.deliveredAt)]))
+        .get();
+    return [
+      for (final o in orders)
+        (
+          order: o,
+          expected: o.netReceivable ?? 0,
+          received: (await _ledger.settledFor(o.id)).poisha,
+        ),
+    ];
+  }
+
   Stream<List<Payout>> watchPayouts({String? courierId}) {
     final q = _db.select(_db.payouts)
       ..where((p) {

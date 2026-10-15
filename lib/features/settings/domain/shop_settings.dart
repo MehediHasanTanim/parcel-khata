@@ -19,7 +19,26 @@ class ShopSettings {
     this.languageCode = 'bn',
     this.returnInTransitDays = 7,
     this.hideProfitInLists = false,
+    this.lastBackupAtMs,
+    this.backupReminderDays = 7,
+    this.digestEnabled = false,
+    this.digestMinute = 21 * 60,
+    this.quietEnabled = true,
+    this.quietStartMinute = 22 * 60,
+    this.quietEndMinute = 7 * 60,
+    this.digestKinds = defaultDigestKinds,
+    this.batteryGuideShown = false,
   });
+
+  static const defaultDigestKinds = [
+    'staleHandedOver',
+    'overdueCod',
+    'returnTooLong',
+    'oldDraft',
+    'dispute',
+    'toDispatch',
+    'backupDue',
+  ];
 
   static const currentVersion = 1;
 
@@ -44,6 +63,21 @@ class ShopSettings {
   /// Privacy: hide profit chips in order lists (e.g. phone shared with helper).
   final bool hideProfitInLists;
 
+  /// Last successful backup (epoch ms); null = never.
+  final int? lastBackupAtMs;
+  final int backupReminderDays;
+  final bool digestEnabled;
+
+  /// Minutes after midnight for the daily digest (default 21:00).
+  final int digestMinute;
+  final bool quietEnabled;
+  final int quietStartMinute;
+  final int quietEndMinute;
+
+  /// Attention kinds included in the digest (names of AttentionKind).
+  final List<String> digestKinds;
+  final bool batteryGuideShown;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -61,6 +95,15 @@ class ShopSettings {
     String? languageCode,
     int? returnInTransitDays,
     bool? hideProfitInLists,
+    int? lastBackupAtMs,
+    int? backupReminderDays,
+    bool? digestEnabled,
+    int? digestMinute,
+    bool? quietEnabled,
+    int? quietStartMinute,
+    int? quietEndMinute,
+    List<String>? digestKinds,
+    bool? batteryGuideShown,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -81,6 +124,15 @@ class ShopSettings {
         languageCode: languageCode ?? this.languageCode,
         returnInTransitDays: returnInTransitDays ?? this.returnInTransitDays,
         hideProfitInLists: hideProfitInLists ?? this.hideProfitInLists,
+        lastBackupAtMs: lastBackupAtMs ?? this.lastBackupAtMs,
+        backupReminderDays: backupReminderDays ?? this.backupReminderDays,
+        digestEnabled: digestEnabled ?? this.digestEnabled,
+        digestMinute: digestMinute ?? this.digestMinute,
+        quietEnabled: quietEnabled ?? this.quietEnabled,
+        quietStartMinute: quietStartMinute ?? this.quietStartMinute,
+        quietEndMinute: quietEndMinute ?? this.quietEndMinute,
+        digestKinds: digestKinds ?? this.digestKinds,
+        batteryGuideShown: batteryGuideShown ?? this.batteryGuideShown,
       );
 
   Map<String, Object?> toJson() => {
@@ -100,6 +152,15 @@ class ShopSettings {
         'languageCode': languageCode,
         'returnInTransitDays': returnInTransitDays,
         'hideProfitInLists': hideProfitInLists,
+        'lastBackupAtMs': lastBackupAtMs,
+        'backupReminderDays': backupReminderDays,
+        'digestEnabled': digestEnabled,
+        'digestMinute': digestMinute,
+        'quietEnabled': quietEnabled,
+        'quietStartMinute': quietStartMinute,
+        'quietEndMinute': quietEndMinute,
+        'digestKinds': digestKinds,
+        'batteryGuideShown': batteryGuideShown,
       };
 
   String encode() => jsonEncode(toJson());
@@ -132,6 +193,15 @@ class ShopSettings {
         languageCode: j['languageCode'] as String? ?? d.languageCode,
         returnInTransitDays: j['returnInTransitDays'] as int? ?? d.returnInTransitDays,
         hideProfitInLists: j['hideProfitInLists'] as bool? ?? d.hideProfitInLists,
+        lastBackupAtMs: j['lastBackupAtMs'] as int?,
+        backupReminderDays: j['backupReminderDays'] as int? ?? d.backupReminderDays,
+        digestEnabled: j['digestEnabled'] as bool? ?? d.digestEnabled,
+        digestMinute: j['digestMinute'] as int? ?? d.digestMinute,
+        quietEnabled: j['quietEnabled'] as bool? ?? d.quietEnabled,
+        quietStartMinute: j['quietStartMinute'] as int? ?? d.quietStartMinute,
+        quietEndMinute: j['quietEndMinute'] as int? ?? d.quietEndMinute,
+        digestKinds: (j['digestKinds'] as List<dynamic>?)?.cast<String>() ?? d.digestKinds,
+        batteryGuideShown: j['batteryGuideShown'] as bool? ?? d.batteryGuideShown,
       );
     } on FormatException {
       return const ShopSettings();

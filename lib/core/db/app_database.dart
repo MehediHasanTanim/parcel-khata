@@ -100,6 +100,12 @@ const _viewIndexes = [
   'CREATE INDEX IF NOT EXISTS ix_saved_views_shop ON saved_views(shop_id, created_at)',
 ];
 
+// Added in schema v7 (reminders & templates).
+const _reminderIndexes = [
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_reminders_key ON reminders(shop_id, key) WHERE deleted_at IS NULL',
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_templates_kind_lang ON message_templates(shop_id, kind, lang) WHERE deleted_at IS NULL',
+];
+
 @DriftDatabase(tables: [
   Shops,
   Customers,
@@ -120,6 +126,8 @@ const _viewIndexes = [
   ReturnRecords,
   ReturnLines,
   SavedViews,
+  Reminders,
+  MessageTemplateRows,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -128,13 +136,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._searchSql, ..._viewIndexes]) {
+          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes]) {
             await customStatement(sql);
           }
           for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
@@ -194,6 +202,13 @@ class AppDatabase extends _$AppDatabase {
             }
             // Backfill the index for existing orders.
             await customStatement('$_indexInsert $_indexSelect');
+          }
+          if (from < 7) {
+            await m.createTable(reminders);
+            await m.createTable(messageTemplateRows);
+            for (final sql in _reminderIndexes) {
+              await customStatement(sql);
+            }
           }
         },
         beforeOpen: (details) async {

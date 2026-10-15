@@ -542,5 +542,194 @@
       }
     }
   },
-  "noData": "No data for this period"
+  "noData": "No data for this period",
+  "attentionTitle": "Needs attention",
+  "attentionEmpty": "All caught up",
+  "attStale": "No update for {n} days. Delivered?",
+  "@attStale": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attOverdueCod": "COD overdue by {n} days",
+  "@attOverdueCod": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attReturn": "Return in transit {n} days",
+  "@attReturn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attDraft": "Draft older than a day",
+  "attDispute": "Disputed settlement",
+  "attDispatch": "Waiting to be dispatched",
+  "attBackup": "No backup for {n} days",
+  "@attBackup": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "stillInTransit": "Still in transit",
+  "snooze1d": "Snooze 1 day",
+  "snooze3d": "Snooze 3 days",
+  "dismissItem": "Dismiss",
+  "dismissReasonLabel": "Why dismiss?",
+  "dismissDone": "Already handled",
+  "dismissNotNeeded": "Not needed",
+  "callCustomer": "Call",
+  "whatsappCustomer": "WhatsApp",
+  "openTracking": "Track",
+  "viewAll": "View all",
+  "messageTemplates": "Message templates",
+  "tplConfirmation": "Order confirmation",
+  "tplDispatch": "Dispatch notice",
+  "tplFollowUp": "Delivery follow-up",
+  "tplBeAvailable": "Please be available",
+  "tplPlaceholders": "Placeholders: '{name}' '{cn}' '{amount}' '{order}' '{courier}' '{shop}'",
+  "tplReset": "Reset to default",
+  "tplUnknown": "Unknown placeholder",
+  "sendViaWhatsapp": "Send via WhatsApp",
+  "digestSettings": "Daily digest",
+  "digestEnable": "Send a daily reminder",
+  "digestTime": "Time",
+  "quietHours": "Quiet hours",
+  "quietFrom": "From",
+  "quietTo": "To",
+  "digestTitle": "Parcel Khata",
+  "digestStale": "{n} parcels need a status update",
+  "@digestStale": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestOverdue": "{amount} COD overdue ({n} orders)",
+  "@digestOverdue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestReturns": "{n} returns waiting",
+  "@digestReturns": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDrafts": "{n} old drafts",
+  "@digestDrafts": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDisputes": "{n} disputes",
+  "@digestDisputes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDispatch": "{n} to dispatch",
+  "@digestDispatch": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestBackup": "Backup due",
+  "batteryGuideTitle": "Keep reminders working",
+  "batteryGuideBody": "Some phones stop apps in the background. Allow Parcel Khata to run without battery restrictions so reminders arrive. The in-app list always works.",
+  "batteryGuideOpen": "How to allow",
+  "gotIt": "Got it",
+  "dataSection": "Data",
+  "backupNow": "Create backup",
+  "backupPassphrase": "Passphrase (optional)",
+  "backupCreated": "Backup created",
+  "restoreBackup": "Restore from backup",
+  "restorePreview": "This backup contains",
+  "restoreReplace": "Replace everything on this phone",
+  "restoreMerge": "Merge: add what is missing",
+  "restoreDone": "Restore complete",
+  "errBackupNotBackup": "This is not a Parcel Khata backup",
+  "errBackupCorrupted": "The backup file is damaged",
+  "errBackupChecksum": "The backup failed its integrity check",
+  "errBackupNewer": "This backup is from a newer app version",
+  "errBackupPass": "Wrong passphrase",
+  "errBackupNeedPass": "This backup is encrypted: enter its passphrase",
+  "lastBackup": "Last backup",
+  "neverBackedUp": "Never",
+  "exportData": "Export data (CSV)",
+  "exportOrders": "Orders",
+  "exportCustomers": "Customers",
+  "exportProducts": "Products",
+  "exportPayouts": "Payouts",
+  "exportReturns": "Returns",
+  "importCsv": "Import from CSV",
+  "importCustomers": "Import customers",
+  "importOrders": "Import orders",
+  "downloadTemplate": "Share CSV template",
+  "mapColumns": "Match columns",
+  "notMapped": "— not used —",
+  "importPreview": "Preview",
+  "importValid": "{n} rows ready",
+  "@importValid": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importErrors": "{n} rows have problems",
+  "@importErrors": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDuplicates": "{n} already exist and will be skipped",
+  "@importDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSkipBad": "Skip bad rows and import the rest",
+  "importAllOrNothing": "Import only if every row is valid",
+  "importRun": "Import",
+  "importDone": "{n} imported",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pickFile": "Choose file",
+  "shareOrderSlip": "Share order slip (PDF)",
+  "shareStatement": "Courier statement (PDF)",
+  "exportPdf": "Export PDF"
 }

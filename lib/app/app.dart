@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/app/locale_provider.dart';
 import 'package:parcel_khata/app/router.dart';
 import 'package:parcel_khata/app/theme.dart';
+import 'package:parcel_khata/features/reminders/application/attention_service.dart';
+import 'package:parcel_khata/features/reminders/application/digest_service.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
@@ -14,6 +16,13 @@ class ParcelKhataApp extends ConsumerWidget {
     // Make sure the shop row exists, then follow the persisted language.
     ref
       ..watch(_bootstrapProvider)
+      ..listen(attentionProvider, (_, next) {
+        // Keep the next digest notification in step with the queue.
+        if (next.hasValue) {
+          final lang = ref.read(localeProvider);
+          ref.read(digestServiceProvider).refresh(lang);
+        }
+      })
       ..listen(shopSettingsProvider, (_, next) {
         final code = next.value?.languageCode;
         if (code != null && code != ref.read(localeProvider).languageCode) {

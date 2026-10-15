@@ -273,6 +273,26 @@ class OrderStatusService {
     return true;
   }
 
+  /// "Still in transit": records a timeline note without changing the status,
+  /// which resets the no-update clock used by the follow-up queue.
+  Future<void> acknowledge(String orderId, {String note = 'still_in_transit'}) async {
+    final o = await (_db.select(_db.orders)..where((x) => x.id.equals(orderId)))
+        .getSingleOrNull();
+    if (o == null) return;
+    final now = _clock.now();
+    await _db.into(_db.orderStatusEvents).insert(OrderStatusEventsCompanion.insert(
+          id: _ids.generate(),
+          shopId: _shopId,
+          createdAt: now,
+          updatedAt: now,
+          orderId: orderId,
+          toStatus: o.status,
+          at: now,
+          fromStatus: Value(o.status),
+          note: Value(note),
+        ));
+  }
+
   /// Orders with a courier longer than their threshold, worst first.
   Future<List<StuckOrder>> stuckOrders() async {
     final q = _db.select(_db.orders).join([

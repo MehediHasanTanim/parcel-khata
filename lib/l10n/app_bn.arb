@@ -542,5 +542,194 @@
       }
     }
   },
-  "noData": "এই সময়ে কোনো তথ্য নেই"
+  "noData": "এই সময়ে কোনো তথ্য নেই",
+  "attentionTitle": "মনোযোগ দরকার",
+  "attentionEmpty": "সব ঠিক আছে",
+  "attStale": "{n} দিন কোনো আপডেট নেই। ডেলিভারি হয়েছে?",
+  "@attStale": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attOverdueCod": "COD {n} দিন বাকি",
+  "@attOverdueCod": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attReturn": "রিটার্ন {n} দিন ধরে পথে",
+  "@attReturn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "attDraft": "এক দিনের বেশি পুরনো খসড়া",
+  "attDispute": "বিরোধপূর্ণ নিষ্পত্তি",
+  "attDispatch": "পাঠানোর অপেক্ষায়",
+  "attBackup": "{n} দিন ব্যাকআপ নেই",
+  "@attBackup": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "stillInTransit": "এখনও পথে",
+  "snooze1d": "১ দিন পিছিয়ে দিন",
+  "snooze3d": "৩ দিন পিছিয়ে দিন",
+  "dismissItem": "বাদ দিন",
+  "dismissReasonLabel": "কেন বাদ দিচ্ছেন?",
+  "dismissDone": "আগেই সামলেছি",
+  "dismissNotNeeded": "দরকার নেই",
+  "callCustomer": "কল করুন",
+  "whatsappCustomer": "হোয়াটসঅ্যাপ",
+  "openTracking": "ট্র্যাক",
+  "viewAll": "সব দেখুন",
+  "messageTemplates": "বার্তার টেমপ্লেট",
+  "tplConfirmation": "অর্ডার নিশ্চিতকরণ",
+  "tplDispatch": "পাঠানোর বার্তা",
+  "tplFollowUp": "ডেলিভারি ফলো-আপ",
+  "tplBeAvailable": "ফোন খোলা রাখুন",
+  "tplPlaceholders": "প্লেসহোল্ডার: '{name}' '{cn}' '{amount}' '{order}' '{courier}' '{shop}'",
+  "tplReset": "ডিফল্টে ফিরুন",
+  "tplUnknown": "অজানা প্লেসহোল্ডার",
+  "sendViaWhatsapp": "হোয়াটসঅ্যাপে পাঠান",
+  "digestSettings": "দৈনিক ডাইজেস্ট",
+  "digestEnable": "প্রতিদিন রিমাইন্ডার দিন",
+  "digestTime": "সময়",
+  "quietHours": "নীরব সময়",
+  "quietFrom": "থেকে",
+  "quietTo": "পর্যন্ত",
+  "digestTitle": "পার্সেল খাতা",
+  "digestStale": "{n}টি পার্সেলের স্ট্যাটাস আপডেট দরকার",
+  "@digestStale": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestOverdue": "{amount} COD বাকি ({n}টি অর্ডার)",
+  "@digestOverdue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestReturns": "{n}টি রিটার্ন অপেক্ষায়",
+  "@digestReturns": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDrafts": "{n}টি পুরনো খসড়া",
+  "@digestDrafts": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDisputes": "{n}টি বিরোধ",
+  "@digestDisputes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestDispatch": "{n}টি পাঠানো বাকি",
+  "@digestDispatch": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "digestBackup": "ব্যাকআপ নেওয়ার সময়",
+  "batteryGuideTitle": "রিমাইন্ডার চালু রাখুন",
+  "batteryGuideBody": "কিছু ফোন ব্যাকগ্রাউন্ডে অ্যাপ বন্ধ করে দেয়। রিমাইন্ডার পেতে পার্সেল খাতাকে ব্যাটারি সীমাবদ্ধতা ছাড়া চলতে দিন। অ্যাপের তালিকা সবসময় কাজ করে।",
+  "batteryGuideOpen": "কীভাবে অনুমতি দেবেন",
+  "gotIt": "বুঝেছি",
+  "dataSection": "ডেটা",
+  "backupNow": "ব্যাকআপ তৈরি করুন",
+  "backupPassphrase": "পাসফ্রেজ (ঐচ্ছিক)",
+  "backupCreated": "ব্যাকআপ তৈরি হয়েছে",
+  "restoreBackup": "ব্যাকআপ থেকে পুনরুদ্ধার",
+  "restorePreview": "এই ব্যাকআপে আছে",
+  "restoreReplace": "এই ফোনের সব কিছু প্রতিস্থাপন",
+  "restoreMerge": "মার্জ: যা নেই তা যোগ করুন",
+  "restoreDone": "পুনরুদ্ধার সম্পন্ন",
+  "errBackupNotBackup": "এটি পার্সেল খাতার ব্যাকআপ নয়",
+  "errBackupCorrupted": "ব্যাকআপ ফাইলটি নষ্ট",
+  "errBackupChecksum": "ব্যাকআপের সামঞ্জস্য পরীক্ষা ব্যর্থ",
+  "errBackupNewer": "এটি নতুন অ্যাপ সংস্করণের ব্যাকআপ",
+  "errBackupPass": "ভুল পাসফ্রেজ",
+  "errBackupNeedPass": "ব্যাকআপ এনক্রিপ্টেড: পাসফ্রেজ দিন",
+  "lastBackup": "সর্বশেষ ব্যাকআপ",
+  "neverBackedUp": "কখনও না",
+  "exportData": "ডেটা এক্সপোর্ট (CSV)",
+  "exportOrders": "অর্ডার",
+  "exportCustomers": "গ্রাহক",
+  "exportProducts": "পণ্য",
+  "exportPayouts": "পেআউট",
+  "exportReturns": "রিটার্ন",
+  "importCsv": "CSV থেকে ইম্পোর্ট",
+  "importCustomers": "গ্রাহক ইম্পোর্ট",
+  "importOrders": "অর্ডার ইম্পোর্ট",
+  "downloadTemplate": "CSV টেমপ্লেট শেয়ার",
+  "mapColumns": "কলাম মেলান",
+  "notMapped": "— ব্যবহার হবে না —",
+  "importPreview": "প্রিভিউ",
+  "importValid": "{n}টি সারি প্রস্তুত",
+  "@importValid": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importErrors": "{n}টি সারিতে সমস্যা",
+  "@importErrors": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importDuplicates": "{n}টি আগে থেকেই আছে, বাদ যাবে",
+  "@importDuplicates": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importSkipBad": "ভুল সারি বাদ দিয়ে বাকিগুলো ইম্পোর্ট করুন",
+  "importAllOrNothing": "সব সারি সঠিক হলে তবেই ইম্পোর্ট",
+  "importRun": "ইম্পোর্ট",
+  "importDone": "{n}টি ইম্পোর্ট হয়েছে",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pickFile": "ফাইল বাছুন",
+  "shareOrderSlip": "অর্ডার স্লিপ শেয়ার (PDF)",
+  "shareStatement": "কুরিয়ার স্টেটমেন্ট (PDF)",
+  "exportPdf": "PDF এক্সপোর্ট"
 }
