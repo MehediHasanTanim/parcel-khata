@@ -1895,4 +1895,309 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sampleProduct3 => 'Sample mug';
+
+  @override
+  String get costAdAllocation => 'Ad cost';
+
+  @override
+  String get expensesTitle => 'Expenses';
+
+  @override
+  String get expenseNew => 'Add expense';
+
+  @override
+  String get expenseEdit => 'Edit expense';
+
+  @override
+  String get catAds => 'Ads';
+
+  @override
+  String get catPackaging => 'Packaging';
+
+  @override
+  String get catRent => 'Rent';
+
+  @override
+  String get catSalary => 'Salary';
+
+  @override
+  String get catMisc => 'Misc';
+
+  @override
+  String get expenseAmount => 'Amount';
+
+  @override
+  String get expenseDate => 'Date';
+
+  @override
+  String get expenseNote => 'Note';
+
+  @override
+  String get expenseCampaign => 'Campaign';
+
+  @override
+  String get expenseRecurring => 'Repeats every month';
+
+  @override
+  String expenseRecurringAdded(int n) {
+    return 'Added $n recurring expenses for this month';
+  }
+
+  @override
+  String get expenseTotal => 'Total';
+
+  @override
+  String get campaignsTitle => 'Ad campaigns';
+
+  @override
+  String get campaignNew => 'New campaign';
+
+  @override
+  String get campaignEdit => 'Edit campaign';
+
+  @override
+  String get campaignName => 'Campaign name';
+
+  @override
+  String get campaignTag => 'Order tag';
+
+  @override
+  String get campaignTagHelp => 'Orders with this tag share the spend';
+
+  @override
+  String get campaignSpend => 'Ad spend';
+
+  @override
+  String get campaignStart => 'From';
+
+  @override
+  String get campaignEnd => 'To';
+
+  @override
+  String get allocByCount => 'Equal share per order';
+
+  @override
+  String get allocByRevenue => 'In proportion to sales';
+
+  @override
+  String get allocPreview => 'Preview';
+
+  @override
+  String get allocApply => 'Apply to orders';
+
+  @override
+  String get allocClear => 'Remove from orders';
+
+  @override
+  String allocApplied(int n) {
+    return 'Applied to $n orders';
+  }
+
+  @override
+  String get allocNeedsReapply => 'Changed since applied: apply again';
+
+  @override
+  String get allocNoOrders => 'No orders carry this tag in these dates';
+
+  @override
+  String taggedOrdersN(int n) {
+    return '$n orders';
+  }
+
+  @override
+  String get orderTags => 'Tags (comma separated)';
+
+  @override
+  String get reportPnl => 'Business profit (P&L)';
+
+  @override
+  String get pnlRevenue => 'Revenue';
+
+  @override
+  String get pnlCogs => 'Product cost';
+
+  @override
+  String get pnlCourierFees => 'Courier fees';
+
+  @override
+  String get pnlReturnLoss => 'Returns & write-offs';
+
+  @override
+  String get pnlPackaging => 'Packaging';
+
+  @override
+  String get pnlAds => 'Ads (on orders)';
+
+  @override
+  String get pnlOtherCosts => 'Other order costs';
+
+  @override
+  String get pnlOrderProfit => 'Order profit';
+
+  @override
+  String get pnlExpenses => 'Business expenses';
+
+  @override
+  String get pnlBusinessProfit => 'Business profit';
+
+  @override
+  String get settingApplyPackaging =>
+      'Add default packaging cost to new orders';
+
+  @override
+  String get openExpenses => 'Expenses';
+
+  @override
+  String get riskReliable => 'Reliable';
+
+  @override
+  String get riskRefusedLastCod => 'Refused last COD';
+
+  @override
+  String get riskHighReturnRate => 'High return rate';
+
+  @override
+  String get riskNewCustomer => 'New customer';
+
+  @override
+  String get riskBlocklisted => 'Blocklisted';
+
+  @override
+  String get riskWhyTitle => 'Orders behind this badge';
+
+  @override
+  String get riskNoOrders => 'No orders — set manually or no history yet.';
+
+  @override
+  String get riskCaution => 'Caution note';
+
+  @override
+  String get riskCautionHint => 'Private note about this customer';
+
+  @override
+  String get riskBlocklist => 'Blocklist';
+
+  @override
+  String get riskUnblock => 'Remove from blocklist';
+
+  @override
+  String get riskBlockReason => 'Reason';
+
+  @override
+  String get riskBannerTitle => 'Risky customer — consider taking an advance.';
+
+  @override
+  String get riskTakeAdvance => 'Take advance';
+
+  @override
+  String get riskSettings => 'Customer risk flags';
+
+  @override
+  String get riskReturnRateLabel => 'High return rate from (%)';
+
+  @override
+  String get riskMinOrdersLabel => 'Minimum finished orders';
+
+  @override
+  String get riskRecencyLabel => 'Refusal counts for (days)';
+
+  @override
+  String get riskPrivateNote =>
+      'Seller-private. Based only on your own orders.';
+
+  @override
+  String get riskSection => 'Risk flags';
+
+  @override
+  String get riskSave => 'Save';
+
+  @override
+  String get exchangeAction => 'Exchange';
+
+  @override
+  String get exchangeTitle => 'Exchange order';
+
+  @override
+  String get exchangeReturnedItems => 'Items coming back';
+
+  @override
+  String get exchangeReplacementItems => 'Replacement items';
+
+  @override
+  String get exchangeAddItem => 'Add item';
+
+  @override
+  String get exchangeSameItems => 'Same items, new size';
+
+  @override
+  String get exchangeWhoPays => 'Who pays the courier';
+
+  @override
+  String get exchangePayerSeller => 'I pay';
+
+  @override
+  String get exchangePayerCustomer => 'Customer pays';
+
+  @override
+  String get exchangeDeliveryCharge => 'Replacement delivery charge';
+
+  @override
+  String get exchangeReturnShipping => 'Return shipping fee';
+
+  @override
+  String get exchangeValueReturned => 'Value coming back';
+
+  @override
+  String get exchangeValueReplacement => 'Replacement value';
+
+  @override
+  String get exchangeCollect => 'Collect on delivery';
+
+  @override
+  String get exchangeRefundDue => 'Refund due to customer';
+
+  @override
+  String get exchangeShippingLoss => 'Shipping you absorb';
+
+  @override
+  String get exchangeCreate => 'Create exchange';
+
+  @override
+  String get exchangeChip => 'Exchange';
+
+  @override
+  String get exchangeLinked => 'Linked exchange';
+
+  @override
+  String get exchangeOriginalOrder => 'Original order';
+
+  @override
+  String get exchangeReplacementOrder => 'Replacement order';
+
+  @override
+  String get exchangeGroupProfit => 'Profit of both orders';
+
+  @override
+  String get exchangeNeedItems => 'Pick items to return and add a replacement.';
+
+  @override
+  String get exchangeItemName => 'Item name';
+
+  @override
+  String get exchangeQty => 'Qty';
+
+  @override
+  String get exchangeSell => 'Price';
+
+  @override
+  String get exchangeCost => 'Cost';
+
+  @override
+  String get exchangeCreated => 'Exchange created';
+
+  @override
+  String get exchangeNotDelivered => 'Only delivered orders can be exchanged.';
+
+  @override
+  String get exchangeExists => 'This order already has a return or exchange.';
 }

@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/cod/application/cod_queries.dart';
+import 'package:parcel_khata/features/expenses/application/pnl_queries.dart';
+import 'package:parcel_khata/features/expenses/domain/business_pnl.dart';
+import 'package:parcel_khata/features/expenses/presentation/expenses_screen.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
@@ -16,7 +19,7 @@ import 'package:parcel_khata/features/reports/presentation/format.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 
-enum ReportKind { daily, ageing, courier, profit, returns }
+enum ReportKind { daily, ageing, courier, profit, returns, pnl }
 
 class ReportsScreen extends StatelessWidget {
   const ReportsScreen({super.key});
@@ -38,6 +41,7 @@ class ReportsScreen extends StatelessWidget {
         item(Icons.local_shipping_outlined, l.reportCourier, ReportKind.courier),
         item(Icons.trending_up, l.reportProfit, ReportKind.profit),
         item(Icons.assignment_return_outlined, l.reportReturns, ReportKind.returns),
+        item(Icons.account_balance_outlined, l.reportPnl, ReportKind.pnl),
       ]),
     );
   }
@@ -68,6 +72,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       ReportKind.courier => l.reportCourier,
       ReportKind.profit => l.reportProfit,
       ReportKind.returns => l.reportReturns,
+      ReportKind.pnl => l.reportPnl,
     };
     String label(PeriodPreset p) => switch (p) {
           PeriodPreset.today => l.periodToday,
@@ -121,6 +126,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
             ReportKind.courier => _CourierReport(period: period),
             ReportKind.profit => _ProfitReport(period: period),
             ReportKind.returns => _ReturnsReport(period: period),
+            ReportKind.pnl => _PnlReport(period: period),
           },
         ),
       ]),
@@ -542,4 +548,64 @@ class _ReturnsReportState extends ConsumerState<_ReturnsReport> {
 
   String _label(AppLocalizations l, String raw) =>
       _dim == 0 ? reasonLabel(l, raw) : (raw.isEmpty ? '—' : raw);
+}
+
+// -------------------------------------------------------------------- P&L
+
+class _PnlReport extends ConsumerWidget {
+  const _PnlReport({required this.period});
+
+  final DatePeriod period;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final t = Theme.of(context);
+    ref.watch(codRevisionProvider);
+    return FutureBuilder<BusinessPnl>(
+      future: ref.read(pnlQueriesProvider).compute(period),
+      builder: (_, snap) {
+        final p = snap.data;
+        if (p == null) return const Center(child: CircularProgressIndicator());
+        Widget row(String k, Money v, {bool bold = false, bool minus = false, Color? color}) =>
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(children: [
+                Expanded(child: Text(minus ? '− $k' : k, style: bold ? t.textTheme.titleSmall : null)),
+                Text(v.format(),
+                    style: (bold ? t.textTheme.titleMedium : null)?.copyWith(color: color)),
+              ]),
+            );
+        final profit = p.businessProfit;
+        return ListView(padding: const EdgeInsets.all(16), children: [
+          if (p.incompleteCount > 0)
+            Text(l.incompleteExcluded(p.incompleteCount), style: t.textTheme.bodySmall),
+          row(l.pnlRevenue, p.revenue, bold: true),
+          const Divider(),
+          row(l.pnlCogs, p.cogs, minus: true),
+          row(l.pnlCourierFees, p.courierFees, minus: true),
+          row(l.pnlReturnLoss, p.returnLoss, minus: true),
+          row(l.pnlPackaging, p.packaging, minus: true),
+          row(l.pnlAds, p.ads, minus: true),
+          if (!p.otherOrderCosts.isZero) row(l.pnlOtherCosts, p.otherOrderCosts, minus: true),
+          const Divider(),
+          row(l.pnlOrderProfit, p.orderProfit, bold: true),
+          const SizedBox(height: 12),
+          Text(l.pnlExpenses, style: t.textTheme.titleSmall),
+          for (final e in p.expensesByCategory.entries)
+            row(categoryLabel(l, e.key), e.value, minus: true),
+          row(l.expenseTotal, p.unallocatedExpenses, minus: true),
+          const Divider(),
+          row(l.pnlBusinessProfit, profit,
+              bold: true, color: profit.isNegative ? t.colorScheme.error : null),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            onPressed: () => context.push('/expenses'),
+            icon: const Icon(Icons.payments_outlined),
+            label: Text(l.openExpenses),
+          ),
+        ]);
+      },
+    );
+  }
 }

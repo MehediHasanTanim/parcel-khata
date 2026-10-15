@@ -654,6 +654,11 @@ class OrderTile extends ConsumerWidget {
                 label: codLabel(l, cod), icon: Icons.payments_outlined, tone: codTone(cod)),
           if (!hideProfit && status != OrderStatus.draft)
             ProfitChip(profit: o.profit, stateDb: o.profitState),
+          if (o.exchangeOfOrderId != null)
+            StatusChip(
+                label: l.exchangeChip,
+                icon: Icons.swap_horiz,
+                tone: StatusTone.neutral),
           if (stuck != StuckLevel.none)
             StatusChip(
               label: l.withCourierDays(

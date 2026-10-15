@@ -3727,6 +3727,600 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sample mug'**
   String get sampleProduct3;
+
+  /// No description provided for @costAdAllocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad cost'**
+  String get costAdAllocation;
+
+  /// No description provided for @expensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expensesTitle;
+
+  /// No description provided for @expenseNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get expenseNew;
+
+  /// No description provided for @expenseEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit expense'**
+  String get expenseEdit;
+
+  /// No description provided for @catAds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads'**
+  String get catAds;
+
+  /// No description provided for @catPackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging'**
+  String get catPackaging;
+
+  /// No description provided for @catRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get catRent;
+
+  /// No description provided for @catSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get catSalary;
+
+  /// No description provided for @catMisc.
+  ///
+  /// In en, this message translates to:
+  /// **'Misc'**
+  String get catMisc;
+
+  /// No description provided for @expenseAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get expenseAmount;
+
+  /// No description provided for @expenseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get expenseDate;
+
+  /// No description provided for @expenseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get expenseNote;
+
+  /// No description provided for @expenseCampaign.
+  ///
+  /// In en, this message translates to:
+  /// **'Campaign'**
+  String get expenseCampaign;
+
+  /// No description provided for @expenseRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats every month'**
+  String get expenseRecurring;
+
+  /// No description provided for @expenseRecurringAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {n} recurring expenses for this month'**
+  String expenseRecurringAdded(int n);
+
+  /// No description provided for @expenseTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get expenseTotal;
+
+  /// No description provided for @campaignsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad campaigns'**
+  String get campaignsTitle;
+
+  /// No description provided for @campaignNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New campaign'**
+  String get campaignNew;
+
+  /// No description provided for @campaignEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit campaign'**
+  String get campaignEdit;
+
+  /// No description provided for @campaignName.
+  ///
+  /// In en, this message translates to:
+  /// **'Campaign name'**
+  String get campaignName;
+
+  /// No description provided for @campaignTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Order tag'**
+  String get campaignTag;
+
+  /// No description provided for @campaignTagHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders with this tag share the spend'**
+  String get campaignTagHelp;
+
+  /// No description provided for @campaignSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad spend'**
+  String get campaignSpend;
+
+  /// No description provided for @campaignStart.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get campaignStart;
+
+  /// No description provided for @campaignEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get campaignEnd;
+
+  /// No description provided for @allocByCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Equal share per order'**
+  String get allocByCount;
+
+  /// No description provided for @allocByRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'In proportion to sales'**
+  String get allocByRevenue;
+
+  /// No description provided for @allocPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get allocPreview;
+
+  /// No description provided for @allocApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to orders'**
+  String get allocApply;
+
+  /// No description provided for @allocClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from orders'**
+  String get allocClear;
+
+  /// No description provided for @allocApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied to {n} orders'**
+  String allocApplied(int n);
+
+  /// No description provided for @allocNeedsReapply.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed since applied: apply again'**
+  String get allocNeedsReapply;
+
+  /// No description provided for @allocNoOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders carry this tag in these dates'**
+  String get allocNoOrders;
+
+  /// No description provided for @taggedOrdersN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} orders'**
+  String taggedOrdersN(int n);
+
+  /// No description provided for @orderTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags (comma separated)'**
+  String get orderTags;
+
+  /// No description provided for @reportPnl.
+  ///
+  /// In en, this message translates to:
+  /// **'Business profit (P&L)'**
+  String get reportPnl;
+
+  /// No description provided for @pnlRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get pnlRevenue;
+
+  /// No description provided for @pnlCogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Product cost'**
+  String get pnlCogs;
+
+  /// No description provided for @pnlCourierFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier fees'**
+  String get pnlCourierFees;
+
+  /// No description provided for @pnlReturnLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns & write-offs'**
+  String get pnlReturnLoss;
+
+  /// No description provided for @pnlPackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging'**
+  String get pnlPackaging;
+
+  /// No description provided for @pnlAds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads (on orders)'**
+  String get pnlAds;
+
+  /// No description provided for @pnlOtherCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Other order costs'**
+  String get pnlOtherCosts;
+
+  /// No description provided for @pnlOrderProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Order profit'**
+  String get pnlOrderProfit;
+
+  /// No description provided for @pnlExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Business expenses'**
+  String get pnlExpenses;
+
+  /// No description provided for @pnlBusinessProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Business profit'**
+  String get pnlBusinessProfit;
+
+  /// No description provided for @settingApplyPackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Add default packaging cost to new orders'**
+  String get settingApplyPackaging;
+
+  /// No description provided for @openExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get openExpenses;
+
+  /// No description provided for @riskReliable.
+  ///
+  /// In en, this message translates to:
+  /// **'Reliable'**
+  String get riskReliable;
+
+  /// No description provided for @riskRefusedLastCod.
+  ///
+  /// In en, this message translates to:
+  /// **'Refused last COD'**
+  String get riskRefusedLastCod;
+
+  /// No description provided for @riskHighReturnRate.
+  ///
+  /// In en, this message translates to:
+  /// **'High return rate'**
+  String get riskHighReturnRate;
+
+  /// No description provided for @riskNewCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'New customer'**
+  String get riskNewCustomer;
+
+  /// No description provided for @riskBlocklisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocklisted'**
+  String get riskBlocklisted;
+
+  /// No description provided for @riskWhyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders behind this badge'**
+  String get riskWhyTitle;
+
+  /// No description provided for @riskNoOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders — set manually or no history yet.'**
+  String get riskNoOrders;
+
+  /// No description provided for @riskCaution.
+  ///
+  /// In en, this message translates to:
+  /// **'Caution note'**
+  String get riskCaution;
+
+  /// No description provided for @riskCautionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Private note about this customer'**
+  String get riskCautionHint;
+
+  /// No description provided for @riskBlocklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocklist'**
+  String get riskBlocklist;
+
+  /// No description provided for @riskUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from blocklist'**
+  String get riskUnblock;
+
+  /// No description provided for @riskBlockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get riskBlockReason;
+
+  /// No description provided for @riskBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Risky customer — consider taking an advance.'**
+  String get riskBannerTitle;
+
+  /// No description provided for @riskTakeAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Take advance'**
+  String get riskTakeAdvance;
+
+  /// No description provided for @riskSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer risk flags'**
+  String get riskSettings;
+
+  /// No description provided for @riskReturnRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'High return rate from (%)'**
+  String get riskReturnRateLabel;
+
+  /// No description provided for @riskMinOrdersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum finished orders'**
+  String get riskMinOrdersLabel;
+
+  /// No description provided for @riskRecencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Refusal counts for (days)'**
+  String get riskRecencyLabel;
+
+  /// No description provided for @riskPrivateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller-private. Based only on your own orders.'**
+  String get riskPrivateNote;
+
+  /// No description provided for @riskSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk flags'**
+  String get riskSection;
+
+  /// No description provided for @riskSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get riskSave;
+
+  /// No description provided for @exchangeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange'**
+  String get exchangeAction;
+
+  /// No description provided for @exchangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange order'**
+  String get exchangeTitle;
+
+  /// No description provided for @exchangeReturnedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Items coming back'**
+  String get exchangeReturnedItems;
+
+  /// No description provided for @exchangeReplacementItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Replacement items'**
+  String get exchangeReplacementItems;
+
+  /// No description provided for @exchangeAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get exchangeAddItem;
+
+  /// No description provided for @exchangeSameItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Same items, new size'**
+  String get exchangeSameItems;
+
+  /// No description provided for @exchangeWhoPays.
+  ///
+  /// In en, this message translates to:
+  /// **'Who pays the courier'**
+  String get exchangeWhoPays;
+
+  /// No description provided for @exchangePayerSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'I pay'**
+  String get exchangePayerSeller;
+
+  /// No description provided for @exchangePayerCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer pays'**
+  String get exchangePayerCustomer;
+
+  /// No description provided for @exchangeDeliveryCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Replacement delivery charge'**
+  String get exchangeDeliveryCharge;
+
+  /// No description provided for @exchangeReturnShipping.
+  ///
+  /// In en, this message translates to:
+  /// **'Return shipping fee'**
+  String get exchangeReturnShipping;
+
+  /// No description provided for @exchangeValueReturned.
+  ///
+  /// In en, this message translates to:
+  /// **'Value coming back'**
+  String get exchangeValueReturned;
+
+  /// No description provided for @exchangeValueReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Replacement value'**
+  String get exchangeValueReplacement;
+
+  /// No description provided for @exchangeCollect.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect on delivery'**
+  String get exchangeCollect;
+
+  /// No description provided for @exchangeRefundDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund due to customer'**
+  String get exchangeRefundDue;
+
+  /// No description provided for @exchangeShippingLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping you absorb'**
+  String get exchangeShippingLoss;
+
+  /// No description provided for @exchangeCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create exchange'**
+  String get exchangeCreate;
+
+  /// No description provided for @exchangeChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange'**
+  String get exchangeChip;
+
+  /// No description provided for @exchangeLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked exchange'**
+  String get exchangeLinked;
+
+  /// No description provided for @exchangeOriginalOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Original order'**
+  String get exchangeOriginalOrder;
+
+  /// No description provided for @exchangeReplacementOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Replacement order'**
+  String get exchangeReplacementOrder;
+
+  /// No description provided for @exchangeGroupProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit of both orders'**
+  String get exchangeGroupProfit;
+
+  /// No description provided for @exchangeNeedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick items to return and add a replacement.'**
+  String get exchangeNeedItems;
+
+  /// No description provided for @exchangeItemName.
+  ///
+  /// In en, this message translates to:
+  /// **'Item name'**
+  String get exchangeItemName;
+
+  /// No description provided for @exchangeQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Qty'**
+  String get exchangeQty;
+
+  /// No description provided for @exchangeSell.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get exchangeSell;
+
+  /// No description provided for @exchangeCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost'**
+  String get exchangeCost;
+
+  /// No description provided for @exchangeCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange created'**
+  String get exchangeCreated;
+
+  /// No description provided for @exchangeNotDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Only delivered orders can be exchanged.'**
+  String get exchangeNotDelivered;
+
+  /// No description provided for @exchangeExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This order already has a return or exchange.'**
+  String get exchangeExists;
 }
 
 class _AppLocalizationsDelegate

@@ -40,6 +40,7 @@ enum CostKind {
   other,
   writeOff,
   goodsLoss,
+  adAllocation,
 }
 
 @immutable
@@ -221,6 +222,7 @@ abstract final class ProfitCalculator {
         'return_fee' => CostKind.returnFee,
         'packaging' => CostKind.packaging,
         'write_off' => CostKind.writeOff,
+        'ad_allocation' => CostKind.adAllocation,
         _ => CostKind.other,
       };
       costs.add(CostLine(kind, c.effective, isExpected: c.actual == null));

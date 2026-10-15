@@ -79,6 +79,7 @@ String chargeLabel(AppLocalizations l, String type) => switch (type) {
       'return_fee' => l.chargeReturnFee,
       'packaging' => l.chargePackaging,
       'write_off' => l.writtenOffAmount,
+      'ad_allocation' => l.costAdAllocation,
       _ => l.chargeOther,
     };
 

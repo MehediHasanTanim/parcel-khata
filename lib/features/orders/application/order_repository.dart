@@ -200,15 +200,19 @@ class OrderRepository {
             weightG: Value(input.weightG),
             notes: Value(_blank(input.notes)),
             tagsJson: Value(jsonEncode(input.tags)),
+            exchangeOfOrderId: Value(input.exchangeOfOrderId),
           ));
       await _insertLines(id, input.lines, now);
+      await _syncTags(id, input.tags, now);
       await _writeExpectedCharges(
         orderId: id,
         feeRules: feeRules,
         zone: input.zone,
         weightG: input.weightG,
         cod: b.effective,
-        packaging: Money.taka(settings.defaultPackagingCostTaka),
+        packaging: settings.applyPackagingToNewOrders
+            ? Money.taka(settings.defaultPackagingCostTaka)
+            : null,
         now: now,
       );
       await _insertEvent(id, null, status, now);
@@ -335,6 +339,7 @@ class OrderRepository {
         ),
       );
       await _replaceLines(id, input.lines, now);
+      await _syncTags(id, input.tags, now);
       // Re-derive rate-card charges; manual charges are untouched.
       await (_db.delete(_db.orderCharges)
             ..where((c) =>
@@ -355,7 +360,9 @@ class OrderRepository {
         final hasPackaging = await (_db.select(_db.orderCharges)
               ..where((c) => c.orderId.equals(id) & c.type.equals('packaging')))
             .get();
-        if (hasPackaging.isEmpty && settings.defaultPackagingCostTaka > 0) {
+        if (hasPackaging.isEmpty &&
+            settings.applyPackagingToNewOrders &&
+            settings.defaultPackagingCostTaka > 0) {
           await _insertCharge(id, 'packaging',
               Money.taka(settings.defaultPackagingCostTaka), 'settings', now);
         }
@@ -969,6 +976,26 @@ class OrderRepository {
             lineDiscount: Value(l.discountAmount.poisha),
             productId: Value(l.productId),
             variantId: Value(l.variantId),
+          ));
+    }
+  }
+
+  /// Mirrors `tags_json` into the link table (lower-case, de-duplicated) so
+  /// campaigns can find tagged orders with an index.
+  Future<void> _syncTags(String orderId, List<String> tags, DateTime now) async {
+    final clean = {
+      for (final t in tags)
+        if (t.trim().isNotEmpty) t.trim().toLowerCase(),
+    };
+    await (_db.delete(_db.orderTagLinks)..where((l) => l.orderId.equals(orderId))).go();
+    for (final t in clean) {
+      await _db.into(_db.orderTagLinks).insert(OrderTagLinksCompanion.insert(
+            id: _ids.generate(),
+            shopId: _shopId,
+            createdAt: now,
+            updatedAt: now,
+            orderId: orderId,
+            tag: t,
           ));
     }
   }

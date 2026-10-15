@@ -147,6 +147,31 @@ class CustomerRepository {
         CustomersCompanion(isArchived: const Value(false), updatedAt: Value(_clock.now())));
   }
 
+  /// Manual caution note (empty clears it). Seller-private; never shared.
+  Future<void> setRiskNote(String id, String? note) async {
+    await _db.transaction(() async {
+      await (_db.update(_db.customers)..where((c) => c.id.equals(id))).write(
+          CustomersCompanion(
+              riskNote: Value(_blankToNull(note)), updatedAt: Value(_clock.now())));
+      await _audit.write(entity: 'customer', entityId: id, action: 'risk_note');
+    });
+  }
+
+  /// Blocklist toggle with a reason; unblocking clears the reason.
+  Future<void> setBlocklisted(String id, {required bool blocked, String? reason}) async {
+    await _db.transaction(() async {
+      await (_db.update(_db.customers)..where((c) => c.id.equals(id))).write(
+          CustomersCompanion(
+              isBlocklisted: Value(blocked),
+              blocklistReason: Value(blocked ? _blankToNull(reason) : null),
+              updatedAt: Value(_clock.now())));
+      await _audit.write(
+          entity: 'customer',
+          entityId: id,
+          action: blocked ? 'blocklist' : 'unblocklist');
+    });
+  }
+
   /// Search by name fragment or 4+ phone digits; empty query lists all.
   Stream<List<Customer>> watchSearch(String query, {bool includeArchived = false}) {
     final q = query.trim();
@@ -212,6 +237,28 @@ class CustomerRepository {
             .write(CustomersCompanion(
                 phoneAlt: Value(dup.phonePrimary), updatedAt: Value(now)));
       }
+      // Order history moves with the person so risk badges stay accurate.
+      final movedOrders = await (_db.update(_db.orders)
+            ..where((o) => o.customerId.equals(duplicateId)))
+          .write(OrdersCompanion(customerId: Value(survivorId), updatedAt: Value(now)));
+      // Flags are unioned: a blocklist or caution is never lost by merging.
+      final note = [survivor.riskNote, dup.riskNote]
+          .whereType<String>()
+          .where((n) => n.trim().isNotEmpty)
+          .toSet()
+          .join('\n');
+      final reason = [survivor.blocklistReason, dup.blocklistReason]
+          .whereType<String>()
+          .where((n) => n.trim().isNotEmpty)
+          .toSet()
+          .join('\n');
+      await (_db.update(_db.customers)..where((c) => c.id.equals(survivorId))).write(
+          CustomersCompanion(
+        riskNote: Value(_blankToNull(note)),
+        isBlocklisted: Value(survivor.isBlocklisted || dup.isBlocklisted),
+        blocklistReason: Value(_blankToNull(reason)),
+        updatedAt: Value(now),
+      ));
       // Free the unique phone slot, then archive + soft-delete the duplicate.
       await (_db.update(_db.customers)..where((c) => c.id.equals(duplicateId))).write(
           CustomersCompanion(
@@ -222,7 +269,11 @@ class CustomerRepository {
         entity: 'customer',
         entityId: survivorId,
         action: 'merge',
-        payload: {'mergedFrom': duplicateId, 'addressesMoved': movedAddrs},
+        payload: {
+          'mergedFrom': duplicateId,
+          'addressesMoved': movedAddrs,
+          'ordersMoved': movedOrders,
+        },
       );
     });
     return const Result.ok(null);

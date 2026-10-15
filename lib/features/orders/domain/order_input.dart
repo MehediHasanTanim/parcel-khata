@@ -25,6 +25,7 @@ class OrderInput {
     this.weightG,
     this.notes,
     this.tags = const [],
+    this.exchangeOfOrderId,
   });
 
   final String? customerId;
@@ -47,6 +48,9 @@ class OrderInput {
   final int? weightG;
   final String? notes;
   final List<String> tags;
+
+  /// Set when this order replaces goods of an earlier order (exchange).
+  final String? exchangeOfOrderId;
 
   CodBreakdown get breakdown => CodAmountCalculator.compute(
         lines: lines,

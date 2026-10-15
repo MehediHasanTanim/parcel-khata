@@ -1891,4 +1891,310 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get sampleProduct3 => 'নমুনা মগ';
+
+  @override
+  String get costAdAllocation => 'বিজ্ঞাপন খরচ';
+
+  @override
+  String get expensesTitle => 'খরচ';
+
+  @override
+  String get expenseNew => 'খরচ যোগ করুন';
+
+  @override
+  String get expenseEdit => 'খরচ সম্পাদনা';
+
+  @override
+  String get catAds => 'বিজ্ঞাপন';
+
+  @override
+  String get catPackaging => 'প্যাকেজিং';
+
+  @override
+  String get catRent => 'ভাড়া';
+
+  @override
+  String get catSalary => 'বেতন';
+
+  @override
+  String get catMisc => 'বিবিধ';
+
+  @override
+  String get expenseAmount => 'পরিমাণ';
+
+  @override
+  String get expenseDate => 'তারিখ';
+
+  @override
+  String get expenseNote => 'নোট';
+
+  @override
+  String get expenseCampaign => 'ক্যাম্পেইন';
+
+  @override
+  String get expenseRecurring => 'প্রতি মাসে পুনরাবৃত্তি';
+
+  @override
+  String expenseRecurringAdded(int n) {
+    return 'এই মাসের জন্য $nটি নিয়মিত খরচ যোগ হয়েছে';
+  }
+
+  @override
+  String get expenseTotal => 'মোট';
+
+  @override
+  String get campaignsTitle => 'বিজ্ঞাপন ক্যাম্পেইন';
+
+  @override
+  String get campaignNew => 'নতুন ক্যাম্পেইন';
+
+  @override
+  String get campaignEdit => 'ক্যাম্পেইন সম্পাদনা';
+
+  @override
+  String get campaignName => 'ক্যাম্পেইনের নাম';
+
+  @override
+  String get campaignTag => 'অর্ডার ট্যাগ';
+
+  @override
+  String get campaignTagHelp => 'এই ট্যাগের অর্ডারগুলো খরচ ভাগ করে নেবে';
+
+  @override
+  String get campaignSpend => 'বিজ্ঞাপনে খরচ';
+
+  @override
+  String get campaignStart => 'থেকে';
+
+  @override
+  String get campaignEnd => 'পর্যন্ত';
+
+  @override
+  String get allocByCount => 'প্রতি অর্ডারে সমান ভাগ';
+
+  @override
+  String get allocByRevenue => 'বিক্রয় অনুপাতে';
+
+  @override
+  String get allocPreview => 'প্রিভিউ';
+
+  @override
+  String get allocApply => 'অর্ডারে প্রয়োগ করুন';
+
+  @override
+  String get allocClear => 'অর্ডার থেকে সরান';
+
+  @override
+  String allocApplied(int n) {
+    return '$nটি অর্ডারে প্রয়োগ হয়েছে';
+  }
+
+  @override
+  String get allocNeedsReapply => 'প্রয়োগের পর বদলেছে: আবার প্রয়োগ করুন';
+
+  @override
+  String get allocNoOrders => 'এই তারিখে এই ট্যাগের কোনো অর্ডার নেই';
+
+  @override
+  String taggedOrdersN(int n) {
+    return '$nটি অর্ডার';
+  }
+
+  @override
+  String get orderTags => 'ট্যাগ (কমা দিয়ে আলাদা)';
+
+  @override
+  String get reportPnl => 'ব্যবসার মুনাফা (P&L)';
+
+  @override
+  String get pnlRevenue => 'বিক্রয়';
+
+  @override
+  String get pnlCogs => 'পণ্যের খরচ';
+
+  @override
+  String get pnlCourierFees => 'কুরিয়ার ফি';
+
+  @override
+  String get pnlReturnLoss => 'রিটার্ন ও অবলুপ্তি';
+
+  @override
+  String get pnlPackaging => 'প্যাকেজিং';
+
+  @override
+  String get pnlAds => 'বিজ্ঞাপন (অর্ডারে)';
+
+  @override
+  String get pnlOtherCosts => 'অন্যান্য অর্ডার খরচ';
+
+  @override
+  String get pnlOrderProfit => 'অর্ডার মুনাফা';
+
+  @override
+  String get pnlExpenses => 'ব্যবসার খরচ';
+
+  @override
+  String get pnlBusinessProfit => 'ব্যবসার মুনাফা';
+
+  @override
+  String get settingApplyPackaging =>
+      'নতুন অর্ডারে ডিফল্ট প্যাকেজিং খরচ যোগ করুন';
+
+  @override
+  String get openExpenses => 'খরচ';
+
+  @override
+  String get riskReliable => 'নির্ভরযোগ্য';
+
+  @override
+  String get riskRefusedLastCod => 'শেষ COD ফেরত দিয়েছে';
+
+  @override
+  String get riskHighReturnRate => 'ফেরতের হার বেশি';
+
+  @override
+  String get riskNewCustomer => 'নতুন ক্রেতা';
+
+  @override
+  String get riskBlocklisted => 'ব্লকলিস্টে';
+
+  @override
+  String get riskWhyTitle => 'এই ব্যাজের পেছনের অর্ডার';
+
+  @override
+  String get riskNoOrders => 'কোনো অর্ডার নেই — হাতে দেওয়া বা ইতিহাস নেই।';
+
+  @override
+  String get riskCaution => 'সতর্কতা নোট';
+
+  @override
+  String get riskCautionHint => 'এই ক্রেতা সম্পর্কে ব্যক্তিগত নোট';
+
+  @override
+  String get riskBlocklist => 'ব্লকলিস্ট করুন';
+
+  @override
+  String get riskUnblock => 'ব্লকলিস্ট থেকে সরান';
+
+  @override
+  String get riskBlockReason => 'কারণ';
+
+  @override
+  String get riskBannerTitle => 'ঝুঁকিপূর্ণ ক্রেতা — অগ্রিম নেওয়ার কথা ভাবুন।';
+
+  @override
+  String get riskTakeAdvance => 'অগ্রিম নিন';
+
+  @override
+  String get riskSettings => 'ক্রেতার ঝুঁকি ফ্ল্যাগ';
+
+  @override
+  String get riskReturnRateLabel => 'ফেরতের হার বেশি ধরা হবে (%) থেকে';
+
+  @override
+  String get riskMinOrdersLabel => 'ন্যূনতম সম্পন্ন অর্ডার';
+
+  @override
+  String get riskRecencyLabel => 'ফেরত কত দিন গণ্য (দিন)';
+
+  @override
+  String get riskPrivateNote =>
+      'শুধু আপনার জন্য। কেবল আপনার নিজের অর্ডারের ভিত্তিতে।';
+
+  @override
+  String get riskSection => 'ঝুঁকি ফ্ল্যাগ';
+
+  @override
+  String get riskSave => 'সংরক্ষণ';
+
+  @override
+  String get exchangeAction => 'এক্সচেঞ্জ';
+
+  @override
+  String get exchangeTitle => 'অর্ডার এক্সচেঞ্জ';
+
+  @override
+  String get exchangeReturnedItems => 'ফেরত আসা আইটেম';
+
+  @override
+  String get exchangeReplacementItems => 'বদলি আইটেম';
+
+  @override
+  String get exchangeAddItem => 'আইটেম যোগ করুন';
+
+  @override
+  String get exchangeSameItems => 'একই আইটেম, নতুন সাইজ';
+
+  @override
+  String get exchangeWhoPays => 'কুরিয়ার খরচ কে দেবে';
+
+  @override
+  String get exchangePayerSeller => 'আমি দেব';
+
+  @override
+  String get exchangePayerCustomer => 'ক্রেতা দেবে';
+
+  @override
+  String get exchangeDeliveryCharge => 'বদলির ডেলিভারি চার্জ';
+
+  @override
+  String get exchangeReturnShipping => 'ফেরতের কুরিয়ার ফি';
+
+  @override
+  String get exchangeValueReturned => 'ফেরত আসার মূল্য';
+
+  @override
+  String get exchangeValueReplacement => 'বদলির মূল্য';
+
+  @override
+  String get exchangeCollect => 'ডেলিভারিতে আদায়';
+
+  @override
+  String get exchangeRefundDue => 'ক্রেতাকে ফেরত দিতে হবে';
+
+  @override
+  String get exchangeShippingLoss => 'আপনার বহন করা শিপিং খরচ';
+
+  @override
+  String get exchangeCreate => 'এক্সচেঞ্জ তৈরি করুন';
+
+  @override
+  String get exchangeChip => 'এক্সচেঞ্জ';
+
+  @override
+  String get exchangeLinked => 'সংযুক্ত এক্সচেঞ্জ';
+
+  @override
+  String get exchangeOriginalOrder => 'মূল অর্ডার';
+
+  @override
+  String get exchangeReplacementOrder => 'বদলি অর্ডার';
+
+  @override
+  String get exchangeGroupProfit => 'দুই অর্ডারের মোট মুনাফা';
+
+  @override
+  String get exchangeNeedItems => 'ফেরতের আইটেম বাছুন এবং বদলি যোগ করুন।';
+
+  @override
+  String get exchangeItemName => 'আইটেমের নাম';
+
+  @override
+  String get exchangeQty => 'পরিমাণ';
+
+  @override
+  String get exchangeSell => 'দাম';
+
+  @override
+  String get exchangeCost => 'খরচ';
+
+  @override
+  String get exchangeCreated => 'এক্সচেঞ্জ তৈরি হয়েছে';
+
+  @override
+  String get exchangeNotDelivered =>
+      'শুধু ডেলিভারি হওয়া অর্ডার এক্সচেঞ্জ করা যায়।';
+
+  @override
+  String get exchangeExists => 'এই অর্ডারে ইতিমধ্যে রিটার্ন বা এক্সচেঞ্জ আছে।';
 }

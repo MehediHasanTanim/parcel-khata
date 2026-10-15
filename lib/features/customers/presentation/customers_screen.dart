@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
+import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 
@@ -52,7 +53,13 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
                       return ListTile(
                         leading: const CircleAvatar(child: Icon(Icons.person)),
                         title: Text(c.name),
-                        subtitle: Text(c.phonePrimary),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(c.phonePrimary),
+                            RiskBadgesInline(customerId: c.id),
+                          ],
+                        ),
                         trailing: c.isArchived ? Text(l.archivedBadge) : null,
                         onTap: () => context.push('/customers/${c.id}'),
                       );

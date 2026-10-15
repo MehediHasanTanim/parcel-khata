@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/returns/presentation/exchange_screen.dart';
 import 'package:parcel_khata/app/debug_menu.dart';
 import 'package:parcel_khata/app/shell_scaffold.dart';
 import 'package:parcel_khata/features/cod/presentation/ageing_screen.dart';
@@ -22,6 +23,8 @@ import 'package:parcel_khata/features/orders/presentation/orders_screen.dart';
 import 'package:parcel_khata/features/products/presentation/product_form_screen.dart';
 import 'package:parcel_khata/features/products/presentation/products_screen.dart';
 import 'package:parcel_khata/features/profit/presentation/missing_costs_screen.dart';
+import 'package:parcel_khata/features/expenses/presentation/campaigns_screen.dart';
+import 'package:parcel_khata/features/expenses/presentation/expenses_screen.dart';
 import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
 import 'package:parcel_khata/features/reports/presentation/reports_screens.dart';
@@ -67,6 +70,13 @@ final appRouter = GoRouter(
         ),
       ),
     ),
+    GoRoute(path: '/expenses', builder: (_, __) => const ExpensesScreen()),
+    GoRoute(path: '/campaigns', builder: (_, __) => const CampaignsScreen()),
+    GoRoute(path: '/campaigns/new', builder: (_, __) => const CampaignScreen()),
+    GoRoute(
+      path: '/campaigns/:id',
+      builder: (_, st) => CampaignScreen(campaignId: st.pathParameters['id']),
+    ),
     GoRoute(path: '/returns', builder: (_, __) => const ReturnsScreen()),
     GoRoute(path: '/orders/cn-entry', builder: (_, __) => const CnEntryScreen()),
     GoRoute(path: '/orders/drafts', builder: (_, __) => const DraftsScreen()),
@@ -74,6 +84,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/orders/:id',
       builder: (_, st) => OrderDetailScreen(orderId: st.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/orders/:id/exchange',
+      builder: (_, st) => ExchangeScreen(orderId: st.pathParameters['id']!),
     ),
     GoRoute(
       path: '/orders/:id/edit',

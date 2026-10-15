@@ -97,6 +97,7 @@ class ReturnService {
     List<ReturnQty> lines = const [],
     DateTime? initiatedAt,
     String? notes,
+    String? exchangeOrderId,
   }) async {
     final o = await (_db.select(_db.orders)..where((x) => x.id.equals(orderId)))
         .getSingleOrNull();
@@ -126,7 +127,7 @@ class ReturnService {
       final l = orderLines.where((x) => x.id == q.orderLineId).firstOrNull;
       if (l == null || q.qty > l.qty) return const Result.err(ReturnFailure('bad_qty'));
     }
-    if (!full) {
+    if (!full && exchangeOrderId == null) {
       // Returning everything is a full return, which has its own flow.
       final allReturned = orderLines.every((l) =>
           picked.where((q) => q.orderLineId == l.id).fold(0, (s, q) => s + q.qty) >= l.qty);
@@ -144,6 +145,7 @@ class ReturnService {
             reason: reason,
             initiatedAt: at,
             notes: Value(notes?.trim().isEmpty ?? true ? null : notes!.trim()),
+            exchangeOrderId: Value(exchangeOrderId),
           ));
       for (final q in picked) {
         await _db.into(_db.returnLines).insert(ReturnLinesCompanion.insert(
@@ -294,7 +296,9 @@ class ReturnService {
           rowVersion: Value(record.rowVersion + 1),
         ),
       );
-      if (!full && o.codCollected != null) {
+      // An exchange return happens after the courier already remitted: the
+      // original collection stands and the credit rides on the replacement.
+      if (!full && o.codCollected != null && record.exchangeOrderId == null) {
         // Partial return: customer paid less, so the courier collected less.
         final profitLines = [
           for (final ol in orderLines)

@@ -22,6 +22,7 @@ import 'package:parcel_khata/features/orders/application/order_status_service.da
 import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
+import 'package:parcel_khata/features/returns/presentation/exchange_screen.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
@@ -210,6 +211,8 @@ class OrderDetailScreen extends ConsumerWidget {
               OrderStatus.returned,
             }.contains(status))
               _ReturnCard(order: o),
+            if (o.exchangeOfOrderId != null || status == OrderStatus.delivered)
+              ExchangeLinkCard(orderId: o.id),
             if (d.charges.isNotEmpty)
               _section(context, l.charges, [
                 for (final c in d.charges)
@@ -488,6 +491,12 @@ class _ReturnCard extends ConsumerWidget {
                     onPressed: () =>
                         showInitiateReturnSheet(context, ref, order: order, full: false),
                     child: Text(l.partialReturn),
+                  ),
+                if (canPartial)
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.swap_horiz),
+                    onPressed: () => context.push('/orders/${order.id}/exchange'),
+                    label: Text(l.exchangeAction),
                   ),
                 if (canReceive)
                   FilledButton(

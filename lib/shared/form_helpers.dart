@@ -8,17 +8,20 @@ class MoneyFormField extends StatelessWidget {
     required this.controller,
     required this.label,
     this.required = false,
+    this.focusNode,
     super.key,
   });
 
   final TextEditingController controller;
   final String label;
   final bool required;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      focusNode: focusNode,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(labelText: label, prefixText: '৳ '),
       validator: (v) {

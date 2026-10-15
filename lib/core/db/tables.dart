@@ -30,6 +30,10 @@ class Customers extends Table with BaseColumns {
   TextColumn get notes => text().nullable()();
   TextColumn get tagsJson => text().withDefault(const Constant('[]'))();
   BoolColumn get isArchived => boolean().withDefault(const Constant(false))();
+  // Seller-private manual flags (F12); badges themselves are derived.
+  TextColumn get riskNote => text().nullable()();
+  BoolColumn get isBlocklisted => boolean().withDefault(const Constant(false))();
+  TextColumn get blocklistReason => text().nullable()();
 }
 
 @DataClassName('CustomerAddress')
@@ -139,6 +143,8 @@ class Orders extends Table with BaseColumns {
   // Explicit dispute flag (never inferred); set by payout shortfall handling.
   BoolColumn get isDisputed => boolean().withDefault(const Constant(false))();
   TextColumn get disputeNote => text().nullable()();
+  // Set on a replacement order: the delivered order it exchanges (S11).
+  TextColumn get exchangeOfOrderId => text().nullable()();
 }
 
 class OrderLines extends Table with BaseColumns {
@@ -227,6 +233,8 @@ class ReturnRecords extends Table with BaseColumns {
   TextColumn get condition => text().nullable()();
   IntColumn get lossAmount => integer().withDefault(const Constant(0))();
   TextColumn get notes => text().nullable()();
+  // Replacement order when this return is part of an exchange (S11).
+  TextColumn get exchangeOrderId => text().nullable()();
 }
 
 class ReturnLines extends Table with BaseColumns {
@@ -262,4 +270,35 @@ class MessageTemplateRows extends Table with BaseColumns {
   TextColumn get kind => text()();
   TextColumn get lang => text()();
   TextColumn get body => text()();
+}
+
+class Campaigns extends Table with BaseColumns {
+  TextColumn get name => text()();
+  // Orders carrying this tag (lower-case) absorb the spend.
+  TextColumn get tag => text()();
+  DateTimeColumn get startDate => dateTime()();
+  // Inclusive end day (stored at the start of that day).
+  DateTimeColumn get endDate => dateTime()();
+  IntColumn get spend => integer().withDefault(const Constant(0))();
+  // by_count | by_revenue
+  TextColumn get allocationMode => text().withDefault(const Constant('by_count'))();
+  // Set while the spend is spread onto orders; null when not applied.
+  DateTimeColumn get allocatedAt => dateTime().nullable()();
+}
+
+class Expenses extends Table with BaseColumns {
+  DateTimeColumn get date => dateTime()();
+  // ads | packaging | rent | salary | misc
+  TextColumn get category => text()();
+  IntColumn get amount => integer()();
+  TextColumn get note => text().nullable()();
+  TextColumn get campaignId => text().nullable().references(Campaigns, #id)();
+  BoolColumn get recurringMonthly => boolean().withDefault(const Constant(false))();
+  // The template expense this row was generated from.
+  TextColumn get recurringSourceId => text().nullable()();
+}
+
+class OrderTagLinks extends Table with BaseColumns {
+  TextColumn get orderId => text().references(Orders, #id)();
+  TextColumn get tag => text()();
 }

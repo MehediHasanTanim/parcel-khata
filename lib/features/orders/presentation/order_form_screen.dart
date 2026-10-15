@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
+import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
@@ -88,6 +90,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
   bool _discountPercent = false;
   final _delivery = TextEditingController();
   final _advance = TextEditingController();
+  final _advanceFocus = FocusNode();
   final _advanceMethod = TextEditingController();
   final _codOverride = TextEditingController();
   bool _overrideOn = false;
@@ -99,6 +102,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
   Channel _channel = Channel.facebook;
   final _sourceRef = TextEditingController();
   final _notes = TextEditingController();
+  final _tags = TextEditingController();
   DateTime? _orderDate;
 
   bool _loaded = false;
@@ -110,7 +114,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
   String? _conflictOrderId;
 
   List<TextEditingController> get _all =>
-      [_address, _orderDiscount, _delivery, _advance, _advanceMethod, _codOverride, _weight, _cn, _sourceRef, _notes];
+      [_address, _orderDiscount, _delivery, _advance, _advanceMethod, _codOverride, _weight, _cn, _sourceRef, _notes, _tags];
 
   @override
   void initState() {
@@ -156,6 +160,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
       _weight.text = o.weightG?.toString() ?? '';
       _cn.text = o.consignmentNo ?? '';
       _notes.text = o.notes ?? '';
+      _tags.text = (jsonDecode(o.tagsJson) as List<dynamic>).join(', ');
       _orderDate = o.orderDate;
       _overrideOn = o.codOverridden;
       if (o.codOverridden) _codOverride.text = _plain(o.codExpected);
@@ -188,6 +193,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
 
   @override
   void dispose() {
+    _advanceFocus.dispose();
     for (final c in _all) {
       c.dispose();
     }
@@ -222,6 +228,10 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
       zone: _courierId == null ? null : _zone,
       weightG: int.tryParse(_weight.text.trim()),
       notes: _notes.text,
+      tags: [
+        for (final t in _tags.text.split(','))
+          if (t.trim().isNotEmpty) t.trim(),
+      ],
     );
   }
 
@@ -335,6 +345,17 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
       if (_address.text.trim().isEmpty && addrs.isNotEmpty) {
         _address.text = addrs.first.fullText;
       }
+    });
+  }
+
+  /// One tap from the risk banner: Advance + COD and jump to the amount.
+  void _takeAdvance() {
+    setState(() {
+      _payment = PaymentType.partialAdvance;
+      _dirty = true;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _advanceFocus.requestFocus();
     });
   }
 
@@ -513,6 +534,11 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                     onTap: _pickCustomer,
                   ),
                 ),
+                if (_customer != null)
+                  RiskBanner(
+                    customerId: _customer!.id,
+                    onTakeAdvance: _takeAdvance,
+                  ),
                 gap(8),
                 TextField(
                   controller: _address,
@@ -565,7 +591,11 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 ),
                 if (_payment == PaymentType.partialAdvance) ...[
                   gap(),
-                  MoneyFormField(controller: _advance, label: l.advanceReceived),
+                  MoneyFormField(
+                    controller: _advance,
+                    focusNode: _advanceFocus,
+                    label: l.advanceReceived,
+                  ),
                   gap(8),
                   TextField(
                     controller: _advanceMethod,
@@ -672,6 +702,11 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 TextField(
                   controller: _sourceRef,
                   decoration: InputDecoration(labelText: l.sourceRef),
+                ),
+                gap(),
+                TextField(
+                  controller: _tags,
+                  decoration: InputDecoration(labelText: l.orderTags),
                 ),
                 gap(),
                 TextField(

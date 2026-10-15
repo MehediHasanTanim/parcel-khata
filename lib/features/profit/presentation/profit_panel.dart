@@ -35,6 +35,7 @@ String _costLabel(AppLocalizations l, CostKind k) => switch (k) {
       CostKind.returnFee => l.chargeReturnFee,
       CostKind.packaging => l.chargePackaging,
       CostKind.writeOff => l.writtenOffAmount,
+      CostKind.adAllocation => l.costAdAllocation,
       CostKind.other => l.chargeOther,
     };
 

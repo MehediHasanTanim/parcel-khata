@@ -31,6 +31,10 @@ class ShopSettings {
     this.onboardingDone = false,
     this.hideAmountsOnDashboard = false,
     this.telemetryConsent,
+    this.applyPackagingToNewOrders = true,
+    this.riskReturnRatePercent = 40,
+    this.riskMinOrders = 3,
+    this.riskRefusalRecencyDays = 90,
   });
 
   static const defaultDigestKinds = [
@@ -88,6 +92,14 @@ class ShopSettings {
   /// Opt-in analytics/crash reports; null = never asked, treated as "no".
   final bool? telemetryConsent;
 
+  /// Add the default packaging cost to every new order (Settings > Defaults).
+  final bool applyPackagingToNewOrders;
+
+  /// Customer risk badge thresholds (F12).
+  final int riskReturnRatePercent;
+  final int riskMinOrders;
+  final int riskRefusalRecencyDays;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -117,6 +129,10 @@ class ShopSettings {
     bool? onboardingDone,
     bool? hideAmountsOnDashboard,
     bool? telemetryConsent,
+    bool? applyPackagingToNewOrders,
+    int? riskReturnRatePercent,
+    int? riskMinOrders,
+    int? riskRefusalRecencyDays,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -149,6 +165,11 @@ class ShopSettings {
         onboardingDone: onboardingDone ?? this.onboardingDone,
         hideAmountsOnDashboard: hideAmountsOnDashboard ?? this.hideAmountsOnDashboard,
         telemetryConsent: telemetryConsent ?? this.telemetryConsent,
+        applyPackagingToNewOrders:
+            applyPackagingToNewOrders ?? this.applyPackagingToNewOrders,
+        riskReturnRatePercent: riskReturnRatePercent ?? this.riskReturnRatePercent,
+        riskMinOrders: riskMinOrders ?? this.riskMinOrders,
+        riskRefusalRecencyDays: riskRefusalRecencyDays ?? this.riskRefusalRecencyDays,
       );
 
   Map<String, Object?> toJson() => {
@@ -180,6 +201,10 @@ class ShopSettings {
         'onboardingDone': onboardingDone,
         'hideAmountsOnDashboard': hideAmountsOnDashboard,
         'telemetryConsent': telemetryConsent,
+        'applyPackagingToNewOrders': applyPackagingToNewOrders,
+        'riskReturnRatePercent': riskReturnRatePercent,
+        'riskMinOrders': riskMinOrders,
+        'riskRefusalRecencyDays': riskRefusalRecencyDays,
       };
 
   String encode() => jsonEncode(toJson());
@@ -225,6 +250,13 @@ class ShopSettings {
         hideAmountsOnDashboard:
             j['hideAmountsOnDashboard'] as bool? ?? d.hideAmountsOnDashboard,
         telemetryConsent: j['telemetryConsent'] as bool?,
+        applyPackagingToNewOrders:
+            j['applyPackagingToNewOrders'] as bool? ?? d.applyPackagingToNewOrders,
+        riskReturnRatePercent:
+            j['riskReturnRatePercent'] as int? ?? d.riskReturnRatePercent,
+        riskMinOrders: j['riskMinOrders'] as int? ?? d.riskMinOrders,
+        riskRefusalRecencyDays:
+            j['riskRefusalRecencyDays'] as int? ?? d.riskRefusalRecencyDays,
       );
     } on FormatException {
       return const ShopSettings();

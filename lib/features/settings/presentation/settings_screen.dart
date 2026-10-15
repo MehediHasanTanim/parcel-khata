@@ -149,6 +149,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
               ),
             ]),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.settingApplyPackaging),
+              value: s.applyPackagingToNewOrders,
+              onChanged: (v) => _apply((x) => x.copyWith(applyPackagingToNewOrders: v)),
+            ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String?>(
               initialValue: couriers.any((c) => c.id == s.defaultCourierId)
@@ -200,6 +206,45 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     DropdownMenuItem(value: d, child: Text('$d')),
                 ],
                 onChanged: (v) => _apply((x) => x.copyWith(returnInTransitDays: v)),
+              ),
+            ),
+            const Divider(height: 32),
+            Text(l.riskSettings, style: Theme.of(context).textTheme.titleMedium),
+            Text(l.riskPrivateNote, style: Theme.of(context).textTheme.bodySmall),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.riskReturnRateLabel),
+              trailing: DropdownButton<int>(
+                value: const [20, 30, 40, 50, 60].contains(s.riskReturnRatePercent) ? s.riskReturnRatePercent : const [20, 30, 40, 50, 60].first,
+                items: [
+                  for (final d in const [20, 30, 40, 50, 60])
+                    DropdownMenuItem(value: d, child: Text('$d')),
+                ],
+                onChanged: (v) => _apply((x) => x.copyWith(riskReturnRatePercent: v)),
+              ),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.riskMinOrdersLabel),
+              trailing: DropdownButton<int>(
+                value: const [2, 3, 4, 5].contains(s.riskMinOrders) ? s.riskMinOrders : const [2, 3, 4, 5].first,
+                items: [
+                  for (final d in const [2, 3, 4, 5])
+                    DropdownMenuItem(value: d, child: Text('$d')),
+                ],
+                onChanged: (v) => _apply((x) => x.copyWith(riskMinOrders: v)),
+              ),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.riskRecencyLabel),
+              trailing: DropdownButton<int>(
+                value: const [30, 60, 90, 180, 365].contains(s.riskRefusalRecencyDays) ? s.riskRefusalRecencyDays : const [30, 60, 90, 180, 365].first,
+                items: [
+                  for (final d in const [30, 60, 90, 180, 365])
+                    DropdownMenuItem(value: d, child: Text('$d')),
+                ],
+                onChanged: (v) => _apply((x) => x.copyWith(riskRefusalRecencyDays: v)),
               ),
             ),
             const Divider(height: 32),

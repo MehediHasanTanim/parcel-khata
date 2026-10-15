@@ -106,6 +106,26 @@ const _reminderIndexes = [
   'CREATE UNIQUE INDEX IF NOT EXISTS uq_templates_kind_lang ON message_templates(shop_id, kind, lang) WHERE deleted_at IS NULL',
 ];
 
+// Added in schema v8 (expenses, campaigns, real tag links).
+const _expenseIndexes = [
+  'CREATE INDEX IF NOT EXISTS ix_expenses_date ON expenses(shop_id, date)',
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_tag_links ON order_tag_links(order_id, tag) WHERE deleted_at IS NULL',
+  'CREATE INDEX IF NOT EXISTS ix_tag_links_tag ON order_tag_links(tag)',
+  'CREATE INDEX IF NOT EXISTS ix_campaigns_tag ON campaigns(shop_id, tag)',
+  "CREATE INDEX IF NOT EXISTS ix_charges_campaign ON order_charges(note) WHERE type = 'ad_allocation'",
+];
+
+// Existing orders keep their tags in tags_json; mirror them into the link
+// table (lower-cased) so campaigns can find them.
+const _tagBackfill = '''
+INSERT OR IGNORE INTO order_tag_links
+  (id, shop_id, created_at, updated_at, row_version, order_id, tag)
+SELECT lower(hex(randomblob(16))), o.shop_id, o.created_at, o.updated_at, 1, o.id,
+       lower(trim(j.value))
+FROM orders o, json_each(o.tags_json) j
+WHERE o.deleted_at IS NULL AND trim(j.value) != ''
+''';
+
 @DriftDatabase(tables: [
   Shops,
   Customers,
@@ -128,6 +148,9 @@ const _reminderIndexes = [
   SavedViews,
   Reminders,
   MessageTemplateRows,
+  Campaigns,
+  Expenses,
+  OrderTagLinks,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -136,13 +159,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes]) {
+          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes, ..._expenseIndexes]) {
             await customStatement(sql);
           }
           for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
@@ -209,6 +232,24 @@ class AppDatabase extends _$AppDatabase {
             for (final sql in _reminderIndexes) {
               await customStatement(sql);
             }
+          }
+          if (from < 8) {
+            await m.createTable(campaigns);
+            await m.createTable(expenses);
+            await m.createTable(orderTagLinks);
+            for (final sql in _expenseIndexes) {
+              await customStatement(sql);
+            }
+            await customStatement(_tagBackfill);
+          }
+          if (from < 9) {
+            await m.addColumn(customers, customers.riskNote);
+            await m.addColumn(customers, customers.isBlocklisted);
+            await m.addColumn(customers, customers.blocklistReason);
+          }
+          if (from < 10) {
+            await m.addColumn(orders, orders.exchangeOfOrderId);
+            await m.addColumn(returnRecords, returnRecords.exchangeOrderId);
           }
         },
         beforeOpen: (details) async {

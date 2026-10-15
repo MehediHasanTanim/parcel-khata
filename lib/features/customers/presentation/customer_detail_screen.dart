@@ -5,6 +5,7 @@ import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/profit/application/profit_queries.dart';
+import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
 final _customerProvider = FutureProvider.family<Customer?, String>(
@@ -62,6 +63,10 @@ class CustomerDetailScreen extends ConsumerWidget {
                   subtitle: Text(l.fieldWhatsapp)),
             if (c.notes != null)
               ListTile(leading: const Icon(Icons.notes), title: Text(c.notes!)),
+            RiskSection(
+              customer: c,
+              onChanged: () => ref.invalidate(_customerProvider(customerId)),
+            ),
             const Divider(),
             Padding(
               padding: const EdgeInsets.all(16),
