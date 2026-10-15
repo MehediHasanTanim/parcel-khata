@@ -1186,4 +1186,269 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastOrderOn => 'Last order';
+
+  @override
+  String get periodToday => 'Today';
+
+  @override
+  String get periodYesterday => 'Yesterday';
+
+  @override
+  String get period7d => '7 days';
+
+  @override
+  String get periodThisMonth => 'This month';
+
+  @override
+  String get periodLastMonth => 'Last month';
+
+  @override
+  String get periodCustom => 'Custom';
+
+  @override
+  String get sectionCash => 'Cash';
+
+  @override
+  String get sectionOps => 'Operations';
+
+  @override
+  String get sectionPerformance => 'Performance';
+
+  @override
+  String get tileOrders => 'Orders';
+
+  @override
+  String get tileToDispatch => 'To dispatch';
+
+  @override
+  String get tileInTransitOps => 'In transit';
+
+  @override
+  String get tileStuck => 'Stuck parcels';
+
+  @override
+  String get tileReturnsAwaiting => 'Returns awaiting';
+
+  @override
+  String get tileRevenue => 'Revenue';
+
+  @override
+  String get tileProfitFinal => 'Final profit';
+
+  @override
+  String get tileProfitProvisional => 'Provisional profit';
+
+  @override
+  String get tileMargin => 'Margin';
+
+  @override
+  String get tileDeliverySuccess => 'Delivery success';
+
+  @override
+  String get tileReturnRate => 'Return rate';
+
+  @override
+  String get tileAvgProfit => 'Avg profit / order';
+
+  @override
+  String get savedViews => 'Saved views';
+
+  @override
+  String get saveCurrentView => 'Save current filters as view';
+
+  @override
+  String get viewName => 'View name';
+
+  @override
+  String get renameView => 'Rename';
+
+  @override
+  String get deleteView => 'Delete';
+
+  @override
+  String get viewToDispatch => 'To dispatch today';
+
+  @override
+  String get viewCodPending5 => 'Delivered, COD pending > 5 days';
+
+  @override
+  String get viewReturnsNotReceived => 'Returns not received';
+
+  @override
+  String get viewLossMaking => 'Loss-making orders';
+
+  @override
+  String get filtersTitle => 'Filters';
+
+  @override
+  String get applyFilters => 'Apply';
+
+  @override
+  String get resetFilters => 'Reset';
+
+  @override
+  String get sortLabel => 'Sort';
+
+  @override
+  String get sortNewest => 'Newest';
+
+  @override
+  String get sortOldest => 'Oldest';
+
+  @override
+  String get sortAmount => 'Amount';
+
+  @override
+  String get sortProfit => 'Profit';
+
+  @override
+  String get sortDispatch => 'Longest with courier';
+
+  @override
+  String get searchOrders => 'Search order, name, phone, CN, product';
+
+  @override
+  String get filterCodStatus => 'COD status';
+
+  @override
+  String get filterProfit => 'Profit';
+
+  @override
+  String get profitOnly => 'Profit';
+
+  @override
+  String get lossOnly => 'Loss';
+
+  @override
+  String get hasReturnLabel => 'Has return';
+
+  @override
+  String get amountMin => 'Min amount';
+
+  @override
+  String get amountMax => 'Max amount';
+
+  @override
+  String get tagLabel => 'Tag';
+
+  @override
+  String get areaLabel => 'Area';
+
+  @override
+  String get dispatchDates => 'Dispatched between';
+
+  @override
+  String get deliveredDates => 'Delivered between';
+
+  @override
+  String get orderDates => 'Ordered between';
+
+  @override
+  String ordersCountHeader(int n) {
+    return '$n orders';
+  }
+
+  @override
+  String get reportsTitle => 'Reports';
+
+  @override
+  String get reportDaily => 'Daily summary';
+
+  @override
+  String get reportCourier => 'Courier performance';
+
+  @override
+  String get reportProfit => 'Profit report';
+
+  @override
+  String get reportReturns => 'Returns report';
+
+  @override
+  String get groupDay => 'By day';
+
+  @override
+  String get groupCourier => 'By courier';
+
+  @override
+  String get groupChannel => 'By channel';
+
+  @override
+  String get groupCustomer => 'By customer';
+
+  @override
+  String get groupProduct => 'By product';
+
+  @override
+  String get groupArea => 'By area';
+
+  @override
+  String get colOrders => 'Orders';
+
+  @override
+  String get colRevenue => 'Revenue';
+
+  @override
+  String get colProfit => 'Profit';
+
+  @override
+  String get colMargin => 'Margin';
+
+  @override
+  String get colDelivered => 'Delivered';
+
+  @override
+  String get colReturned => 'Returned';
+
+  @override
+  String get colUnits => 'Units';
+
+  @override
+  String get colFees => 'Fees';
+
+  @override
+  String get colAvgDays => 'Avg days';
+
+  @override
+  String get colPayoutLag => 'Payout lag';
+
+  @override
+  String get colShortfall => 'Shortfall';
+
+  @override
+  String get colCreated => 'Created';
+
+  @override
+  String get colDispatched => 'Dispatched';
+
+  @override
+  String get colCollected => 'COD collected';
+
+  @override
+  String get colFailed => 'Failed';
+
+  @override
+  String get colName => 'Name';
+
+  @override
+  String get bestOrders => 'Best orders';
+
+  @override
+  String get worstOrders => 'Worst orders';
+
+  @override
+  String get byReason => 'By reason';
+
+  @override
+  String get payoutsReceivedLabel => 'Payouts received';
+
+  @override
+  String get lossTotal => 'Total loss';
+
+  @override
+  String incompleteExcluded(int n) {
+    return '$n incomplete orders are excluded from margins';
+  }
+
+  @override
+  String get noData => 'No data for this period';
 }

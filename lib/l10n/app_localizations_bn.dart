@@ -1183,4 +1183,269 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get lastOrderOn => 'সর্বশেষ অর্ডার';
+
+  @override
+  String get periodToday => 'আজ';
+
+  @override
+  String get periodYesterday => 'গতকাল';
+
+  @override
+  String get period7d => '৭ দিন';
+
+  @override
+  String get periodThisMonth => 'এই মাস';
+
+  @override
+  String get periodLastMonth => 'গত মাস';
+
+  @override
+  String get periodCustom => 'কাস্টম';
+
+  @override
+  String get sectionCash => 'ক্যাশ';
+
+  @override
+  String get sectionOps => 'অপারেশন';
+
+  @override
+  String get sectionPerformance => 'পারফরম্যান্স';
+
+  @override
+  String get tileOrders => 'অর্ডার';
+
+  @override
+  String get tileToDispatch => 'পাঠানো বাকি';
+
+  @override
+  String get tileInTransitOps => 'পথে';
+
+  @override
+  String get tileStuck => 'আটকে থাকা';
+
+  @override
+  String get tileReturnsAwaiting => 'রিটার্ন অপেক্ষায়';
+
+  @override
+  String get tileRevenue => 'বিক্রয়';
+
+  @override
+  String get tileProfitFinal => 'চূড়ান্ত মুনাফা';
+
+  @override
+  String get tileProfitProvisional => 'সাময়িক মুনাফা';
+
+  @override
+  String get tileMargin => 'মার্জিন';
+
+  @override
+  String get tileDeliverySuccess => 'ডেলিভারি সফলতা';
+
+  @override
+  String get tileReturnRate => 'রিটার্ন হার';
+
+  @override
+  String get tileAvgProfit => 'গড় মুনাফা / অর্ডার';
+
+  @override
+  String get savedViews => 'সংরক্ষিত ভিউ';
+
+  @override
+  String get saveCurrentView => 'বর্তমান ফিল্টার ভিউ হিসেবে রাখুন';
+
+  @override
+  String get viewName => 'ভিউয়ের নাম';
+
+  @override
+  String get renameView => 'নাম বদলান';
+
+  @override
+  String get deleteView => 'মুছুন';
+
+  @override
+  String get viewToDispatch => 'আজ পাঠানোর';
+
+  @override
+  String get viewCodPending5 => 'ডেলিভারি, COD ৫+ দিন বাকি';
+
+  @override
+  String get viewReturnsNotReceived => 'রিটার্ন পাইনি';
+
+  @override
+  String get viewLossMaking => 'লোকসানি অর্ডার';
+
+  @override
+  String get filtersTitle => 'ফিল্টার';
+
+  @override
+  String get applyFilters => 'প্রয়োগ';
+
+  @override
+  String get resetFilters => 'রিসেট';
+
+  @override
+  String get sortLabel => 'সাজান';
+
+  @override
+  String get sortNewest => 'নতুন আগে';
+
+  @override
+  String get sortOldest => 'পুরনো আগে';
+
+  @override
+  String get sortAmount => 'পরিমাণ';
+
+  @override
+  String get sortProfit => 'মুনাফা';
+
+  @override
+  String get sortDispatch => 'কুরিয়ারে সবচেয়ে বেশি';
+
+  @override
+  String get searchOrders => 'অর্ডার, নাম, ফোন, CN, পণ্য খুঁজুন';
+
+  @override
+  String get filterCodStatus => 'COD অবস্থা';
+
+  @override
+  String get filterProfit => 'মুনাফা';
+
+  @override
+  String get profitOnly => 'লাভ';
+
+  @override
+  String get lossOnly => 'লোকসান';
+
+  @override
+  String get hasReturnLabel => 'রিটার্ন আছে';
+
+  @override
+  String get amountMin => 'সর্বনিম্ন পরিমাণ';
+
+  @override
+  String get amountMax => 'সর্বোচ্চ পরিমাণ';
+
+  @override
+  String get tagLabel => 'ট্যাগ';
+
+  @override
+  String get areaLabel => 'এলাকা';
+
+  @override
+  String get dispatchDates => 'পাঠানোর তারিখ';
+
+  @override
+  String get deliveredDates => 'ডেলিভারির তারিখ';
+
+  @override
+  String get orderDates => 'অর্ডারের তারিখ';
+
+  @override
+  String ordersCountHeader(int n) {
+    return '$nটি অর্ডার';
+  }
+
+  @override
+  String get reportsTitle => 'রিপোর্ট';
+
+  @override
+  String get reportDaily => 'দৈনিক সারাংশ';
+
+  @override
+  String get reportCourier => 'কুরিয়ার পারফরম্যান্স';
+
+  @override
+  String get reportProfit => 'মুনাফা রিপোর্ট';
+
+  @override
+  String get reportReturns => 'রিটার্ন রিপোর্ট';
+
+  @override
+  String get groupDay => 'দিন অনুযায়ী';
+
+  @override
+  String get groupCourier => 'কুরিয়ার অনুযায়ী';
+
+  @override
+  String get groupChannel => 'চ্যানেল অনুযায়ী';
+
+  @override
+  String get groupCustomer => 'গ্রাহক অনুযায়ী';
+
+  @override
+  String get groupProduct => 'পণ্য অনুযায়ী';
+
+  @override
+  String get groupArea => 'এলাকা অনুযায়ী';
+
+  @override
+  String get colOrders => 'অর্ডার';
+
+  @override
+  String get colRevenue => 'বিক্রয়';
+
+  @override
+  String get colProfit => 'মুনাফা';
+
+  @override
+  String get colMargin => 'মার্জিন';
+
+  @override
+  String get colDelivered => 'ডেলিভারি';
+
+  @override
+  String get colReturned => 'ফেরত';
+
+  @override
+  String get colUnits => 'একক';
+
+  @override
+  String get colFees => 'ফি';
+
+  @override
+  String get colAvgDays => 'গড় দিন';
+
+  @override
+  String get colPayoutLag => 'পেআউট বিলম্ব';
+
+  @override
+  String get colShortfall => 'ঘাটতি';
+
+  @override
+  String get colCreated => 'তৈরি';
+
+  @override
+  String get colDispatched => 'পাঠানো';
+
+  @override
+  String get colCollected => 'COD আদায়';
+
+  @override
+  String get colFailed => 'ব্যর্থ';
+
+  @override
+  String get colName => 'নাম';
+
+  @override
+  String get bestOrders => 'সেরা অর্ডার';
+
+  @override
+  String get worstOrders => 'খারাপ অর্ডার';
+
+  @override
+  String get byReason => 'কারণ অনুযায়ী';
+
+  @override
+  String get payoutsReceivedLabel => 'পেআউট পেয়েছি';
+
+  @override
+  String get lossTotal => 'মোট ক্ষতি';
+
+  @override
+  String incompleteExcluded(int n) {
+    return '$nটি অসম্পূর্ণ অর্ডার মার্জিনে ধরা হয়নি';
+  }
+
+  @override
+  String get noData => 'এই সময়ে কোনো তথ্য নেই';
 }

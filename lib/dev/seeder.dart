@@ -1,3 +1,6 @@
+import 'package:drift/drift.dart' show Value;
+import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/core/ids/uuid_v7.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/cod/application/payout_service.dart';
 import 'package:parcel_khata/features/cod/domain/payout_reconciler.dart';
@@ -169,6 +172,68 @@ class DevSeeder {
             full: false, reason: 'size_or_color_issue', lines: [ReturnQty(d.lines.first.id, 1)]);
         if (r.isOk) await returns.receive(o.id);
       }
+    }
+  }
+
+  /// Fast bulk insert for performance runs (S6-15): [count] orders spread over
+  /// 120 days with a realistic status mix, written in batches directly.
+  Future<void> seedBulk(
+    AppDatabase db,
+    UuidV7 ids, {
+    required String shopId,
+    int count = 20000,
+    DateTime? now,
+  }) async {
+    final customers = await _customers.search('');
+    final couriers = await _couriers.watchAll().first;
+    if (customers.isEmpty || couriers.isEmpty) return;
+    final base = now ?? DateTime.now();
+    var next = 1000000;
+    const statuses = ['delivered', 'delivered', 'delivered', 'handed_to_courier', 'confirmed',
+        'delivery_failed', 'returned', 'cancelled'];
+    const cods = ['collected_by_courier', 'settled', 'partially_settled', 'pending_collection',
+        'pending_collection', 'not_collected', 'not_collected', 'not_collected'];
+    for (var start = 0; start < count; start += 2000) {
+      await db.batch((b) {
+        for (var i = start; i < start + 2000 && i < count; i++) {
+          final k = i % statuses.length;
+          final date = base.subtract(Duration(days: i % 120, minutes: i % 1440));
+          final c = customers[i % customers.length];
+          final courier = couriers[i % couriers.length];
+          final id = ids.generate();
+          final total = 50000 + (i * 137) % 400000;
+          final profit = (total * 0.25).round() - (i % 7) * 1000;
+          b.insert(
+            db.orders,
+            OrdersCompanion.insert(
+              id: id,
+              shopId: shopId,
+              createdAt: date,
+              updatedAt: date,
+              orderNumber: next++,
+              orderNo: 'BULK-$next',
+              orderDate: date,
+              status: statuses[k],
+              customerId: Value(c.id),
+              addressSnapshot: Value('Bulk address ${i % 90}'),
+              courierId: Value(courier.id),
+              consignmentNo: Value('BULK$next'),
+              itemsTotal: Value(total),
+              deliveryChargeCustomer: const Value(6000),
+              codExpected: Value(total + 6000),
+              codStatus: Value(cods[k]),
+              codCollected: Value(k <= 2 ? total + 6000 : null),
+              handedOverAt: Value(k == 4 ? null : date.add(const Duration(hours: 6))),
+              deliveredAt: Value(k <= 2 ? date.add(const Duration(days: 2)) : null),
+              outstanding: Value(k == 0 ? total - 4000 : (k == 2 ? 20000 : null)),
+              profit: Value(k <= 2 || k == 6 ? profit : null),
+              profitState: Value(k <= 2 ? (k == 1 ? 'final' : 'provisional') : 'provisional'),
+              grossCollected: Value(k <= 2 ? total + 6000 : 0),
+              channel: Value(['facebook', 'whatsapp', 'instagram'][i % 3]),
+            ),
+          );
+        }
+      });
     }
   }
 

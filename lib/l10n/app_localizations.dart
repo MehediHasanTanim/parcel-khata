@@ -2395,6 +2395,528 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last order'**
   String get lastOrderOn;
+
+  /// No description provided for @periodToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get periodToday;
+
+  /// No description provided for @periodYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get periodYesterday;
+
+  /// No description provided for @period7d.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get period7d;
+
+  /// No description provided for @periodThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get periodThisMonth;
+
+  /// No description provided for @periodLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get periodLastMonth;
+
+  /// No description provided for @periodCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get periodCustom;
+
+  /// No description provided for @sectionCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get sectionCash;
+
+  /// No description provided for @sectionOps.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get sectionOps;
+
+  /// No description provided for @sectionPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get sectionPerformance;
+
+  /// No description provided for @tileOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get tileOrders;
+
+  /// No description provided for @tileToDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'To dispatch'**
+  String get tileToDispatch;
+
+  /// No description provided for @tileInTransitOps.
+  ///
+  /// In en, this message translates to:
+  /// **'In transit'**
+  String get tileInTransitOps;
+
+  /// No description provided for @tileStuck.
+  ///
+  /// In en, this message translates to:
+  /// **'Stuck parcels'**
+  String get tileStuck;
+
+  /// No description provided for @tileReturnsAwaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns awaiting'**
+  String get tileReturnsAwaiting;
+
+  /// No description provided for @tileRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get tileRevenue;
+
+  /// No description provided for @tileProfitFinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Final profit'**
+  String get tileProfitFinal;
+
+  /// No description provided for @tileProfitProvisional.
+  ///
+  /// In en, this message translates to:
+  /// **'Provisional profit'**
+  String get tileProfitProvisional;
+
+  /// No description provided for @tileMargin.
+  ///
+  /// In en, this message translates to:
+  /// **'Margin'**
+  String get tileMargin;
+
+  /// No description provided for @tileDeliverySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery success'**
+  String get tileDeliverySuccess;
+
+  /// No description provided for @tileReturnRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Return rate'**
+  String get tileReturnRate;
+
+  /// No description provided for @tileAvgProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg profit / order'**
+  String get tileAvgProfit;
+
+  /// No description provided for @savedViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved views'**
+  String get savedViews;
+
+  /// No description provided for @saveCurrentView.
+  ///
+  /// In en, this message translates to:
+  /// **'Save current filters as view'**
+  String get saveCurrentView;
+
+  /// No description provided for @viewName.
+  ///
+  /// In en, this message translates to:
+  /// **'View name'**
+  String get viewName;
+
+  /// No description provided for @renameView.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get renameView;
+
+  /// No description provided for @deleteView.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteView;
+
+  /// No description provided for @viewToDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'To dispatch today'**
+  String get viewToDispatch;
+
+  /// No description provided for @viewCodPending5.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered, COD pending > 5 days'**
+  String get viewCodPending5;
+
+  /// No description provided for @viewReturnsNotReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns not received'**
+  String get viewReturnsNotReceived;
+
+  /// No description provided for @viewLossMaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss-making orders'**
+  String get viewLossMaking;
+
+  /// No description provided for @filtersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filtersTitle;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyFilters;
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetFilters;
+
+  /// No description provided for @sortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortLabel;
+
+  /// No description provided for @sortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get sortNewest;
+
+  /// No description provided for @sortOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest'**
+  String get sortOldest;
+
+  /// No description provided for @sortAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get sortAmount;
+
+  /// No description provided for @sortProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get sortProfit;
+
+  /// No description provided for @sortDispatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest with courier'**
+  String get sortDispatch;
+
+  /// No description provided for @searchOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Search order, name, phone, CN, product'**
+  String get searchOrders;
+
+  /// No description provided for @filterCodStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'COD status'**
+  String get filterCodStatus;
+
+  /// No description provided for @filterProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get filterProfit;
+
+  /// No description provided for @profitOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get profitOnly;
+
+  /// No description provided for @lossOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss'**
+  String get lossOnly;
+
+  /// No description provided for @hasReturnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Has return'**
+  String get hasReturnLabel;
+
+  /// No description provided for @amountMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Min amount'**
+  String get amountMin;
+
+  /// No description provided for @amountMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Max amount'**
+  String get amountMax;
+
+  /// No description provided for @tagLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get tagLabel;
+
+  /// No description provided for @areaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
+
+  /// No description provided for @dispatchDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatched between'**
+  String get dispatchDates;
+
+  /// No description provided for @deliveredDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered between'**
+  String get deliveredDates;
+
+  /// No description provided for @orderDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordered between'**
+  String get orderDates;
+
+  /// No description provided for @ordersCountHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} orders'**
+  String ordersCountHeader(int n);
+
+  /// No description provided for @reportsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reportsTitle;
+
+  /// No description provided for @reportDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily summary'**
+  String get reportDaily;
+
+  /// No description provided for @reportCourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier performance'**
+  String get reportCourier;
+
+  /// No description provided for @reportProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit report'**
+  String get reportProfit;
+
+  /// No description provided for @reportReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns report'**
+  String get reportReturns;
+
+  /// No description provided for @groupDay.
+  ///
+  /// In en, this message translates to:
+  /// **'By day'**
+  String get groupDay;
+
+  /// No description provided for @groupCourier.
+  ///
+  /// In en, this message translates to:
+  /// **'By courier'**
+  String get groupCourier;
+
+  /// No description provided for @groupChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'By channel'**
+  String get groupChannel;
+
+  /// No description provided for @groupCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'By customer'**
+  String get groupCustomer;
+
+  /// No description provided for @groupProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'By product'**
+  String get groupProduct;
+
+  /// No description provided for @groupArea.
+  ///
+  /// In en, this message translates to:
+  /// **'By area'**
+  String get groupArea;
+
+  /// No description provided for @colOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get colOrders;
+
+  /// No description provided for @colRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get colRevenue;
+
+  /// No description provided for @colProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get colProfit;
+
+  /// No description provided for @colMargin.
+  ///
+  /// In en, this message translates to:
+  /// **'Margin'**
+  String get colMargin;
+
+  /// No description provided for @colDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get colDelivered;
+
+  /// No description provided for @colReturned.
+  ///
+  /// In en, this message translates to:
+  /// **'Returned'**
+  String get colReturned;
+
+  /// No description provided for @colUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Units'**
+  String get colUnits;
+
+  /// No description provided for @colFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees'**
+  String get colFees;
+
+  /// No description provided for @colAvgDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg days'**
+  String get colAvgDays;
+
+  /// No description provided for @colPayoutLag.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout lag'**
+  String get colPayoutLag;
+
+  /// No description provided for @colShortfall.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortfall'**
+  String get colShortfall;
+
+  /// No description provided for @colCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get colCreated;
+
+  /// No description provided for @colDispatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatched'**
+  String get colDispatched;
+
+  /// No description provided for @colCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'COD collected'**
+  String get colCollected;
+
+  /// No description provided for @colFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get colFailed;
+
+  /// No description provided for @colName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get colName;
+
+  /// No description provided for @bestOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Best orders'**
+  String get bestOrders;
+
+  /// No description provided for @worstOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Worst orders'**
+  String get worstOrders;
+
+  /// No description provided for @byReason.
+  ///
+  /// In en, this message translates to:
+  /// **'By reason'**
+  String get byReason;
+
+  /// No description provided for @payoutsReceivedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts received'**
+  String get payoutsReceivedLabel;
+
+  /// No description provided for @lossTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total loss'**
+  String get lossTotal;
+
+  /// No description provided for @incompleteExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} incomplete orders are excluded from margins'**
+  String incompleteExcluded(int n);
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this period'**
+  String get noData;
 }
 
 class _AppLocalizationsDelegate

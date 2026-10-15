@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meta/meta.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/core/db/audit_writer.dart';
 import 'package:parcel_khata/core/db/providers.dart';
@@ -17,8 +16,11 @@ import 'package:parcel_khata/features/couriers/application/courier_repository.da
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
+import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/orders/domain/order_input.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
+
+export 'package:parcel_khata/features/orders/domain/order_filter.dart';
 
 /// Page cursor for keyset pagination (order date desc, id desc).
 class OrderCursor {
@@ -27,63 +29,42 @@ class OrderCursor {
   final String id;
 }
 
-@immutable
-class OrderFilter {
-  const OrderFilter({
-    this.statuses = const {},
-    this.from,
-    this.to,
-    this.channel,
-    this.customerId,
-    this.onlyDrafts = false,
-    this.includeDrafts = false,
+class FilterTotals {
+  const FilterTotals({
+    required this.count,
+    required this.codExpected,
+    required this.outstanding,
+    required this.profit,
+    required this.profitFinal,
+    required this.profitProvisional,
+    required this.incompleteCount,
+    required this.revenue,
+    required this.grossCounted,
+    required this.profitCounted,
+    required this.delivered,
+    required this.failedOrReturned,
+    required this.dispatched,
+    required this.countedOrders,
   });
 
-  final Set<OrderStatus> statuses;
-  final DateTime? from;
+  final int count;
+  final int codExpected;
+  final int outstanding;
+  final int profit;
+  final int profitFinal;
+  final int profitProvisional;
+  final int incompleteCount;
 
-  /// Exclusive upper bound.
-  final DateTime? to;
-  final Channel? channel;
-  final String? customerId;
-  final bool onlyDrafts;
+  /// Gross collected value on delivered orders.
+  final int revenue;
 
-  /// Drafts are excluded from lists and all aggregates unless asked for.
-  final bool includeDrafts;
-
-  OrderFilter copyWith({
-    Set<OrderStatus>? statuses,
-    DateTime? from,
-    DateTime? to,
-    Channel? channel,
-    bool clearDates = false,
-    bool clearChannel = false,
-  }) =>
-      OrderFilter(
-        statuses: statuses ?? this.statuses,
-        from: clearDates ? null : (from ?? this.from),
-        to: clearDates ? null : (to ?? this.to),
-        channel: clearChannel ? null : (channel ?? this.channel),
-        customerId: customerId,
-        onlyDrafts: onlyDrafts,
-        includeDrafts: includeDrafts,
-      );
-
-  @override
-  bool operator ==(Object other) =>
-      other is OrderFilter &&
-      other.from == from &&
-      other.to == to &&
-      other.channel == channel &&
-      other.customerId == customerId &&
-      other.onlyDrafts == onlyDrafts &&
-      other.includeDrafts == includeDrafts &&
-      other.statuses.length == statuses.length &&
-      other.statuses.containsAll(statuses);
-
-  @override
-  int get hashCode => Object.hash(
-      from, to, channel, customerId, onlyDrafts, includeDrafts, statuses.length);
+  /// Gross and profit over orders whose profit is not Incomplete (margin).
+  final int grossCounted;
+  final int profitCounted;
+  final int delivered;
+  final int failedOrReturned;
+  final int dispatched;
+  final int countedOrders;
 }
 
 class OrderListItem {
@@ -647,39 +628,155 @@ class OrderRepository {
         customer: customer);
   }
 
-  /// Keyset-paginated list: newest first, stable across inserts.
+  /// Resolves free text to order ids via the trigram index. Tokens shorter
+  /// than 3 characters fall back to LIKE (trigram needs 3+).
+  Future<Set<String>> searchIds(String query) async {
+    final q = query.trim();
+    if (q.isEmpty) return {};
+    final tokens = q.split(RegExp(r'\s+')).where((t) => t.isNotEmpty).toList();
+    if (tokens.every((t) => t.runes.length >= 3)) {
+      final match = tokens.map((t) => '"${t.replaceAll('"', '""')}"').join(' ');
+      final rows = await _db
+          .customSelect(
+            'SELECT order_id FROM search_index WHERE search_index MATCH ? LIMIT 5000',
+            variables: [Variable<String>(match)],
+          )
+          .get();
+      return {for (final r in rows) r.read<String>('order_id')};
+    }
+    // Every token must appear in some column.
+    final clauses = <String>[];
+    final vars = <Variable<String>>[];
+    for (final t in tokens) {
+      final like = '%${t.replaceAll('%', r'\%').replaceAll('_', r'\_')}%';
+      clauses.add(
+        "(order_no LIKE ? ESCAPE '\\' OR customer_name LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' "
+        "OR cn LIKE ? ESCAPE '\\' OR product_names LIKE ? ESCAPE '\\' OR notes LIKE ? ESCAPE '\\')",
+      );
+      vars.addAll(List.filled(6, Variable<String>(like)));
+    }
+    final rows = await _db
+        .customSelect(
+          'SELECT order_id FROM search_index WHERE ${clauses.join(' AND ')} LIMIT 5000',
+          variables: vars,
+        )
+        .get();
+    return {for (final r in rows) r.read<String>('order_id')};
+  }
+
+  /// A pasted/scanned CN or order number jumps straight to its order.
+  Future<String?> exactOrderId(String text) async {
+    final q = text.trim();
+    if (q.isEmpty) return null;
+    final rows = await (_db.select(_db.orders)
+          ..where((o) =>
+              o.shopId.equals(_shopId) &
+              o.deletedAt.isNull() &
+              (o.consignmentNo.equals(q) | o.orderNo.lower().equals(q.toLowerCase())))
+          ..limit(2))
+        .get();
+    return rows.length == 1 ? rows.single.id : null;
+  }
+
+  /// Boolean SQL for [f] (mirrors `OrderFilterMatcher`).
+  Future<Expression<bool>> whereFor(OrderFilter f, {DateTime? now}) async {
+    final o = _db.orders;
+    final at = now ?? _clock.now();
+    Expression<bool> w = o.shopId.equals(_shopId) & o.deletedAt.isNull();
+    if (f.onlyDrafts) {
+      w = w & o.status.equals(OrderStatus.draft.dbValue);
+    } else if (!f.includeDrafts) {
+      w = w & o.status.equals(OrderStatus.draft.dbValue).not();
+    }
+    if (f.statuses.isNotEmpty) w = w & o.status.isIn(f.statuses.map((s) => s.dbValue));
+    if (f.codStatuses.isNotEmpty) {
+      w = w & o.codStatus.isIn(f.codStatuses.map((s) => s.dbValue));
+    }
+    if (f.profitStates.isNotEmpty) {
+      w = w & o.profitState.isIn(f.profitStates.map((s) => s.dbValue));
+    }
+    if (f.courierId != null) w = w & o.courierId.equals(f.courierId!);
+    if (f.channel != null) w = w & o.channel.equals(f.channel!.dbValue);
+    if (f.paymentType != null) w = w & o.paymentType.equals(f.paymentType!.dbValue);
+    if (f.customerId != null) w = w & o.customerId.equals(f.customerId!);
+    if (f.tag != null) w = w & o.tagsJson.like('%"${f.tag}"%');
+    if (f.area != null) w = w & o.addressSnapshot.like('%${f.area}%');
+    if (f.from != null) w = w & o.orderDate.isBiggerOrEqualValue(f.from!);
+    if (f.to != null) w = w & o.orderDate.isSmallerThanValue(f.to!);
+    if (f.dispatchFrom != null) w = w & o.handedOverAt.isBiggerOrEqualValue(f.dispatchFrom!);
+    if (f.dispatchTo != null) w = w & o.handedOverAt.isSmallerThanValue(f.dispatchTo!);
+    if (f.deliveredFrom != null) w = w & o.deliveredAt.isBiggerOrEqualValue(f.deliveredFrom!);
+    if (f.deliveredTo != null) w = w & o.deliveredAt.isSmallerThanValue(f.deliveredTo!);
+    if (f.deliveredOlderThanDays != null) {
+      final cutoff = at.subtract(Duration(days: f.deliveredOlderThanDays!));
+      w = w & o.deliveredAt.isSmallerOrEqualValue(cutoff);
+    }
+    switch (f.profitSign) {
+      case ProfitSign.profit:
+        w = w & o.profit.isBiggerOrEqualValue(0);
+      case ProfitSign.loss:
+        w = w & o.profit.isSmallerThanValue(0);
+      case null:
+        break;
+    }
+    final total = o.itemsTotal - o.discountTotal + o.deliveryChargeCustomer;
+    if (f.amountMinPoisha != null) w = w & total.isBiggerOrEqualValue(f.amountMinPoisha!);
+    if (f.amountMaxPoisha != null) w = w & total.isSmallerOrEqualValue(f.amountMaxPoisha!);
+    if (f.hasReturn != null) {
+      final withReturn = o.id.isInQuery(
+        _db.selectOnly(_db.returnRecords)
+          ..addColumns([_db.returnRecords.orderId])
+          ..where(_db.returnRecords.deletedAt.isNull()),
+      );
+      w = w & (f.hasReturn! ? withReturn : withReturn.not());
+    }
+    if (f.query.trim().isNotEmpty) {
+      final ids = await searchIds(f.query);
+      w = w & o.id.isIn(ids);
+    }
+    return w;
+  }
+
+  /// One page of orders. Newest/oldest use keyset paging via [after]; other
+  /// sorts page by [offset].
   Future<List<OrderListItem>> fetchPage({
     OrderFilter filter = const OrderFilter(),
     OrderCursor? after,
     int limit = pageSize,
+    OrderSort sort = OrderSort.newest,
+    int offset = 0,
   }) async {
     final o = _db.orders;
     final q = _db.select(o).join([
       leftOuterJoin(_db.customers, _db.customers.id.equalsExp(o.customerId)),
       leftOuterJoin(_db.couriers, _db.couriers.id.equalsExp(o.courierId)),
     ]);
-    Expression<bool> w = o.shopId.equals(_shopId) & o.deletedAt.isNull();
-    if (filter.onlyDrafts) {
-      w = w & o.status.equals(OrderStatus.draft.dbValue);
-    } else if (!filter.includeDrafts) {
-      w = w & o.status.equals(OrderStatus.draft.dbValue).not();
-    }
-    if (filter.statuses.isNotEmpty) {
-      w = w & o.status.isIn(filter.statuses.map((s) => s.dbValue));
-    }
-    if (filter.from != null) w = w & o.orderDate.isBiggerOrEqualValue(filter.from!);
-    if (filter.to != null) w = w & o.orderDate.isSmallerThanValue(filter.to!);
-    if (filter.channel != null) w = w & o.channel.equals(filter.channel!.dbValue);
-    if (filter.customerId != null) w = w & o.customerId.equals(filter.customerId!);
-    if (after != null) {
+    var w = await whereFor(filter);
+    final keyset = sort == OrderSort.newest || sort == OrderSort.oldest;
+    if (after != null && keyset) {
       w = w &
-          (o.orderDate.isSmallerThanValue(after.orderDate) |
-              (o.orderDate.equals(after.orderDate) & o.id.isSmallerThanValue(after.id)));
+          (sort == OrderSort.newest
+              ? (o.orderDate.isSmallerThanValue(after.orderDate) |
+                  (o.orderDate.equals(after.orderDate) & o.id.isSmallerThanValue(after.id)))
+              : (o.orderDate.isBiggerThanValue(after.orderDate) |
+                  (o.orderDate.equals(after.orderDate) & o.id.isBiggerThanValue(after.id))));
     }
+    final order = switch (sort) {
+      OrderSort.newest => [OrderingTerm.desc(o.orderDate), OrderingTerm.desc(o.id)],
+      OrderSort.oldest => [OrderingTerm.asc(o.orderDate), OrderingTerm.asc(o.id)],
+      OrderSort.amountHigh => [
+          OrderingTerm.desc(o.itemsTotal - o.discountTotal + o.deliveryChargeCustomer),
+          OrderingTerm.desc(o.id),
+        ],
+      OrderSort.profitHigh => [OrderingTerm.desc(o.profit), OrderingTerm.desc(o.id)],
+      OrderSort.profitLow => [OrderingTerm.asc(o.profit), OrderingTerm.asc(o.id)],
+      // Oldest handover first: the parcels that have waited longest.
+      OrderSort.daysSinceDispatch => [OrderingTerm.asc(o.handedOverAt), OrderingTerm.asc(o.id)],
+    };
     q
       ..where(w)
-      ..orderBy([OrderingTerm.desc(o.orderDate), OrderingTerm.desc(o.id)])
-      ..limit(limit);
+      ..orderBy(order)
+      ..limit(limit, offset: keyset ? null : offset);
     final rows = await q.get();
     return [
       for (final r in rows)
@@ -689,6 +786,77 @@ class OrderRepository {
           courierStuckDays: r.readTableOrNull(_db.couriers)?.stuckDays,
         ),
     ];
+  }
+
+  /// Aggregates for exactly the rows [filter] selects. Dashboard tiles and
+  /// their drill-down headers both use this, so they can never disagree.
+  Future<FilterTotals> totals(OrderFilter filter) async {
+    final o = _db.orders;
+    final where = await whereFor(filter);
+    final delivered = o.status.equals(OrderStatus.delivered.dbValue);
+    final failedLike = o.status.isIn([
+      OrderStatus.deliveryFailed.dbValue,
+      OrderStatus.returnInTransit.dbValue,
+      OrderStatus.returned.dbValue,
+    ]);
+    final dispatched = o.status.isIn([
+      OrderStatus.handedToCourier.dbValue,
+      OrderStatus.inTransit.dbValue,
+      OrderStatus.delivered.dbValue,
+      OrderStatus.deliveryFailed.dbValue,
+      OrderStatus.returnInTransit.dbValue,
+      OrderStatus.returned.dbValue,
+    ]);
+    final count = o.id.count();
+    final cod = o.codExpected.sum();
+    final outstanding = o.outstanding.sum();
+    final profitAll = o.profit.sum();
+    final profitFinal = o.profit.sum(filter: o.profitState.equals('final'));
+    final profitProv = o.profit.sum(filter: o.profitState.equals('provisional'));
+    final incomplete = o.id.count(filter: o.profitState.equals('incomplete'));
+    final grossDelivered = o.grossCollected.sum(filter: delivered);
+    final grossCounted = o.grossCollected.sum(filter: o.profitState.equals('incomplete').not());
+    final profitCounted = o.profit.sum(filter: o.profitState.equals('incomplete').not());
+    final deliveredCount = o.id.count(filter: delivered);
+    final failedCount = o.id.count(filter: failedLike);
+    final dispatchedCount = o.id.count(filter: dispatched);
+    final countedOrders = o.id.count(filter: o.profitState.equals('incomplete').not());
+    final row = await (_db.selectOnly(o)
+          ..addColumns([
+            count,
+            cod,
+            outstanding,
+            profitAll,
+            profitFinal,
+            profitProv,
+            incomplete,
+            grossDelivered,
+            grossCounted,
+            profitCounted,
+            deliveredCount,
+            failedCount,
+            dispatchedCount,
+            countedOrders,
+          ])
+          ..where(where))
+        .getSingle();
+    int i(Expression<num> e) => (row.read(e) ?? 0).toInt();
+    return FilterTotals(
+      count: i(count),
+      codExpected: i(cod),
+      outstanding: i(outstanding),
+      profit: i(profitAll),
+      profitFinal: i(profitFinal),
+      profitProvisional: i(profitProv),
+      incompleteCount: i(incomplete),
+      revenue: i(grossDelivered),
+      grossCounted: i(grossCounted),
+      profitCounted: i(profitCounted),
+      delivered: i(deliveredCount),
+      failedOrReturned: i(failedCount),
+      dispatched: i(dispatchedCount),
+      countedOrders: i(countedOrders),
+    );
   }
 
   /// List rows for specific ids (newest first), e.g. the stuck-parcel view.

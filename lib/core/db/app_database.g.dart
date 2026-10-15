@@ -6170,6 +6170,17 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _grossCollectedMeta = const VerificationMeta(
+    'grossCollected',
+  );
+  @override
+  late final GeneratedColumn<int> grossCollected = GeneratedColumn<int>(
+    'gross_collected',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _isDisputedMeta = const VerificationMeta(
     'isDisputed',
   );
@@ -6234,6 +6245,7 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
     outstanding,
     profit,
     profitState,
+    grossCollected,
     isDisputed,
     disputeNote,
   ];
@@ -6526,6 +6538,15 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
         ),
       );
     }
+    if (data.containsKey('gross_collected')) {
+      context.handle(
+        _grossCollectedMeta,
+        grossCollected.isAcceptableOrUnknown(
+          data['gross_collected']!,
+          _grossCollectedMeta,
+        ),
+      );
+    }
     if (data.containsKey('is_disputed')) {
       context.handle(
         _isDisputedMeta,
@@ -6694,6 +6715,10 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
         DriftSqlType.string,
         data['${effectivePrefix}profit_state'],
       ),
+      grossCollected: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}gross_collected'],
+      ),
       isDisputed: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_disputed'],
@@ -6748,6 +6773,7 @@ class Order extends DataClass implements Insertable<Order> {
   final int? outstanding;
   final int? profit;
   final String? profitState;
+  final int? grossCollected;
   final bool isDisputed;
   final String? disputeNote;
   const Order({
@@ -6787,6 +6813,7 @@ class Order extends DataClass implements Insertable<Order> {
     this.outstanding,
     this.profit,
     this.profitState,
+    this.grossCollected,
     required this.isDisputed,
     this.disputeNote,
   });
@@ -6860,6 +6887,9 @@ class Order extends DataClass implements Insertable<Order> {
     }
     if (!nullToAbsent || profitState != null) {
       map['profit_state'] = Variable<String>(profitState);
+    }
+    if (!nullToAbsent || grossCollected != null) {
+      map['gross_collected'] = Variable<int>(grossCollected);
     }
     map['is_disputed'] = Variable<bool>(isDisputed);
     if (!nullToAbsent || disputeNote != null) {
@@ -6936,6 +6966,9 @@ class Order extends DataClass implements Insertable<Order> {
       profitState: profitState == null && nullToAbsent
           ? const Value.absent()
           : Value(profitState),
+      grossCollected: grossCollected == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grossCollected),
       isDisputed: Value(isDisputed),
       disputeNote: disputeNote == null && nullToAbsent
           ? const Value.absent()
@@ -6987,6 +7020,7 @@ class Order extends DataClass implements Insertable<Order> {
       outstanding: serializer.fromJson<int?>(json['outstanding']),
       profit: serializer.fromJson<int?>(json['profit']),
       profitState: serializer.fromJson<String?>(json['profitState']),
+      grossCollected: serializer.fromJson<int?>(json['grossCollected']),
       isDisputed: serializer.fromJson<bool>(json['isDisputed']),
       disputeNote: serializer.fromJson<String?>(json['disputeNote']),
     );
@@ -7031,6 +7065,7 @@ class Order extends DataClass implements Insertable<Order> {
       'outstanding': serializer.toJson<int?>(outstanding),
       'profit': serializer.toJson<int?>(profit),
       'profitState': serializer.toJson<String?>(profitState),
+      'grossCollected': serializer.toJson<int?>(grossCollected),
       'isDisputed': serializer.toJson<bool>(isDisputed),
       'disputeNote': serializer.toJson<String?>(disputeNote),
     };
@@ -7073,6 +7108,7 @@ class Order extends DataClass implements Insertable<Order> {
     Value<int?> outstanding = const Value.absent(),
     Value<int?> profit = const Value.absent(),
     Value<String?> profitState = const Value.absent(),
+    Value<int?> grossCollected = const Value.absent(),
     bool? isDisputed,
     Value<String?> disputeNote = const Value.absent(),
   }) => Order(
@@ -7119,6 +7155,9 @@ class Order extends DataClass implements Insertable<Order> {
     outstanding: outstanding.present ? outstanding.value : this.outstanding,
     profit: profit.present ? profit.value : this.profit,
     profitState: profitState.present ? profitState.value : this.profitState,
+    grossCollected: grossCollected.present
+        ? grossCollected.value
+        : this.grossCollected,
     isDisputed: isDisputed ?? this.isDisputed,
     disputeNote: disputeNote.present ? disputeNote.value : this.disputeNote,
   );
@@ -7198,6 +7237,9 @@ class Order extends DataClass implements Insertable<Order> {
       profitState: data.profitState.present
           ? data.profitState.value
           : this.profitState,
+      grossCollected: data.grossCollected.present
+          ? data.grossCollected.value
+          : this.grossCollected,
       isDisputed: data.isDisputed.present
           ? data.isDisputed.value
           : this.isDisputed,
@@ -7246,6 +7288,7 @@ class Order extends DataClass implements Insertable<Order> {
           ..write('outstanding: $outstanding, ')
           ..write('profit: $profit, ')
           ..write('profitState: $profitState, ')
+          ..write('grossCollected: $grossCollected, ')
           ..write('isDisputed: $isDisputed, ')
           ..write('disputeNote: $disputeNote')
           ..write(')'))
@@ -7290,6 +7333,7 @@ class Order extends DataClass implements Insertable<Order> {
     outstanding,
     profit,
     profitState,
+    grossCollected,
     isDisputed,
     disputeNote,
   ]);
@@ -7333,6 +7377,7 @@ class Order extends DataClass implements Insertable<Order> {
           other.outstanding == this.outstanding &&
           other.profit == this.profit &&
           other.profitState == this.profitState &&
+          other.grossCollected == this.grossCollected &&
           other.isDisputed == this.isDisputed &&
           other.disputeNote == this.disputeNote);
 }
@@ -7374,6 +7419,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
   final Value<int?> outstanding;
   final Value<int?> profit;
   final Value<String?> profitState;
+  final Value<int?> grossCollected;
   final Value<bool> isDisputed;
   final Value<String?> disputeNote;
   final Value<int> rowid;
@@ -7414,6 +7460,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     this.outstanding = const Value.absent(),
     this.profit = const Value.absent(),
     this.profitState = const Value.absent(),
+    this.grossCollected = const Value.absent(),
     this.isDisputed = const Value.absent(),
     this.disputeNote = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -7455,6 +7502,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     this.outstanding = const Value.absent(),
     this.profit = const Value.absent(),
     this.profitState = const Value.absent(),
+    this.grossCollected = const Value.absent(),
     this.isDisputed = const Value.absent(),
     this.disputeNote = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -7503,6 +7551,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     Expression<int>? outstanding,
     Expression<int>? profit,
     Expression<String>? profitState,
+    Expression<int>? grossCollected,
     Expression<bool>? isDisputed,
     Expression<String>? disputeNote,
     Expression<int>? rowid,
@@ -7545,6 +7594,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
       if (outstanding != null) 'outstanding': outstanding,
       if (profit != null) 'profit': profit,
       if (profitState != null) 'profit_state': profitState,
+      if (grossCollected != null) 'gross_collected': grossCollected,
       if (isDisputed != null) 'is_disputed': isDisputed,
       if (disputeNote != null) 'dispute_note': disputeNote,
       if (rowid != null) 'rowid': rowid,
@@ -7588,6 +7638,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     Value<int?>? outstanding,
     Value<int?>? profit,
     Value<String?>? profitState,
+    Value<int?>? grossCollected,
     Value<bool>? isDisputed,
     Value<String?>? disputeNote,
     Value<int>? rowid,
@@ -7630,6 +7681,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
       outstanding: outstanding ?? this.outstanding,
       profit: profit ?? this.profit,
       profitState: profitState ?? this.profitState,
+      grossCollected: grossCollected ?? this.grossCollected,
       isDisputed: isDisputed ?? this.isDisputed,
       disputeNote: disputeNote ?? this.disputeNote,
       rowid: rowid ?? this.rowid,
@@ -7749,6 +7801,9 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     if (profitState.present) {
       map['profit_state'] = Variable<String>(profitState.value);
     }
+    if (grossCollected.present) {
+      map['gross_collected'] = Variable<int>(grossCollected.value);
+    }
     if (isDisputed.present) {
       map['is_disputed'] = Variable<bool>(isDisputed.value);
     }
@@ -7800,6 +7855,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
           ..write('outstanding: $outstanding, ')
           ..write('profit: $profit, ')
           ..write('profitState: $profitState, ')
+          ..write('grossCollected: $grossCollected, ')
           ..write('isDisputed: $isDisputed, ')
           ..write('disputeNote: $disputeNote, ')
           ..write('rowid: $rowid')
@@ -14400,6 +14456,608 @@ class ReturnLinesCompanion extends UpdateCompanion<ReturnLine> {
   }
 }
 
+class $SavedViewsTable extends SavedViews
+    with TableInfo<$SavedViewsTable, SavedView> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SavedViewsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _filterJsonMeta = const VerificationMeta(
+    'filterJson',
+  );
+  @override
+  late final GeneratedColumn<String> filterJson = GeneratedColumn<String>(
+    'filter_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('{}'),
+  );
+  static const VerificationMeta _sortMeta = const VerificationMeta('sort');
+  @override
+  late final GeneratedColumn<String> sort = GeneratedColumn<String>(
+    'sort',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('newest'),
+  );
+  static const VerificationMeta _isPinnedMeta = const VerificationMeta(
+    'isPinned',
+  );
+  @override
+  late final GeneratedColumn<bool> isPinned = GeneratedColumn<bool>(
+    'is_pinned',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_pinned" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    name,
+    filterJson,
+    sort,
+    isPinned,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'saved_views';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SavedView> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('filter_json')) {
+      context.handle(
+        _filterJsonMeta,
+        filterJson.isAcceptableOrUnknown(data['filter_json']!, _filterJsonMeta),
+      );
+    }
+    if (data.containsKey('sort')) {
+      context.handle(
+        _sortMeta,
+        sort.isAcceptableOrUnknown(data['sort']!, _sortMeta),
+      );
+    }
+    if (data.containsKey('is_pinned')) {
+      context.handle(
+        _isPinnedMeta,
+        isPinned.isAcceptableOrUnknown(data['is_pinned']!, _isPinnedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SavedView map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SavedView(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      filterJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}filter_json'],
+      )!,
+      sort: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sort'],
+      )!,
+      isPinned: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_pinned'],
+      )!,
+    );
+  }
+
+  @override
+  $SavedViewsTable createAlias(String alias) {
+    return $SavedViewsTable(attachedDatabase, alias);
+  }
+}
+
+class SavedView extends DataClass implements Insertable<SavedView> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String name;
+  final String filterJson;
+  final String sort;
+  final bool isPinned;
+  const SavedView({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.name,
+    required this.filterJson,
+    required this.sort,
+    required this.isPinned,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['name'] = Variable<String>(name);
+    map['filter_json'] = Variable<String>(filterJson);
+    map['sort'] = Variable<String>(sort);
+    map['is_pinned'] = Variable<bool>(isPinned);
+    return map;
+  }
+
+  SavedViewsCompanion toCompanion(bool nullToAbsent) {
+    return SavedViewsCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      name: Value(name),
+      filterJson: Value(filterJson),
+      sort: Value(sort),
+      isPinned: Value(isPinned),
+    );
+  }
+
+  factory SavedView.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SavedView(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      name: serializer.fromJson<String>(json['name']),
+      filterJson: serializer.fromJson<String>(json['filterJson']),
+      sort: serializer.fromJson<String>(json['sort']),
+      isPinned: serializer.fromJson<bool>(json['isPinned']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'name': serializer.toJson<String>(name),
+      'filterJson': serializer.toJson<String>(filterJson),
+      'sort': serializer.toJson<String>(sort),
+      'isPinned': serializer.toJson<bool>(isPinned),
+    };
+  }
+
+  SavedView copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? name,
+    String? filterJson,
+    String? sort,
+    bool? isPinned,
+  }) => SavedView(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    name: name ?? this.name,
+    filterJson: filterJson ?? this.filterJson,
+    sort: sort ?? this.sort,
+    isPinned: isPinned ?? this.isPinned,
+  );
+  SavedView copyWithCompanion(SavedViewsCompanion data) {
+    return SavedView(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      name: data.name.present ? data.name.value : this.name,
+      filterJson: data.filterJson.present
+          ? data.filterJson.value
+          : this.filterJson,
+      sort: data.sort.present ? data.sort.value : this.sort,
+      isPinned: data.isPinned.present ? data.isPinned.value : this.isPinned,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SavedView(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('name: $name, ')
+          ..write('filterJson: $filterJson, ')
+          ..write('sort: $sort, ')
+          ..write('isPinned: $isPinned')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    name,
+    filterJson,
+    sort,
+    isPinned,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SavedView &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.name == this.name &&
+          other.filterJson == this.filterJson &&
+          other.sort == this.sort &&
+          other.isPinned == this.isPinned);
+}
+
+class SavedViewsCompanion extends UpdateCompanion<SavedView> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> name;
+  final Value<String> filterJson;
+  final Value<String> sort;
+  final Value<bool> isPinned;
+  final Value<int> rowid;
+  const SavedViewsCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.name = const Value.absent(),
+    this.filterJson = const Value.absent(),
+    this.sort = const Value.absent(),
+    this.isPinned = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SavedViewsCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String name,
+    this.filterJson = const Value.absent(),
+    this.sort = const Value.absent(),
+    this.isPinned = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       name = Value(name);
+  static Insertable<SavedView> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? name,
+    Expression<String>? filterJson,
+    Expression<String>? sort,
+    Expression<bool>? isPinned,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (name != null) 'name': name,
+      if (filterJson != null) 'filter_json': filterJson,
+      if (sort != null) 'sort': sort,
+      if (isPinned != null) 'is_pinned': isPinned,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SavedViewsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? name,
+    Value<String>? filterJson,
+    Value<String>? sort,
+    Value<bool>? isPinned,
+    Value<int>? rowid,
+  }) {
+    return SavedViewsCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      name: name ?? this.name,
+      filterJson: filterJson ?? this.filterJson,
+      sort: sort ?? this.sort,
+      isPinned: isPinned ?? this.isPinned,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (filterJson.present) {
+      map['filter_json'] = Variable<String>(filterJson.value);
+    }
+    if (sort.present) {
+      map['sort'] = Variable<String>(sort.value);
+    }
+    if (isPinned.present) {
+      map['is_pinned'] = Variable<bool>(isPinned.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SavedViewsCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('name: $name, ')
+          ..write('filterJson: $filterJson, ')
+          ..write('sort: $sort, ')
+          ..write('isPinned: $isPinned, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -14430,6 +15088,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $PayoutAllocationsTable(this);
   late final $ReturnRecordsTable returnRecords = $ReturnRecordsTable(this);
   late final $ReturnLinesTable returnLines = $ReturnLinesTable(this);
+  late final $SavedViewsTable savedViews = $SavedViewsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -14453,6 +15112,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     payoutAllocations,
     returnRecords,
     returnLines,
+    savedViews,
   ];
 }
 
@@ -18222,6 +18882,7 @@ typedef $$OrdersTableCreateCompanionBuilder = OrdersCompanion Function({
   Value<int?> outstanding,
   Value<int?> profit,
   Value<String?> profitState,
+  Value<int?> grossCollected,
   Value<bool> isDisputed,
   Value<String?> disputeNote,
   Value<int> rowid,
@@ -18263,6 +18924,7 @@ typedef $$OrdersTableUpdateCompanionBuilder = OrdersCompanion Function({
   Value<int?> outstanding,
   Value<int?> profit,
   Value<String?> profitState,
+  Value<int?> grossCollected,
   Value<bool> isDisputed,
   Value<String?> disputeNote,
   Value<int> rowid,
@@ -18617,6 +19279,11 @@ class $$OrdersTableFilterComposer
 
   ColumnFilters<String> get profitState => $composableBuilder(
     column: $table.profitState,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get grossCollected => $composableBuilder(
+    column: $table.grossCollected,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -19031,6 +19698,11 @@ class $$OrdersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get grossCollected => $composableBuilder(
+    column: $table.grossCollected,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get isDisputed => $composableBuilder(
     column: $table.isDisputed,
     builder: (column) => ColumnOrderings(column),
@@ -19232,6 +19904,11 @@ class $$OrdersTableAnnotationComposer
 
   GeneratedColumn<String> get profitState => $composableBuilder(
     column: $table.profitState,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get grossCollected => $composableBuilder(
+    column: $table.grossCollected,
     builder: (column) => column,
   );
 
@@ -19543,6 +20220,7 @@ class $$OrdersTableTableManager
                 Value<int?> outstanding = const Value.absent(),
                 Value<int?> profit = const Value.absent(),
                 Value<String?> profitState = const Value.absent(),
+                Value<int?> grossCollected = const Value.absent(),
                 Value<bool> isDisputed = const Value.absent(),
                 Value<String?> disputeNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -19583,6 +20261,7 @@ class $$OrdersTableTableManager
                 outstanding: outstanding,
                 profit: profit,
                 profitState: profitState,
+                grossCollected: grossCollected,
                 isDisputed: isDisputed,
                 disputeNote: disputeNote,
                 rowid: rowid,
@@ -19625,6 +20304,7 @@ class $$OrdersTableTableManager
                 Value<int?> outstanding = const Value.absent(),
                 Value<int?> profit = const Value.absent(),
                 Value<String?> profitState = const Value.absent(),
+                Value<int?> grossCollected = const Value.absent(),
                 Value<bool> isDisputed = const Value.absent(),
                 Value<String?> disputeNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -19665,6 +20345,7 @@ class $$OrdersTableTableManager
                 outstanding: outstanding,
                 profit: profit,
                 profitState: profitState,
+                grossCollected: grossCollected,
                 isDisputed: isDisputed,
                 disputeNote: disputeNote,
                 rowid: rowid,
@@ -24563,6 +25244,309 @@ typedef $$ReturnLinesTableProcessedTableManager =
       ReturnLine,
       PrefetchHooks Function({bool returnId, bool orderLineId})
     >;
+typedef $$SavedViewsTableCreateCompanionBuilder = SavedViewsCompanion Function({
+  required String id,
+  required String shopId,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<DateTime?> deletedAt,
+  Value<int> rowVersion,
+  required String name,
+  Value<String> filterJson,
+  Value<String> sort,
+  Value<bool> isPinned,
+  Value<int> rowid,
+});
+typedef $$SavedViewsTableUpdateCompanionBuilder = SavedViewsCompanion Function({
+  Value<String> id,
+  Value<String> shopId,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<DateTime?> deletedAt,
+  Value<int> rowVersion,
+  Value<String> name,
+  Value<String> filterJson,
+  Value<String> sort,
+  Value<bool> isPinned,
+  Value<int> rowid,
+});
+
+class $$SavedViewsTableFilterComposer
+    extends Composer<_$AppDatabase, $SavedViewsTable> {
+  $$SavedViewsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get filterJson => $composableBuilder(
+    column: $table.filterJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sort => $composableBuilder(
+    column: $table.sort,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isPinned => $composableBuilder(
+    column: $table.isPinned,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SavedViewsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SavedViewsTable> {
+  $$SavedViewsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get filterJson => $composableBuilder(
+    column: $table.filterJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sort => $composableBuilder(
+    column: $table.sort,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isPinned => $composableBuilder(
+    column: $table.isPinned,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SavedViewsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SavedViewsTable> {
+  $$SavedViewsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get filterJson => $composableBuilder(
+    column: $table.filterJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sort =>
+      $composableBuilder(column: $table.sort, builder: (column) => column);
+
+  GeneratedColumn<bool> get isPinned =>
+      $composableBuilder(column: $table.isPinned, builder: (column) => column);
+}
+
+class $$SavedViewsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SavedViewsTable,
+          SavedView,
+          $$SavedViewsTableFilterComposer,
+          $$SavedViewsTableOrderingComposer,
+          $$SavedViewsTableAnnotationComposer,
+          $$SavedViewsTableCreateCompanionBuilder,
+          $$SavedViewsTableUpdateCompanionBuilder,
+          (
+            SavedView,
+            BaseReferences<_$AppDatabase, $SavedViewsTable, SavedView>,
+          ),
+          SavedView,
+          PrefetchHooks Function()
+        > {
+  $$SavedViewsTableTableManager(_$AppDatabase db, $SavedViewsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SavedViewsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SavedViewsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SavedViewsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> filterJson = const Value.absent(),
+                Value<String> sort = const Value.absent(),
+                Value<bool> isPinned = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SavedViewsCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                name: name,
+                filterJson: filterJson,
+                sort: sort,
+                isPinned: isPinned,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String name,
+                Value<String> filterJson = const Value.absent(),
+                Value<String> sort = const Value.absent(),
+                Value<bool> isPinned = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SavedViewsCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                name: name,
+                filterJson: filterJson,
+                sort: sort,
+                isPinned: isPinned,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SavedViewsTable, SavedView>(table),
+                  BaseReferences<_$AppDatabase, $SavedViewsTable, SavedView>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SavedViewsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SavedViewsTable,
+      SavedView,
+      $$SavedViewsTableFilterComposer,
+      $$SavedViewsTableOrderingComposer,
+      $$SavedViewsTableAnnotationComposer,
+      $$SavedViewsTableCreateCompanionBuilder,
+      $$SavedViewsTableUpdateCompanionBuilder,
+      (SavedView, BaseReferences<_$AppDatabase, $SavedViewsTable, SavedView>),
+      SavedView,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -24603,4 +25587,6 @@ class $AppDatabaseManager {
       $$ReturnRecordsTableTableManager(_db, _db.returnRecords);
   $$ReturnLinesTableTableManager get returnLines =>
       $$ReturnLinesTableTableManager(_db, _db.returnLines);
+  $$SavedViewsTableTableManager get savedViews =>
+      $$SavedViewsTableTableManager(_db, _db.savedViews);
 }

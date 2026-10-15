@@ -109,6 +109,7 @@ class LedgerWriter {
       OrdersCompanion(
         profit: Value(result.net.poisha),
         profitState: Value(result.state.dbValue),
+        grossCollected: Value(result.grossCollected.poisha),
       ),
     );
   }

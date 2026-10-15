@@ -46,6 +46,60 @@ const _returnIndexes = [
   'CREATE INDEX IF NOT EXISTS ix_return_lines_order_line ON return_lines(order_line_id)',
 ];
 
+const _indexSelect = '''
+SELECT o.id, o.order_no, COALESCE(c.name, ''),
+  COALESCE(c.phone_normalized, '') || ' ' || COALESCE(c.phone_primary, ''),
+  COALESCE(o.consignment_no, ''),
+  COALESCE((SELECT group_concat(l.name_snapshot, ' ') FROM order_lines l
+            WHERE l.order_id = o.id AND l.deleted_at IS NULL), ''),
+  COALESCE(o.notes, '')
+FROM orders o LEFT JOIN customers c ON c.id = o.customer_id
+''';
+
+const _indexInsert =
+    'INSERT INTO search_index(order_id, order_no, customer_name, phone, cn, product_names, notes)';
+
+// Added in schema v6: trigram FTS5 index (substring + Bangla friendly) kept in
+// sync by triggers so no repository has to remember to reindex.
+const _searchSql = [
+  '''CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
+  order_id UNINDEXED, order_no, customer_name, phone, cn, product_names, notes,
+  tokenize = 'trigram')''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_orders_ai AFTER INSERT ON orders BEGIN
+  $_indexInsert $_indexSelect WHERE o.id = NEW.id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_orders_au
+AFTER UPDATE OF order_no, customer_id, consignment_no, notes ON orders BEGIN
+  DELETE FROM search_index WHERE order_id = NEW.id;
+  $_indexInsert $_indexSelect WHERE o.id = NEW.id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_orders_ad AFTER DELETE ON orders BEGIN
+  DELETE FROM search_index WHERE order_id = OLD.id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_lines_ai AFTER INSERT ON order_lines BEGIN
+  DELETE FROM search_index WHERE order_id = NEW.order_id;
+  $_indexInsert $_indexSelect WHERE o.id = NEW.order_id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_lines_au
+AFTER UPDATE OF name_snapshot, deleted_at ON order_lines BEGIN
+  DELETE FROM search_index WHERE order_id = NEW.order_id;
+  $_indexInsert $_indexSelect WHERE o.id = NEW.order_id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_lines_ad AFTER DELETE ON order_lines BEGIN
+  DELETE FROM search_index WHERE order_id = OLD.order_id;
+  $_indexInsert $_indexSelect WHERE o.id = OLD.order_id;
+END''',
+  '''CREATE TRIGGER IF NOT EXISTS trg_si_customers_au
+AFTER UPDATE OF name, phone_primary, phone_normalized ON customers BEGIN
+  DELETE FROM search_index WHERE order_id IN (SELECT id FROM orders WHERE customer_id = NEW.id);
+  $_indexInsert $_indexSelect WHERE o.customer_id = NEW.id;
+END''',
+];
+
+const _viewIndexes = [
+  'CREATE INDEX IF NOT EXISTS ix_saved_views_shop ON saved_views(shop_id, created_at)',
+];
+
 @DriftDatabase(tables: [
   Shops,
   Customers,
@@ -65,6 +119,7 @@ const _returnIndexes = [
   PayoutAllocations,
   ReturnRecords,
   ReturnLines,
+  SavedViews,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -73,12 +128,15 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
+          for (final sql in [..._searchSql, ..._viewIndexes]) {
+            await customStatement(sql);
+          }
           for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
             await customStatement(sql);
           }
@@ -109,8 +167,12 @@ class AppDatabase extends _$AppDatabase {
             }
           }
           if (from < 4) {
-            await m.addColumn(orders, orders.isDisputed);
-            await m.addColumn(orders, orders.disputeNote);
+            // createTable above already uses the current definition, so only
+            // databases that had `orders` before v4 need the new columns.
+            if (from >= 3) {
+              await m.addColumn(orders, orders.isDisputed);
+              await m.addColumn(orders, orders.disputeNote);
+            }
             await m.createTable(payouts);
             await m.createTable(payoutAllocations);
             for (final sql in _ledgerIndexes) {
@@ -123,6 +185,15 @@ class AppDatabase extends _$AppDatabase {
             for (final sql in _returnIndexes) {
               await customStatement(sql);
             }
+          }
+          if (from < 6) {
+            if (from >= 3) await m.addColumn(orders, orders.grossCollected);
+            await m.createTable(savedViews);
+            for (final sql in [..._searchSql, ..._viewIndexes]) {
+              await customStatement(sql);
+            }
+            // Backfill the index for existing orders.
+            await customStatement('$_indexInsert $_indexSelect');
           }
         },
         beforeOpen: (details) async {

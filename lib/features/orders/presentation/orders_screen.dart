@@ -13,6 +13,10 @@ import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
 import 'package:parcel_khata/features/profit/presentation/profit_panel.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
+import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
+import 'package:parcel_khata/features/reports/presentation/format.dart';
+import 'package:parcel_khata/features/search/presentation/order_filter_sheet.dart';
+import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
@@ -25,12 +29,51 @@ final draftCountProvider = StreamProvider<int>((ref) async* {
   }
 });
 
-/// Order list with keyset pagination, filters, multi-select bulk actions and
-/// swipe shortcuts. [customerId] restricts to one customer.
+/// Filters/sort of the main Orders tab survive navigating into an order and
+/// back (feature spec F10 AC2).
+class OrdersFilterNotifier extends Notifier<OrderFilter> {
+  @override
+  OrderFilter build() => const OrderFilter();
+
+  // ignore: use_setters_to_change_properties
+  void set(OrderFilter f) => state = f;
+}
+
+final ordersFilterProvider =
+    NotifierProvider<OrdersFilterNotifier, OrderFilter>(OrdersFilterNotifier.new);
+
+class OrdersSortNotifier extends Notifier<OrderSort> {
+  @override
+  OrderSort build() => OrderSort.newest;
+
+  // ignore: use_setters_to_change_properties
+  void set(OrderSort s) => state = s;
+}
+
+final ordersSortProvider =
+    NotifierProvider<OrdersSortNotifier, OrderSort>(OrdersSortNotifier.new);
+
+/// Order list with keyset pagination, search, filters, sort, multi-select
+/// bulk actions and swipe shortcuts. [customerId] restricts to one customer;
+/// [initialFilter]/[title]/[measure] make it a dashboard drill-down.
 class OrdersScreen extends ConsumerStatefulWidget {
-  const OrdersScreen({this.customerId, super.key});
+  const OrdersScreen({
+    this.customerId,
+    this.initialFilter,
+    this.title,
+    this.measure,
+    this.stuck = false,
+    super.key,
+  });
 
   final String? customerId;
+  final OrderFilter? initialFilter;
+  final String? title;
+  final Measure? measure;
+  final bool stuck;
+
+  bool get _isMainTab =>
+      customerId == null && initialFilter == null && !stuck;
 
   @override
   ConsumerState<OrdersScreen> createState() => _OrdersScreenState();
@@ -53,6 +96,10 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
   final List<OrderListItem> _items = [];
   final Set<String> _selected = {};
   late OrderFilter _filter;
+  OrderSort _sort = OrderSort.newest;
+  final _searchCtl = TextEditingController();
+  Timer? _debounce;
+  FilterTotals? _totals;
   late final OrderRepository _repo;
   StreamSubscription<void>? _sub;
   bool _loading = false;
@@ -67,7 +114,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
   void initState() {
     super.initState();
     _repo = ref.read(orderRepositoryProvider);
-    _filter = OrderFilter(customerId: widget.customerId);
+    _filter = widget.initialFilter ??
+        (widget.customerId != null
+            ? OrderFilter(customerId: widget.customerId)
+            : ref.read(ordersFilterProvider));
+    if (widget._isMainTab) _sort = ref.read(ordersSortProvider);
+    _stuckOnly = widget.stuck;
+    _searchCtl.text = _filter.query;
     _scroll.addListener(() {
       if (_scroll.position.pixels > _scroll.position.maxScrollExtent - 400) {
         unawaited(_loadMore());
@@ -80,6 +133,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
   @override
   void dispose() {
     _sub?.cancel();
+    _debounce?.cancel();
+    _searchCtl.dispose();
     _scroll.dispose();
     super.dispose();
   }
@@ -104,8 +159,10 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
     final want = _items.length < OrderRepository.pageSize
         ? OrderRepository.pageSize
         : _items.length;
-    final page = await _repo.fetchPage(filter: _filter, limit: want);
+    final page = await _repo.fetchPage(filter: _filter, limit: want, sort: _sort);
+    final totals = widget.measure == null ? null : await _repo.totals(_filter);
     if (!mounted || token != _token) return;
+    _totals = totals;
     setState(() {
       _items
         ..clear()
@@ -121,8 +178,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
     _loading = true;
     final last = _items.last.order;
     final token = _token;
+    final keyset = _sort == OrderSort.newest || _sort == OrderSort.oldest;
     final page = await _repo.fetchPage(
-        filter: _filter, after: OrderCursor(last.orderDate, last.id));
+      filter: _filter,
+      sort: _sort,
+      after: keyset ? OrderCursor(last.orderDate, last.id) : null,
+      offset: keyset ? 0 : _items.length,
+    );
     _loading = false;
     if (!mounted || token != _token) return;
     setState(() {
@@ -133,30 +195,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
 
   void _setFilter(OrderFilter f, {bool? stuck}) {
     _filter = f;
+    if (widget._isMainTab) ref.read(ordersFilterProvider.notifier).set(f);
     if (stuck != null) _stuckOnly = stuck;
     _items.clear();
     _selected.clear();
     _end = false;
     _firstLoad = true;
     unawaited(_reload());
-  }
-
-  Future<void> _pickDates() async {
-    final now = ref.read(clockProvider).now();
-    final r = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(now.year - 3),
-      lastDate: DateTime(now.year + 1),
-      initialDateRange: _filter.from == null
-          ? null
-          : DateTimeRange(
-              start: _filter.from!,
-              end: _filter.to!.subtract(const Duration(days: 1))),
-    );
-    if (r == null) return;
-    _setFilter(_filter.copyWith(
-        from: DateTime(r.start.year, r.start.month, r.start.day),
-        to: DateTime(r.end.year, r.end.month, r.end.day).add(const Duration(days: 1))));
   }
 
   // -------------------------------------------------------------- bulk
@@ -208,12 +253,92 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
     await runStatusAction(context, ref, order: o, to: to);
   }
 
+  String _sortLabel(AppLocalizations l, OrderSort v) => switch (v) {
+        OrderSort.newest => l.sortNewest,
+        OrderSort.oldest => l.sortOldest,
+        OrderSort.amountHigh => l.sortAmount,
+        OrderSort.profitHigh || OrderSort.profitLow => l.sortProfit,
+        OrderSort.daysSinceDispatch => l.sortDispatch,
+      };
+
+  Future<void> _submitSearch(String v) async {
+    final id = await _repo.exactOrderId(v);
+    if (!mounted) return;
+    if (id != null) {
+      // A pasted/scanned CN or order number opens its order directly.
+      await context.push('/orders/$id');
+    } else {
+      _setFilter(_filter.copyWith(query: v.trim()));
+    }
+  }
+
+  Future<void> _openFilters() async {
+    final f = await showOrderFilterSheet(context, _filter);
+    if (f != null) _setFilter(f.copyWith(query: _filter.query));
+  }
+
+  Future<void> _openViews() async {
+    final v = await showSavedViewsSheet(context, current: _filter, sort: _sort);
+    if (v == null) return;
+    _searchCtl.text = v.filter.query;
+    setState(() => _sort = v.sort);
+    _setFilter(v.filter, stuck: false);
+  }
+
+  /// One removable chip per active constraint.
+  List<Widget> _activeChips(AppLocalizations l) {
+    Widget chip(String label, OrderFilter cleared) => Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: InputChip(
+            label: Text(label),
+            onDeleted: () => _setFilter(cleared),
+          ),
+        );
+    final f = _filter;
+    final out = <Widget>[];
+    for (final s in f.statuses) {
+      if (f.statuses.length == 1 && !_stuckOnly) continue; // shown by the status row
+      out.add(chip(statusLabel(l, s),
+          f.copyWith(statuses: {...f.statuses}..remove(s))));
+    }
+    for (final c in f.codStatuses) {
+      out.add(chip(codLabel(l, c), f.copyWith(codStatuses: {...f.codStatuses}..remove(c))));
+    }
+    if (f.channel != null) {
+      out.add(chip(channelLabel(l, f.channel!), f.copyWith(clearChannel: true)));
+    }
+    if (f.paymentType != null) {
+      out.add(chip(paymentLabel(l, f.paymentType!), f.copyWith(clearPaymentType: true)));
+    }
+    if (f.courierId != null) out.add(chip(l.courier, f.copyWith(clearCourier: true)));
+    if (f.from != null) {
+      out.add(chip('${formatDate(f.from!)} – ${formatDate(f.to!.subtract(const Duration(days: 1)))}',
+          f.copyWith(clearDates: true)));
+    }
+    if (f.dispatchFrom != null) {
+      out.add(chip(l.dispatchDates, f.copyWith(clearDispatch: true)));
+    }
+    if (f.deliveredFrom != null || f.deliveredOlderThanDays != null) {
+      out.add(chip(l.deliveredDates, f.copyWith(clearDelivered: true)));
+    }
+    if (f.profitSign != null) {
+      out.add(chip(f.profitSign == ProfitSign.profit ? l.profitOnly : l.lossOnly,
+          f.copyWith(clearProfitSign: true)));
+    }
+    if (f.amountMinPoisha != null || f.amountMaxPoisha != null) {
+      out.add(chip(l.amountMin, f.copyWith(clearAmount: true)));
+    }
+    if (f.tag != null) out.add(chip('#${f.tag}', f.copyWith(clearTag: true)));
+    if (f.area != null) out.add(chip(f.area!, f.copyWith(clearArea: true)));
+    if (f.hasReturn != null) out.add(chip(l.hasReturnLabel, f.copyWith(clearHasReturn: true)));
+    return out;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     final drafts = ref.watch(draftCountProvider).value ?? 0;
     final selected = _filter.statuses;
-    final primary = Theme.of(context).colorScheme.primary;
     return Scaffold(
       appBar: _selecting
           ? AppBar(
@@ -231,9 +356,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               ],
             )
           : AppBar(
-              title: Text(l.ordersTitle),
+              title: Text(widget.title ?? l.ordersTitle),
               actions: [
-                if (widget.customerId == null)
+                if (widget._isMainTab)
                   IconButton(
                     tooltip: l.drafts,
                     onPressed: () => context.push('/orders/drafts'),
@@ -244,34 +369,47 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     ),
                   ),
                 IconButton(
-                  tooltip: l.filterDates,
-                  onPressed: _pickDates,
-                  icon: Icon(Icons.date_range,
-                      color: _filter.from != null ? primary : null),
+                  tooltip: l.filtersTitle,
+                  onPressed: _openFilters,
+                  icon: Badge(
+                    isLabelVisible: _filter.activeCount > 0,
+                    label: Text('${_filter.activeCount}'),
+                    child: const Icon(Icons.filter_list),
+                  ),
                 ),
-                PopupMenuButton<Channel?>(
-                  tooltip: l.filterChannel,
-                  icon: Icon(Icons.filter_list,
-                      color: _filter.channel != null ? primary : null),
-                  onSelected: (c) => _setFilter(c == null
-                      ? _filter.copyWith(clearChannel: true)
-                      : _filter.copyWith(channel: c)),
-                  itemBuilder: (_) => [
-                    PopupMenuItem<Channel?>(child: Text(l.statusAll)),
-                    for (final c in Channel.values)
-                      PopupMenuItem<Channel?>(value: c, child: Text(channelLabel(l, c))),
-                  ],
-                ),
-                PopupMenuButton<String>(
+                PopupMenuButton<OrderSort>(
+                  tooltip: l.sortLabel,
+                  icon: const Icon(Icons.sort),
                   onSelected: (v) {
-                    if (v == 'deleted') context.push('/orders/deleted');
-                    if (v == 'cn') context.push('/orders/cn-entry');
+                    setState(() => _sort = v);
+                    if (widget._isMainTab) ref.read(ordersSortProvider.notifier).set(v);
+                    _setFilter(_filter);
                   },
                   itemBuilder: (_) => [
-                    PopupMenuItem(value: 'cn', child: Text(l.fastCnEntry)),
-                    PopupMenuItem(value: 'deleted', child: Text(l.recentlyDeleted)),
+                    for (final v in OrderSort.values.where((v) => v != OrderSort.profitLow))
+                      CheckedPopupMenuItem(
+                        value: v,
+                        checked: _sort == v,
+                        child: Text(_sortLabel(l, v)),
+                      ),
                   ],
                 ),
+                IconButton(
+                  tooltip: l.savedViews,
+                  icon: const Icon(Icons.bookmarks_outlined),
+                  onPressed: _openViews,
+                ),
+                if (widget._isMainTab)
+                  PopupMenuButton<String>(
+                    onSelected: (v) {
+                      if (v == 'deleted') context.push('/orders/deleted');
+                      if (v == 'cn') context.push('/orders/cn-entry');
+                    },
+                    itemBuilder: (_) => [
+                      PopupMenuItem(value: 'cn', child: Text(l.fastCnEntry)),
+                      PopupMenuItem(value: 'deleted', child: Text(l.recentlyDeleted)),
+                    ],
+                  ),
               ],
             ),
       floatingActionButton: _selecting
@@ -314,6 +452,55 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               ),
             ),
       body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+          child: TextField(
+            controller: _searchCtl,
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              hintText: l.searchOrders,
+              isDense: true,
+              suffixIcon: _searchCtl.text.isEmpty
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _searchCtl.clear();
+                        _setFilter(_filter.copyWith(query: ''));
+                      },
+                    ),
+            ),
+            onChanged: (v) {
+              _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 250), () {
+                if (mounted) _setFilter(_filter.copyWith(query: v.trim()));
+              });
+              setState(() {});
+            },
+            onSubmitted: _submitSearch,
+          ),
+        ),
+        if (_totals != null && widget.measure != null)
+          Container(
+            width: double.infinity,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text(
+              '${l.ordersCountHeader(_totals!.count)} · '
+              '${formatMeasure(widget.measure!, measureValue(widget.measure!, _totals!))}',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+        if (_activeChips(l).isNotEmpty)
+          SizedBox(
+            height: 48,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              children: _activeChips(l),
+            ),
+          ),
         SizedBox(
           height: 56,
           child: ListView(

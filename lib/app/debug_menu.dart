@@ -5,6 +5,9 @@ import 'package:parcel_khata/dev/seeder.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/cod/application/payout_service.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
+import 'package:parcel_khata/core/db/providers.dart';
+import 'package:parcel_khata/core/providers.dart';
+import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
 import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_status_service.dart';
@@ -96,6 +99,34 @@ class DebugMenuScreen extends ConsumerWidget {
               ref.read(courierRepositoryProvider),
             ).seedReturns(ref.read(orderRepositoryProvider), ref.read(returnServiceProvider));
             m.showSnackBar(const SnackBar(content: Text('Returns seeded')));
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.speed),
+          title: const Text('Seed 20,000 orders (fast bulk)'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            await DevSeeder(
+              ref.read(customerRepositoryProvider),
+              ref.read(productRepositoryProvider),
+              ref.read(courierRepositoryProvider),
+            ).seedBulk(
+              ref.read(databaseProvider),
+              ref.read(uuidProvider),
+              shopId: ref.read(shopIdProvider),
+            );
+            m.showSnackBar(const SnackBar(content: Text('Bulk seeded')));
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.timer),
+          title: const Text('Measure dashboard load'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            final sw = Stopwatch()..start();
+            await ref.read(dashboardServiceProvider).load(ref.read(currentPeriodProvider));
+            sw.stop();
+            m.showSnackBar(SnackBar(content: Text('Dashboard: ${sw.elapsedMilliseconds} ms')));
           },
         ),
         const ListTile(title: Text('Clock override'), subtitle: Text('Not implemented yet')),

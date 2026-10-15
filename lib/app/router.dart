@@ -22,6 +22,9 @@ import 'package:parcel_khata/features/orders/presentation/orders_screen.dart';
 import 'package:parcel_khata/features/products/presentation/product_form_screen.dart';
 import 'package:parcel_khata/features/products/presentation/products_screen.dart';
 import 'package:parcel_khata/features/profit/presentation/missing_costs_screen.dart';
+import 'package:parcel_khata/features/orders/domain/order_filter.dart';
+import 'package:parcel_khata/features/reports/application/dashboard_service.dart';
+import 'package:parcel_khata/features/reports/presentation/reports_screens.dart';
 import 'package:parcel_khata/features/returns/presentation/returns_screen.dart';
 import 'package:parcel_khata/features/settings/presentation/settings_screen.dart';
 
@@ -36,6 +39,28 @@ final appRouter = GoRouter(
     // Static order routes must precede '/orders/:id'.
     GoRoute(path: '/orders/new', builder: (_, __) => const OrderFormScreen()),
     GoRoute(path: '/orders/cost-missing', builder: (_, __) => const MissingCostsScreen()),
+    GoRoute(
+      path: '/drill',
+      builder: (_, st) {
+        final q = st.uri.queryParameters;
+        return OrdersScreen(
+          initialFilter: OrderFilter.decode(q['filter']),
+          title: q['title'],
+          measure: Measure.values.where((m) => m.name == q['measure']).firstOrNull,
+          stuck: q['stuck'] == '1',
+        );
+      },
+    ),
+    GoRoute(path: '/reports', builder: (_, __) => const ReportsScreen()),
+    GoRoute(
+      path: '/reports/:kind',
+      builder: (_, st) => ReportScreen(
+        kind: ReportKind.values.firstWhere(
+          (k) => k.name == st.pathParameters['kind'],
+          orElse: () => ReportKind.profit,
+        ),
+      ),
+    ),
     GoRoute(path: '/returns', builder: (_, __) => const ReturnsScreen()),
     GoRoute(path: '/orders/cn-entry', builder: (_, __) => const CnEntryScreen()),
     GoRoute(path: '/orders/drafts', builder: (_, __) => const DraftsScreen()),

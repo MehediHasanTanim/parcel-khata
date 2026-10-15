@@ -134,6 +134,8 @@ class Orders extends Table with BaseColumns {
   IntColumn get outstanding => integer().nullable()();
   IntColumn get profit => integer().nullable()();
   TextColumn get profitState => text().nullable()();
+  // Cached revenue + delivery charge actually kept (profit calculator).
+  IntColumn get grossCollected => integer().nullable()();
   // Explicit dispute flag (never inferred); set by payout shortfall handling.
   BoolColumn get isDisputed => boolean().withDefault(const Constant(false))();
   TextColumn get disputeNote => text().nullable()();
@@ -233,4 +235,11 @@ class ReturnLines extends Table with BaseColumns {
   IntColumn get qty => integer()();
   // resellable | damaged | lost (null until received back)
   TextColumn get condition => text().nullable()();
+}
+
+class SavedViews extends Table with BaseColumns {
+  TextColumn get name => text()();
+  TextColumn get filterJson => text().withDefault(const Constant('{}'))();
+  TextColumn get sort => text().withDefault(const Constant('newest'))();
+  BoolColumn get isPinned => boolean().withDefault(const Constant(true))();
 }

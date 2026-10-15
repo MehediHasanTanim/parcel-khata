@@ -188,6 +188,19 @@ class CodQueries {
     );
   }
 
+  /// Cash received through active payouts with paid date in [from, to).
+  Future<int> settledBetween(DateTime from, DateTime to) async {
+    final paid = _db.payouts.totalReceived.sum();
+    final r = await (_db.selectOnly(_db.payouts)
+          ..addColumns([paid])
+          ..where(_db.payouts.shopId.equals(_shopId) &
+              _db.payouts.status.equals('active') &
+              _db.payouts.paidAt.isBiggerOrEqualValue(from) &
+              _db.payouts.paidAt.isSmallerThanValue(to)))
+        .getSingle();
+    return r.read(paid) ?? 0;
+  }
+
   Future<List<AgeingRow>> ageing({String? courierId}) async {
     final open = await openOrders(courierId: courierId);
     return [
