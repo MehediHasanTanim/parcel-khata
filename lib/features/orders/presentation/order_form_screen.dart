@@ -10,6 +10,7 @@ import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
+import 'package:parcel_khata/features/orders/application/order_prefill.dart';
 import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
@@ -69,9 +70,12 @@ String _plain(int poisha) =>
 
 /// Create or edit an order (also used to resume a draft).
 class OrderFormScreen extends ConsumerStatefulWidget {
-  const OrderFormScreen({this.orderId, super.key});
+  const OrderFormScreen({this.orderId, this.prefill, super.key});
 
   final String? orderId;
+
+  /// Values from pasted chat text; applied only to a brand-new order.
+  final OrderPrefill? prefill;
 
   @override
   ConsumerState<OrderFormScreen> createState() => _OrderFormScreenState();
@@ -139,6 +143,31 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
           ? ''
           : '${settings.defaultDeliveryChargeTaka}';
       _courierId = settings.defaultCourierId;
+      final pf = widget.prefill;
+      if (pf != null) {
+        if (pf.customerId != null) {
+          _customer = await ref.read(customerRepositoryProvider).getById(pf.customerId!);
+        }
+        _address.text = pf.address;
+        if (pf.deliveryCharge != null) _delivery.text = _plain(pf.deliveryCharge!.poisha);
+        if (pf.advance != null && pf.advance!.poisha > 0) {
+          _payment = PaymentType.partialAdvance;
+          _advance.text = _plain(pf.advance!.poisha);
+        }
+        _notes.text = pf.notes ?? '';
+        _sourceRef.text = pf.sourceRef ?? '';
+        for (final l in pf.lines) {
+          _lines.add(_LineCtl(
+            name: l.name,
+            qty: l.qty,
+            sell: l.sell == null ? '' : _plain(l.sell!.poisha),
+            cost: l.cost == null ? '' : _plain(l.cost!.poisha),
+            productId: l.productId,
+          ));
+        }
+        // Prefilled, but not yet confirmed: keep the unsaved-changes guard.
+        _dirty = true;
+      }
     } else {
       final d = await _repo.detail(widget.orderId!);
       if (d == null) {

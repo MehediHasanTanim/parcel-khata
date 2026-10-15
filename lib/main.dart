@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/app/app.dart';
+import 'package:parcel_khata/app/router.dart';
+import 'package:parcel_khata/features/orders/application/share_target.dart';
 import 'package:parcel_khata/features/backup/application/drive_scheduler.dart';
 import 'package:parcel_khata/features/telemetry/application/telemetry_providers.dart';
 
@@ -25,4 +27,5 @@ Future<void> main() async {
 
   container.read(telemetryProvider).event('app_open');
   runApp(UncontrolledProviderScope(container: container, child: const ParcelKhataApp()));
+  WidgetsBinding.instance.addPostFrameCallback((_) => ShareTarget.init(appRouter));
 }

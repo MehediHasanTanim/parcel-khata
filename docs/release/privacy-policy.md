@@ -26,6 +26,11 @@ Notifications (daily digest, optional), biometric unlock (optional), camera (onl
 stored or sent), and file access only through the system file picker/share sheet when you export,
 import or back up. No contacts, location or microphone permission is requested.
 
+## Paste order and sharing text into the app
+"Paste order" reads text you paste, or text you share to Parcel Khata from another app (for example a
+WhatsApp message), entirely on your device to pre-fill an order form. The text is not sent anywhere
+and nothing is saved until you confirm the order.
+
 ## Optional Google Drive backup
 If you turn it on, an encrypted copy of your backup (encrypted on your phone with your passphrase
 before upload) is stored in a hidden app folder of your own Google Drive using the `drive.appdata`

@@ -2409,4 +2409,78 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get stmtErrNothing => 'অন্তত একটি সারি বাছুন';
+
+  @override
+  String get pasteTitle => 'পেস্ট করে অর্ডার';
+
+  @override
+  String get pasteMenu => 'চ্যাট থেকে অর্ডার পেস্ট';
+
+  @override
+  String get pasteHint => 'ক্রেতার মেসেজটি এখানে পেস্ট করুন';
+
+  @override
+  String get pasteFromClipboard => 'পেস্ট';
+
+  @override
+  String get pasteParse => 'মেসেজ পড়ুন';
+
+  @override
+  String get pasteNothing => 'কিছু চেনা যায়নি। হাতে অর্ডার পূরণ করুন।';
+
+  @override
+  String get pasteCreate => 'অর্ডার তৈরি করুন';
+
+  @override
+  String get pasteReview =>
+      'অর্ডার তৈরির আগে চিহ্নিত ঘরগুলো দেখে নিন। এখনো কিছু সংরক্ষণ হয়নি।';
+
+  @override
+  String get pasteExisting => 'বিদ্যমান ক্রেতা পাওয়া গেছে';
+
+  @override
+  String get pasteExistingNote =>
+      'এই ক্রেতাকে যেমন আছে তেমনই ব্যবহার করা হবে। তাঁর তথ্য বদলানো হবে না।';
+
+  @override
+  String get pasteNameDiffers => 'মেসেজে ভিন্ন নাম আছে';
+
+  @override
+  String get pasteNewCustomer => 'নতুন ক্রেতা: আগে তথ্য দেখে নিতে পারবেন';
+
+  @override
+  String get pasteLines => 'পণ্য';
+
+  @override
+  String get pasteQty => 'পরিমাণ';
+
+  @override
+  String get pasteMatch => 'ক্যাটালগের পণ্য';
+
+  @override
+  String get pasteNoMatch => 'ক্যাটালগে নেই (সাধারণ লেখা)';
+
+  @override
+  String get pastePriceHint => 'মেসেজে দেওয়া দাম';
+
+  @override
+  String get pasteTotalHint => 'মেসেজে মোট লেখা আছে';
+
+  @override
+  String get pasteUseDelivery => 'মেসেজের ডেলিভারি চার্জ ব্যবহার করুন';
+
+  @override
+  String get pasteUseAdvance => 'মেসেজের অগ্রিম ব্যবহার করুন';
+
+  @override
+  String get pasteCheck => 'যাচাই করুন';
+
+  @override
+  String get pasteSure => 'ঠিক মনে হচ্ছে';
+
+  @override
+  String get pasteAmbiguous => 'একাধিক পণ্য মিলেছে';
+
+  @override
+  String get pasteMoreNumbers => 'অন্যান্য সংখ্যা';
 }

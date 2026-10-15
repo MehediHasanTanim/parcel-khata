@@ -2413,4 +2413,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stmtErrNothing => 'Select at least one row';
+
+  @override
+  String get pasteTitle => 'Paste order';
+
+  @override
+  String get pasteMenu => 'Paste order from chat';
+
+  @override
+  String get pasteHint => 'Paste the customer\'s message here';
+
+  @override
+  String get pasteFromClipboard => 'Paste';
+
+  @override
+  String get pasteParse => 'Read message';
+
+  @override
+  String get pasteNothing => 'Nothing recognised. Fill the order manually.';
+
+  @override
+  String get pasteCreate => 'Create order';
+
+  @override
+  String get pasteReview =>
+      'Check the highlighted fields before creating the order. Nothing is saved yet.';
+
+  @override
+  String get pasteExisting => 'Existing customer found';
+
+  @override
+  String get pasteExistingNote =>
+      'This customer is used as saved. Their details are not changed.';
+
+  @override
+  String get pasteNameDiffers => 'The message says a different name';
+
+  @override
+  String get pasteNewCustomer =>
+      'New customer: you can review the details first';
+
+  @override
+  String get pasteLines => 'Products';
+
+  @override
+  String get pasteQty => 'Qty';
+
+  @override
+  String get pasteMatch => 'Catalog product';
+
+  @override
+  String get pasteNoMatch => 'Not in catalog (free text)';
+
+  @override
+  String get pastePriceHint => 'Price in message';
+
+  @override
+  String get pasteTotalHint => 'Message mentions a total of';
+
+  @override
+  String get pasteUseDelivery => 'Use delivery charge from message';
+
+  @override
+  String get pasteUseAdvance => 'Use advance from message';
+
+  @override
+  String get pasteCheck => 'Check';
+
+  @override
+  String get pasteSure => 'Looks right';
+
+  @override
+  String get pasteAmbiguous => 'Several products match';
+
+  @override
+  String get pasteMoreNumbers => 'Other numbers';
 }

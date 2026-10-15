@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/orders/application/order_prefill.dart';
+import 'package:parcel_khata/features/orders/presentation/paste_order_screen.dart';
 import 'package:parcel_khata/features/cod/presentation/statement_import_screen.dart';
 import 'package:parcel_khata/features/returns/presentation/exchange_screen.dart';
 import 'package:parcel_khata/app/debug_menu.dart';
@@ -47,7 +49,14 @@ final appRouter = GoRouter(
     if (DebugMenuScreen.enabled)
       GoRoute(path: '/debug', builder: (_, __) => const DebugMenuScreen()),
     // Static order routes must precede '/orders/:id'.
-    GoRoute(path: '/orders/new', builder: (_, __) => const OrderFormScreen()),
+    GoRoute(
+      path: '/orders/new',
+      builder: (_, st) => OrderFormScreen(prefill: st.extra is OrderPrefill ? st.extra! as OrderPrefill : null),
+    ),
+    GoRoute(
+      path: '/orders/paste',
+      builder: (_, st) => PasteOrderScreen(initialText: st.extra is String ? st.extra! as String : ''),
+    ),
     GoRoute(path: '/orders/cost-missing', builder: (_, __) => const MissingCostsScreen()),
     GoRoute(
       path: '/drill',
@@ -114,7 +123,11 @@ final appRouter = GoRouter(
       builder: (_, st) => PayoutFlowScreen(courierId: st.uri.queryParameters['courier']),
     ),
     GoRoute(path: '/customers', builder: (_, __) => const CustomersScreen()),
-    GoRoute(path: '/customers/new', builder: (_, __) => const CustomerFormScreen()),
+    GoRoute(
+      path: '/customers/new',
+      builder: (_, st) => CustomerFormScreen(
+          prefill: st.extra is CustomerPrefill ? st.extra! as CustomerPrefill : null),
+    ),
     GoRoute(
       path: '/customers/:id',
       builder: (_, st) => CustomerDetailScreen(customerId: st.pathParameters['id']!),

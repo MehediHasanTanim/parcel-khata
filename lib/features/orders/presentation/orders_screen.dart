@@ -405,8 +405,10 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     onSelected: (v) {
                       if (v == 'deleted') context.push('/orders/deleted');
                       if (v == 'cn') context.push('/orders/cn-entry');
+                      if (v == 'paste') context.push('/orders/paste');
                     },
                     itemBuilder: (_) => [
+                      PopupMenuItem(value: 'paste', child: Text(l.pasteMenu)),
                       PopupMenuItem(value: 'cn', child: Text(l.fastCnEntry)),
                       PopupMenuItem(value: 'deleted', child: Text(l.recentlyDeleted)),
                     ],

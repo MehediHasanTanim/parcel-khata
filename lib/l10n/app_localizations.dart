@@ -4717,6 +4717,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select at least one row'**
   String get stmtErrNothing;
+
+  /// No description provided for @pasteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste order'**
+  String get pasteTitle;
+
+  /// No description provided for @pasteMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste order from chat'**
+  String get pasteMenu;
+
+  /// No description provided for @pasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the customer\'\'s message here'**
+  String get pasteHint;
+
+  /// No description provided for @pasteFromClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get pasteFromClipboard;
+
+  /// No description provided for @pasteParse.
+  ///
+  /// In en, this message translates to:
+  /// **'Read message'**
+  String get pasteParse;
+
+  /// No description provided for @pasteNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing recognised. Fill the order manually.'**
+  String get pasteNothing;
+
+  /// No description provided for @pasteCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create order'**
+  String get pasteCreate;
+
+  /// No description provided for @pasteReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the highlighted fields before creating the order. Nothing is saved yet.'**
+  String get pasteReview;
+
+  /// No description provided for @pasteExisting.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing customer found'**
+  String get pasteExisting;
+
+  /// No description provided for @pasteExistingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This customer is used as saved. Their details are not changed.'**
+  String get pasteExistingNote;
+
+  /// No description provided for @pasteNameDiffers.
+  ///
+  /// In en, this message translates to:
+  /// **'The message says a different name'**
+  String get pasteNameDiffers;
+
+  /// No description provided for @pasteNewCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'New customer: you can review the details first'**
+  String get pasteNewCustomer;
+
+  /// No description provided for @pasteLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get pasteLines;
+
+  /// No description provided for @pasteQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Qty'**
+  String get pasteQty;
+
+  /// No description provided for @pasteMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Catalog product'**
+  String get pasteMatch;
+
+  /// No description provided for @pasteNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in catalog (free text)'**
+  String get pasteNoMatch;
+
+  /// No description provided for @pastePriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Price in message'**
+  String get pastePriceHint;
+
+  /// No description provided for @pasteTotalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Message mentions a total of'**
+  String get pasteTotalHint;
+
+  /// No description provided for @pasteUseDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Use delivery charge from message'**
+  String get pasteUseDelivery;
+
+  /// No description provided for @pasteUseAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Use advance from message'**
+  String get pasteUseAdvance;
+
+  /// No description provided for @pasteCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get pasteCheck;
+
+  /// No description provided for @pasteSure.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks right'**
+  String get pasteSure;
+
+  /// No description provided for @pasteAmbiguous.
+  ///
+  /// In en, this message translates to:
+  /// **'Several products match'**
+  String get pasteAmbiguous;
+
+  /// No description provided for @pasteMoreNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Other numbers'**
+  String get pasteMoreNumbers;
 }
 
 class _AppLocalizationsDelegate

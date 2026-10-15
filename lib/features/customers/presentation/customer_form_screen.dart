@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/customers/domain/phone_normalizer.dart';
+import 'package:parcel_khata/features/orders/application/order_prefill.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
 
@@ -31,9 +32,10 @@ class _AddrCtl {
 
 /// Create (customerId == null) or edit a customer and their address book.
 class CustomerFormScreen extends ConsumerStatefulWidget {
-  const CustomerFormScreen({this.customerId, super.key});
+  const CustomerFormScreen({this.customerId, this.prefill, super.key});
 
   final String? customerId;
+  final CustomerPrefill? prefill;
 
   @override
   ConsumerState<CustomerFormScreen> createState() => _CustomerFormScreenState();
@@ -55,7 +57,10 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
   void initState() {
     super.initState();
     if (widget.customerId == null) {
-      _addrs.add(_AddrCtl(isDefault: true));
+      final pf = widget.prefill;
+      _name.text = pf?.name ?? '';
+      _phone.text = pf?.phone ?? '';
+      _addrs.add(_AddrCtl(isDefault: true, text: pf?.address ?? ''));
       _loaded = true;
     } else {
       _load();
