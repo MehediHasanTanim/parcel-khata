@@ -45,14 +45,20 @@ abstract final class ProfitInputBuilder {
             returnCondition: conditionByLine[l.id],
           ),
       ],
-      charges: [
-        for (final c in charges.where((c) => c.deletedAt == null))
-          ChargeAmount(
-            type: c.type,
-            expected: Money(c.expectedAmount),
-            actual: c.actualAmount == null ? null : Money(c.actualAmount!),
-          ),
-      ],
+      charges: relevantCharges(
+        [
+          for (final c in charges.where((c) => c.deletedAt == null))
+            ChargeAmount(
+              type: c.type,
+              expected: Money(c.expectedAmount),
+              actual: c.actualAmount == null ? null : Money(c.actualAmount!),
+            ),
+        ],
+        hasReturn: hasReturnRecord ||
+            status == OrderStatus.deliveryFailed ||
+            status == OrderStatus.returnInTransit ||
+            status == OrderStatus.returned,
+      ),
     );
   }
 }

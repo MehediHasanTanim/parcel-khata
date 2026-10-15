@@ -1746,4 +1746,153 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportPdf => 'Export PDF';
+
+  @override
+  String get lockTitle => 'Parcel Khata is locked';
+
+  @override
+  String get lockEnterPin => 'Enter your PIN';
+
+  @override
+  String get lockWrongPin => 'Wrong PIN';
+
+  @override
+  String lockTryAgain(int s) {
+    return 'Try again in $s seconds';
+  }
+
+  @override
+  String get lockUseBiometric => 'Use fingerprint / face';
+
+  @override
+  String get lockBiometricReason => 'Unlock Parcel Khata';
+
+  @override
+  String get lockSetPin => 'Choose a PIN (4–8 digits)';
+
+  @override
+  String get lockConfirmPin => 'Confirm PIN';
+
+  @override
+  String get lockPinMismatch => 'PINs do not match';
+
+  @override
+  String get lockPinInvalid => 'Use 4 to 8 digits';
+
+  @override
+  String get secTitle => 'Security & privacy';
+
+  @override
+  String get secEnableLock => 'Lock the app with a PIN';
+
+  @override
+  String get secChangePin => 'Change PIN';
+
+  @override
+  String get secBiometric => 'Unlock with fingerprint / face';
+
+  @override
+  String get secTimeout => 'Lock after leaving the app';
+
+  @override
+  String get secTimeoutNow => 'Immediately';
+
+  @override
+  String get secTimeout1m => 'After 1 minute';
+
+  @override
+  String get secTimeout5m => 'After 5 minutes';
+
+  @override
+  String get secHideAmounts => 'Hide dashboard amounts until tapped';
+
+  @override
+  String get secHideProfit => 'Hide profit everywhere';
+
+  @override
+  String get secTelemetry => 'Share anonymous usage and crash reports';
+
+  @override
+  String get secTelemetryHelp =>
+      'Never includes customers, phones, addresses or amounts.';
+
+  @override
+  String get secErase => 'Erase all data';
+
+  @override
+  String get secEraseWarn =>
+      'This deletes every order, customer, product, payout, attachment and setting on this phone. It cannot be undone. Make a backup first.';
+
+  @override
+  String get secEraseWord => 'ERASE';
+
+  @override
+  String get secEraseType => 'Type ERASE to confirm';
+
+  @override
+  String get secErased => 'All data erased';
+
+  @override
+  String get tapToReveal => 'Tap to show';
+
+  @override
+  String get obWelcome => 'Welcome to Parcel Khata';
+
+  @override
+  String get obWelcomeSub =>
+      'Track orders, courier cash and real profit in one place.';
+
+  @override
+  String get obLanguage => 'Choose your language';
+
+  @override
+  String get obBusiness => 'Your business';
+
+  @override
+  String get obCourier => 'Which courier do you use most?';
+
+  @override
+  String get obCourierHelp => 'You can add rates and more couriers later.';
+
+  @override
+  String get obSample => 'Add a few sample records';
+
+  @override
+  String get obSampleHelp =>
+      'Two customers and three products so you can try an order right away.';
+
+  @override
+  String get obFinish => 'Start using the app';
+
+  @override
+  String get obNext => 'Next';
+
+  @override
+  String get obSkip => 'Skip';
+
+  @override
+  String get obTelemetryAsk =>
+      'Help improve the app with anonymous usage reports';
+
+  @override
+  String get emptyOrdersHint =>
+      'Orders you take on Facebook, WhatsApp or by phone appear here.';
+
+  @override
+  String get emptyOrdersCta => 'Create your first order';
+
+  @override
+  String get sampleCustomerA => 'Sample customer A';
+
+  @override
+  String get sampleCustomerB => 'Sample customer B';
+
+  @override
+  String get sampleProduct1 => 'Sample T-shirt';
+
+  @override
+  String get sampleProduct2 => 'Sample bag';
+
+  @override
+  String get sampleProduct3 => 'Sample mug';
 }

@@ -543,7 +543,18 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           child: _firstLoad && _items.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : _items.isEmpty
-                  ? EmptyState(icon: Icons.receipt_long_outlined, title: l.noOrders)
+                  ? EmptyState(
+                      icon: Icons.receipt_long_outlined,
+                      title: l.noOrders,
+                      message: l.emptyOrdersHint,
+                      action: widget._isMainTab && _filter.activeCount == 0
+                          ? FilledButton.icon(
+                              onPressed: () => context.push('/orders/new'),
+                              icon: const Icon(Icons.add),
+                              label: Text(l.emptyOrdersCta),
+                            )
+                          : null,
+                    )
                   : ListView.separated(
                       controller: _scroll,
                       itemCount: _items.length,

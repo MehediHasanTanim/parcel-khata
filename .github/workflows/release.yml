@@ -1,0 +1,32 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+jobs:
+  aab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - run: flutter analyze
+      - run: flutter test
+      - name: Restore upload keystore
+        run: |
+          echo "${{ secrets.UPLOAD_KEYSTORE_BASE64 }}" | base64 -d > android/upload.jks
+          cat > android/key.properties <<EOP
+          storeFile=upload.jks
+          storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.UPLOAD_KEY_ALIAS }}
+          keyPassword=${{ secrets.UPLOAD_KEY_PASSWORD }}
+          EOP
+      - run: flutter build appbundle --release --build-number ${{ github.run_number }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab

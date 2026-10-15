@@ -28,6 +28,9 @@ class ShopSettings {
     this.quietEndMinute = 7 * 60,
     this.digestKinds = defaultDigestKinds,
     this.batteryGuideShown = false,
+    this.onboardingDone = false,
+    this.hideAmountsOnDashboard = false,
+    this.telemetryConsent,
   });
 
   static const defaultDigestKinds = [
@@ -77,6 +80,13 @@ class ShopSettings {
   /// Attention kinds included in the digest (names of AttentionKind).
   final List<String> digestKinds;
   final bool batteryGuideShown;
+  final bool onboardingDone;
+
+  /// Dashboard money tiles show dots until tapped.
+  final bool hideAmountsOnDashboard;
+
+  /// Opt-in analytics/crash reports; null = never asked, treated as "no".
+  final bool? telemetryConsent;
 
   ShopSettings copyWith({
     String? businessName,
@@ -104,6 +114,9 @@ class ShopSettings {
     int? quietEndMinute,
     List<String>? digestKinds,
     bool? batteryGuideShown,
+    bool? onboardingDone,
+    bool? hideAmountsOnDashboard,
+    bool? telemetryConsent,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -133,6 +146,9 @@ class ShopSettings {
         quietEndMinute: quietEndMinute ?? this.quietEndMinute,
         digestKinds: digestKinds ?? this.digestKinds,
         batteryGuideShown: batteryGuideShown ?? this.batteryGuideShown,
+        onboardingDone: onboardingDone ?? this.onboardingDone,
+        hideAmountsOnDashboard: hideAmountsOnDashboard ?? this.hideAmountsOnDashboard,
+        telemetryConsent: telemetryConsent ?? this.telemetryConsent,
       );
 
   Map<String, Object?> toJson() => {
@@ -161,6 +177,9 @@ class ShopSettings {
         'quietEndMinute': quietEndMinute,
         'digestKinds': digestKinds,
         'batteryGuideShown': batteryGuideShown,
+        'onboardingDone': onboardingDone,
+        'hideAmountsOnDashboard': hideAmountsOnDashboard,
+        'telemetryConsent': telemetryConsent,
       };
 
   String encode() => jsonEncode(toJson());
@@ -202,6 +221,10 @@ class ShopSettings {
         quietEndMinute: j['quietEndMinute'] as int? ?? d.quietEndMinute,
         digestKinds: (j['digestKinds'] as List<dynamic>?)?.cast<String>() ?? d.digestKinds,
         batteryGuideShown: j['batteryGuideShown'] as bool? ?? d.batteryGuideShown,
+        onboardingDone: j['onboardingDone'] as bool? ?? d.onboardingDone,
+        hideAmountsOnDashboard:
+            j['hideAmountsOnDashboard'] as bool? ?? d.hideAmountsOnDashboard,
+        telemetryConsent: j['telemetryConsent'] as bool?,
       );
     } on FormatException {
       return const ShopSettings();

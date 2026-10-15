@@ -30,6 +30,7 @@ import 'package:parcel_khata/features/backup/presentation/data_screen.dart';
 import 'package:parcel_khata/features/backup/presentation/import_screen.dart';
 import 'package:parcel_khata/features/reminders/presentation/attention_screen.dart';
 import 'package:parcel_khata/features/reminders/presentation/notification_settings_screen.dart';
+import 'package:parcel_khata/features/security/presentation/security_screen.dart';
 import 'package:parcel_khata/features/settings/presentation/settings_screen.dart';
 import 'package:parcel_khata/features/templates/presentation/templates_screen.dart';
 
@@ -116,6 +117,7 @@ final appRouter = GoRouter(
       builder: (_, st) => CourierFormScreen(courierId: st.pathParameters['id']),
     ),
     GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
+    GoRoute(path: '/settings/security', builder: (_, __) => const SecurityScreen()),
     GoRoute(path: '/settings/data', builder: (_, __) => const DataScreen()),
     GoRoute(path: '/settings/import', builder: (_, __) => const ImportScreen()),
     GoRoute(

@@ -33,7 +33,15 @@ class LedgerPanel extends ConsumerWidget {
     final status = OrderStatus.fromDb(order.status);
     final settled = ref.watch(_settledProvider(order.id)).value ?? Money.zero;
     final collected = order.codCollected == null ? null : Money(order.codCollected!);
-    final live = charges.where((c) => c.deletedAt == null).toList();
+    final hadReturn = status == OrderStatus.deliveryFailed ||
+        status == OrderStatus.returnInTransit ||
+        status == OrderStatus.returned;
+    // An expected return fee stays hidden until something is returned.
+    final live = charges
+        .where((c) =>
+            c.deletedAt == null &&
+            (c.type != 'return_fee' || c.actualAmount != null || hadReturn))
+        .toList();
     final state = collected == null
         ? null
         : LedgerCalculator.state(

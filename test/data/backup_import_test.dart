@@ -223,8 +223,17 @@ void main() {
     );
 
     // Lose the data, then restore.
-    await db.customStatement('DELETE FROM order_lines');
-    await db.customStatement('DELETE FROM orders');
+    await db.customStatement('PRAGMA foreign_keys = OFF');
+    for (final t in [
+      'order_lines',
+      'order_charges',
+      'order_status_events',
+      'order_edit_log',
+      'orders',
+    ]) {
+      await db.customStatement('DELETE FROM $t');
+    }
+    await db.customStatement('PRAGMA foreign_keys = ON');
     expect((await db.select(db.orders).get()), isEmpty);
     final restored = BackupService(db, clock, e.settings, () async => db.close());
     await restored.restore(file, mode: RestoreMode.replace, passphrase: 'secret');

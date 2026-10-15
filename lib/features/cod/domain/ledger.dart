@@ -79,6 +79,14 @@ class OrderLedgerState {
       'writtenOff: $writtenOff, disputed: $isDisputed, outstanding: $outstanding)';
 }
 
+/// A rate-card return fee is only a real cost once something is returned.
+/// Without any return it is an expectation that never materializes, so it
+/// must not reduce net receivable or profit. An actual amount always counts.
+List<ChargeAmount> relevantCharges(Iterable<ChargeAmount> charges, {required bool hasReturn}) => [
+      for (final c in charges)
+        if (hasReturn || c.type != 'return_fee' || c.actual != null) c,
+    ];
+
 abstract final class LedgerCalculator {
   /// Actual overrides expected per charge (ChargeCalculator v2).
   static Money deductions(Iterable<ChargeAmount> charges) => charges

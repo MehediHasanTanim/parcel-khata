@@ -5,6 +5,8 @@ import 'package:parcel_khata/app/router.dart';
 import 'package:parcel_khata/app/theme.dart';
 import 'package:parcel_khata/features/reminders/application/attention_service.dart';
 import 'package:parcel_khata/features/reminders/application/digest_service.dart';
+import 'package:parcel_khata/features/onboarding/presentation/onboarding_gate.dart';
+import 'package:parcel_khata/features/security/presentation/lock_gate.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
@@ -37,6 +39,11 @@ class ParcelKhataApp extends ConsumerWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: appRouter,
+      // Content must stay usable at 200% font size (accessibility pass).
+      builder: (context, child) => MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 2,
+        child: LockGate(child: OnboardingGate(child: child ?? const SizedBox.shrink())),
+      ),
     );
   }
 }

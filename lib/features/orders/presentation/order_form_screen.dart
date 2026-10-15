@@ -16,6 +16,8 @@ import 'package:parcel_khata/features/orders/domain/order_input.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
+import 'package:parcel_khata/features/telemetry/application/telemetry_providers.dart';
+import 'package:parcel_khata/features/telemetry/domain/telemetry.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
@@ -76,6 +78,8 @@ class OrderFormScreen extends ConsumerStatefulWidget {
 class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
   late final OrderRepository _repo;
   late final ProductRepository _products;
+  late final Telemetry _telemetry;
+  final Stopwatch _openFor = Stopwatch()..start();
 
   Customer? _customer;
   final _address = TextEditingController();
@@ -113,6 +117,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
     super.initState();
     _repo = ref.read(orderRepositoryProvider);
     _products = ref.read(productRepositoryProvider);
+    _telemetry = ref.read(telemetryProvider);
     _all.forEach((c) => c.addListener(_changed));
     unawaited(_init());
   }
@@ -280,6 +285,8 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
           m.showSnackBar(SnackBar(content: Text(l.draftSaved)));
           context.pop();
         } else if (widget.orderId == null) {
+          // Spec target: under 30 s for a returning customer (metric only).
+          _telemetry.event('order_created', {'ms': _openFor.elapsedMilliseconds});
           m.showSnackBar(SnackBar(content: Text(l.orderCreated)));
           context.pushReplacement('/orders/${o.id}');
         } else {

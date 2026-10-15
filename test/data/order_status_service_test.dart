@@ -68,10 +68,13 @@ void main() {
     final at = clock.now().subtract(const Duration(days: 1));
     final r = await status.changeStatus(o.id, to: OrderStatus.handedToCourier, at: at);
     expect(r.valueOrNull!.status, 'handed_to_courier');
-    expect(r.valueOrNull!.handedOverAt, at);
+    // Drift returns local DateTimes; compare instants, not representations.
+    expect(r.valueOrNull!.handedOverAt!.isAtSameMomentAs(at), isTrue);
     final d = (await orders.detail(o.id))!;
-    expect(d.events.last.fromStatus, 'confirmed');
-    expect(d.events.last.at, at);
+    // Back-dated: ordered by event time, so find the handover explicitly.
+    final handed = d.events.firstWhere((e) => e.toStatus == 'handed_to_courier');
+    expect(handed.fromStatus, 'confirmed');
+    expect(handed.at.isAtSameMomentAs(at), isTrue);
   });
 
   test('guards surface as typed failures', () async {

@@ -3445,6 +3445,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export PDF'**
   String get exportPdf;
+
+  /// No description provided for @lockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Parcel Khata is locked'**
+  String get lockTitle;
+
+  /// No description provided for @lockEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN'**
+  String get lockEnterPin;
+
+  /// No description provided for @lockWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN'**
+  String get lockWrongPin;
+
+  /// No description provided for @lockTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in {s} seconds'**
+  String lockTryAgain(int s);
+
+  /// No description provided for @lockUseBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint / face'**
+  String get lockUseBiometric;
+
+  /// No description provided for @lockBiometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Parcel Khata'**
+  String get lockBiometricReason;
+
+  /// No description provided for @lockSetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a PIN (4–8 digits)'**
+  String get lockSetPin;
+
+  /// No description provided for @lockConfirmPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm PIN'**
+  String get lockConfirmPin;
+
+  /// No description provided for @lockPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs do not match'**
+  String get lockPinMismatch;
+
+  /// No description provided for @lockPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 4 to 8 digits'**
+  String get lockPinInvalid;
+
+  /// No description provided for @secTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security & privacy'**
+  String get secTitle;
+
+  /// No description provided for @secEnableLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app with a PIN'**
+  String get secEnableLock;
+
+  /// No description provided for @secChangePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get secChangePin;
+
+  /// No description provided for @secBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with fingerprint / face'**
+  String get secBiometric;
+
+  /// No description provided for @secTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after leaving the app'**
+  String get secTimeout;
+
+  /// No description provided for @secTimeoutNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get secTimeoutNow;
+
+  /// No description provided for @secTimeout1m.
+  ///
+  /// In en, this message translates to:
+  /// **'After 1 minute'**
+  String get secTimeout1m;
+
+  /// No description provided for @secTimeout5m.
+  ///
+  /// In en, this message translates to:
+  /// **'After 5 minutes'**
+  String get secTimeout5m;
+
+  /// No description provided for @secHideAmounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide dashboard amounts until tapped'**
+  String get secHideAmounts;
+
+  /// No description provided for @secHideProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide profit everywhere'**
+  String get secHideProfit;
+
+  /// No description provided for @secTelemetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Share anonymous usage and crash reports'**
+  String get secTelemetry;
+
+  /// No description provided for @secTelemetryHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Never includes customers, phones, addresses or amounts.'**
+  String get secTelemetryHelp;
+
+  /// No description provided for @secErase.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase all data'**
+  String get secErase;
+
+  /// No description provided for @secEraseWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes every order, customer, product, payout, attachment and setting on this phone. It cannot be undone. Make a backup first.'**
+  String get secEraseWarn;
+
+  /// No description provided for @secEraseWord.
+  ///
+  /// In en, this message translates to:
+  /// **'ERASE'**
+  String get secEraseWord;
+
+  /// No description provided for @secEraseType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type ERASE to confirm'**
+  String get secEraseType;
+
+  /// No description provided for @secErased.
+  ///
+  /// In en, this message translates to:
+  /// **'All data erased'**
+  String get secErased;
+
+  /// No description provided for @tapToReveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to show'**
+  String get tapToReveal;
+
+  /// No description provided for @obWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Parcel Khata'**
+  String get obWelcome;
+
+  /// No description provided for @obWelcomeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Track orders, courier cash and real profit in one place.'**
+  String get obWelcomeSub;
+
+  /// No description provided for @obLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get obLanguage;
+
+  /// No description provided for @obBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Your business'**
+  String get obBusiness;
+
+  /// No description provided for @obCourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Which courier do you use most?'**
+  String get obCourier;
+
+  /// No description provided for @obCourierHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'You can add rates and more couriers later.'**
+  String get obCourierHelp;
+
+  /// No description provided for @obSample.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few sample records'**
+  String get obSample;
+
+  /// No description provided for @obSampleHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Two customers and three products so you can try an order right away.'**
+  String get obSampleHelp;
+
+  /// No description provided for @obFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Start using the app'**
+  String get obFinish;
+
+  /// No description provided for @obNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get obNext;
+
+  /// No description provided for @obSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get obSkip;
+
+  /// No description provided for @obTelemetryAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Help improve the app with anonymous usage reports'**
+  String get obTelemetryAsk;
+
+  /// No description provided for @emptyOrdersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders you take on Facebook, WhatsApp or by phone appear here.'**
+  String get emptyOrdersHint;
+
+  /// No description provided for @emptyOrdersCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first order'**
+  String get emptyOrdersCta;
+
+  /// No description provided for @sampleCustomerA.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample customer A'**
+  String get sampleCustomerA;
+
+  /// No description provided for @sampleCustomerB.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample customer B'**
+  String get sampleCustomerB;
+
+  /// No description provided for @sampleProduct1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample T-shirt'**
+  String get sampleProduct1;
+
+  /// No description provided for @sampleProduct2.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample bag'**
+  String get sampleProduct2;
+
+  /// No description provided for @sampleProduct3.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample mug'**
+  String get sampleProduct3;
 }
 
 class _AppLocalizationsDelegate

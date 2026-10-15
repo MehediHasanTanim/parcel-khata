@@ -55,6 +55,11 @@ class MoreScreen extends ConsumerWidget {
             onTap: () => context.push('/settings/notifications'),
           ),
           ListTile(
+            leading: const Icon(Icons.security_outlined),
+            title: Text(l.secTitle),
+            onTap: () => context.push('/settings/security'),
+          ),
+          ListTile(
             leading: const Icon(Icons.storage_outlined),
             title: Text(l.dataSection),
             onTap: () => context.push('/settings/data'),

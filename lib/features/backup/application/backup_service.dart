@@ -178,32 +178,37 @@ class BackupService {
     }
   }
 
-  // Parents before children; value = (child column, parent table) guards.
-  static const _mergeOrder = <String, (String, String)?>{
-    'shops': null,
-    'customers': null,
-    'customer_addresses': ('customer_id', 'customers'),
-    'products': null,
-    'product_variants': ('product_id', 'products'),
-    'couriers': null,
-    'courier_rate_rules': ('courier_id', 'couriers'),
-    'orders': null,
-    'order_lines': ('order_id', 'orders'),
-    'order_charges': ('order_id', 'orders'),
-    'order_status_events': ('order_id', 'orders'),
-    'order_edit_log': ('order_id', 'orders'),
-    'order_attachments': ('order_id', 'orders'),
-    'payouts': ('courier_id', 'couriers'),
-    'payout_allocations': ('payout_id', 'payouts'),
-    'return_records': ('order_id', 'orders'),
-    'return_lines': ('return_id', 'return_records'),
-    'saved_views': null,
-    'reminders': null,
-    'message_templates': null,
-    'audit_log': null,
+  // Parents before children. Guards keep a row only when every parent it
+  // references exists in the live database after the merge.
+  static const _mergeOrder = <String, List<(String, String)>>{
+    'shops': [],
+    'customers': [],
+    'customer_addresses': [('customer_id', 'customers')],
+    'products': [],
+    'product_variants': [('product_id', 'products')],
+    'couriers': [],
+    'courier_rate_rules': [('courier_id', 'couriers')],
+    'orders': [],
+    'order_lines': [('order_id', 'orders')],
+    'order_charges': [('order_id', 'orders')],
+    'order_status_events': [('order_id', 'orders')],
+    'order_edit_log': [('order_id', 'orders')],
+    'order_attachments': [('order_id', 'orders')],
+    'payouts': [('courier_id', 'couriers')],
+    'payout_allocations': [('payout_id', 'payouts'), ('order_id', 'orders')],
+    'return_records': [('order_id', 'orders')],
+    'return_lines': [('return_id', 'return_records')],
+    'saved_views': [],
+    'reminders': [],
+    'message_templates': [],
+    'audit_log': [],
   };
 
   /// Adds rows the live database does not have (same id = local wins).
+  ///
+  /// Incoming orders are renumbered after the live ones (order numbers are
+  /// unique per shop) and attached to the local customer with the same phone,
+  /// so one person never becomes two customers.
   Future<void> _merge(File staged) async {
     final path = staged.path.replaceAll("'", "''");
     await _db.customStatement("ATTACH DATABASE '$path' AS bak");
@@ -216,13 +221,42 @@ class BackupService {
         final bakCols = {for (final r in bak) r.read<String>('name')};
         final cols = mainCols.where(bakCols.contains).toList();
         if (cols.isEmpty) continue;
-        final list = cols.map((c) => '"$c"').join(', ');
-        final guard = e.value;
-        final where = guard == null
+        final target = cols.map((c) => '"$c"').join(', ');
+
+        if (t == 'orders') {
+          const remapCustomer = 'COALESCE('
+              '(SELECT m.id FROM main.customers m JOIN bak.customers bc '
+              'ON bc.phone_normalized = m.phone_normalized '
+              'WHERE bc.id = b.customer_id AND m.deleted_at IS NULL LIMIT 1), '
+              'b.customer_id)';
+          final select = cols.map((c) {
+            switch (c) {
+              case 'order_number':
+                return 'b.order_number + '
+                    '(SELECT COALESCE(MAX(order_number), 0) FROM main.orders)';
+              case 'order_no':
+                return 'CASE WHEN EXISTS '
+                    '(SELECT 1 FROM main.orders x WHERE x.order_no = b.order_no) '
+                    "THEN b.order_no || ' (B)' ELSE b.order_no END";
+              case 'customer_id':
+                return remapCustomer;
+              default:
+                return 'b."$c"';
+            }
+          }).join(', ');
+          await _db.customStatement(
+            'INSERT OR IGNORE INTO main.orders ($target) SELECT $select FROM bak.orders b '
+            'WHERE b.customer_id IS NULL OR $remapCustomer IN (SELECT id FROM main.customers)',
+          );
+          continue;
+        }
+
+        final guards = _mergeOrder[t]!;
+        final where = guards.isEmpty
             ? ''
-            : ' WHERE "${guard.$1}" IN (SELECT id FROM main.${guard.$2})';
+            : ' WHERE ${guards.map((g) => '"${g.$1}" IN (SELECT id FROM main.${g.$2})').join(' AND ')}';
         await _db.customStatement(
-          'INSERT OR IGNORE INTO main.$t ($list) SELECT $list FROM bak.$t$where',
+          'INSERT OR IGNORE INTO main.$t ($target) SELECT $target FROM bak.$t$where',
         );
       }
     } finally {

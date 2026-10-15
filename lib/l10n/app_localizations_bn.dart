@@ -1742,4 +1742,153 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get exportPdf => 'PDF এক্সপোর্ট';
+
+  @override
+  String get lockTitle => 'পার্সেল খাতা লক করা আছে';
+
+  @override
+  String get lockEnterPin => 'আপনার পিন দিন';
+
+  @override
+  String get lockWrongPin => 'ভুল পিন';
+
+  @override
+  String lockTryAgain(int s) {
+    return '$s সেকেন্ড পরে চেষ্টা করুন';
+  }
+
+  @override
+  String get lockUseBiometric => 'ফিঙ্গারপ্রিন্ট / ফেস ব্যবহার করুন';
+
+  @override
+  String get lockBiometricReason => 'পার্সেল খাতা খুলুন';
+
+  @override
+  String get lockSetPin => 'পিন বাছুন (৪–৮ সংখ্যা)';
+
+  @override
+  String get lockConfirmPin => 'পিন নিশ্চিত করুন';
+
+  @override
+  String get lockPinMismatch => 'পিন মেলেনি';
+
+  @override
+  String get lockPinInvalid => '৪ থেকে ৮ সংখ্যা দিন';
+
+  @override
+  String get secTitle => 'নিরাপত্তা ও গোপনীয়তা';
+
+  @override
+  String get secEnableLock => 'পিন দিয়ে অ্যাপ লক করুন';
+
+  @override
+  String get secChangePin => 'পিন পরিবর্তন';
+
+  @override
+  String get secBiometric => 'ফিঙ্গারপ্রিন্ট / ফেস দিয়ে খুলুন';
+
+  @override
+  String get secTimeout => 'অ্যাপ ছাড়ার পর লক';
+
+  @override
+  String get secTimeoutNow => 'সাথে সাথে';
+
+  @override
+  String get secTimeout1m => '১ মিনিট পর';
+
+  @override
+  String get secTimeout5m => '৫ মিনিট পর';
+
+  @override
+  String get secHideAmounts => 'ড্যাশবোর্ডের অঙ্ক ট্যাপ না করা পর্যন্ত লুকান';
+
+  @override
+  String get secHideProfit => 'সব জায়গায় মুনাফা লুকান';
+
+  @override
+  String get secTelemetry => 'নামহীন ব্যবহার ও ক্র্যাশ রিপোর্ট পাঠান';
+
+  @override
+  String get secTelemetryHelp =>
+      'গ্রাহক, ফোন, ঠিকানা বা অঙ্ক কখনও পাঠানো হয় না।';
+
+  @override
+  String get secErase => 'সব ডেটা মুছুন';
+
+  @override
+  String get secEraseWarn =>
+      'এই ফোনের সব অর্ডার, গ্রাহক, পণ্য, পেআউট, সংযুক্তি ও সেটিংস মুছে যাবে। ফেরানো যাবে না। আগে ব্যাকআপ নিন।';
+
+  @override
+  String get secEraseWord => 'ERASE';
+
+  @override
+  String get secEraseType => 'নিশ্চিত করতে ERASE লিখুন';
+
+  @override
+  String get secErased => 'সব ডেটা মুছে ফেলা হয়েছে';
+
+  @override
+  String get tapToReveal => 'দেখতে ট্যাপ করুন';
+
+  @override
+  String get obWelcome => 'পার্সেল খাতায় স্বাগতম';
+
+  @override
+  String get obWelcomeSub =>
+      'অর্ডার, কুরিয়ারের টাকা ও আসল মুনাফা এক জায়গায় দেখুন।';
+
+  @override
+  String get obLanguage => 'ভাষা বাছুন';
+
+  @override
+  String get obBusiness => 'আপনার ব্যবসা';
+
+  @override
+  String get obCourier => 'কোন কুরিয়ার বেশি ব্যবহার করেন?';
+
+  @override
+  String get obCourierHelp => 'রেট ও আরও কুরিয়ার পরে যোগ করা যাবে।';
+
+  @override
+  String get obSample => 'কিছু নমুনা তথ্য যোগ করুন';
+
+  @override
+  String get obSampleHelp =>
+      'দুইজন গ্রাহক ও তিনটি পণ্য, যাতে এখনই অর্ডার চেষ্টা করতে পারেন।';
+
+  @override
+  String get obFinish => 'অ্যাপ ব্যবহার শুরু করুন';
+
+  @override
+  String get obNext => 'পরবর্তী';
+
+  @override
+  String get obSkip => 'বাদ দিন';
+
+  @override
+  String get obTelemetryAsk =>
+      'নামহীন ব্যবহার রিপোর্ট দিয়ে অ্যাপ উন্নত করতে সাহায্য করুন';
+
+  @override
+  String get emptyOrdersHint =>
+      'ফেসবুক, হোয়াটসঅ্যাপ বা ফোনে নেওয়া অর্ডার এখানে দেখাবে।';
+
+  @override
+  String get emptyOrdersCta => 'প্রথম অর্ডার তৈরি করুন';
+
+  @override
+  String get sampleCustomerA => 'নমুনা গ্রাহক ক';
+
+  @override
+  String get sampleCustomerB => 'নমুনা গ্রাহক খ';
+
+  @override
+  String get sampleProduct1 => 'নমুনা টি-শার্ট';
+
+  @override
+  String get sampleProduct2 => 'নমুনা ব্যাগ';
+
+  @override
+  String get sampleProduct3 => 'নমুনা মগ';
 }

@@ -9,6 +9,7 @@ import 'package:parcel_khata/features/reports/application/dashboard_service.dart
 import 'package:parcel_khata/features/reports/domain/report_math.dart';
 import 'package:parcel_khata/features/reports/presentation/format.dart';
 import 'package:parcel_khata/features/search/application/saved_view_repository.dart';
+import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
@@ -149,22 +150,55 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _Sections extends StatelessWidget {
+class _Sections extends ConsumerStatefulWidget {
   const _Sections({required this.data});
 
   final DashboardData data;
 
   @override
+  ConsumerState<_Sections> createState() => _SectionsState();
+}
+
+class _SectionsState extends ConsumerState<_Sections> {
+  // Tiles the seller tapped to reveal while "hide amounts" is on.
+  final Set<TileId> _revealed = {};
+
+  bool _isMoney(Measure m) => const {
+        Measure.outstanding,
+        Measure.codExpected,
+        Measure.revenue,
+        Measure.profitFinal,
+        Measure.profitProvisional,
+        Measure.avgProfit,
+      }.contains(m);
+
+  @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    final data = widget.data;
+    final settings = ref.watch(shopSettingsProvider).value;
+    final hideAmounts = settings?.hideAmountsOnDashboard ?? false;
+    final hideProfit = settings?.hideProfitInLists ?? false;
 
     Widget tile(TileId id, String label, IconData icon) {
       final t = data.tiles[id]!;
+      final isProfit = const {
+        TileId.profitFinal,
+        TileId.profitProvisional,
+        TileId.margin,
+        TileId.avgProfit,
+      }.contains(id);
+      final masked = (hideAmounts && _isMoney(t.measure) && !_revealed.contains(id)) ||
+          (hideProfit && isProfit);
       return _TileCard(
         label: label,
         icon: icon,
-        value: formatMeasure(t.measure, t.value),
+        value: masked ? '••••' : formatMeasure(t.measure, t.value),
         onTap: () {
+          if (masked && !(hideProfit && isProfit)) {
+            setState(() => _revealed.add(id));
+            return;
+          }
           if (id == TileId.stuck) {
             openDrillDown(context, title: label, filter: t.filter, stuck: true, measure: t.measure);
           } else {
@@ -181,13 +215,17 @@ class _Sections extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
               child: Text(title, style: Theme.of(context).textTheme.titleMedium),
             ),
-            GridView.count(
-              crossAxisCount: 2,
-              childAspectRatio: 1.7,
+            // Row height follows the text scale so tiles never clip at 200%.
+            GridView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                mainAxisExtent:
+                    92 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
+              ),
               children: tiles,
             ),
           ],
@@ -200,8 +238,16 @@ class _Sections extends StatelessWidget {
         _TileCard(
           label: l.settledThisMonth,
           icon: Icons.savings_outlined,
-          value: formatMoneyOrDash(data.settled),
-          onTap: () => context.push('/cod/payouts'),
+          value: hideAmounts && !_revealed.contains(TileId.settled)
+              ? '••••'
+              : formatMoneyOrDash(data.settled),
+          onTap: () {
+            if (hideAmounts && !_revealed.contains(TileId.settled)) {
+              setState(() => _revealed.add(TileId.settled));
+              return;
+            }
+            context.push('/cod/payouts');
+          },
         ),
         tile(TileId.disputed, l.codDisputed, Icons.flag_outlined),
       ]),

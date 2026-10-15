@@ -39,13 +39,15 @@ class CodScreen extends ConsumerWidget {
         summary.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Text('$e'),
-          data: (s) => GridView.count(
-            crossAxisCount: 2,
-            childAspectRatio: 1.9,
+          data: (s) => GridView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              mainAxisExtent: 92 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
+            ),
             children: [
               _Tile(l.pendingWithCourier, s.pending.format(), Icons.account_balance_wallet,
                   () => context.push('/cod/ageing')),

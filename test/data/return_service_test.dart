@@ -161,8 +161,9 @@ void main() {
     expect(after.status, 'delivered');
     // collected 1060 - returned 250
     expect(after.codCollected, 81000);
-    // revenue 750 + 60; COGS 300+100; fees 60 + 10.6
-    expect(after.profit, 81000 - 40000 - 6000 - 1060);
+    // revenue 750 + 60; COGS 300+100; fees 60 + 10.6; a return happened so
+    // the courier's flat 30 return fee now applies.
+    expect(after.profit, 81000 - 40000 - 6000 - 1060 - 3000);
   });
 
   test('cannot partially return everything or twice', () async {

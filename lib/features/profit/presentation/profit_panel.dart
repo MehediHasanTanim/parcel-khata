@@ -5,6 +5,7 @@ import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/profit/application/profit_input_builder.dart';
 import 'package:parcel_khata/features/profit/domain/profit_calculator.dart';
 import 'package:parcel_khata/features/returns/application/return_service.dart';
+import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
 
@@ -47,6 +48,9 @@ class ProfitPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final t = Theme.of(context);
+    if (ref.watch(shopSettingsProvider).value?.hideProfitInLists ?? false) {
+      return const SizedBox.shrink();
+    }
     return FutureBuilder<ReturnView?>(
       future: ref.read(returnServiceProvider).forOrder(detail.order.id),
       builder: (_, snap) {

@@ -27,16 +27,24 @@ class LedgerWriter {
           ..where((c) => c.orderId.equals(o.id) & c.deletedAt.isNull()))
         .get();
     final settled = await settledFor(o.id);
+    final status = OrderStatus.fromDb(o.status);
+    final record = await (_db.select(_db.returnRecords)
+          ..where((r) => r.orderId.equals(o.id) & r.deletedAt.isNull()))
+        .getSingleOrNull();
+    final hasReturn = record != null ||
+        status == OrderStatus.deliveryFailed ||
+        status == OrderStatus.returnInTransit ||
+        status == OrderStatus.returned;
     return LedgerCalculator.state(
       collected: Money(o.codCollected ?? 0),
-      charges: [
+      charges: relevantCharges([
         for (final c in charges)
           ChargeAmount(
             type: c.type,
             expected: Money(c.expectedAmount),
             actual: c.actualAmount == null ? null : Money(c.actualAmount!),
           ),
-      ],
+      ], hasReturn: hasReturn),
       settled: settled,
       isDisputed: o.isDisputed,
     );
