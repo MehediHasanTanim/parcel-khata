@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/cod/presentation/statement_import_screen.dart';
 import 'package:parcel_khata/features/returns/presentation/exchange_screen.dart';
 import 'package:parcel_khata/app/debug_menu.dart';
 import 'package:parcel_khata/app/shell_scaffold.dart';
@@ -100,6 +101,10 @@ final appRouter = GoRouter(
     GoRoute(path: '/cod/ageing', builder: (_, __) => const AgeingScreen()),
     GoRoute(path: '/cod/disputed', builder: (_, __) => const DisputedScreen()),
     GoRoute(path: '/cod/payouts', builder: (_, __) => const PayoutsScreen()),
+    GoRoute(
+      path: '/cod/payout/statement',
+      builder: (_, st) => StatementImportScreen(courierId: st.uri.queryParameters['courier']),
+    ),
     GoRoute(
       path: '/cod/payouts/:id',
       builder: (_, st) => PayoutDetailScreen(payoutId: st.pathParameters['id']!),

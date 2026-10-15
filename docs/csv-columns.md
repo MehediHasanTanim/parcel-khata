@@ -52,3 +52,16 @@ For simple imports the first item may be given on the order row with `item_name,
 - Every import is a batch. Settings > Data > Import shows the history with **Undo import**, which
   soft-deletes what the batch created. Orders that already have a payout applied, and customers that
   later gained other orders, are kept.
+
+## Courier statement import (Record payout > Import statement)
+Not a fixed format: each courier portal export is read through a **column profile** (header names per
+field: `cn`, `collected`, `delivery_fee`, `cod_fee`, `return_fee`, `net_payable`, `status`, `date`;
+`|` separates alternative spellings). Profiles are editable and saved per courier. Bundled presets
+are templates (column names only, no rates) and are best-effort guesses: check them against a real
+export and edit.
+- Rows are matched by CN within the chosen courier (case, punctuation and leading zeros ignored).
+  Outcomes: matched, unknown CN, duplicate in file, amount differs, already settled.
+- Applying saves the courier's actual fees, optionally replaces the recorded collected amount (reason
+  required) and records one payout through the normal reconciler (shortfall policy, overpayment flag,
+  audit). It runs in one transaction; the file's content hash is remembered so the same file cannot be
+  applied twice.

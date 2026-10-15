@@ -107,6 +107,10 @@ const _reminderIndexes = [
 ];
 
 // Added in schema v8 (expenses, campaigns, real tag links).
+const _statementIndexes = [
+  'CREATE INDEX IF NOT EXISTS idx_statement_imports_hash ON statement_imports(courier_id, content_hash)',
+];
+
 const _importIndexes = [
   'CREATE UNIQUE INDEX IF NOT EXISTS uq_column_mappings ON column_mappings(signature, kind)',
 ];
@@ -131,6 +135,8 @@ WHERE o.deleted_at IS NULL AND trim(j.value) != ''
 ''';
 
 @DriftDatabase(tables: [
+  StatementProfiles,
+  StatementImports,
   ImportBatches,
   ColumnMappings,
   Shops,
@@ -165,13 +171,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes, ..._expenseIndexes, ..._importIndexes]) {
+          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes, ..._expenseIndexes, ..._importIndexes, ..._statementIndexes]) {
             await customStatement(sql);
           }
           for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
@@ -264,6 +270,13 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(importBatches);
             await m.createTable(columnMappings);
             for (final sql in _importIndexes) {
+              await customStatement(sql);
+            }
+          }
+          if (from < 12) {
+            await m.createTable(statementProfiles);
+            await m.createTable(statementImports);
+            for (final sql in _statementIndexes) {
               await customStatement(sql);
             }
           }

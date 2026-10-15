@@ -35,6 +35,11 @@ void main() {
 
   Future<void> rewindTo(AppDatabase db, int version) async {
     await db.customStatement('PRAGMA foreign_keys = OFF');
+    if (version < 12) {
+      for (final t in ['statement_profiles', 'statement_imports']) {
+        await db.customStatement('DROP TABLE IF EXISTS $t');
+      }
+    }
     if (version < 11) {
       for (final t in ['import_batches', 'column_mappings']) {
         await db.customStatement('DROP TABLE IF EXISTS $t');
@@ -107,6 +112,9 @@ void main() {
     expect(await columns(db, 'return_records'), contains('exchange_order_id'));
     expect(await tableExists(db, 'import_batches'), isTrue);
     expect(await tableExists(db, 'column_mappings'), isTrue);
+    // v12
+    expect(await tableExists(db, 'statement_profiles'), isTrue);
+    expect(await tableExists(db, 'statement_imports'), isTrue);
     await db.close();
   });
 

@@ -3,6 +3,1331 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class $StatementProfilesTable extends StatementProfiles
+    with TableInfo<$StatementProfilesTable, SavedStatementProfile> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StatementProfilesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _courierIdMeta = const VerificationMeta(
+    'courierId',
+  );
+  @override
+  late final GeneratedColumn<String> courierId = GeneratedColumn<String>(
+    'courier_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _columnsJsonMeta = const VerificationMeta(
+    'columnsJson',
+  );
+  @override
+  late final GeneratedColumn<String> columnsJson = GeneratedColumn<String>(
+    'columns_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _toleranceTakaMeta = const VerificationMeta(
+    'toleranceTaka',
+  );
+  @override
+  late final GeneratedColumn<int> toleranceTaka = GeneratedColumn<int>(
+    'tolerance_taka',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    courierId,
+    name,
+    columnsJson,
+    toleranceTaka,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'statement_profiles';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SavedStatementProfile> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('courier_id')) {
+      context.handle(
+        _courierIdMeta,
+        courierId.isAcceptableOrUnknown(data['courier_id']!, _courierIdMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('columns_json')) {
+      context.handle(
+        _columnsJsonMeta,
+        columnsJson.isAcceptableOrUnknown(
+          data['columns_json']!,
+          _columnsJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_columnsJsonMeta);
+    }
+    if (data.containsKey('tolerance_taka')) {
+      context.handle(
+        _toleranceTakaMeta,
+        toleranceTaka.isAcceptableOrUnknown(
+          data['tolerance_taka']!,
+          _toleranceTakaMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SavedStatementProfile map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SavedStatementProfile(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      courierId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}courier_id'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      columnsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}columns_json'],
+      )!,
+      toleranceTaka: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tolerance_taka'],
+      )!,
+    );
+  }
+
+  @override
+  $StatementProfilesTable createAlias(String alias) {
+    return $StatementProfilesTable(attachedDatabase, alias);
+  }
+}
+
+class SavedStatementProfile extends DataClass
+    implements Insertable<SavedStatementProfile> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String? courierId;
+  final String name;
+  final String columnsJson;
+  final int toleranceTaka;
+  const SavedStatementProfile({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    this.courierId,
+    required this.name,
+    required this.columnsJson,
+    required this.toleranceTaka,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    if (!nullToAbsent || courierId != null) {
+      map['courier_id'] = Variable<String>(courierId);
+    }
+    map['name'] = Variable<String>(name);
+    map['columns_json'] = Variable<String>(columnsJson);
+    map['tolerance_taka'] = Variable<int>(toleranceTaka);
+    return map;
+  }
+
+  StatementProfilesCompanion toCompanion(bool nullToAbsent) {
+    return StatementProfilesCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      courierId: courierId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(courierId),
+      name: Value(name),
+      columnsJson: Value(columnsJson),
+      toleranceTaka: Value(toleranceTaka),
+    );
+  }
+
+  factory SavedStatementProfile.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SavedStatementProfile(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      courierId: serializer.fromJson<String?>(json['courierId']),
+      name: serializer.fromJson<String>(json['name']),
+      columnsJson: serializer.fromJson<String>(json['columnsJson']),
+      toleranceTaka: serializer.fromJson<int>(json['toleranceTaka']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'courierId': serializer.toJson<String?>(courierId),
+      'name': serializer.toJson<String>(name),
+      'columnsJson': serializer.toJson<String>(columnsJson),
+      'toleranceTaka': serializer.toJson<int>(toleranceTaka),
+    };
+  }
+
+  SavedStatementProfile copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    Value<String?> courierId = const Value.absent(),
+    String? name,
+    String? columnsJson,
+    int? toleranceTaka,
+  }) => SavedStatementProfile(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    courierId: courierId.present ? courierId.value : this.courierId,
+    name: name ?? this.name,
+    columnsJson: columnsJson ?? this.columnsJson,
+    toleranceTaka: toleranceTaka ?? this.toleranceTaka,
+  );
+  SavedStatementProfile copyWithCompanion(StatementProfilesCompanion data) {
+    return SavedStatementProfile(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      courierId: data.courierId.present ? data.courierId.value : this.courierId,
+      name: data.name.present ? data.name.value : this.name,
+      columnsJson: data.columnsJson.present
+          ? data.columnsJson.value
+          : this.columnsJson,
+      toleranceTaka: data.toleranceTaka.present
+          ? data.toleranceTaka.value
+          : this.toleranceTaka,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SavedStatementProfile(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('courierId: $courierId, ')
+          ..write('name: $name, ')
+          ..write('columnsJson: $columnsJson, ')
+          ..write('toleranceTaka: $toleranceTaka')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    courierId,
+    name,
+    columnsJson,
+    toleranceTaka,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SavedStatementProfile &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.courierId == this.courierId &&
+          other.name == this.name &&
+          other.columnsJson == this.columnsJson &&
+          other.toleranceTaka == this.toleranceTaka);
+}
+
+class StatementProfilesCompanion
+    extends UpdateCompanion<SavedStatementProfile> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String?> courierId;
+  final Value<String> name;
+  final Value<String> columnsJson;
+  final Value<int> toleranceTaka;
+  final Value<int> rowid;
+  const StatementProfilesCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.courierId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.columnsJson = const Value.absent(),
+    this.toleranceTaka = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StatementProfilesCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.courierId = const Value.absent(),
+    required String name,
+    required String columnsJson,
+    this.toleranceTaka = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       name = Value(name),
+       columnsJson = Value(columnsJson);
+  static Insertable<SavedStatementProfile> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? courierId,
+    Expression<String>? name,
+    Expression<String>? columnsJson,
+    Expression<int>? toleranceTaka,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (courierId != null) 'courier_id': courierId,
+      if (name != null) 'name': name,
+      if (columnsJson != null) 'columns_json': columnsJson,
+      if (toleranceTaka != null) 'tolerance_taka': toleranceTaka,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StatementProfilesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String?>? courierId,
+    Value<String>? name,
+    Value<String>? columnsJson,
+    Value<int>? toleranceTaka,
+    Value<int>? rowid,
+  }) {
+    return StatementProfilesCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      courierId: courierId ?? this.courierId,
+      name: name ?? this.name,
+      columnsJson: columnsJson ?? this.columnsJson,
+      toleranceTaka: toleranceTaka ?? this.toleranceTaka,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (courierId.present) {
+      map['courier_id'] = Variable<String>(courierId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (columnsJson.present) {
+      map['columns_json'] = Variable<String>(columnsJson.value);
+    }
+    if (toleranceTaka.present) {
+      map['tolerance_taka'] = Variable<int>(toleranceTaka.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StatementProfilesCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('courierId: $courierId, ')
+          ..write('name: $name, ')
+          ..write('columnsJson: $columnsJson, ')
+          ..write('toleranceTaka: $toleranceTaka, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $StatementImportsTable extends StatementImports
+    with TableInfo<$StatementImportsTable, StatementImportLog> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StatementImportsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _courierIdMeta = const VerificationMeta(
+    'courierId',
+  );
+  @override
+  late final GeneratedColumn<String> courierId = GeneratedColumn<String>(
+    'courier_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fileNameMeta = const VerificationMeta(
+    'fileName',
+  );
+  @override
+  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
+    'file_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _payoutIdMeta = const VerificationMeta(
+    'payoutId',
+  );
+  @override
+  late final GeneratedColumn<String> payoutId = GeneratedColumn<String>(
+    'payout_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowCountMeta = const VerificationMeta(
+    'rowCount',
+  );
+  @override
+  late final GeneratedColumn<int> rowCount = GeneratedColumn<int>(
+    'row_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _appliedCountMeta = const VerificationMeta(
+    'appliedCount',
+  );
+  @override
+  late final GeneratedColumn<int> appliedCount = GeneratedColumn<int>(
+    'applied_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    courierId,
+    contentHash,
+    fileName,
+    payoutId,
+    rowCount,
+    appliedCount,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'statement_imports';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StatementImportLog> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('courier_id')) {
+      context.handle(
+        _courierIdMeta,
+        courierId.isAcceptableOrUnknown(data['courier_id']!, _courierIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_courierIdMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('file_name')) {
+      context.handle(
+        _fileNameMeta,
+        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
+      );
+    }
+    if (data.containsKey('payout_id')) {
+      context.handle(
+        _payoutIdMeta,
+        payoutId.isAcceptableOrUnknown(data['payout_id']!, _payoutIdMeta),
+      );
+    }
+    if (data.containsKey('row_count')) {
+      context.handle(
+        _rowCountMeta,
+        rowCount.isAcceptableOrUnknown(data['row_count']!, _rowCountMeta),
+      );
+    }
+    if (data.containsKey('applied_count')) {
+      context.handle(
+        _appliedCountMeta,
+        appliedCount.isAcceptableOrUnknown(
+          data['applied_count']!,
+          _appliedCountMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StatementImportLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StatementImportLog(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      courierId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}courier_id'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      fileName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_name'],
+      )!,
+      payoutId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payout_id'],
+      ),
+      rowCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_count'],
+      )!,
+      appliedCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}applied_count'],
+      )!,
+    );
+  }
+
+  @override
+  $StatementImportsTable createAlias(String alias) {
+    return $StatementImportsTable(attachedDatabase, alias);
+  }
+}
+
+class StatementImportLog extends DataClass
+    implements Insertable<StatementImportLog> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String courierId;
+  final String contentHash;
+  final String fileName;
+  final String? payoutId;
+  final int rowCount;
+  final int appliedCount;
+  const StatementImportLog({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.courierId,
+    required this.contentHash,
+    required this.fileName,
+    this.payoutId,
+    required this.rowCount,
+    required this.appliedCount,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['courier_id'] = Variable<String>(courierId);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['file_name'] = Variable<String>(fileName);
+    if (!nullToAbsent || payoutId != null) {
+      map['payout_id'] = Variable<String>(payoutId);
+    }
+    map['row_count'] = Variable<int>(rowCount);
+    map['applied_count'] = Variable<int>(appliedCount);
+    return map;
+  }
+
+  StatementImportsCompanion toCompanion(bool nullToAbsent) {
+    return StatementImportsCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      courierId: Value(courierId),
+      contentHash: Value(contentHash),
+      fileName: Value(fileName),
+      payoutId: payoutId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payoutId),
+      rowCount: Value(rowCount),
+      appliedCount: Value(appliedCount),
+    );
+  }
+
+  factory StatementImportLog.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StatementImportLog(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      courierId: serializer.fromJson<String>(json['courierId']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      fileName: serializer.fromJson<String>(json['fileName']),
+      payoutId: serializer.fromJson<String?>(json['payoutId']),
+      rowCount: serializer.fromJson<int>(json['rowCount']),
+      appliedCount: serializer.fromJson<int>(json['appliedCount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'courierId': serializer.toJson<String>(courierId),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'fileName': serializer.toJson<String>(fileName),
+      'payoutId': serializer.toJson<String?>(payoutId),
+      'rowCount': serializer.toJson<int>(rowCount),
+      'appliedCount': serializer.toJson<int>(appliedCount),
+    };
+  }
+
+  StatementImportLog copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? courierId,
+    String? contentHash,
+    String? fileName,
+    Value<String?> payoutId = const Value.absent(),
+    int? rowCount,
+    int? appliedCount,
+  }) => StatementImportLog(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    courierId: courierId ?? this.courierId,
+    contentHash: contentHash ?? this.contentHash,
+    fileName: fileName ?? this.fileName,
+    payoutId: payoutId.present ? payoutId.value : this.payoutId,
+    rowCount: rowCount ?? this.rowCount,
+    appliedCount: appliedCount ?? this.appliedCount,
+  );
+  StatementImportLog copyWithCompanion(StatementImportsCompanion data) {
+    return StatementImportLog(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      courierId: data.courierId.present ? data.courierId.value : this.courierId,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      payoutId: data.payoutId.present ? data.payoutId.value : this.payoutId,
+      rowCount: data.rowCount.present ? data.rowCount.value : this.rowCount,
+      appliedCount: data.appliedCount.present
+          ? data.appliedCount.value
+          : this.appliedCount,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StatementImportLog(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('courierId: $courierId, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('fileName: $fileName, ')
+          ..write('payoutId: $payoutId, ')
+          ..write('rowCount: $rowCount, ')
+          ..write('appliedCount: $appliedCount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    courierId,
+    contentHash,
+    fileName,
+    payoutId,
+    rowCount,
+    appliedCount,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StatementImportLog &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.courierId == this.courierId &&
+          other.contentHash == this.contentHash &&
+          other.fileName == this.fileName &&
+          other.payoutId == this.payoutId &&
+          other.rowCount == this.rowCount &&
+          other.appliedCount == this.appliedCount);
+}
+
+class StatementImportsCompanion extends UpdateCompanion<StatementImportLog> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> courierId;
+  final Value<String> contentHash;
+  final Value<String> fileName;
+  final Value<String?> payoutId;
+  final Value<int> rowCount;
+  final Value<int> appliedCount;
+  final Value<int> rowid;
+  const StatementImportsCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.courierId = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.payoutId = const Value.absent(),
+    this.rowCount = const Value.absent(),
+    this.appliedCount = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StatementImportsCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String courierId,
+    required String contentHash,
+    this.fileName = const Value.absent(),
+    this.payoutId = const Value.absent(),
+    this.rowCount = const Value.absent(),
+    this.appliedCount = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       courierId = Value(courierId),
+       contentHash = Value(contentHash);
+  static Insertable<StatementImportLog> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? courierId,
+    Expression<String>? contentHash,
+    Expression<String>? fileName,
+    Expression<String>? payoutId,
+    Expression<int>? rowCount,
+    Expression<int>? appliedCount,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (courierId != null) 'courier_id': courierId,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (fileName != null) 'file_name': fileName,
+      if (payoutId != null) 'payout_id': payoutId,
+      if (rowCount != null) 'row_count': rowCount,
+      if (appliedCount != null) 'applied_count': appliedCount,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StatementImportsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? courierId,
+    Value<String>? contentHash,
+    Value<String>? fileName,
+    Value<String?>? payoutId,
+    Value<int>? rowCount,
+    Value<int>? appliedCount,
+    Value<int>? rowid,
+  }) {
+    return StatementImportsCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      courierId: courierId ?? this.courierId,
+      contentHash: contentHash ?? this.contentHash,
+      fileName: fileName ?? this.fileName,
+      payoutId: payoutId ?? this.payoutId,
+      rowCount: rowCount ?? this.rowCount,
+      appliedCount: appliedCount ?? this.appliedCount,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (courierId.present) {
+      map['courier_id'] = Variable<String>(courierId.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (fileName.present) {
+      map['file_name'] = Variable<String>(fileName.value);
+    }
+    if (payoutId.present) {
+      map['payout_id'] = Variable<String>(payoutId.value);
+    }
+    if (rowCount.present) {
+      map['row_count'] = Variable<int>(rowCount.value);
+    }
+    if (appliedCount.present) {
+      map['applied_count'] = Variable<int>(appliedCount.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StatementImportsCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('courierId: $courierId, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('fileName: $fileName, ')
+          ..write('payoutId: $payoutId, ')
+          ..write('rowCount: $rowCount, ')
+          ..write('appliedCount: $appliedCount, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ImportBatchesTable extends ImportBatches
     with TableInfo<$ImportBatchesTable, ImportBatch> {
   @override
@@ -20020,6 +21345,11 @@ class OrderTagLinksCompanion extends UpdateCompanion<OrderTagLink> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $StatementProfilesTable statementProfiles =
+      $StatementProfilesTable(this);
+  late final $StatementImportsTable statementImports = $StatementImportsTable(
+    this,
+  );
   late final $ImportBatchesTable importBatches = $ImportBatchesTable(this);
   late final $ColumnMappingsTable columnMappings = $ColumnMappingsTable(this);
   late final $ShopsTable shops = $ShopsTable(this);
@@ -20061,6 +21391,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    statementProfiles,
+    statementImports,
     importBatches,
     columnMappings,
     shops,
@@ -20090,6 +21422,691 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ];
 }
 
+typedef $$StatementProfilesTableCreateCompanionBuilder =
+    StatementProfilesCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String?> courierId,
+      required String name,
+      required String columnsJson,
+      Value<int> toleranceTaka,
+      Value<int> rowid,
+    });
+typedef $$StatementProfilesTableUpdateCompanionBuilder =
+    StatementProfilesCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String?> courierId,
+      Value<String> name,
+      Value<String> columnsJson,
+      Value<int> toleranceTaka,
+      Value<int> rowid,
+    });
+
+class $$StatementProfilesTableFilterComposer
+    extends Composer<_$AppDatabase, $StatementProfilesTable> {
+  $$StatementProfilesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get courierId => $composableBuilder(
+    column: $table.courierId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get columnsJson => $composableBuilder(
+    column: $table.columnsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get toleranceTaka => $composableBuilder(
+    column: $table.toleranceTaka,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StatementProfilesTableOrderingComposer
+    extends Composer<_$AppDatabase, $StatementProfilesTable> {
+  $$StatementProfilesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get courierId => $composableBuilder(
+    column: $table.courierId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get columnsJson => $composableBuilder(
+    column: $table.columnsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get toleranceTaka => $composableBuilder(
+    column: $table.toleranceTaka,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StatementProfilesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StatementProfilesTable> {
+  $$StatementProfilesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get courierId =>
+      $composableBuilder(column: $table.courierId, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get columnsJson => $composableBuilder(
+    column: $table.columnsJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get toleranceTaka => $composableBuilder(
+    column: $table.toleranceTaka,
+    builder: (column) => column,
+  );
+}
+
+class $$StatementProfilesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StatementProfilesTable,
+          SavedStatementProfile,
+          $$StatementProfilesTableFilterComposer,
+          $$StatementProfilesTableOrderingComposer,
+          $$StatementProfilesTableAnnotationComposer,
+          $$StatementProfilesTableCreateCompanionBuilder,
+          $$StatementProfilesTableUpdateCompanionBuilder,
+          (
+            SavedStatementProfile,
+            BaseReferences<
+              _$AppDatabase,
+              $StatementProfilesTable,
+              SavedStatementProfile
+            >,
+          ),
+          SavedStatementProfile,
+          PrefetchHooks Function()
+        > {
+  $$StatementProfilesTableTableManager(
+    _$AppDatabase db,
+    $StatementProfilesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StatementProfilesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StatementProfilesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StatementProfilesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String?> courierId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> columnsJson = const Value.absent(),
+                Value<int> toleranceTaka = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StatementProfilesCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                courierId: courierId,
+                name: name,
+                columnsJson: columnsJson,
+                toleranceTaka: toleranceTaka,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String?> courierId = const Value.absent(),
+                required String name,
+                required String columnsJson,
+                Value<int> toleranceTaka = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StatementProfilesCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                courierId: courierId,
+                name: name,
+                columnsJson: columnsJson,
+                toleranceTaka: toleranceTaka,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$StatementProfilesTable, SavedStatementProfile>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $StatementProfilesTable,
+                    SavedStatementProfile
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StatementProfilesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StatementProfilesTable,
+      SavedStatementProfile,
+      $$StatementProfilesTableFilterComposer,
+      $$StatementProfilesTableOrderingComposer,
+      $$StatementProfilesTableAnnotationComposer,
+      $$StatementProfilesTableCreateCompanionBuilder,
+      $$StatementProfilesTableUpdateCompanionBuilder,
+      (
+        SavedStatementProfile,
+        BaseReferences<
+          _$AppDatabase,
+          $StatementProfilesTable,
+          SavedStatementProfile
+        >,
+      ),
+      SavedStatementProfile,
+      PrefetchHooks Function()
+    >;
+typedef $$StatementImportsTableCreateCompanionBuilder =
+    StatementImportsCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      required String courierId,
+      required String contentHash,
+      Value<String> fileName,
+      Value<String?> payoutId,
+      Value<int> rowCount,
+      Value<int> appliedCount,
+      Value<int> rowid,
+    });
+typedef $$StatementImportsTableUpdateCompanionBuilder =
+    StatementImportsCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String> courierId,
+      Value<String> contentHash,
+      Value<String> fileName,
+      Value<String?> payoutId,
+      Value<int> rowCount,
+      Value<int> appliedCount,
+      Value<int> rowid,
+    });
+
+class $$StatementImportsTableFilterComposer
+    extends Composer<_$AppDatabase, $StatementImportsTable> {
+  $$StatementImportsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get courierId => $composableBuilder(
+    column: $table.courierId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payoutId => $composableBuilder(
+    column: $table.payoutId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowCount => $composableBuilder(
+    column: $table.rowCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get appliedCount => $composableBuilder(
+    column: $table.appliedCount,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StatementImportsTableOrderingComposer
+    extends Composer<_$AppDatabase, $StatementImportsTable> {
+  $$StatementImportsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get courierId => $composableBuilder(
+    column: $table.courierId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payoutId => $composableBuilder(
+    column: $table.payoutId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowCount => $composableBuilder(
+    column: $table.rowCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get appliedCount => $composableBuilder(
+    column: $table.appliedCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StatementImportsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StatementImportsTable> {
+  $$StatementImportsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get courierId =>
+      $composableBuilder(column: $table.courierId, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => column);
+
+  GeneratedColumn<String> get payoutId =>
+      $composableBuilder(column: $table.payoutId, builder: (column) => column);
+
+  GeneratedColumn<int> get rowCount =>
+      $composableBuilder(column: $table.rowCount, builder: (column) => column);
+
+  GeneratedColumn<int> get appliedCount => $composableBuilder(
+    column: $table.appliedCount,
+    builder: (column) => column,
+  );
+}
+
+class $$StatementImportsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StatementImportsTable,
+          StatementImportLog,
+          $$StatementImportsTableFilterComposer,
+          $$StatementImportsTableOrderingComposer,
+          $$StatementImportsTableAnnotationComposer,
+          $$StatementImportsTableCreateCompanionBuilder,
+          $$StatementImportsTableUpdateCompanionBuilder,
+          (
+            StatementImportLog,
+            BaseReferences<
+              _$AppDatabase,
+              $StatementImportsTable,
+              StatementImportLog
+            >,
+          ),
+          StatementImportLog,
+          PrefetchHooks Function()
+        > {
+  $$StatementImportsTableTableManager(
+    _$AppDatabase db,
+    $StatementImportsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StatementImportsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StatementImportsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StatementImportsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> courierId = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> fileName = const Value.absent(),
+                Value<String?> payoutId = const Value.absent(),
+                Value<int> rowCount = const Value.absent(),
+                Value<int> appliedCount = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StatementImportsCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                courierId: courierId,
+                contentHash: contentHash,
+                fileName: fileName,
+                payoutId: payoutId,
+                rowCount: rowCount,
+                appliedCount: appliedCount,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String courierId,
+                required String contentHash,
+                Value<String> fileName = const Value.absent(),
+                Value<String?> payoutId = const Value.absent(),
+                Value<int> rowCount = const Value.absent(),
+                Value<int> appliedCount = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StatementImportsCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                courierId: courierId,
+                contentHash: contentHash,
+                fileName: fileName,
+                payoutId: payoutId,
+                rowCount: rowCount,
+                appliedCount: appliedCount,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$StatementImportsTable, StatementImportLog>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $StatementImportsTable,
+                    StatementImportLog
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StatementImportsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StatementImportsTable,
+      StatementImportLog,
+      $$StatementImportsTableFilterComposer,
+      $$StatementImportsTableOrderingComposer,
+      $$StatementImportsTableAnnotationComposer,
+      $$StatementImportsTableCreateCompanionBuilder,
+      $$StatementImportsTableUpdateCompanionBuilder,
+      (
+        StatementImportLog,
+        BaseReferences<
+          _$AppDatabase,
+          $StatementImportsTable,
+          StatementImportLog
+        >,
+      ),
+      StatementImportLog,
+      PrefetchHooks Function()
+    >;
 typedef $$ImportBatchesTableCreateCompanionBuilder =
     ImportBatchesCompanion Function({
       required String id,
@@ -33356,6 +35373,10 @@ typedef $$OrderTagLinksTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$StatementProfilesTableTableManager get statementProfiles =>
+      $$StatementProfilesTableTableManager(_db, _db.statementProfiles);
+  $$StatementImportsTableTableManager get statementImports =>
+      $$StatementImportsTableTableManager(_db, _db.statementImports);
   $$ImportBatchesTableTableManager get importBatches =>
       $$ImportBatchesTableTableManager(_db, _db.importBatches);
   $$ColumnMappingsTableTableManager get columnMappings =>

@@ -325,3 +325,24 @@ class ColumnMappings extends Table with BaseColumns {
   TextColumn get kind => text()();
   TextColumn get mappingJson => text()();
 }
+
+/// Saved column mapping for a courier's payout statement export.
+@DataClassName('SavedStatementProfile')
+class StatementProfiles extends Table with BaseColumns {
+  // Null = usable with any courier.
+  TextColumn get courierId => text().nullable()();
+  TextColumn get name => text()();
+  TextColumn get columnsJson => text()();
+  IntColumn get toleranceTaka => integer().withDefault(const Constant(0))();
+}
+
+/// One applied statement file (re-import detection by content hash).
+@DataClassName('StatementImportLog')
+class StatementImports extends Table with BaseColumns {
+  TextColumn get courierId => text()();
+  TextColumn get contentHash => text()();
+  TextColumn get fileName => text().withDefault(const Constant(''))();
+  TextColumn get payoutId => text().nullable()();
+  IntColumn get rowCount => integer().withDefault(const Constant(0))();
+  IntColumn get appliedCount => integer().withDefault(const Constant(0))();
+}

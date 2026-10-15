@@ -2309,4 +2309,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get driveSchedule => 'Weekly, on Wi-Fi while charging';
+
+  @override
+  String get stmtImport => 'Import statement';
+
+  @override
+  String get stmtTitle => 'Courier statement';
+
+  @override
+  String get stmtPickFile => 'Choose statement file (CSV or Excel)';
+
+  @override
+  String get stmtProfile => 'Column profile';
+
+  @override
+  String get stmtEditMapping => 'Edit columns';
+
+  @override
+  String get stmtSaveProfile => 'Save profile';
+
+  @override
+  String get stmtProfileName => 'Profile name';
+
+  @override
+  String get stmtTolerance => 'Amount tolerance (৳)';
+
+  @override
+  String get stmtColumnHint =>
+      'Header names in the file; use | between alternatives';
+
+  @override
+  String get stmtNoCn =>
+      'Could not find the consignment column. Edit the columns and try again.';
+
+  @override
+  String get stmtAlreadyApplied =>
+      'This exact file was already applied. Nothing more to do.';
+
+  @override
+  String get stmtOutMatched => 'Matched';
+
+  @override
+  String get stmtOutUnknown => 'Unknown CN';
+
+  @override
+  String get stmtOutDuplicate => 'Duplicate in file';
+
+  @override
+  String get stmtOutMismatch => 'Amount differs';
+
+  @override
+  String get stmtOutSettled => 'Already settled';
+
+  @override
+  String get stmtAll => 'All';
+
+  @override
+  String get stmtInclude => 'Include';
+
+  @override
+  String get stmtAdjust => 'Use the statement\'s collected amount';
+
+  @override
+  String get stmtAdjustReason => 'Reason for adjusting collected amounts';
+
+  @override
+  String get stmtRecorded => 'Recorded';
+
+  @override
+  String get stmtStatementSays => 'Statement';
+
+  @override
+  String get stmtPayoutTotal => 'Payout to record';
+
+  @override
+  String get stmtFeesUpdated => 'Actual fees to save';
+
+  @override
+  String get stmtApply => 'Apply statement';
+
+  @override
+  String get stmtApplied => 'Statement applied';
+
+  @override
+  String get stmtDisputePdf => 'Dispute PDF';
+
+  @override
+  String get stmtNoMismatch => 'No differences to report.';
+
+  @override
+  String get stmtIssues => 'Rows that could not be read';
+
+  @override
+  String get stmtNothingToPay =>
+      'Nothing to pay on the included rows; fees and adjustments will still be saved.';
+
+  @override
+  String get stmtErrReason => 'Enter a reason for adjusting collected amounts';
+
+  @override
+  String get stmtErrIneligible =>
+      'Only matched or amount-differs rows can be applied';
+
+  @override
+  String get stmtErrNothing => 'Select at least one row';
 }

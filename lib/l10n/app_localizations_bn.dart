@@ -2306,4 +2306,107 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get driveSchedule => 'সাপ্তাহিক, Wi-Fi ও চার্জে থাকলে';
+
+  @override
+  String get stmtImport => 'স্টেটমেন্ট ইম্পোর্ট';
+
+  @override
+  String get stmtTitle => 'কুরিয়ার স্টেটমেন্ট';
+
+  @override
+  String get stmtPickFile => 'স্টেটমেন্ট ফাইল বাছুন (CSV বা Excel)';
+
+  @override
+  String get stmtProfile => 'কলাম প্রোফাইল';
+
+  @override
+  String get stmtEditMapping => 'কলাম সম্পাদনা';
+
+  @override
+  String get stmtSaveProfile => 'প্রোফাইল সংরক্ষণ';
+
+  @override
+  String get stmtProfileName => 'প্রোফাইলের নাম';
+
+  @override
+  String get stmtTolerance => 'পরিমাণের সহনসীমা (৳)';
+
+  @override
+  String get stmtColumnHint => 'ফাইলের হেডারের নাম; বিকল্পের মাঝে | দিন';
+
+  @override
+  String get stmtNoCn =>
+      'কনসাইনমেন্ট কলাম পাওয়া যায়নি। কলাম ঠিক করে আবার চেষ্টা করুন।';
+
+  @override
+  String get stmtAlreadyApplied =>
+      'এই ফাইলটি আগেই প্রয়োগ করা হয়েছে। আর কিছু করার নেই।';
+
+  @override
+  String get stmtOutMatched => 'মিলেছে';
+
+  @override
+  String get stmtOutUnknown => 'অজানা CN';
+
+  @override
+  String get stmtOutDuplicate => 'ফাইলে ডুপ্লিকেট';
+
+  @override
+  String get stmtOutMismatch => 'পরিমাণ আলাদা';
+
+  @override
+  String get stmtOutSettled => 'আগেই নিষ্পত্তি';
+
+  @override
+  String get stmtAll => 'সব';
+
+  @override
+  String get stmtInclude => 'অন্তর্ভুক্ত';
+
+  @override
+  String get stmtAdjust => 'স্টেটমেন্টের আদায় করা পরিমাণ ব্যবহার করুন';
+
+  @override
+  String get stmtAdjustReason => 'আদায়ের পরিমাণ বদলানোর কারণ';
+
+  @override
+  String get stmtRecorded => 'রেকর্ড';
+
+  @override
+  String get stmtStatementSays => 'স্টেটমেন্ট';
+
+  @override
+  String get stmtPayoutTotal => 'রেকর্ড হবে যে পেআউট';
+
+  @override
+  String get stmtFeesUpdated => 'সংরক্ষণ হবে যে প্রকৃত ফি';
+
+  @override
+  String get stmtApply => 'স্টেটমেন্ট প্রয়োগ করুন';
+
+  @override
+  String get stmtApplied => 'স্টেটমেন্ট প্রয়োগ হয়েছে';
+
+  @override
+  String get stmtDisputePdf => 'ডিসপিউট পিডিএফ';
+
+  @override
+  String get stmtNoMismatch => 'জানানোর মতো কোনো পার্থক্য নেই।';
+
+  @override
+  String get stmtIssues => 'যে সারি পড়া যায়নি';
+
+  @override
+  String get stmtNothingToPay =>
+      'নির্বাচিত সারিতে পরিশোধযোগ্য কিছু নেই; ফি ও সমন্বয় তবুও সংরক্ষণ হবে।';
+
+  @override
+  String get stmtErrReason => 'আদায়ের পরিমাণ বদলানোর কারণ লিখুন';
+
+  @override
+  String get stmtErrIneligible =>
+      'শুধু মিলে যাওয়া বা পরিমাণ-আলাদা সারি প্রয়োগ করা যায়';
+
+  @override
+  String get stmtErrNothing => 'অন্তত একটি সারি বাছুন';
 }

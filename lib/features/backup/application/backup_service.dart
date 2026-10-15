@@ -203,6 +203,8 @@ class BackupService {
     'expenses': [],
     'import_batches': [],
     'column_mappings': [],
+    'statement_profiles': [],
+    'statement_imports': [],
     'saved_views': [],
     'reminders': [],
     'message_templates': [],

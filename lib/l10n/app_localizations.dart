@@ -4519,6 +4519,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weekly, on Wi-Fi while charging'**
   String get driveSchedule;
+
+  /// No description provided for @stmtImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import statement'**
+  String get stmtImport;
+
+  /// No description provided for @stmtTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Courier statement'**
+  String get stmtTitle;
+
+  /// No description provided for @stmtPickFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose statement file (CSV or Excel)'**
+  String get stmtPickFile;
+
+  /// No description provided for @stmtProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Column profile'**
+  String get stmtProfile;
+
+  /// No description provided for @stmtEditMapping.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit columns'**
+  String get stmtEditMapping;
+
+  /// No description provided for @stmtSaveProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save profile'**
+  String get stmtSaveProfile;
+
+  /// No description provided for @stmtProfileName.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile name'**
+  String get stmtProfileName;
+
+  /// No description provided for @stmtTolerance.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount tolerance (৳)'**
+  String get stmtTolerance;
+
+  /// No description provided for @stmtColumnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Header names in the file; use | between alternatives'**
+  String get stmtColumnHint;
+
+  /// No description provided for @stmtNoCn.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not find the consignment column. Edit the columns and try again.'**
+  String get stmtNoCn;
+
+  /// No description provided for @stmtAlreadyApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'This exact file was already applied. Nothing more to do.'**
+  String get stmtAlreadyApplied;
+
+  /// No description provided for @stmtOutMatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Matched'**
+  String get stmtOutMatched;
+
+  /// No description provided for @stmtOutUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown CN'**
+  String get stmtOutUnknown;
+
+  /// No description provided for @stmtOutDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate in file'**
+  String get stmtOutDuplicate;
+
+  /// No description provided for @stmtOutMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount differs'**
+  String get stmtOutMismatch;
+
+  /// No description provided for @stmtOutSettled.
+  ///
+  /// In en, this message translates to:
+  /// **'Already settled'**
+  String get stmtOutSettled;
+
+  /// No description provided for @stmtAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get stmtAll;
+
+  /// No description provided for @stmtInclude.
+  ///
+  /// In en, this message translates to:
+  /// **'Include'**
+  String get stmtInclude;
+
+  /// No description provided for @stmtAdjust.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the statement\'\'s collected amount'**
+  String get stmtAdjust;
+
+  /// No description provided for @stmtAdjustReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for adjusting collected amounts'**
+  String get stmtAdjustReason;
+
+  /// No description provided for @stmtRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded'**
+  String get stmtRecorded;
+
+  /// No description provided for @stmtStatementSays.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement'**
+  String get stmtStatementSays;
+
+  /// No description provided for @stmtPayoutTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout to record'**
+  String get stmtPayoutTotal;
+
+  /// No description provided for @stmtFeesUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual fees to save'**
+  String get stmtFeesUpdated;
+
+  /// No description provided for @stmtApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply statement'**
+  String get stmtApply;
+
+  /// No description provided for @stmtApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement applied'**
+  String get stmtApplied;
+
+  /// No description provided for @stmtDisputePdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispute PDF'**
+  String get stmtDisputePdf;
+
+  /// No description provided for @stmtNoMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No differences to report.'**
+  String get stmtNoMismatch;
+
+  /// No description provided for @stmtIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows that could not be read'**
+  String get stmtIssues;
+
+  /// No description provided for @stmtNothingToPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to pay on the included rows; fees and adjustments will still be saved.'**
+  String get stmtNothingToPay;
+
+  /// No description provided for @stmtErrReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a reason for adjusting collected amounts'**
+  String get stmtErrReason;
+
+  /// No description provided for @stmtErrIneligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Only matched or amount-differs rows can be applied'**
+  String get stmtErrIneligible;
+
+  /// No description provided for @stmtErrNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one row'**
+  String get stmtErrNothing;
 }
 
 class _AppLocalizationsDelegate

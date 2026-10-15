@@ -31,6 +31,11 @@ class PayoutsScreen extends ConsumerWidget {
         title: Text(l.payoutsHistory),
         actions: [
           IconButton(
+            tooltip: l.stmtImport,
+            icon: const Icon(Icons.upload_file),
+            onPressed: () => context.push('/cod/payout/statement'),
+          ),
+          IconButton(
             tooltip: l.shareStatement,
             icon: const Icon(Icons.picture_as_pdf_outlined),
             onPressed: () => _statement(context, ref),
