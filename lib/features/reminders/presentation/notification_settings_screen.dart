@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/features/reminders/application/digest_service.dart';
@@ -53,7 +55,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
           onChanged: (v) async {
             if (v) {
               await ref.read(digestNotifierProvider).requestPermission();
-              if (!s.batteryGuideShown && context.mounted) {
+              // Android only: iOS has no per-app battery killers to explain.
+              if (Platform.isAndroid && !s.batteryGuideShown && context.mounted) {
                 await _showBatteryGuide(context);
                 await repo.save((await repo.read()).copyWith(batteryGuideShown: true));
               }
@@ -95,11 +98,12 @@ class NotificationSettingsScreen extends ConsumerWidget {
               apply((x) => x.copyWith(digestKinds: next));
             },
           ),
-        ListTile(
-          leading: const Icon(Icons.battery_saver),
-          title: Text(l.batteryGuideTitle),
-          onTap: () => _showBatteryGuide(context),
-        ),
+        if (Platform.isAndroid)
+          ListTile(
+            leading: const Icon(Icons.battery_saver),
+            title: Text(l.batteryGuideTitle),
+            onTap: () => _showBatteryGuide(context),
+          ),
       ]),
     );
   }

@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/platform/share_origin.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/backup/domain/csv.dart';
@@ -199,7 +200,8 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
       ],
       theme: await loadPdfTheme(),
     );
-    await Printing.sharePdf(bytes: bytes, filename: 'statement_dispute_$name.pdf');
+    await Printing.sharePdf(
+        bytes: bytes, filename: 'statement_dispute_$name.pdf', bounds: shareOrigin());
   }
 
   Future<void> _editProfile() async {

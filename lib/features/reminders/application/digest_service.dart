@@ -38,6 +38,13 @@ class LocalDigestNotifier implements DigestNotifier {
     await _plugin.initialize(
       settings: const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        // iOS: permission is requested explicitly from settings, never at
+        // launch, so the system prompt appears with context.
+        iOS: DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        ),
       ),
     );
     _ready = true;
@@ -48,7 +55,13 @@ class LocalDigestNotifier implements DigestNotifier {
     await init();
     final android = _plugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-    return await android?.requestNotificationsPermission() ?? true;
+    if (android != null) return await android.requestNotificationsPermission() ?? true;
+    final ios = _plugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+    if (ios != null) {
+      return await ios.requestPermissions(alert: true, badge: false, sound: true) ?? false;
+    }
+    return true;
   }
 
   @override
@@ -69,6 +82,12 @@ class LocalDigestNotifier implements DigestNotifier {
           'Daily digest',
           channelDescription: 'Daily summary of parcels and COD needing attention',
           importance: Importance.defaultImportance,
+        ),
+        // Delivered even when the app is open; no badge (nothing to clear).
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentSound: true,
+          presentBadge: false,
         ),
       ),
       // Inexact is enough for a daily digest and needs no special permission.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/platform/share_origin.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/cod/application/cod_queries.dart';
@@ -234,5 +235,6 @@ Future<void> _statement(BuildContext context, WidgetRef ref) async {
     ],
     theme: await loadPdfTheme(),
   );
-  await Printing.sharePdf(bytes: bytes, filename: 'statement_${courier.name}.pdf');
+  await Printing.sharePdf(
+      bytes: bytes, filename: 'statement_${courier.name}.pdf', bounds: shareOrigin());
 }

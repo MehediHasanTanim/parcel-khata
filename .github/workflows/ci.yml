@@ -20,3 +20,19 @@ jobs:
           lcov --extract coverage/lcov.info 'lib/core/money/*' 'lib/core/time/*' 'lib/core/ids/*' 'lib/core/result/*' 'lib/**/domain/*' -o coverage/domain.info
           lcov --summary coverage/domain.info | tee /dev/stderr | grep -E 'lines' | awk '{gsub("%","",$2); if ($2+0 < 90) exit 1}'
       - run: flutter build apk --debug
+
+  ios:
+    # Compile + package the iOS app without signing (S21). Real-device
+    # integration/perf runs and TestFlight upload are manual (see
+    # docs/release/ios.md).
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter analyze
+      - name: iOS platform tests
+        run: flutter test test/platform test/widget test/l10n_parity_test.dart
+      - run: flutter build ipa --no-codesign

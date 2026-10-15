@@ -58,7 +58,7 @@ void driveCallbackDispatcher() {
       if (!s.driveEnabled) return true;
       final backup = BackupService(db, clock, settings, () async {});
       final svc = DriveBackupService(
-          backup, GoogleDriveClient(), settings, const SecureSecretStore(), clock);
+          backup, GoogleDriveClient(), settings, SecureSecretStore(), clock);
       await svc.backupNow();
       return true;
     } on Object {

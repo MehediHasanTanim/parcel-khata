@@ -24,6 +24,23 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>bn</string>
+	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Parcel Khata uses Face ID to unlock the app and protect your customers' data.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The camera is used only when you tap Scan to read a courier consignment barcode. Nothing is saved or sent.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose a photo only when you want to attach it to an order.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+		<string>tel</string>
+		<string>sms</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

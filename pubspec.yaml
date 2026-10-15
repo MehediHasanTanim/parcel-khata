@@ -65,6 +65,7 @@ dependencies:
   extension_google_sign_in_as_googleapis_auth: ^3.0.0
   workmanager: ^0.10.10
   xml: ^7.1.0
+  path_provider_foundation: ^2.6.0
 
 dev_dependencies:
   integration_test:

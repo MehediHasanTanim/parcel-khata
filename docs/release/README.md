@@ -46,3 +46,5 @@ Internal testing -> Closed beta (5-10 sellers, see beta-checklist.md) -> Product
 
 ## Data safety / compliance
 See `data-safety.md` and `privacy-policy.md`.
+
+- [iOS status, differences and checklist](ios.md) · [App Store privacy answers](app-store-privacy.md)

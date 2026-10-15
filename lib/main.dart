@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/app/app.dart';
+import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/core/platform/backup_exclusion.dart';
 import 'package:parcel_khata/app/router.dart';
 import 'package:parcel_khata/features/orders/application/share_target.dart';
 import 'package:parcel_khata/features/backup/application/drive_scheduler.dart';
@@ -27,5 +31,23 @@ Future<void> main() async {
 
   container.read(telemetryProvider).event('app_open');
   runApp(UncontrolledProviderScope(container: container, child: const ParcelKhataApp()));
-  WidgetsBinding.instance.addPostFrameCallback((_) => ShareTarget.init(appRouter));
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    unawaited(ShareTarget.init(appRouter));
+    unawaited(_excludeFromBackup());
+  });
+}
+
+/// iOS only: keep the database and attachments out of iCloud/iTunes backups.
+Future<void> _excludeFromBackup() async {
+  if (!Platform.isIOS) return;
+  final db = await databaseFile();
+  // The WAL/SHM files exist once the database has been opened; flag again
+  // shortly after so they are covered too.
+  Future<void> apply() => BackupExclusion.apply(
+        databasePath: db.path,
+        attachmentsDir: BackupExclusion.attachmentsIn(db.parent.path),
+      );
+  await apply();
+  await Future<void>.delayed(const Duration(seconds: 3));
+  await apply();
 }

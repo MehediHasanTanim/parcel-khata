@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/platform/share_origin.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
@@ -98,7 +99,8 @@ class OrderDetailScreen extends ConsumerWidget {
                         ),
                         theme: await loadPdfTheme(),
                       );
-                      await Printing.sharePdf(bytes: bytes, filename: '${o.orderNo}.pdf');
+                      await Printing.sharePdf(
+                          bytes: bytes, filename: '${o.orderNo}.pdf', bounds: shareOrigin());
                     case 'change':
                       await _changeStatusDialog(context, ref, o);
                     case 'courier':

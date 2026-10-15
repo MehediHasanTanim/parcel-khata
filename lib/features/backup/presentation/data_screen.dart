@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/platform/share_origin.dart';
 import 'package:parcel_khata/core/db/providers.dart';
 import 'package:parcel_khata/features/backup/application/backup_service.dart';
 import 'package:parcel_khata/features/backup/application/drive_backup.dart';
@@ -29,7 +30,11 @@ String backupProblemText(AppLocalizations l, BackupProblem p) => switch (p) {
     };
 
 Future<void> shareFilePath(String path, {String? text}) =>
-    SharePlus.instance.share(ShareParams(files: [XFile(path)], text: text));
+    SharePlus.instance.share(ShareParams(
+      files: [XFile(path)],
+      text: text,
+      sharePositionOrigin: shareOrigin(),
+    ));
 
 /// Settings > Data: backup, restore, CSV export, import entry points.
 class DataScreen extends ConsumerStatefulWidget {
