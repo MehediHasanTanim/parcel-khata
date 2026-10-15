@@ -1,0 +1,40 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "lib/l10n/app_localizations*.dart"
+    - build/**
+    - android/**
+    - ios/**
+  errors:
+    # Pragmatic relaxations for a solo/AI-assisted codebase.
+    public_member_api_docs: ignore
+    lines_longer_than_80_chars: ignore
+    avoid_dynamic_calls: ignore
+    always_use_package_imports: ignore
+    prefer_const_constructors: info
+    sort_pub_dependencies: ignore
+    flutter_style_todos: ignore
+    avoid_redundant_argument_values: ignore
+    unnecessary_underscores: ignore
+    use_super_parameters: info
+    unnecessary_type_name_in_constructor: ignore
+    document_ignores: ignore
+    no_runtimetype_tostring: ignore
+    use_setters_to_change_properties: ignore
+    cascade_invocations: ignore
+    unnecessary_raw_strings: ignore
+    prefer_initializing_formals: ignore
+    directives_ordering: info
+    always_put_required_named_parameters_first: ignore
+    omit_local_variable_types: ignore
+    specify_nonobvious_property_types: ignore
+    sort_constructors_first: ignore
+    discarded_futures: ignore
+    unawaited_futures: info
+    async_return_with_no_await: ignore
+    unnecessary_const_in_enum_constructor: ignore
+    prefer_foreach: ignore
+    avoid_function_literals_in_foreach_calls: ignore
+    use_is_even_rather_than_modulo: ignore

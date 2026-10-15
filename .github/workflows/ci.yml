@@ -1,0 +1,22 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter analyze
+      - run: flutter test --coverage
+      - name: Domain coverage gate
+        run: |
+          pip install lcov_cobertura >/dev/null 2>&1 || true
+          sudo apt-get install -y lcov >/dev/null
+          lcov --extract coverage/lcov.info 'lib/core/money/*' 'lib/core/time/*' 'lib/core/ids/*' 'lib/core/result/*' 'lib/**/domain/*' -o coverage/domain.info
+          lcov --summary coverage/domain.info | tee /dev/stderr | grep -E 'lines' | awk '{gsub("%","",$2); if ($2+0 < 90) exit 1}'
+      - run: flutter build apk --debug

@@ -1,0 +1,758 @@
+import 'dart:convert';
+
+import 'package:drift/drift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
+import 'package:parcel_khata/core/db/app_database.dart';
+import 'package:parcel_khata/core/db/audit_writer.dart';
+import 'package:parcel_khata/core/db/providers.dart';
+import 'package:parcel_khata/core/ids/uuid_v7.dart';
+import 'package:parcel_khata/core/money/money.dart';
+import 'package:parcel_khata/core/providers.dart';
+import 'package:parcel_khata/core/result/result.dart';
+import 'package:parcel_khata/core/time/clock.dart';
+import 'package:parcel_khata/core/time/providers.dart';
+import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
+import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
+import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
+import 'package:parcel_khata/features/orders/domain/order_enums.dart';
+import 'package:parcel_khata/features/orders/domain/order_input.dart';
+import 'package:parcel_khata/features/settings/application/settings_repository.dart';
+
+/// Page cursor for keyset pagination (order date desc, id desc).
+class OrderCursor {
+  const OrderCursor(this.orderDate, this.id);
+  final DateTime orderDate;
+  final String id;
+}
+
+@immutable
+class OrderFilter {
+  const OrderFilter({
+    this.statuses = const {},
+    this.from,
+    this.to,
+    this.channel,
+    this.customerId,
+    this.onlyDrafts = false,
+    this.includeDrafts = false,
+  });
+
+  final Set<OrderStatus> statuses;
+  final DateTime? from;
+
+  /// Exclusive upper bound.
+  final DateTime? to;
+  final Channel? channel;
+  final String? customerId;
+  final bool onlyDrafts;
+
+  /// Drafts are excluded from lists and all aggregates unless asked for.
+  final bool includeDrafts;
+
+  OrderFilter copyWith({
+    Set<OrderStatus>? statuses,
+    DateTime? from,
+    DateTime? to,
+    Channel? channel,
+    bool clearDates = false,
+    bool clearChannel = false,
+  }) =>
+      OrderFilter(
+        statuses: statuses ?? this.statuses,
+        from: clearDates ? null : (from ?? this.from),
+        to: clearDates ? null : (to ?? this.to),
+        channel: clearChannel ? null : (channel ?? this.channel),
+        customerId: customerId,
+        onlyDrafts: onlyDrafts,
+        includeDrafts: includeDrafts,
+      );
+
+  @override
+  bool operator ==(Object other) =>
+      other is OrderFilter &&
+      other.from == from &&
+      other.to == to &&
+      other.channel == channel &&
+      other.customerId == customerId &&
+      other.onlyDrafts == onlyDrafts &&
+      other.includeDrafts == includeDrafts &&
+      other.statuses.length == statuses.length &&
+      other.statuses.containsAll(statuses);
+
+  @override
+  int get hashCode => Object.hash(
+      from, to, channel, customerId, onlyDrafts, includeDrafts, statuses.length);
+}
+
+class OrderListItem {
+  const OrderListItem(this.order, this.customerName);
+  final Order order;
+  final String? customerName;
+}
+
+class OrderDetail {
+  const OrderDetail({
+    required this.order,
+    required this.lines,
+    required this.charges,
+    required this.events,
+    required this.edits,
+    required this.customer,
+  });
+
+  final Order order;
+  final List<OrderLine> lines;
+  final List<OrderCharge> charges;
+  final List<OrderStatusEvent> events;
+  final List<OrderEdit> edits;
+  final Customer? customer;
+}
+
+/// Outcome of an update; [warnings] are non-blocking notices for the UI.
+class OrderUpdateOutcome {
+  const OrderUpdateOutcome(this.order, {this.warnings = const []});
+  final Order order;
+  final List<OrderWarning> warnings;
+}
+
+enum OrderWarning {
+  /// Amounts changed while the courier holds the parcel (COD may now differ
+  /// from what the courier was told).
+  amountsChangedAfterHandover,
+}
+
+class OrderRepository {
+  OrderRepository(
+    this._db,
+    this._ids,
+    this._clock,
+    this._audit,
+    this._shopId,
+    this._couriers,
+    this._settings,
+  );
+
+  final AppDatabase _db;
+  final UuidV7 _ids;
+  final Clock _clock;
+  final AuditWriter _audit;
+  final String _shopId;
+  final CourierRepository _couriers;
+  final SettingsRepository _settings;
+
+  static const pageSize = 30;
+  static const recentlyDeletedDays = 30;
+
+  /// Emits whenever any order-related table changes.
+  Stream<void> get changes => _db
+      .tableUpdates(TableUpdateQuery.onAllTables([
+        _db.orders,
+        _db.orderLines,
+        _db.orderCharges,
+        _db.orderStatusEvents,
+        _db.orderEditLog,
+      ]))
+      .map((_) {});
+
+  // ---------------------------------------------------------------- create
+
+  /// Creates a confirmed order, or a draft when [draft] is true.
+  Future<Result<Order>> create(OrderInput input, {bool draft = false}) async {
+    if (!draft) {
+      final bad = input.validateForConfirm();
+      if (bad != null) return Result.err(ValidationFailure(bad));
+    }
+    final conflict = await _cnConflict(input.courierId, input.consignmentNo, null);
+    if (conflict != null) return Result.err(conflict);
+
+    final settings = await _settings.read();
+    final feeRules = input.courierId == null
+        ? null
+        : await _couriers.feeRules(input.courierId!);
+    final now = _clock.now();
+    final id = _ids.generate();
+    final status = draft ? OrderStatus.draft : OrderStatus.confirmed;
+
+    await _db.transaction(() async {
+      final number = await _nextOrderNumber(settings.orderStartNumber);
+      final b = input.breakdown;
+      await _db.into(_db.orders).insert(OrdersCompanion.insert(
+            id: id,
+            shopId: _shopId,
+            createdAt: now,
+            updatedAt: now,
+            orderNumber: number,
+            orderNo: '${settings.orderPrefix}${number.toString().padLeft(4, '0')}',
+            orderDate: input.orderDate ?? now,
+            status: status.dbValue,
+            channel: Value(input.channel.dbValue),
+            sourceRef: Value(_blank(input.sourceRef)),
+            customerId: Value(input.customerId),
+            addressSnapshot: Value(input.address.trim()),
+            paymentType: Value(input.paymentType.dbValue),
+            itemsTotal: Value(b.itemsTotal.poisha),
+            discountTotal: Value(b.orderDiscount.poisha),
+            deliveryChargeCustomer: Value(b.deliveryCharge.poisha),
+            advanceReceived: Value(b.advance.poisha),
+            advanceMethod: Value(_blank(input.advanceMethod)),
+            codExpected: Value(b.effective.poisha),
+            codOverridden: Value(b.overridden),
+            codStatus: Value(_initialCodStatus(input.paymentType, b.effective).dbValue),
+            courierId: Value(input.courierId),
+            consignmentNo: Value(_blank(input.consignmentNo)),
+            zone: Value(input.zone),
+            weightG: Value(input.weightG),
+            notes: Value(_blank(input.notes)),
+            tagsJson: Value(jsonEncode(input.tags)),
+          ));
+      await _insertLines(id, input.lines, now);
+      await _writeExpectedCharges(
+        orderId: id,
+        feeRules: feeRules,
+        zone: input.zone,
+        weightG: input.weightG,
+        cod: b.effective,
+        packaging: Money.taka(settings.defaultPackagingCostTaka),
+        now: now,
+      );
+      await _insertEvent(id, null, status, now);
+      await _audit.write(
+        entity: 'order',
+        entityId: id,
+        action: draft ? 'create_draft' : 'create',
+      );
+    });
+    if (!draft) {
+      // Remember the last used channel as the next default (F1).
+      await _settings.save(settings.copyWith(defaultChannel: input.channel.dbValue));
+    }
+    return Result.ok((await _order(id))!);
+  }
+
+  // ---------------------------------------------------------------- update
+
+  /// Updates an order. Editing amounts of a delivered order needs
+  /// [confirmed] = true (feature spec F1 AC5). A draft is promoted to
+  /// Confirmed when [promoteDraft] is true and validation passes.
+  Future<Result<OrderUpdateOutcome>> update(
+    String id,
+    OrderInput input, {
+    bool confirmed = false,
+    bool promoteDraft = false,
+  }) async {
+    final cur = await _order(id);
+    if (cur == null || cur.deletedAt != null) {
+      return const Result.err(NotFoundFailure('Order not found'));
+    }
+    final isDraft = OrderStatus.fromDb(cur.status) == OrderStatus.draft;
+    final becomesConfirmed = isDraft && promoteDraft;
+    if (!isDraft || becomesConfirmed) {
+      final bad = input.validateForConfirm();
+      if (bad != null) return Result.err(ValidationFailure(bad));
+    }
+    final conflict = await _cnConflict(input.courierId, input.consignmentNo, id);
+    if (conflict != null) return Result.err(conflict);
+
+    final b = input.breakdown;
+    final status = OrderStatus.fromDb(cur.status);
+    final amountsChanged = cur.itemsTotal != b.itemsTotal.poisha ||
+        cur.discountTotal != b.orderDiscount.poisha ||
+        cur.deliveryChargeCustomer != b.deliveryCharge.poisha ||
+        cur.codExpected != b.effective.poisha ||
+        await _linesChanged(id, input.lines);
+    if (status == OrderStatus.delivered && amountsChanged && !confirmed) {
+      return const Result.err(ConfirmationRequiredFailure(
+          'Editing amounts on a delivered order needs confirmation'));
+    }
+
+    final settings = await _settings.read();
+    final feeRules = input.courierId == null
+        ? null
+        : await _couriers.feeRules(input.courierId!);
+    final now = _clock.now();
+    final warnings = <OrderWarning>[
+      if (status.withCourier && amountsChanged)
+        OrderWarning.amountsChangedAfterHandover,
+    ];
+
+    await _db.transaction(() async {
+      final edits = <String, (String?, String?)>{
+        if (cur.customerId != input.customerId)
+          'customer_id': (cur.customerId, input.customerId),
+        if (cur.addressSnapshot != input.address.trim())
+          'address': (cur.addressSnapshot, input.address.trim()),
+        if (cur.channel != input.channel.dbValue)
+          'channel': (cur.channel, input.channel.dbValue),
+        if (cur.paymentType != input.paymentType.dbValue)
+          'payment_type': (cur.paymentType, input.paymentType.dbValue),
+        if (cur.itemsTotal != b.itemsTotal.poisha)
+          'items_total': ('${cur.itemsTotal}', '${b.itemsTotal.poisha}'),
+        if (cur.discountTotal != b.orderDiscount.poisha)
+          'discount_total': ('${cur.discountTotal}', '${b.orderDiscount.poisha}'),
+        if (cur.deliveryChargeCustomer != b.deliveryCharge.poisha)
+          'delivery_charge': (
+            '${cur.deliveryChargeCustomer}',
+            '${b.deliveryCharge.poisha}'
+          ),
+        if (cur.advanceReceived != b.advance.poisha)
+          'advance_received': ('${cur.advanceReceived}', '${b.advance.poisha}'),
+        if (cur.codExpected != b.effective.poisha)
+          'cod_expected': ('${cur.codExpected}', '${b.effective.poisha}'),
+        if (cur.courierId != input.courierId)
+          'courier_id': (cur.courierId, input.courierId),
+        if (cur.consignmentNo != _blank(input.consignmentNo))
+          'consignment_no': (cur.consignmentNo, _blank(input.consignmentNo)),
+        if (cur.notes != _blank(input.notes))
+          'notes': (cur.notes, _blank(input.notes)),
+      };
+      final newStatus = becomesConfirmed ? OrderStatus.confirmed : status;
+      await (_db.update(_db.orders)..where((o) => o.id.equals(id))).write(
+        OrdersCompanion(
+          orderDate: Value(input.orderDate ?? cur.orderDate),
+          channel: Value(input.channel.dbValue),
+          sourceRef: Value(_blank(input.sourceRef)),
+          customerId: Value(input.customerId),
+          addressSnapshot: Value(input.address.trim()),
+          paymentType: Value(input.paymentType.dbValue),
+          itemsTotal: Value(b.itemsTotal.poisha),
+          discountTotal: Value(b.orderDiscount.poisha),
+          deliveryChargeCustomer: Value(b.deliveryCharge.poisha),
+          advanceReceived: Value(b.advance.poisha),
+          advanceMethod: Value(_blank(input.advanceMethod)),
+          codExpected: Value(b.effective.poisha),
+          codOverridden: Value(b.overridden),
+          courierId: Value(input.courierId),
+          consignmentNo: Value(_blank(input.consignmentNo)),
+          zone: Value(input.zone),
+          weightG: Value(input.weightG),
+          notes: Value(_blank(input.notes)),
+          tagsJson: Value(jsonEncode(input.tags)),
+          status: Value(newStatus.dbValue),
+          // Only pre-delivery orders have a derivable COD status here; later
+          // statuses are owned by the COD ledger (Sprint 4).
+          codStatus: status.index <= OrderStatus.inTransit.index
+              ? Value(_initialCodStatus(input.paymentType, b.effective).dbValue)
+              : const Value.absent(),
+          updatedAt: Value(now),
+          rowVersion: Value(cur.rowVersion + 1),
+        ),
+      );
+      await _replaceLines(id, input.lines, now);
+      // Re-derive rate-card charges; manual charges are untouched.
+      await (_db.delete(_db.orderCharges)
+            ..where((c) =>
+                c.orderId.equals(id) & c.source.isIn(['rate_card'])))
+          .go();
+      await _writeExpectedCharges(
+        orderId: id,
+        feeRules: feeRules,
+        zone: input.zone,
+        weightG: input.weightG,
+        cod: b.effective,
+        packaging: null,
+        now: now,
+      );
+      if (becomesConfirmed) {
+        await _insertEvent(id, OrderStatus.draft, OrderStatus.confirmed, now);
+        // Packaging default applies from the settings snapshot at promotion.
+        final hasPackaging = await (_db.select(_db.orderCharges)
+              ..where((c) => c.orderId.equals(id) & c.type.equals('packaging')))
+            .get();
+        if (hasPackaging.isEmpty && settings.defaultPackagingCostTaka > 0) {
+          await _insertCharge(id, 'packaging',
+              Money.taka(settings.defaultPackagingCostTaka), 'settings', now);
+        }
+      }
+      for (final e in edits.entries) {
+        await _db.into(_db.orderEditLog).insert(OrderEditLogCompanion.insert(
+              id: _ids.generate(),
+              shopId: _shopId,
+              createdAt: now,
+              updatedAt: now,
+              orderId: id,
+              field: e.key,
+              oldValue: Value(e.value.$1),
+              newValue: Value(e.value.$2),
+              at: now,
+            ));
+      }
+      if (amountsChanged && !isDraft) {
+        await _db.into(_db.orderEditLog).insert(OrderEditLogCompanion.insert(
+              id: _ids.generate(),
+              shopId: _shopId,
+              createdAt: now,
+              updatedAt: now,
+              orderId: id,
+              field: 'lines',
+              oldValue: const Value(null),
+              newValue: Value('${input.lines.length} item(s)'),
+              at: now,
+            ));
+      }
+      await _audit.write(
+        entity: 'order',
+        entityId: id,
+        action: 'update',
+        payload: {'fields': edits.keys.toList(), 'confirmed': confirmed},
+      );
+    });
+    if (becomesConfirmed) {
+      await _settings.save(settings.copyWith(defaultChannel: input.channel.dbValue));
+    }
+    return Result.ok(OrderUpdateOutcome((await _order(id))!, warnings: warnings));
+  }
+
+  /// Saves a draft (creating or updating) without validation.
+  Future<Result<Order>> saveDraft(String? id, OrderInput input) async {
+    if (id == null) return create(input, draft: true);
+    final r = await update(id, input);
+    return r.when(
+      ok: (o) => Result.ok(o.order),
+      err: Result.err,
+    );
+  }
+
+  // ------------------------------------------------------------- duplicate
+
+  /// Copies lines, address and channel into a new confirmed order; status and
+  /// COD are reset, date is now, CN is not copied.
+  Future<Result<Order>> duplicate(String id) async {
+    final d = await detail(id);
+    if (d == null) return const Result.err(NotFoundFailure('Order not found'));
+    final o = d.order;
+    final input = OrderInput(
+      customerId: o.customerId,
+      address: o.addressSnapshot,
+      channel: Channel.fromDb(o.channel),
+      sourceRef: o.sourceRef,
+      paymentType: PaymentType.fromDb(o.paymentType),
+      advance: Money(o.advanceReceived),
+      advanceMethod: o.advanceMethod,
+      deliveryCharge: Money(o.deliveryChargeCustomer),
+      orderDiscount: Discount.amount(Money(o.discountTotal)),
+      courierId: o.courierId,
+      zone: o.zone,
+      weightG: o.weightG,
+      notes: o.notes,
+      lines: [
+        for (final l in d.lines)
+          LineInput(
+            name: l.nameSnapshot,
+            qty: l.qty,
+            unitSell: Money(l.unitSellPrice),
+            unitCost: l.unitCostPrice == null ? null : Money(l.unitCostPrice!),
+            discount: Discount.amount(Money(l.lineDiscount)),
+            productId: l.productId,
+            variantId: l.variantId,
+          ),
+      ],
+    );
+    return create(input, draft: OrderStatus.fromDb(o.status) == OrderStatus.draft);
+  }
+
+  // ----------------------------------------------------- delete / restore
+
+  Future<void> softDelete(String id) async {
+    final now = _clock.now();
+    await _db.transaction(() async {
+      await (_db.update(_db.orders)..where((o) => o.id.equals(id))).write(
+          OrdersCompanion(deletedAt: Value(now), updatedAt: Value(now)));
+      await _audit.write(entity: 'order', entityId: id, action: 'delete');
+    });
+  }
+
+  /// Restore fails with a conflict if its CN was reused in the meantime.
+  Future<Result<void>> restore(String id) async {
+    final o = await _order(id);
+    if (o == null) return const Result.err(NotFoundFailure('Order not found'));
+    final conflict = await _cnConflict(o.courierId, o.consignmentNo, id);
+    if (conflict != null) return Result.err(conflict);
+    final now = _clock.now();
+    await _db.transaction(() async {
+      await (_db.update(_db.orders)..where((x) => x.id.equals(id))).write(
+          OrdersCompanion(deletedAt: const Value(null), updatedAt: Value(now)));
+      await _audit.write(entity: 'order', entityId: id, action: 'restore');
+    });
+    return const Result.ok(null);
+  }
+
+  Stream<List<OrderListItem>> watchRecentlyDeleted() {
+    final cutoff =
+        _clock.now().subtract(const Duration(days: recentlyDeletedDays));
+    final q = _db.select(_db.orders).join([
+      leftOuterJoin(_db.customers, _db.customers.id.equalsExp(_db.orders.customerId)),
+    ])
+      ..where(_db.orders.shopId.equals(_shopId) &
+          _db.orders.deletedAt.isNotNull() &
+          _db.orders.deletedAt.isBiggerOrEqualValue(cutoff))
+      ..orderBy([OrderingTerm.desc(_db.orders.deletedAt)]);
+    return q.watch().map((rows) => [
+          for (final r in rows)
+            OrderListItem(r.readTable(_db.orders), r.readTableOrNull(_db.customers)?.name),
+        ]);
+  }
+
+  /// Permanently removes soft-deleted orders older than 30 days. Called on
+  /// app start in the later purge job (stub-level in v1: callable on demand).
+  Future<int> purgeExpired() async {
+    final cutoff =
+        _clock.now().subtract(const Duration(days: recentlyDeletedDays));
+    final expired = await (_db.select(_db.orders)
+          ..where((o) => o.deletedAt.isNotNull() & o.deletedAt.isSmallerThanValue(cutoff)))
+        .get();
+    if (expired.isEmpty) return 0;
+    final ids = expired.map((o) => o.id).toList();
+    await _db.transaction(() async {
+      await (_db.delete(_db.orderLines)..where((t) => t.orderId.isIn(ids))).go();
+      await (_db.delete(_db.orderCharges)..where((t) => t.orderId.isIn(ids))).go();
+      await (_db.delete(_db.orderStatusEvents)..where((t) => t.orderId.isIn(ids))).go();
+      await (_db.delete(_db.orderEditLog)..where((t) => t.orderId.isIn(ids))).go();
+      await (_db.delete(_db.orderAttachments)..where((t) => t.orderId.isIn(ids))).go();
+      await (_db.delete(_db.orders)..where((o) => o.id.isIn(ids))).go();
+    });
+    return ids.length;
+  }
+
+  // ----------------------------------------------------------------- reads
+
+  Future<Order?> _order(String id) =>
+      (_db.select(_db.orders)..where((o) => o.id.equals(id))).getSingleOrNull();
+
+  Future<Order?> getById(String id) => _order(id);
+
+  Future<OrderDetail?> detail(String id) async {
+    final o = await _order(id);
+    if (o == null) return null;
+    final lines = await (_db.select(_db.orderLines)
+          ..where((l) => l.orderId.equals(id))
+          ..orderBy([(l) => OrderingTerm.asc(l.createdAt), (l) => OrderingTerm.asc(l.id)]))
+        .get();
+    final charges = await (_db.select(_db.orderCharges)
+          ..where((c) => c.orderId.equals(id))
+          ..orderBy([(c) => OrderingTerm.asc(c.id)]))
+        .get();
+    final events = await (_db.select(_db.orderStatusEvents)
+          ..where((e) => e.orderId.equals(id))
+          ..orderBy([(e) => OrderingTerm.asc(e.at), (e) => OrderingTerm.asc(e.id)]))
+        .get();
+    final edits = await (_db.select(_db.orderEditLog)
+          ..where((e) => e.orderId.equals(id))
+          ..orderBy([(e) => OrderingTerm.asc(e.at), (e) => OrderingTerm.asc(e.id)]))
+        .get();
+    final customer = o.customerId == null
+        ? null
+        : await (_db.select(_db.customers)..where((c) => c.id.equals(o.customerId!)))
+            .getSingleOrNull();
+    return OrderDetail(
+        order: o,
+        lines: lines,
+        charges: charges,
+        events: events,
+        edits: edits,
+        customer: customer);
+  }
+
+  /// Keyset-paginated list: newest first, stable across inserts.
+  Future<List<OrderListItem>> fetchPage({
+    OrderFilter filter = const OrderFilter(),
+    OrderCursor? after,
+    int limit = pageSize,
+  }) async {
+    final o = _db.orders;
+    final q = _db.select(o).join([
+      leftOuterJoin(_db.customers, _db.customers.id.equalsExp(o.customerId)),
+    ]);
+    Expression<bool> w = o.shopId.equals(_shopId) & o.deletedAt.isNull();
+    if (filter.onlyDrafts) {
+      w = w & o.status.equals(OrderStatus.draft.dbValue);
+    } else if (!filter.includeDrafts) {
+      w = w & o.status.equals(OrderStatus.draft.dbValue).not();
+    }
+    if (filter.statuses.isNotEmpty) {
+      w = w & o.status.isIn(filter.statuses.map((s) => s.dbValue));
+    }
+    if (filter.from != null) w = w & o.orderDate.isBiggerOrEqualValue(filter.from!);
+    if (filter.to != null) w = w & o.orderDate.isSmallerThanValue(filter.to!);
+    if (filter.channel != null) w = w & o.channel.equals(filter.channel!.dbValue);
+    if (filter.customerId != null) w = w & o.customerId.equals(filter.customerId!);
+    if (after != null) {
+      w = w &
+          (o.orderDate.isSmallerThanValue(after.orderDate) |
+              (o.orderDate.equals(after.orderDate) & o.id.isSmallerThanValue(after.id)));
+    }
+    q
+      ..where(w)
+      ..orderBy([OrderingTerm.desc(o.orderDate), OrderingTerm.desc(o.id)])
+      ..limit(limit);
+    final rows = await q.get();
+    return [
+      for (final r in rows)
+        OrderListItem(r.readTable(o), r.readTableOrNull(_db.customers)?.name),
+    ];
+  }
+
+  Future<int> draftCount() async {
+    final c = _db.orders.id.count();
+    final row = await (_db.selectOnly(_db.orders)
+          ..addColumns([c])
+          ..where(_db.orders.shopId.equals(_shopId) &
+              _db.orders.deletedAt.isNull() &
+              _db.orders.status.equals(OrderStatus.draft.dbValue)))
+        .getSingle();
+    return row.read(c) ?? 0;
+  }
+
+  /// Expected charges for a form preview (not persisted).
+  Future<ExpectedCharges?> previewCharges({
+    required String? courierId,
+    required String? zone,
+    required int? weightG,
+    required Money cod,
+  }) async {
+    if (courierId == null || zone == null) return null;
+    final rules = await _couriers.feeRules(courierId);
+    return ChargeCalculator.expected(
+        rules: rules, zone: zone, codAmount: cod, weightG: weightG);
+  }
+
+  // --------------------------------------------------------------- helpers
+
+  /// Next sequence number; never reused because deleted orders keep theirs.
+  Future<int> _nextOrderNumber(int start) async {
+    final maxCol = _db.orders.orderNumber.max();
+    final row = await (_db.selectOnly(_db.orders)
+          ..addColumns([maxCol])
+          ..where(_db.orders.shopId.equals(_shopId)))
+        .getSingle();
+    final max = row.read(maxCol);
+    return max == null ? start : (max + 1 < start ? start : max + 1);
+  }
+
+  Future<ConflictFailure?> _cnConflict(
+      String? courierId, String? cn, String? exceptOrderId) async {
+    final c = _blank(cn);
+    if (courierId == null || c == null) return null;
+    final existing = await (_db.select(_db.orders)
+          ..where((o) =>
+              o.courierId.equals(courierId) &
+              o.consignmentNo.equals(c) &
+              o.deletedAt.isNull()))
+        .get();
+    final other = existing.where((o) => o.id != exceptOrderId).toList();
+    if (other.isEmpty) return null;
+    return ConflictFailure('cn_taken:${other.first.orderNo}',
+        conflictingId: other.first.id);
+  }
+
+  CodStatus _initialCodStatus(PaymentType type, Money cod) =>
+      (type == PaymentType.prepaid || cod.isZero)
+          ? CodStatus.notApplicable
+          : CodStatus.pendingCollection;
+
+  Future<bool> _linesChanged(String orderId, List<LineInput> lines) async {
+    final cur = await (_db.select(_db.orderLines)..where((l) => l.orderId.equals(orderId))).get();
+    if (cur.length != lines.length) return true;
+    final a = cur
+        .map((l) => '${l.nameSnapshot}|${l.qty}|${l.unitSellPrice}|${l.lineDiscount}|${l.unitCostPrice}')
+        .toList()
+      ..sort();
+    final b = lines
+        .map((l) => '${l.name}|${l.qty}|${l.unitSell.poisha}|${l.discountAmount.poisha}|${l.unitCost?.poisha}')
+        .toList()
+      ..sort();
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return true;
+    }
+    return false;
+  }
+
+  Future<void> _insertLines(String orderId, List<LineInput> lines, DateTime now) async {
+    for (final l in lines) {
+      await _db.into(_db.orderLines).insert(OrderLinesCompanion.insert(
+            id: _ids.generate(),
+            shopId: _shopId,
+            createdAt: now,
+            updatedAt: now,
+            orderId: orderId,
+            nameSnapshot: l.name.trim(),
+            unitSellPrice: l.unitSell.poisha,
+            qty: Value(l.qty),
+            unitCostPrice: Value(l.unitCost?.poisha),
+            lineDiscount: Value(l.discountAmount.poisha),
+            productId: Value(l.productId),
+            variantId: Value(l.variantId),
+          ));
+    }
+  }
+
+  Future<void> _replaceLines(String orderId, List<LineInput> lines, DateTime now) async {
+    await (_db.delete(_db.orderLines)..where((l) => l.orderId.equals(orderId))).go();
+    await _insertLines(orderId, lines, now);
+  }
+
+  Future<void> _insertCharge(
+      String orderId, String type, Money expected, String source, DateTime now) {
+    return _db.into(_db.orderCharges).insert(OrderChargesCompanion.insert(
+          id: _ids.generate(),
+          shopId: _shopId,
+          createdAt: now,
+          updatedAt: now,
+          orderId: orderId,
+          type: type,
+          expectedAmount: Value(expected.poisha),
+          source: Value(source),
+        ));
+  }
+
+  Future<void> _writeExpectedCharges({
+    required String orderId,
+    required CourierFeeRules? feeRules,
+    required String? zone,
+    required int? weightG,
+    required Money cod,
+    required Money? packaging,
+    required DateTime now,
+  }) async {
+    if (feeRules != null && zone != null) {
+      final e = ChargeCalculator.expected(
+          rules: feeRules, zone: zone, codAmount: cod, weightG: weightG);
+      if (e.deliveryFee != null) {
+        await _insertCharge(orderId, 'delivery_fee', e.deliveryFee!, 'rate_card', now);
+      }
+      await _insertCharge(orderId, 'cod_fee', e.codFee, 'rate_card', now);
+      if (e.returnFee != null && !e.returnFee!.isZero) {
+        await _insertCharge(orderId, 'return_fee', e.returnFee!, 'rate_card', now);
+      }
+    }
+    if (packaging != null && !packaging.isZero) {
+      await _insertCharge(orderId, 'packaging', packaging, 'settings', now);
+    }
+  }
+
+  Future<void> _insertEvent(
+      String orderId, OrderStatus? from, OrderStatus to, DateTime at) {
+    return _db.into(_db.orderStatusEvents).insert(OrderStatusEventsCompanion.insert(
+          id: _ids.generate(),
+          shopId: _shopId,
+          createdAt: at,
+          updatedAt: at,
+          orderId: orderId,
+          toStatus: to.dbValue,
+          at: at,
+          fromStatus: Value(from?.dbValue),
+        ));
+  }
+
+  static String? _blank(String? s) => (s == null || s.trim().isEmpty) ? null : s.trim();
+}
+
+final orderRepositoryProvider = Provider<OrderRepository>((ref) => OrderRepository(
+      ref.watch(databaseProvider),
+      ref.watch(uuidProvider),
+      ref.watch(clockProvider),
+      ref.watch(auditWriterProvider),
+      ref.watch(shopIdProvider),
+      ref.watch(courierRepositoryProvider),
+      ref.watch(settingsRepositoryProvider),
+    ));

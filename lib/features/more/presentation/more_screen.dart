@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/app/debug_menu.dart';
+import 'package:parcel_khata/l10n/l10n.dart';
+
+class MoreScreen extends ConsumerWidget {
+  const MoreScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    return Scaffold(
+      appBar: AppBar(title: Text(l.moreTitle)),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.people_outline),
+            title: Text(l.customers),
+            onTap: () => context.push('/customers'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.inventory_2_outlined),
+            title: Text(l.products),
+            onTap: () => context.push('/products'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.local_shipping_outlined),
+            title: Text(l.couriers),
+            onTap: () => context.push('/couriers'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings_outlined),
+            title: Text(l.settings),
+            onTap: () => context.push('/settings'),
+          ),
+          if (DebugMenuScreen.enabled)
+            ListTile(
+              leading: const Icon(Icons.bug_report_outlined),
+              title: Text(l.debugMenu),
+              onTap: () => context.push('/debug'),
+            ),
+        ],
+      ),
+    );
+  }
+}
