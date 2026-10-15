@@ -21,6 +21,8 @@ import 'package:parcel_khata/features/orders/presentation/order_form_screen.dart
 import 'package:parcel_khata/features/orders/presentation/orders_screen.dart';
 import 'package:parcel_khata/features/products/presentation/product_form_screen.dart';
 import 'package:parcel_khata/features/products/presentation/products_screen.dart';
+import 'package:parcel_khata/features/profit/presentation/missing_costs_screen.dart';
+import 'package:parcel_khata/features/returns/presentation/returns_screen.dart';
 import 'package:parcel_khata/features/settings/presentation/settings_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -33,6 +35,8 @@ final appRouter = GoRouter(
       GoRoute(path: '/debug', builder: (_, __) => const DebugMenuScreen()),
     // Static order routes must precede '/orders/:id'.
     GoRoute(path: '/orders/new', builder: (_, __) => const OrderFormScreen()),
+    GoRoute(path: '/orders/cost-missing', builder: (_, __) => const MissingCostsScreen()),
+    GoRoute(path: '/returns', builder: (_, __) => const ReturnsScreen()),
     GoRoute(path: '/orders/cn-entry', builder: (_, __) => const CnEntryScreen()),
     GoRoute(path: '/orders/drafts', builder: (_, __) => const DraftsScreen()),
     GoRoute(path: '/orders/deleted', builder: (_, __) => const DeletedOrdersScreen()),

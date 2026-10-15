@@ -213,3 +213,24 @@ class PayoutAllocations extends Table with BaseColumns {
   BoolColumn get isOverpayment => boolean().withDefault(const Constant(false))();
   TextColumn get note => text().nullable()();
 }
+
+class ReturnRecords extends Table with BaseColumns {
+  TextColumn get orderId => text().references(Orders, #id)();
+  // full | partial
+  TextColumn get type => text()();
+  TextColumn get reason => text()();
+  DateTimeColumn get initiatedAt => dateTime()();
+  DateTimeColumn get receivedBackAt => dateTime().nullable()();
+  // resellable | damaged | lost | mixed (null until received back)
+  TextColumn get condition => text().nullable()();
+  IntColumn get lossAmount => integer().withDefault(const Constant(0))();
+  TextColumn get notes => text().nullable()();
+}
+
+class ReturnLines extends Table with BaseColumns {
+  TextColumn get returnId => text().references(ReturnRecords, #id)();
+  TextColumn get orderLineId => text().references(OrderLines, #id)();
+  IntColumn get qty => integer()();
+  // resellable | damaged | lost (null until received back)
+  TextColumn get condition => text().nullable()();
+}

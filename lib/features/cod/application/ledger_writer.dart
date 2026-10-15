@@ -4,6 +4,8 @@ import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/cod/domain/cod_status_resolver.dart';
 import 'package:parcel_khata/features/cod/domain/ledger.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
+import 'package:parcel_khata/features/profit/application/profit_input_builder.dart';
+import 'package:parcel_khata/features/profit/domain/profit_calculator.dart';
 
 /// Computes and caches an order's ledger + COD status. Always call inside the
 /// transaction that changed money or status so cached values never drift.
@@ -71,6 +73,42 @@ class LedgerWriter {
         codStatus: Value(status.dbValue),
         netReceivable: Value(ledger?.netReceivable.poisha),
         outstanding: Value(ledger?.outstanding.poisha),
+      ),
+    );
+    await _refreshProfit(orderId);
+  }
+
+  /// Recomputes the cached profit and its Provisional/Final/Incomplete label.
+  /// The status written above is already visible to this read.
+  Future<void> _refreshProfit(String orderId) async {
+    final o = await (_db.select(_db.orders)..where((x) => x.id.equals(orderId)))
+        .getSingleOrNull();
+    if (o == null) return;
+    final lines = await (_db.select(_db.orderLines)
+          ..where((l) => l.orderId.equals(orderId) & l.deletedAt.isNull()))
+        .get();
+    final charges = await (_db.select(_db.orderCharges)
+          ..where((c) => c.orderId.equals(orderId) & c.deletedAt.isNull()))
+        .get();
+    final record = await (_db.select(_db.returnRecords)
+          ..where((r) => r.orderId.equals(orderId) & r.deletedAt.isNull()))
+        .getSingleOrNull();
+    final returnLines = record == null
+        ? <ReturnLine>[]
+        : await (_db.select(_db.returnLines)
+              ..where((r) => r.returnId.equals(record.id) & r.deletedAt.isNull()))
+            .get();
+    final result = ProfitCalculator.compute(ProfitInputBuilder.build(
+      order: o,
+      lines: lines,
+      charges: charges,
+      returnLines: returnLines,
+      hasReturnRecord: record != null,
+    ));
+    await (_db.update(_db.orders)..where((x) => x.id.equals(orderId))).write(
+      OrdersCompanion(
+        profit: Value(result.net.poisha),
+        profitState: Value(result.state.dbValue),
       ),
     );
   }

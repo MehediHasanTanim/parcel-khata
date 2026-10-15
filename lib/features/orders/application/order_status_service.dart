@@ -12,6 +12,7 @@ import 'package:parcel_khata/features/cod/application/ledger_writer.dart';
 import 'package:parcel_khata/features/couriers/domain/stuck_parcel_policy.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
+import 'package:parcel_khata/features/returns/application/stock_service.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 
 /// Typed failure carrying the violated guard.
@@ -67,6 +68,7 @@ class OrderStatusService {
     this._shopId,
     this._settings,
     this._ledger,
+    this._stock,
   );
 
   final AppDatabase _db;
@@ -76,6 +78,7 @@ class OrderStatusService {
   final String _shopId;
   final SettingsRepository _settings;
   final LedgerWriter _ledger;
+  final StockService _stock;
 
   static const undoWindow = Duration(seconds: 30);
 
@@ -145,7 +148,8 @@ class OrderStatusService {
           continue;
         }
         final eventIds = <String>[];
-        await _apply(o, from, to, when, reason, note, now, eventIds);
+        await _apply(o, from, to, when, reason, note, now, eventIds,
+            stockEnabled: settings.stockTrackingEnabled);
         // Auto-start the return flow after a failed delivery (setting).
         if (to == OrderStatus.deliveryFailed && settings.autoStartReturnFlow) {
           await _apply(
@@ -157,6 +161,7 @@ class OrderStatusService {
             null,
             now,
             eventIds,
+            stockEnabled: false,
           );
         }
         snapshots.add(_Snapshot(o, eventIds));
@@ -211,8 +216,9 @@ class OrderStatusService {
     final from = OrderStatus.fromDb(o.status);
     if (from == to) return Result.ok(o);
     await _db.transaction(() async {
+      final settings = await _settings.read();
       await _apply(o, from, to, when, kCorrectionReason, note.trim(), now, <String>[],
-          correction: true);
+          correction: true, stockEnabled: settings.stockTrackingEnabled);
       await _audit.write(
         entity: 'order',
         entityId: orderId,
@@ -299,6 +305,15 @@ class OrderStatusService {
 
   // --------------------------------------------------------------- helpers
 
+  static bool _stockOut(OrderStatus s) => const {
+        OrderStatus.handedToCourier,
+        OrderStatus.inTransit,
+        OrderStatus.delivered,
+        OrderStatus.deliveryFailed,
+        OrderStatus.returnInTransit,
+        OrderStatus.returned,
+      }.contains(s);
+
   Future<DateTime?> _returnInitiatedAt(String orderId) async {
     final e = await (_db.select(_db.orderStatusEvents)
           ..where((x) =>
@@ -322,6 +337,7 @@ class OrderStatusService {
     String? note,
     DateTime now,
     List<String> eventIds, {
+    required bool stockEnabled,
     bool correction = false,
   }) async {
     final hasCod = o.codExpected > 0 && o.paymentType != PaymentType.prepaid.dbValue;
@@ -384,6 +400,14 @@ class OrderStatusService {
         rowVersion: Value(o.rowVersion + 1),
       ),
     );
+    // Stock leaves when the parcel is handed over and comes back if that is
+    // corrected away (returns restore stock through the return flow).
+    if (stockEnabled) {
+      final wasOut = _stockOut(from);
+      final isOut = _stockOut(to);
+      if (!wasOut && isOut) await _stock.applyForOrder(o.id, out: true);
+      if (wasOut && !isOut) await _stock.applyForOrder(o.id, out: false);
+    }
     // Cached net receivable / outstanding / COD status come from one place.
     await _ledger.refresh(o.id);
   }
@@ -397,4 +421,5 @@ final orderStatusServiceProvider = Provider<OrderStatusService>((ref) => OrderSt
       ref.watch(shopIdProvider),
       ref.watch(settingsRepositoryProvider),
       LedgerWriter(ref.watch(databaseProvider)),
+      StockService(ref.watch(databaseProvider), ref.watch(clockProvider)),
     ));

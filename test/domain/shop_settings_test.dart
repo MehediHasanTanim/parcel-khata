@@ -25,6 +25,15 @@ void main() {
     expect(back.defaultCourierId, 'c1');
   });
 
+  test('new return/privacy settings round trip with defaults', () {
+    expect(const ShopSettings().returnInTransitDays, 7);
+    expect(const ShopSettings().hideProfitInLists, isFalse);
+    final s = const ShopSettings().copyWith(returnInTransitDays: 10, hideProfitInLists: true);
+    final back = ShopSettings.decode(s.encode());
+    expect(back.returnInTransitDays, 10);
+    expect(back.hideProfitInLists, isTrue);
+  });
+
   test('clearDefaultCourier', () {
     final s = const ShopSettings(defaultCourierId: 'c').copyWith(clearDefaultCourier: true);
     expect(s.defaultCourierId, isNull);

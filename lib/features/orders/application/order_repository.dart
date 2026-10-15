@@ -12,6 +12,7 @@ import 'package:parcel_khata/core/providers.dart';
 import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/core/time/clock.dart';
 import 'package:parcel_khata/core/time/providers.dart';
+import 'package:parcel_khata/features/cod/application/ledger_writer.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
@@ -142,6 +143,7 @@ class OrderRepository {
     this._shopId,
     this._couriers,
     this._settings,
+    this._ledger,
   );
 
   final AppDatabase _db;
@@ -151,6 +153,7 @@ class OrderRepository {
   final String _shopId;
   final CourierRepository _couriers;
   final SettingsRepository _settings;
+  final LedgerWriter _ledger;
 
   static const pageSize = 30;
   static const recentlyDeletedDays = 30;
@@ -228,6 +231,7 @@ class OrderRepository {
         now: now,
       );
       await _insertEvent(id, null, status, now);
+      await _ledger.refresh(id);
       await _audit.write(
         entity: 'order',
         entityId: id,
@@ -401,6 +405,7 @@ class OrderRepository {
               at: now,
             ));
       }
+      await _ledger.refresh(id);
       await _audit.write(
         entity: 'order',
         entityId: id,
@@ -596,6 +601,7 @@ class OrderRepository {
       }
       await edit('courier_id', cur.courierId, courierId);
       await edit('consignment_no', cur.consignmentNo, cn);
+      await _ledger.refresh(orderId);
       await _audit.write(
           entity: 'order', entityId: orderId, action: 'assign_courier');
     });
@@ -868,4 +874,5 @@ final orderRepositoryProvider = Provider<OrderRepository>((ref) => OrderReposito
       ref.watch(shopIdProvider),
       ref.watch(courierRepositoryProvider),
       ref.watch(settingsRepositoryProvider),
+      LedgerWriter(ref.watch(databaseProvider)),
     ));

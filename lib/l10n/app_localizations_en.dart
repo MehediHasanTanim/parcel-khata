@@ -1023,4 +1023,167 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noPayouts => 'No payouts yet';
+
+  @override
+  String get returnsTitle => 'Returns';
+
+  @override
+  String get tabInTransit => 'In transit';
+
+  @override
+  String get tabReceived => 'Received';
+
+  @override
+  String get tabNotReceived => 'Not received';
+
+  @override
+  String get startReturn => 'Start return';
+
+  @override
+  String get partialReturn => 'Partial return';
+
+  @override
+  String get fullReturn => 'Full return';
+
+  @override
+  String get returnReason => 'Return reason';
+
+  @override
+  String get returnQty => 'Qty returned';
+
+  @override
+  String get conditionResellable => 'Resellable';
+
+  @override
+  String get conditionDamaged => 'Damaged';
+
+  @override
+  String get conditionLost => 'Lost';
+
+  @override
+  String get conditionMixed => 'Mixed';
+
+  @override
+  String get lossAmountLabel => 'Loss';
+
+  @override
+  String get stockWillRestore => 'Resellable items go back to stock';
+
+  @override
+  String get returnedValueLabel => 'Value returned';
+
+  @override
+  String daysInTransitN(int n) {
+    return '$n days in transit';
+  }
+
+  @override
+  String get returnSaved => 'Return saved';
+
+  @override
+  String get receivedBackOn => 'Received on';
+
+  @override
+  String get errReturnStatus => 'A return is not possible in this status';
+
+  @override
+  String get errReturnNoLines => 'Select at least one item';
+
+  @override
+  String get errReturnBadQty => 'Quantity is more than ordered';
+
+  @override
+  String get errReturnUseFull => 'All items returned: use a full return';
+
+  @override
+  String get errReturnExists => 'A return already exists for this order';
+
+  @override
+  String get returnCard => 'Return';
+
+  @override
+  String get profitTitle => 'Profit';
+
+  @override
+  String get profitRevenue => 'Product revenue';
+
+  @override
+  String get profitDelivery => 'Delivery charge';
+
+  @override
+  String get profitGross => 'Collected value';
+
+  @override
+  String get costCogs => 'Product cost';
+
+  @override
+  String get costGoodsLoss => 'Damaged/lost goods';
+
+  @override
+  String get profitNet => 'Net profit';
+
+  @override
+  String get marginLabel => 'Margin';
+
+  @override
+  String get stateProvisional => 'Provisional';
+
+  @override
+  String get stateFinal => 'Final';
+
+  @override
+  String get stateIncomplete => 'Incomplete';
+
+  @override
+  String get helpProvisional =>
+      'Based on expected fees or the order is not settled yet.';
+
+  @override
+  String get helpFinal => 'All amounts are known.';
+
+  @override
+  String get helpIncomplete =>
+      'A product cost is missing, so profit cannot be trusted.';
+
+  @override
+  String get missingCostFor => 'Cost missing for';
+
+  @override
+  String get expectedFeesNote => 'includes expected fees';
+
+  @override
+  String get hideProfit => 'Hide profit in lists';
+
+  @override
+  String get returnTransitDays => 'Flag returns in transit after (days)';
+
+  @override
+  String get fixMissingCosts => 'Fix missing costs';
+
+  @override
+  String get noMissingCosts => 'No orders with missing costs';
+
+  @override
+  String get alsoUpdateCatalog => 'Also set this as the catalog cost';
+
+  @override
+  String get customerSummary => 'Summary';
+
+  @override
+  String get ordersTotal => 'Orders';
+
+  @override
+  String get deliveredPct => 'Delivered';
+
+  @override
+  String get returnedPct => 'Returned';
+
+  @override
+  String get lifetimeRevenue => 'Lifetime revenue';
+
+  @override
+  String get lifetimeProfit => 'Lifetime profit';
+
+  @override
+  String get lastOrderOn => 'Last order';
 }

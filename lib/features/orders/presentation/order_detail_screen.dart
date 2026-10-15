@@ -9,6 +9,9 @@ import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/features/cod/presentation/ledger_panel.dart';
+import 'package:parcel_khata/features/profit/presentation/profit_panel.dart';
+import 'package:parcel_khata/features/returns/application/return_service.dart';
+import 'package:parcel_khata/features/returns/presentation/return_sheets.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/couriers/domain/tracking_url.dart';
@@ -167,6 +170,14 @@ class OrderDetailScreen extends ConsumerWidget {
                 ),
             ]),
             if (status != OrderStatus.draft) LedgerPanel(order: o, charges: d.charges),
+            if (status != OrderStatus.draft) ProfitPanel(detail: d),
+            if (const {
+              OrderStatus.delivered,
+              OrderStatus.deliveryFailed,
+              OrderStatus.returnInTransit,
+              OrderStatus.returned,
+            }.contains(status))
+              _ReturnCard(order: o),
             if (d.charges.isNotEmpty)
               _section(context, l.charges, [
                 for (final c in d.charges)
@@ -389,6 +400,73 @@ class _CourierCard extends ConsumerWidget {
           ]),
         ]),
       ),
+    );
+  }
+}
+
+class _ReturnCard extends ConsumerWidget {
+  const _ReturnCard({required this.order});
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final status = OrderStatus.fromDb(order.status);
+    return FutureBuilder<ReturnView?>(
+      future: ref.read(returnServiceProvider).forOrder(order.id),
+      builder: (_, snap) {
+        if (snap.connectionState != ConnectionState.done) return const SizedBox.shrink();
+        final v = snap.data;
+        final received = v?.record.receivedBackAt != null;
+        final canStartFull = v == null &&
+            (status == OrderStatus.deliveryFailed || status == OrderStatus.returnInTransit);
+        final canPartial = v == null && status == OrderStatus.delivered;
+        final canReceive = !received &&
+            (v != null ||
+                status == OrderStatus.deliveryFailed ||
+                status == OrderStatus.returnInTransit);
+        if (!canStartFull && !canPartial && !canReceive && v == null) {
+          return const SizedBox.shrink();
+        }
+        return Card(
+          margin: const EdgeInsets.only(bottom: 20),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(l.returnCard, style: Theme.of(context).textTheme.titleMedium),
+              if (v != null) ...[
+                const SizedBox(height: 4),
+                Text('${v.record.type == 'full' ? l.fullReturn : l.partialReturn} · '
+                    '${reasonLabel(l, v.record.reason)}'),
+                if (received)
+                  Text('${l.receivedBackOn}: ${formatDate(v.record.receivedBackAt!)} · '
+                      '${l.lossAmountLabel}: ${Money(v.record.lossAmount).format()}'),
+              ],
+              const SizedBox(height: 8),
+              Wrap(spacing: 8, children: [
+                if (canStartFull)
+                  OutlinedButton(
+                    onPressed: () =>
+                        showInitiateReturnSheet(context, ref, order: order, full: true),
+                    child: Text(l.startReturn),
+                  ),
+                if (canPartial)
+                  OutlinedButton(
+                    onPressed: () =>
+                        showInitiateReturnSheet(context, ref, order: order, full: false),
+                    child: Text(l.partialReturn),
+                  ),
+                if (canReceive)
+                  FilledButton(
+                    onPressed: () => showReceiveReturnSheet(context, ref, order: order),
+                    child: Text(l.actionReturned),
+                  ),
+              ]),
+            ]),
+          ),
+        );
+      },
     );
   }
 }

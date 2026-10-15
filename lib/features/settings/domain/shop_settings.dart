@@ -17,6 +17,8 @@ class ShopSettings {
     this.autoStartReturnFlow = true,
     this.stockTrackingEnabled = false,
     this.languageCode = 'bn',
+    this.returnInTransitDays = 7,
+    this.hideProfitInLists = false,
   });
 
   static const currentVersion = 1;
@@ -36,6 +38,12 @@ class ShopSettings {
   final bool stockTrackingEnabled;
   final String languageCode;
 
+  /// A return still in transit after this many days is flagged.
+  final int returnInTransitDays;
+
+  /// Privacy: hide profit chips in order lists (e.g. phone shared with helper).
+  final bool hideProfitInLists;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -51,6 +59,8 @@ class ShopSettings {
     bool? autoStartReturnFlow,
     bool? stockTrackingEnabled,
     String? languageCode,
+    int? returnInTransitDays,
+    bool? hideProfitInLists,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -69,6 +79,8 @@ class ShopSettings {
         autoStartReturnFlow: autoStartReturnFlow ?? this.autoStartReturnFlow,
         stockTrackingEnabled: stockTrackingEnabled ?? this.stockTrackingEnabled,
         languageCode: languageCode ?? this.languageCode,
+        returnInTransitDays: returnInTransitDays ?? this.returnInTransitDays,
+        hideProfitInLists: hideProfitInLists ?? this.hideProfitInLists,
       );
 
   Map<String, Object?> toJson() => {
@@ -86,6 +98,8 @@ class ShopSettings {
         'autoStartReturnFlow': autoStartReturnFlow,
         'stockTrackingEnabled': stockTrackingEnabled,
         'languageCode': languageCode,
+        'returnInTransitDays': returnInTransitDays,
+        'hideProfitInLists': hideProfitInLists,
       };
 
   String encode() => jsonEncode(toJson());
@@ -116,6 +130,8 @@ class ShopSettings {
         stockTrackingEnabled:
             j['stockTrackingEnabled'] as bool? ?? d.stockTrackingEnabled,
         languageCode: j['languageCode'] as String? ?? d.languageCode,
+        returnInTransitDays: j['returnInTransitDays'] as int? ?? d.returnInTransitDays,
+        hideProfitInLists: j['hideProfitInLists'] as bool? ?? d.hideProfitInLists,
       );
     } on FormatException {
       return const ShopSettings();

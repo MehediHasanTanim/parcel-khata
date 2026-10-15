@@ -10,6 +10,8 @@ import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_input.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
+import 'package:parcel_khata/features/profit/domain/profit_calculator.dart';
+import 'package:parcel_khata/features/returns/application/return_service.dart';
 
 /// Dev-only seed data (S1-20): 500 customers, 80 products, 4 couriers.
 class DevSeeder {
@@ -133,6 +135,39 @@ class DevSeeder {
         rows = await payouts.payableOrders(c.id);
         // Leave the newest ~15 orders pending so the hub has data.
         if (rows.length < 15) break;
+      }
+    }
+  }
+
+  /// Returns over the dataset (S5-17): refused deliveries received back
+  /// resellable or damaged, plus partial returns on delivered orders.
+  Future<void> seedReturns(OrderRepository orders, ReturnService returns, {int limit = 300}) async {
+    final rows = await orders.fetchPage(limit: limit);
+    var n = 0;
+    for (final item in rows) {
+      final o = item.order;
+      n++;
+      final status = OrderStatus.fromDb(o.status);
+      if (status == OrderStatus.returnInTransit || status == OrderStatus.deliveryFailed) {
+        if (n % 3 == 0) continue; // leave some still in transit
+        await returns.receive(
+          o.id,
+          receivedAt: o.updatedAt.add(const Duration(days: 3)).isAfter(DateTime.now())
+              ? null
+              : o.updatedAt.add(const Duration(days: 3)),
+          conditions: n % 2 == 0
+              ? const {}
+              : {
+                  for (final l in (await orders.detail(o.id))!.lines)
+                    l.id: ReturnCondition.damaged,
+                },
+        );
+      } else if (status == OrderStatus.delivered && n % 11 == 0) {
+        final d = await orders.detail(o.id);
+        if (d == null || d.lines.length < 2) continue;
+        final r = await returns.initiate(o.id,
+            full: false, reason: 'size_or_color_issue', lines: [ReturnQty(d.lines.first.id, 1)]);
+        if (r.isOk) await returns.receive(o.id);
       }
     }
   }

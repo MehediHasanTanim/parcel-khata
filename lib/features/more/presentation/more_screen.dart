@@ -30,6 +30,16 @@ class MoreScreen extends ConsumerWidget {
             onTap: () => context.push('/couriers'),
           ),
           ListTile(
+            leading: const Icon(Icons.assignment_return_outlined),
+            title: Text(l.returnsTitle),
+            onTap: () => context.push('/returns'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.warning_amber),
+            title: Text(l.fixMissingCosts),
+            onTap: () => context.push('/orders/cost-missing'),
+          ),
+          ListTile(
             leading: const Icon(Icons.settings_outlined),
             title: Text(l.settings),
             onTap: () => context.push('/settings'),

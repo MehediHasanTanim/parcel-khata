@@ -44,6 +44,10 @@ String reasonLabel(AppLocalizations l, String key) => switch (key) {
       'customer_cancelled' => l.reasonCustomerCancelled,
       'out_of_stock' => l.reasonOutOfStock,
       'courier_issue' => l.reasonCourierIssue,
+      'wrong_or_damaged_item' => l.conditionDamaged,
+      'size_or_color_issue' => l.variantLabel,
+      'changed_mind' => l.reasonCustomerCancelled,
+      'fake_order' => l.reasonOther,
       kCorrectionReason => l.reasonCorrection,
       _ => l.reasonOther,
     };

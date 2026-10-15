@@ -39,6 +39,13 @@ const _ledgerIndexes = [
   'CREATE INDEX IF NOT EXISTS ix_alloc_payout ON payout_allocations(payout_id)',
 ];
 
+// Added in schema v5 (returns).
+const _returnIndexes = [
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_return_order ON return_records(order_id) WHERE deleted_at IS NULL',
+  'CREATE INDEX IF NOT EXISTS ix_return_lines ON return_lines(return_id)',
+  'CREATE INDEX IF NOT EXISTS ix_return_lines_order_line ON return_lines(order_line_id)',
+];
+
 @DriftDatabase(tables: [
   Shops,
   Customers,
@@ -56,6 +63,8 @@ const _ledgerIndexes = [
   OrderAttachments,
   Payouts,
   PayoutAllocations,
+  ReturnRecords,
+  ReturnLines,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -64,13 +73,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes]) {
+          for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
             await customStatement(sql);
           }
         },
@@ -105,6 +114,13 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(payouts);
             await m.createTable(payoutAllocations);
             for (final sql in _ledgerIndexes) {
+              await customStatement(sql);
+            }
+          }
+          if (from < 5) {
+            await m.createTable(returnRecords);
+            await m.createTable(returnLines);
+            for (final sql in _returnIndexes) {
               await customStatement(sql);
             }
           }

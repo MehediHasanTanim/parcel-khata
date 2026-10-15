@@ -12971,6 +12971,1435 @@ class PayoutAllocationsCompanion extends UpdateCompanion<PayoutAllocation> {
   }
 }
 
+class $ReturnRecordsTable extends ReturnRecords
+    with TableInfo<$ReturnRecordsTable, ReturnRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReturnRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _orderIdMeta = const VerificationMeta(
+    'orderId',
+  );
+  @override
+  late final GeneratedColumn<String> orderId = GeneratedColumn<String>(
+    'order_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES orders (id)',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  @override
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _initiatedAtMeta = const VerificationMeta(
+    'initiatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> initiatedAt = GeneratedColumn<DateTime>(
+    'initiated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _receivedBackAtMeta = const VerificationMeta(
+    'receivedBackAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> receivedBackAt =
+      GeneratedColumn<DateTime>(
+        'received_back_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _conditionMeta = const VerificationMeta(
+    'condition',
+  );
+  @override
+  late final GeneratedColumn<String> condition = GeneratedColumn<String>(
+    'condition',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lossAmountMeta = const VerificationMeta(
+    'lossAmount',
+  );
+  @override
+  late final GeneratedColumn<int> lossAmount = GeneratedColumn<int>(
+    'loss_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    orderId,
+    type,
+    reason,
+    initiatedAt,
+    receivedBackAt,
+    condition,
+    lossAmount,
+    notes,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'return_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ReturnRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('order_id')) {
+      context.handle(
+        _orderIdMeta,
+        orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reasonMeta);
+    }
+    if (data.containsKey('initiated_at')) {
+      context.handle(
+        _initiatedAtMeta,
+        initiatedAt.isAcceptableOrUnknown(
+          data['initiated_at']!,
+          _initiatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_initiatedAtMeta);
+    }
+    if (data.containsKey('received_back_at')) {
+      context.handle(
+        _receivedBackAtMeta,
+        receivedBackAt.isAcceptableOrUnknown(
+          data['received_back_at']!,
+          _receivedBackAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('condition')) {
+      context.handle(
+        _conditionMeta,
+        condition.isAcceptableOrUnknown(data['condition']!, _conditionMeta),
+      );
+    }
+    if (data.containsKey('loss_amount')) {
+      context.handle(
+        _lossAmountMeta,
+        lossAmount.isAcceptableOrUnknown(data['loss_amount']!, _lossAmountMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReturnRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReturnRecord(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      orderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      )!,
+      initiatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}initiated_at'],
+      )!,
+      receivedBackAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}received_back_at'],
+      ),
+      condition: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}condition'],
+      ),
+      lossAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}loss_amount'],
+      )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+    );
+  }
+
+  @override
+  $ReturnRecordsTable createAlias(String alias) {
+    return $ReturnRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class ReturnRecord extends DataClass implements Insertable<ReturnRecord> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String orderId;
+  final String type;
+  final String reason;
+  final DateTime initiatedAt;
+  final DateTime? receivedBackAt;
+  final String? condition;
+  final int lossAmount;
+  final String? notes;
+  const ReturnRecord({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.orderId,
+    required this.type,
+    required this.reason,
+    required this.initiatedAt,
+    this.receivedBackAt,
+    this.condition,
+    required this.lossAmount,
+    this.notes,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['order_id'] = Variable<String>(orderId);
+    map['type'] = Variable<String>(type);
+    map['reason'] = Variable<String>(reason);
+    map['initiated_at'] = Variable<DateTime>(initiatedAt);
+    if (!nullToAbsent || receivedBackAt != null) {
+      map['received_back_at'] = Variable<DateTime>(receivedBackAt);
+    }
+    if (!nullToAbsent || condition != null) {
+      map['condition'] = Variable<String>(condition);
+    }
+    map['loss_amount'] = Variable<int>(lossAmount);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  ReturnRecordsCompanion toCompanion(bool nullToAbsent) {
+    return ReturnRecordsCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      orderId: Value(orderId),
+      type: Value(type),
+      reason: Value(reason),
+      initiatedAt: Value(initiatedAt),
+      receivedBackAt: receivedBackAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(receivedBackAt),
+      condition: condition == null && nullToAbsent
+          ? const Value.absent()
+          : Value(condition),
+      lossAmount: Value(lossAmount),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+    );
+  }
+
+  factory ReturnRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReturnRecord(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      orderId: serializer.fromJson<String>(json['orderId']),
+      type: serializer.fromJson<String>(json['type']),
+      reason: serializer.fromJson<String>(json['reason']),
+      initiatedAt: serializer.fromJson<DateTime>(json['initiatedAt']),
+      receivedBackAt: serializer.fromJson<DateTime?>(json['receivedBackAt']),
+      condition: serializer.fromJson<String?>(json['condition']),
+      lossAmount: serializer.fromJson<int>(json['lossAmount']),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'orderId': serializer.toJson<String>(orderId),
+      'type': serializer.toJson<String>(type),
+      'reason': serializer.toJson<String>(reason),
+      'initiatedAt': serializer.toJson<DateTime>(initiatedAt),
+      'receivedBackAt': serializer.toJson<DateTime?>(receivedBackAt),
+      'condition': serializer.toJson<String?>(condition),
+      'lossAmount': serializer.toJson<int>(lossAmount),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  ReturnRecord copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? orderId,
+    String? type,
+    String? reason,
+    DateTime? initiatedAt,
+    Value<DateTime?> receivedBackAt = const Value.absent(),
+    Value<String?> condition = const Value.absent(),
+    int? lossAmount,
+    Value<String?> notes = const Value.absent(),
+  }) => ReturnRecord(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    orderId: orderId ?? this.orderId,
+    type: type ?? this.type,
+    reason: reason ?? this.reason,
+    initiatedAt: initiatedAt ?? this.initiatedAt,
+    receivedBackAt: receivedBackAt.present
+        ? receivedBackAt.value
+        : this.receivedBackAt,
+    condition: condition.present ? condition.value : this.condition,
+    lossAmount: lossAmount ?? this.lossAmount,
+    notes: notes.present ? notes.value : this.notes,
+  );
+  ReturnRecord copyWithCompanion(ReturnRecordsCompanion data) {
+    return ReturnRecord(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      orderId: data.orderId.present ? data.orderId.value : this.orderId,
+      type: data.type.present ? data.type.value : this.type,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      initiatedAt: data.initiatedAt.present
+          ? data.initiatedAt.value
+          : this.initiatedAt,
+      receivedBackAt: data.receivedBackAt.present
+          ? data.receivedBackAt.value
+          : this.receivedBackAt,
+      condition: data.condition.present ? data.condition.value : this.condition,
+      lossAmount: data.lossAmount.present
+          ? data.lossAmount.value
+          : this.lossAmount,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReturnRecord(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('orderId: $orderId, ')
+          ..write('type: $type, ')
+          ..write('reason: $reason, ')
+          ..write('initiatedAt: $initiatedAt, ')
+          ..write('receivedBackAt: $receivedBackAt, ')
+          ..write('condition: $condition, ')
+          ..write('lossAmount: $lossAmount, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    orderId,
+    type,
+    reason,
+    initiatedAt,
+    receivedBackAt,
+    condition,
+    lossAmount,
+    notes,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReturnRecord &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.orderId == this.orderId &&
+          other.type == this.type &&
+          other.reason == this.reason &&
+          other.initiatedAt == this.initiatedAt &&
+          other.receivedBackAt == this.receivedBackAt &&
+          other.condition == this.condition &&
+          other.lossAmount == this.lossAmount &&
+          other.notes == this.notes);
+}
+
+class ReturnRecordsCompanion extends UpdateCompanion<ReturnRecord> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> orderId;
+  final Value<String> type;
+  final Value<String> reason;
+  final Value<DateTime> initiatedAt;
+  final Value<DateTime?> receivedBackAt;
+  final Value<String?> condition;
+  final Value<int> lossAmount;
+  final Value<String?> notes;
+  final Value<int> rowid;
+  const ReturnRecordsCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.initiatedAt = const Value.absent(),
+    this.receivedBackAt = const Value.absent(),
+    this.condition = const Value.absent(),
+    this.lossAmount = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReturnRecordsCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String orderId,
+    required String type,
+    required String reason,
+    required DateTime initiatedAt,
+    this.receivedBackAt = const Value.absent(),
+    this.condition = const Value.absent(),
+    this.lossAmount = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       orderId = Value(orderId),
+       type = Value(type),
+       reason = Value(reason),
+       initiatedAt = Value(initiatedAt);
+  static Insertable<ReturnRecord> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? orderId,
+    Expression<String>? type,
+    Expression<String>? reason,
+    Expression<DateTime>? initiatedAt,
+    Expression<DateTime>? receivedBackAt,
+    Expression<String>? condition,
+    Expression<int>? lossAmount,
+    Expression<String>? notes,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (orderId != null) 'order_id': orderId,
+      if (type != null) 'type': type,
+      if (reason != null) 'reason': reason,
+      if (initiatedAt != null) 'initiated_at': initiatedAt,
+      if (receivedBackAt != null) 'received_back_at': receivedBackAt,
+      if (condition != null) 'condition': condition,
+      if (lossAmount != null) 'loss_amount': lossAmount,
+      if (notes != null) 'notes': notes,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReturnRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? orderId,
+    Value<String>? type,
+    Value<String>? reason,
+    Value<DateTime>? initiatedAt,
+    Value<DateTime?>? receivedBackAt,
+    Value<String?>? condition,
+    Value<int>? lossAmount,
+    Value<String?>? notes,
+    Value<int>? rowid,
+  }) {
+    return ReturnRecordsCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      orderId: orderId ?? this.orderId,
+      type: type ?? this.type,
+      reason: reason ?? this.reason,
+      initiatedAt: initiatedAt ?? this.initiatedAt,
+      receivedBackAt: receivedBackAt ?? this.receivedBackAt,
+      condition: condition ?? this.condition,
+      lossAmount: lossAmount ?? this.lossAmount,
+      notes: notes ?? this.notes,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (orderId.present) {
+      map['order_id'] = Variable<String>(orderId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    if (initiatedAt.present) {
+      map['initiated_at'] = Variable<DateTime>(initiatedAt.value);
+    }
+    if (receivedBackAt.present) {
+      map['received_back_at'] = Variable<DateTime>(receivedBackAt.value);
+    }
+    if (condition.present) {
+      map['condition'] = Variable<String>(condition.value);
+    }
+    if (lossAmount.present) {
+      map['loss_amount'] = Variable<int>(lossAmount.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReturnRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('orderId: $orderId, ')
+          ..write('type: $type, ')
+          ..write('reason: $reason, ')
+          ..write('initiatedAt: $initiatedAt, ')
+          ..write('receivedBackAt: $receivedBackAt, ')
+          ..write('condition: $condition, ')
+          ..write('lossAmount: $lossAmount, ')
+          ..write('notes: $notes, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ReturnLinesTable extends ReturnLines
+    with TableInfo<$ReturnLinesTable, ReturnLine> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReturnLinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _returnIdMeta = const VerificationMeta(
+    'returnId',
+  );
+  @override
+  late final GeneratedColumn<String> returnId = GeneratedColumn<String>(
+    'return_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES return_records (id)',
+    ),
+  );
+  static const VerificationMeta _orderLineIdMeta = const VerificationMeta(
+    'orderLineId',
+  );
+  @override
+  late final GeneratedColumn<String> orderLineId = GeneratedColumn<String>(
+    'order_line_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES order_lines (id)',
+    ),
+  );
+  static const VerificationMeta _qtyMeta = const VerificationMeta('qty');
+  @override
+  late final GeneratedColumn<int> qty = GeneratedColumn<int>(
+    'qty',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _conditionMeta = const VerificationMeta(
+    'condition',
+  );
+  @override
+  late final GeneratedColumn<String> condition = GeneratedColumn<String>(
+    'condition',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    returnId,
+    orderLineId,
+    qty,
+    condition,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'return_lines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ReturnLine> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('return_id')) {
+      context.handle(
+        _returnIdMeta,
+        returnId.isAcceptableOrUnknown(data['return_id']!, _returnIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_returnIdMeta);
+    }
+    if (data.containsKey('order_line_id')) {
+      context.handle(
+        _orderLineIdMeta,
+        orderLineId.isAcceptableOrUnknown(
+          data['order_line_id']!,
+          _orderLineIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_orderLineIdMeta);
+    }
+    if (data.containsKey('qty')) {
+      context.handle(
+        _qtyMeta,
+        qty.isAcceptableOrUnknown(data['qty']!, _qtyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_qtyMeta);
+    }
+    if (data.containsKey('condition')) {
+      context.handle(
+        _conditionMeta,
+        condition.isAcceptableOrUnknown(data['condition']!, _conditionMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReturnLine map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReturnLine(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      returnId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}return_id'],
+      )!,
+      orderLineId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_line_id'],
+      )!,
+      qty: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}qty'],
+      )!,
+      condition: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}condition'],
+      ),
+    );
+  }
+
+  @override
+  $ReturnLinesTable createAlias(String alias) {
+    return $ReturnLinesTable(attachedDatabase, alias);
+  }
+}
+
+class ReturnLine extends DataClass implements Insertable<ReturnLine> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String returnId;
+  final String orderLineId;
+  final int qty;
+  final String? condition;
+  const ReturnLine({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.returnId,
+    required this.orderLineId,
+    required this.qty,
+    this.condition,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['return_id'] = Variable<String>(returnId);
+    map['order_line_id'] = Variable<String>(orderLineId);
+    map['qty'] = Variable<int>(qty);
+    if (!nullToAbsent || condition != null) {
+      map['condition'] = Variable<String>(condition);
+    }
+    return map;
+  }
+
+  ReturnLinesCompanion toCompanion(bool nullToAbsent) {
+    return ReturnLinesCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      returnId: Value(returnId),
+      orderLineId: Value(orderLineId),
+      qty: Value(qty),
+      condition: condition == null && nullToAbsent
+          ? const Value.absent()
+          : Value(condition),
+    );
+  }
+
+  factory ReturnLine.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReturnLine(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      returnId: serializer.fromJson<String>(json['returnId']),
+      orderLineId: serializer.fromJson<String>(json['orderLineId']),
+      qty: serializer.fromJson<int>(json['qty']),
+      condition: serializer.fromJson<String?>(json['condition']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'returnId': serializer.toJson<String>(returnId),
+      'orderLineId': serializer.toJson<String>(orderLineId),
+      'qty': serializer.toJson<int>(qty),
+      'condition': serializer.toJson<String?>(condition),
+    };
+  }
+
+  ReturnLine copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? returnId,
+    String? orderLineId,
+    int? qty,
+    Value<String?> condition = const Value.absent(),
+  }) => ReturnLine(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    returnId: returnId ?? this.returnId,
+    orderLineId: orderLineId ?? this.orderLineId,
+    qty: qty ?? this.qty,
+    condition: condition.present ? condition.value : this.condition,
+  );
+  ReturnLine copyWithCompanion(ReturnLinesCompanion data) {
+    return ReturnLine(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      returnId: data.returnId.present ? data.returnId.value : this.returnId,
+      orderLineId: data.orderLineId.present
+          ? data.orderLineId.value
+          : this.orderLineId,
+      qty: data.qty.present ? data.qty.value : this.qty,
+      condition: data.condition.present ? data.condition.value : this.condition,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReturnLine(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('returnId: $returnId, ')
+          ..write('orderLineId: $orderLineId, ')
+          ..write('qty: $qty, ')
+          ..write('condition: $condition')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    returnId,
+    orderLineId,
+    qty,
+    condition,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReturnLine &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.returnId == this.returnId &&
+          other.orderLineId == this.orderLineId &&
+          other.qty == this.qty &&
+          other.condition == this.condition);
+}
+
+class ReturnLinesCompanion extends UpdateCompanion<ReturnLine> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> returnId;
+  final Value<String> orderLineId;
+  final Value<int> qty;
+  final Value<String?> condition;
+  final Value<int> rowid;
+  const ReturnLinesCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.returnId = const Value.absent(),
+    this.orderLineId = const Value.absent(),
+    this.qty = const Value.absent(),
+    this.condition = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReturnLinesCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String returnId,
+    required String orderLineId,
+    required int qty,
+    this.condition = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       returnId = Value(returnId),
+       orderLineId = Value(orderLineId),
+       qty = Value(qty);
+  static Insertable<ReturnLine> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? returnId,
+    Expression<String>? orderLineId,
+    Expression<int>? qty,
+    Expression<String>? condition,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (returnId != null) 'return_id': returnId,
+      if (orderLineId != null) 'order_line_id': orderLineId,
+      if (qty != null) 'qty': qty,
+      if (condition != null) 'condition': condition,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReturnLinesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? returnId,
+    Value<String>? orderLineId,
+    Value<int>? qty,
+    Value<String?>? condition,
+    Value<int>? rowid,
+  }) {
+    return ReturnLinesCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      returnId: returnId ?? this.returnId,
+      orderLineId: orderLineId ?? this.orderLineId,
+      qty: qty ?? this.qty,
+      condition: condition ?? this.condition,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (returnId.present) {
+      map['return_id'] = Variable<String>(returnId.value);
+    }
+    if (orderLineId.present) {
+      map['order_line_id'] = Variable<String>(orderLineId.value);
+    }
+    if (qty.present) {
+      map['qty'] = Variable<int>(qty.value);
+    }
+    if (condition.present) {
+      map['condition'] = Variable<String>(condition.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReturnLinesCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('returnId: $returnId, ')
+          ..write('orderLineId: $orderLineId, ')
+          ..write('qty: $qty, ')
+          ..write('condition: $condition, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -12999,6 +14428,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PayoutsTable payouts = $PayoutsTable(this);
   late final $PayoutAllocationsTable payoutAllocations =
       $PayoutAllocationsTable(this);
+  late final $ReturnRecordsTable returnRecords = $ReturnRecordsTable(this);
+  late final $ReturnLinesTable returnLines = $ReturnLinesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -13020,6 +14451,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     orderAttachments,
     payouts,
     payoutAllocations,
+    returnRecords,
+    returnLines,
   ];
 }
 
@@ -16988,6 +18421,24 @@ final class $$OrdersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$ReturnRecordsTable, List<ReturnRecord>>
+  _returnRecordsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.returnRecords,
+    aliasName: 'orders__id__return_records__order_id',
+  );
+
+  $$ReturnRecordsTableProcessedTableManager get returnRecordsRefs {
+    final manager = $$ReturnRecordsTableTableManager(
+      $_db,
+      $_db.returnRecords,
+    ).filter((f) => f.orderId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_returnRecordsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$OrdersTableFilterComposer
@@ -17366,6 +18817,31 @@ class $$OrdersTableFilterComposer
           }) => $$PayoutAllocationsTableFilterComposer(
             $db: $db,
             $table: $db.payoutAllocations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> returnRecordsRefs(
+    Expression<bool> Function($$ReturnRecordsTableFilterComposer f) f,
+  ) {
+    final $$ReturnRecordsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnRecords,
+      getReferencedColumn: (t) => t.orderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnRecordsTableFilterComposer(
+            $db: $db,
+            $table: $db.returnRecords,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -17966,6 +19442,31 @@ class $$OrdersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> returnRecordsRefs<T extends Object>(
+    Expression<T> Function($$ReturnRecordsTableAnnotationComposer a) f,
+  ) {
+    final $$ReturnRecordsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnRecords,
+      getReferencedColumn: (t) => t.orderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnRecordsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.returnRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$OrdersTableTableManager
@@ -17990,6 +19491,7 @@ class $$OrdersTableTableManager
             bool orderEditLogRefs,
             bool orderAttachmentsRefs,
             bool payoutAllocationsRefs,
+            bool returnRecordsRefs,
           })
         > {
   $$OrdersTableTableManager(_$AppDatabase db, $OrdersTable table)
@@ -18185,6 +19687,7 @@ class $$OrdersTableTableManager
                 orderEditLogRefs = false,
                 orderAttachmentsRefs = false,
                 payoutAllocationsRefs = false,
+                returnRecordsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -18195,6 +19698,7 @@ class $$OrdersTableTableManager
                     if (orderEditLogRefs) db.orderEditLog,
                     if (orderAttachmentsRefs) db.orderAttachments,
                     if (payoutAllocationsRefs) db.payoutAllocations,
+                    if (returnRecordsRefs) db.returnRecords,
                   ],
                   addJoins:
                       <
@@ -18365,6 +19869,27 @@ class $$OrdersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (returnRecordsRefs)
+                        await $_getPrefetchedData<
+                          Order,
+                          $OrdersTable,
+                          ReturnRecord
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrdersTableReferences
+                              ._returnRecordsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrdersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).returnRecordsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.orderId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -18394,6 +19919,7 @@ typedef $$OrdersTableProcessedTableManager =
         bool orderEditLogRefs,
         bool orderAttachmentsRefs,
         bool payoutAllocationsRefs,
+        bool returnRecordsRefs,
       })
     >;
 typedef $$OrderLinesTableCreateCompanionBuilder = OrderLinesCompanion Function({
@@ -18449,6 +19975,24 @@ final class $$OrderLinesTableReferences
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$ReturnLinesTable, List<ReturnLine>>
+  _returnLinesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.returnLines,
+    aliasName: 'order_lines__id__return_lines__order_line_id',
+  );
+
+  $$ReturnLinesTableProcessedTableManager get returnLinesRefs {
+    final manager = $$ReturnLinesTableTableManager(
+      $_db,
+      $_db.returnLines,
+    ).filter((f) => f.orderLineId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_returnLinesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 }
@@ -18548,6 +20092,31 @@ class $$OrderLinesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> returnLinesRefs(
+    Expression<bool> Function($$ReturnLinesTableFilterComposer f) f,
+  ) {
+    final $$ReturnLinesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnLines,
+      getReferencedColumn: (t) => t.orderLineId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnLinesTableFilterComposer(
+            $db: $db,
+            $table: $db.returnLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -18729,6 +20298,31 @@ class $$OrderLinesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> returnLinesRefs<T extends Object>(
+    Expression<T> Function($$ReturnLinesTableAnnotationComposer a) f,
+  ) {
+    final $$ReturnLinesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnLines,
+      getReferencedColumn: (t) => t.orderLineId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnLinesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.returnLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$OrderLinesTableTableManager
@@ -18744,7 +20338,7 @@ class $$OrderLinesTableTableManager
           $$OrderLinesTableUpdateCompanionBuilder,
           (OrderLine, $$OrderLinesTableReferences),
           OrderLine,
-          PrefetchHooks Function({bool orderId})
+          PrefetchHooks Function({bool orderId, bool returnLinesRefs})
         > {
   $$OrderLinesTableTableManager(_$AppDatabase db, $OrderLinesTable table)
     : super(
@@ -18833,10 +20427,10 @@ class $$OrderLinesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({orderId = false}) {
+          prefetchHooksCallback: ({orderId = false, returnLinesRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [],
+              explicitlyWatchedTables: [if (returnLinesRefs) db.returnLines],
               addJoins:
                   <
                     T extends TableManagerState<
@@ -18868,7 +20462,29 @@ class $$OrderLinesTableTableManager
                     return state;
                   },
               getPrefetchedDataCallback: (items) async {
-                return [];
+                return [
+                  if (returnLinesRefs)
+                    await $_getPrefetchedData<
+                      OrderLine,
+                      $OrderLinesTable,
+                      ReturnLine
+                    >(
+                      currentTable: table,
+                      referencedTable: $$OrderLinesTableReferences
+                          ._returnLinesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$OrderLinesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).returnLinesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.orderLineId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
               },
             );
           },
@@ -18888,7 +20504,7 @@ typedef $$OrderLinesTableProcessedTableManager =
       $$OrderLinesTableUpdateCompanionBuilder,
       (OrderLine, $$OrderLinesTableReferences),
       OrderLine,
-      PrefetchHooks Function({bool orderId})
+      PrefetchHooks Function({bool orderId, bool returnLinesRefs})
     >;
 typedef $$OrderChargesTableCreateCompanionBuilder =
     OrderChargesCompanion Function({
@@ -21864,6 +23480,1089 @@ typedef $$PayoutAllocationsTableProcessedTableManager =
       PayoutAllocation,
       PrefetchHooks Function({bool payoutId, bool orderId})
     >;
+typedef $$ReturnRecordsTableCreateCompanionBuilder =
+    ReturnRecordsCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      required String orderId,
+      required String type,
+      required String reason,
+      required DateTime initiatedAt,
+      Value<DateTime?> receivedBackAt,
+      Value<String?> condition,
+      Value<int> lossAmount,
+      Value<String?> notes,
+      Value<int> rowid,
+    });
+typedef $$ReturnRecordsTableUpdateCompanionBuilder =
+    ReturnRecordsCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String> orderId,
+      Value<String> type,
+      Value<String> reason,
+      Value<DateTime> initiatedAt,
+      Value<DateTime?> receivedBackAt,
+      Value<String?> condition,
+      Value<int> lossAmount,
+      Value<String?> notes,
+      Value<int> rowid,
+    });
+
+final class $$ReturnRecordsTableReferences
+    extends BaseReferences<_$AppDatabase, $ReturnRecordsTable, ReturnRecord> {
+  $$ReturnRecordsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $OrdersTable _orderIdTable(_$AppDatabase db) =>
+      db.orders.createAlias('return_records__order_id__orders__id');
+
+  $$OrdersTableProcessedTableManager get orderId {
+    final $_column = $_itemColumn<String>('order_id')!;
+
+    final manager = $$OrdersTableTableManager(
+      $_db,
+      $_db.orders,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_orderIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$ReturnLinesTable, List<ReturnLine>>
+  _returnLinesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.returnLines,
+    aliasName: 'return_records__id__return_lines__return_id',
+  );
+
+  $$ReturnLinesTableProcessedTableManager get returnLinesRefs {
+    final manager = $$ReturnLinesTableTableManager(
+      $_db,
+      $_db.returnLines,
+    ).filter((f) => f.returnId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_returnLinesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ReturnRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $ReturnRecordsTable> {
+  $$ReturnRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get initiatedAt => $composableBuilder(
+    column: $table.initiatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get receivedBackAt => $composableBuilder(
+    column: $table.receivedBackAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get condition => $composableBuilder(
+    column: $table.condition,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lossAmount => $composableBuilder(
+    column: $table.lossAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$OrdersTableFilterComposer get orderId {
+    final $$OrdersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderId,
+      referencedTable: $db.orders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrdersTableFilterComposer(
+            $db: $db,
+            $table: $db.orders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> returnLinesRefs(
+    Expression<bool> Function($$ReturnLinesTableFilterComposer f) f,
+  ) {
+    final $$ReturnLinesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnLines,
+      getReferencedColumn: (t) => t.returnId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnLinesTableFilterComposer(
+            $db: $db,
+            $table: $db.returnLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ReturnRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReturnRecordsTable> {
+  $$ReturnRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get initiatedAt => $composableBuilder(
+    column: $table.initiatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get receivedBackAt => $composableBuilder(
+    column: $table.receivedBackAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get condition => $composableBuilder(
+    column: $table.condition,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lossAmount => $composableBuilder(
+    column: $table.lossAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$OrdersTableOrderingComposer get orderId {
+    final $$OrdersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderId,
+      referencedTable: $db.orders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrdersTableOrderingComposer(
+            $db: $db,
+            $table: $db.orders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReturnRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReturnRecordsTable> {
+  $$ReturnRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get initiatedAt => $composableBuilder(
+    column: $table.initiatedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get receivedBackAt => $composableBuilder(
+    column: $table.receivedBackAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get condition =>
+      $composableBuilder(column: $table.condition, builder: (column) => column);
+
+  GeneratedColumn<int> get lossAmount => $composableBuilder(
+    column: $table.lossAmount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  $$OrdersTableAnnotationComposer get orderId {
+    final $$OrdersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderId,
+      referencedTable: $db.orders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrdersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.orders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> returnLinesRefs<T extends Object>(
+    Expression<T> Function($$ReturnLinesTableAnnotationComposer a) f,
+  ) {
+    final $$ReturnLinesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.returnLines,
+      getReferencedColumn: (t) => t.returnId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnLinesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.returnLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ReturnRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReturnRecordsTable,
+          ReturnRecord,
+          $$ReturnRecordsTableFilterComposer,
+          $$ReturnRecordsTableOrderingComposer,
+          $$ReturnRecordsTableAnnotationComposer,
+          $$ReturnRecordsTableCreateCompanionBuilder,
+          $$ReturnRecordsTableUpdateCompanionBuilder,
+          (ReturnRecord, $$ReturnRecordsTableReferences),
+          ReturnRecord,
+          PrefetchHooks Function({bool orderId, bool returnLinesRefs})
+        > {
+  $$ReturnRecordsTableTableManager(_$AppDatabase db, $ReturnRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReturnRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReturnRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReturnRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> orderId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String> reason = const Value.absent(),
+                Value<DateTime> initiatedAt = const Value.absent(),
+                Value<DateTime?> receivedBackAt = const Value.absent(),
+                Value<String?> condition = const Value.absent(),
+                Value<int> lossAmount = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReturnRecordsCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                orderId: orderId,
+                type: type,
+                reason: reason,
+                initiatedAt: initiatedAt,
+                receivedBackAt: receivedBackAt,
+                condition: condition,
+                lossAmount: lossAmount,
+                notes: notes,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String orderId,
+                required String type,
+                required String reason,
+                required DateTime initiatedAt,
+                Value<DateTime?> receivedBackAt = const Value.absent(),
+                Value<String?> condition = const Value.absent(),
+                Value<int> lossAmount = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReturnRecordsCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                orderId: orderId,
+                type: type,
+                reason: reason,
+                initiatedAt: initiatedAt,
+                receivedBackAt: receivedBackAt,
+                condition: condition,
+                lossAmount: lossAmount,
+                notes: notes,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ReturnRecordsTable, ReturnRecord>(table),
+                  $$ReturnRecordsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({orderId = false, returnLinesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (returnLinesRefs) db.returnLines],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (orderId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.orderId,
+                        referencedTable: $$ReturnRecordsTableReferences
+                            ._orderIdTable(db),
+                        referencedColumn: $$ReturnRecordsTableReferences
+                            ._orderIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (returnLinesRefs)
+                    await $_getPrefetchedData<
+                      ReturnRecord,
+                      $ReturnRecordsTable,
+                      ReturnLine
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ReturnRecordsTableReferences
+                          ._returnLinesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ReturnRecordsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).returnLinesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.returnId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ReturnRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReturnRecordsTable,
+      ReturnRecord,
+      $$ReturnRecordsTableFilterComposer,
+      $$ReturnRecordsTableOrderingComposer,
+      $$ReturnRecordsTableAnnotationComposer,
+      $$ReturnRecordsTableCreateCompanionBuilder,
+      $$ReturnRecordsTableUpdateCompanionBuilder,
+      (ReturnRecord, $$ReturnRecordsTableReferences),
+      ReturnRecord,
+      PrefetchHooks Function({bool orderId, bool returnLinesRefs})
+    >;
+typedef $$ReturnLinesTableCreateCompanionBuilder =
+    ReturnLinesCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      required String returnId,
+      required String orderLineId,
+      required int qty,
+      Value<String?> condition,
+      Value<int> rowid,
+    });
+typedef $$ReturnLinesTableUpdateCompanionBuilder =
+    ReturnLinesCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String> returnId,
+      Value<String> orderLineId,
+      Value<int> qty,
+      Value<String?> condition,
+      Value<int> rowid,
+    });
+
+final class $$ReturnLinesTableReferences
+    extends BaseReferences<_$AppDatabase, $ReturnLinesTable, ReturnLine> {
+  $$ReturnLinesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ReturnRecordsTable _returnIdTable(_$AppDatabase db) => db
+      .returnRecords
+      .createAlias('return_lines__return_id__return_records__id');
+
+  $$ReturnRecordsTableProcessedTableManager get returnId {
+    final $_column = $_itemColumn<String>('return_id')!;
+
+    final manager = $$ReturnRecordsTableTableManager(
+      $_db,
+      $_db.returnRecords,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_returnIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $OrderLinesTable _orderLineIdTable(_$AppDatabase db) =>
+      db.orderLines.createAlias('return_lines__order_line_id__order_lines__id');
+
+  $$OrderLinesTableProcessedTableManager get orderLineId {
+    final $_column = $_itemColumn<String>('order_line_id')!;
+
+    final manager = $$OrderLinesTableTableManager(
+      $_db,
+      $_db.orderLines,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_orderLineIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ReturnLinesTableFilterComposer
+    extends Composer<_$AppDatabase, $ReturnLinesTable> {
+  $$ReturnLinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get qty => $composableBuilder(
+    column: $table.qty,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get condition => $composableBuilder(
+    column: $table.condition,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ReturnRecordsTableFilterComposer get returnId {
+    final $$ReturnRecordsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.returnId,
+      referencedTable: $db.returnRecords,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnRecordsTableFilterComposer(
+            $db: $db,
+            $table: $db.returnRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrderLinesTableFilterComposer get orderLineId {
+    final $$OrderLinesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderLineId,
+      referencedTable: $db.orderLines,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderLinesTableFilterComposer(
+            $db: $db,
+            $table: $db.orderLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReturnLinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReturnLinesTable> {
+  $$ReturnLinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get qty => $composableBuilder(
+    column: $table.qty,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get condition => $composableBuilder(
+    column: $table.condition,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ReturnRecordsTableOrderingComposer get returnId {
+    final $$ReturnRecordsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.returnId,
+      referencedTable: $db.returnRecords,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnRecordsTableOrderingComposer(
+            $db: $db,
+            $table: $db.returnRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrderLinesTableOrderingComposer get orderLineId {
+    final $$OrderLinesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderLineId,
+      referencedTable: $db.orderLines,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderLinesTableOrderingComposer(
+            $db: $db,
+            $table: $db.orderLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReturnLinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReturnLinesTable> {
+  $$ReturnLinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get qty =>
+      $composableBuilder(column: $table.qty, builder: (column) => column);
+
+  GeneratedColumn<String> get condition =>
+      $composableBuilder(column: $table.condition, builder: (column) => column);
+
+  $$ReturnRecordsTableAnnotationComposer get returnId {
+    final $$ReturnRecordsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.returnId,
+      referencedTable: $db.returnRecords,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReturnRecordsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.returnRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrderLinesTableAnnotationComposer get orderLineId {
+    final $$OrderLinesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderLineId,
+      referencedTable: $db.orderLines,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderLinesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.orderLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReturnLinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReturnLinesTable,
+          ReturnLine,
+          $$ReturnLinesTableFilterComposer,
+          $$ReturnLinesTableOrderingComposer,
+          $$ReturnLinesTableAnnotationComposer,
+          $$ReturnLinesTableCreateCompanionBuilder,
+          $$ReturnLinesTableUpdateCompanionBuilder,
+          (ReturnLine, $$ReturnLinesTableReferences),
+          ReturnLine,
+          PrefetchHooks Function({bool returnId, bool orderLineId})
+        > {
+  $$ReturnLinesTableTableManager(_$AppDatabase db, $ReturnLinesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReturnLinesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReturnLinesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReturnLinesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> returnId = const Value.absent(),
+                Value<String> orderLineId = const Value.absent(),
+                Value<int> qty = const Value.absent(),
+                Value<String?> condition = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReturnLinesCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                returnId: returnId,
+                orderLineId: orderLineId,
+                qty: qty,
+                condition: condition,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String returnId,
+                required String orderLineId,
+                required int qty,
+                Value<String?> condition = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReturnLinesCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                returnId: returnId,
+                orderLineId: orderLineId,
+                qty: qty,
+                condition: condition,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ReturnLinesTable, ReturnLine>(table),
+                  $$ReturnLinesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({returnId = false, orderLineId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (returnId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.returnId,
+                        referencedTable: $$ReturnLinesTableReferences
+                            ._returnIdTable(db),
+                        referencedColumn: $$ReturnLinesTableReferences
+                            ._returnIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+                    if (orderLineId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.orderLineId,
+                        referencedTable: $$ReturnLinesTableReferences
+                            ._orderLineIdTable(db),
+                        referencedColumn: $$ReturnLinesTableReferences
+                            ._orderLineIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ReturnLinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReturnLinesTable,
+      ReturnLine,
+      $$ReturnLinesTableFilterComposer,
+      $$ReturnLinesTableOrderingComposer,
+      $$ReturnLinesTableAnnotationComposer,
+      $$ReturnLinesTableCreateCompanionBuilder,
+      $$ReturnLinesTableUpdateCompanionBuilder,
+      (ReturnLine, $$ReturnLinesTableReferences),
+      ReturnLine,
+      PrefetchHooks Function({bool returnId, bool orderLineId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -21900,4 +24599,8 @@ class $AppDatabaseManager {
       $$PayoutsTableTableManager(_db, _db.payouts);
   $$PayoutAllocationsTableTableManager get payoutAllocations =>
       $$PayoutAllocationsTableTableManager(_db, _db.payoutAllocations);
+  $$ReturnRecordsTableTableManager get returnRecords =>
+      $$ReturnRecordsTableTableManager(_db, _db.returnRecords);
+  $$ReturnLinesTableTableManager get returnLines =>
+      $$ReturnLinesTableTableManager(_db, _db.returnLines);
 }

@@ -2077,6 +2077,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No payouts yet'**
   String get noPayouts;
+
+  /// No description provided for @returnsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Returns'**
+  String get returnsTitle;
+
+  /// No description provided for @tabInTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'In transit'**
+  String get tabInTransit;
+
+  /// No description provided for @tabReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get tabReceived;
+
+  /// No description provided for @tabNotReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Not received'**
+  String get tabNotReceived;
+
+  /// No description provided for @startReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Start return'**
+  String get startReturn;
+
+  /// No description provided for @partialReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial return'**
+  String get partialReturn;
+
+  /// No description provided for @fullReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Full return'**
+  String get fullReturn;
+
+  /// No description provided for @returnReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Return reason'**
+  String get returnReason;
+
+  /// No description provided for @returnQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Qty returned'**
+  String get returnQty;
+
+  /// No description provided for @conditionResellable.
+  ///
+  /// In en, this message translates to:
+  /// **'Resellable'**
+  String get conditionResellable;
+
+  /// No description provided for @conditionDamaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Damaged'**
+  String get conditionDamaged;
+
+  /// No description provided for @conditionLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost'**
+  String get conditionLost;
+
+  /// No description provided for @conditionMixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed'**
+  String get conditionMixed;
+
+  /// No description provided for @lossAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss'**
+  String get lossAmountLabel;
+
+  /// No description provided for @stockWillRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Resellable items go back to stock'**
+  String get stockWillRestore;
+
+  /// No description provided for @returnedValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Value returned'**
+  String get returnedValueLabel;
+
+  /// No description provided for @daysInTransitN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} days in transit'**
+  String daysInTransitN(int n);
+
+  /// No description provided for @returnSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Return saved'**
+  String get returnSaved;
+
+  /// No description provided for @receivedBackOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Received on'**
+  String get receivedBackOn;
+
+  /// No description provided for @errReturnStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'A return is not possible in this status'**
+  String get errReturnStatus;
+
+  /// No description provided for @errReturnNoLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one item'**
+  String get errReturnNoLines;
+
+  /// No description provided for @errReturnBadQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity is more than ordered'**
+  String get errReturnBadQty;
+
+  /// No description provided for @errReturnUseFull.
+  ///
+  /// In en, this message translates to:
+  /// **'All items returned: use a full return'**
+  String get errReturnUseFull;
+
+  /// No description provided for @errReturnExists.
+  ///
+  /// In en, this message translates to:
+  /// **'A return already exists for this order'**
+  String get errReturnExists;
+
+  /// No description provided for @returnCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get returnCard;
+
+  /// No description provided for @profitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get profitTitle;
+
+  /// No description provided for @profitRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Product revenue'**
+  String get profitRevenue;
+
+  /// No description provided for @profitDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery charge'**
+  String get profitDelivery;
+
+  /// No description provided for @profitGross.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected value'**
+  String get profitGross;
+
+  /// No description provided for @costCogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Product cost'**
+  String get costCogs;
+
+  /// No description provided for @costGoodsLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Damaged/lost goods'**
+  String get costGoodsLoss;
+
+  /// No description provided for @profitNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Net profit'**
+  String get profitNet;
+
+  /// No description provided for @marginLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Margin'**
+  String get marginLabel;
+
+  /// No description provided for @stateProvisional.
+  ///
+  /// In en, this message translates to:
+  /// **'Provisional'**
+  String get stateProvisional;
+
+  /// No description provided for @stateFinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Final'**
+  String get stateFinal;
+
+  /// No description provided for @stateIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete'**
+  String get stateIncomplete;
+
+  /// No description provided for @helpProvisional.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on expected fees or the order is not settled yet.'**
+  String get helpProvisional;
+
+  /// No description provided for @helpFinal.
+  ///
+  /// In en, this message translates to:
+  /// **'All amounts are known.'**
+  String get helpFinal;
+
+  /// No description provided for @helpIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'A product cost is missing, so profit cannot be trusted.'**
+  String get helpIncomplete;
+
+  /// No description provided for @missingCostFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost missing for'**
+  String get missingCostFor;
+
+  /// No description provided for @expectedFeesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'includes expected fees'**
+  String get expectedFeesNote;
+
+  /// No description provided for @hideProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide profit in lists'**
+  String get hideProfit;
+
+  /// No description provided for @returnTransitDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag returns in transit after (days)'**
+  String get returnTransitDays;
+
+  /// No description provided for @fixMissingCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix missing costs'**
+  String get fixMissingCosts;
+
+  /// No description provided for @noMissingCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders with missing costs'**
+  String get noMissingCosts;
+
+  /// No description provided for @alsoUpdateCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Also set this as the catalog cost'**
+  String get alsoUpdateCatalog;
+
+  /// No description provided for @customerSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get customerSummary;
+
+  /// No description provided for @ordersTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get ordersTotal;
+
+  /// No description provided for @deliveredPct.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get deliveredPct;
+
+  /// No description provided for @returnedPct.
+  ///
+  /// In en, this message translates to:
+  /// **'Returned'**
+  String get returnedPct;
+
+  /// No description provided for @lifetimeRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime revenue'**
+  String get lifetimeRevenue;
+
+  /// No description provided for @lifetimeProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime profit'**
+  String get lifetimeProfit;
+
+  /// No description provided for @lastOrderOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Last order'**
+  String get lastOrderOn;
 }
 
 class _AppLocalizationsDelegate

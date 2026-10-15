@@ -11,6 +11,8 @@ import 'package:parcel_khata/features/orders/application/order_status_service.da
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
+import 'package:parcel_khata/features/profit/presentation/profit_panel.dart';
+import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
@@ -428,6 +430,7 @@ class OrderTile extends ConsumerWidget {
     final status = OrderStatus.fromDb(o.status);
     final cod = CodStatus.fromDb(o.codStatus);
     final now = ref.watch(clockProvider).now();
+    final hideProfit = ref.watch(shopSettingsProvider).value?.hideProfitInLists ?? false;
     final stuck = StuckParcelPolicy.level(
       status: status,
       handedOverAt: o.handedOverAt,
@@ -451,6 +454,8 @@ class OrderTile extends ConsumerWidget {
           if (cod != CodStatus.notApplicable && status != OrderStatus.draft)
             StatusChip(
                 label: codLabel(l, cod), icon: Icons.payments_outlined, tone: codTone(cod)),
+          if (!hideProfit && status != OrderStatus.draft)
+            ProfitChip(profit: o.profit, stateDb: o.profitState),
           if (stuck != StuckLevel.none)
             StatusChip(
               label: l.withCourierDays(

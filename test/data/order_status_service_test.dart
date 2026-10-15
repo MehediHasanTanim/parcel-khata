@@ -14,6 +14,7 @@ import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_input.dart';
 import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
+import 'package:parcel_khata/features/returns/application/stock_service.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/settings/domain/shop_settings.dart';
 
@@ -51,8 +52,8 @@ void main() {
     final couriers = CourierRepository(db, ids, clock, audit, 's');
     settings = SettingsRepository(db, clock, 's');
     await settings.ensureShop();
-    orders = OrderRepository(db, ids, clock, audit, 's', couriers, settings);
-    status = OrderStatusService(db, ids, clock, audit, 's', settings, LedgerWriter(db));
+    orders = OrderRepository(db, ids, clock, audit, 's', couriers, settings, LedgerWriter(db));
+    status = OrderStatusService(db, ids, clock, audit, 's', settings, LedgerWriter(db), StockService(db, clock));
     customerId = (await customers.create(const CustomerInput(name: 'A', phone: '01712345678')))
         .valueOrNull!
         .id;

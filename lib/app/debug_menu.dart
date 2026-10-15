@@ -5,6 +5,7 @@ import 'package:parcel_khata/dev/seeder.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/cod/application/payout_service.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
+import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
@@ -82,6 +83,19 @@ class DebugMenuScreen extends ConsumerWidget {
             final m = ScaffoldMessenger.of(context);
             final n = await ref.read(ledgerWriterProvider).repairAll();
             m.showSnackBar(SnackBar(content: Text('Repaired $n orders')));
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.assignment_return),
+          title: const Text('Seed returns (full, partial, damaged)'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            await DevSeeder(
+              ref.read(customerRepositoryProvider),
+              ref.read(productRepositoryProvider),
+              ref.read(courierRepositoryProvider),
+            ).seedReturns(ref.read(orderRepositoryProvider), ref.read(returnServiceProvider));
+            m.showSnackBar(const SnackBar(content: Text('Returns seeded')));
           },
         ),
         const ListTile(title: Text('Clock override'), subtitle: Text('Not implemented yet')),

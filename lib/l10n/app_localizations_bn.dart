@@ -1021,4 +1021,166 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get noPayouts => 'এখনও কোনো পেআউট নেই';
+
+  @override
+  String get returnsTitle => 'রিটার্ন';
+
+  @override
+  String get tabInTransit => 'পথে';
+
+  @override
+  String get tabReceived => 'ফেরত এসেছে';
+
+  @override
+  String get tabNotReceived => 'পাইনি';
+
+  @override
+  String get startReturn => 'রিটার্ন শুরু করুন';
+
+  @override
+  String get partialReturn => 'আংশিক রিটার্ন';
+
+  @override
+  String get fullReturn => 'সম্পূর্ণ রিটার্ন';
+
+  @override
+  String get returnReason => 'রিটার্নের কারণ';
+
+  @override
+  String get returnQty => 'ফেরত পরিমাণ';
+
+  @override
+  String get conditionResellable => 'বিক্রয়যোগ্য';
+
+  @override
+  String get conditionDamaged => 'নষ্ট';
+
+  @override
+  String get conditionLost => 'হারিয়েছে';
+
+  @override
+  String get conditionMixed => 'মিশ্র';
+
+  @override
+  String get lossAmountLabel => 'ক্ষতি';
+
+  @override
+  String get stockWillRestore => 'বিক্রয়যোগ্য পণ্য স্টকে ফিরবে';
+
+  @override
+  String get returnedValueLabel => 'ফেরত পণ্যের মূল্য';
+
+  @override
+  String daysInTransitN(int n) {
+    return '$n দিন ধরে পথে';
+  }
+
+  @override
+  String get returnSaved => 'রিটার্ন সংরক্ষিত হয়েছে';
+
+  @override
+  String get receivedBackOn => 'ফেরত পাওয়ার তারিখ';
+
+  @override
+  String get errReturnStatus => 'এই অবস্থায় রিটার্ন সম্ভব নয়';
+
+  @override
+  String get errReturnNoLines => 'কমপক্ষে একটি পণ্য বাছুন';
+
+  @override
+  String get errReturnBadQty => 'অর্ডারের চেয়ে বেশি পরিমাণ';
+
+  @override
+  String get errReturnUseFull => 'সব পণ্য ফেরত: সম্পূর্ণ রিটার্ন ব্যবহার করুন';
+
+  @override
+  String get errReturnExists => 'এই অর্ডারে রিটার্ন আগে থেকেই আছে';
+
+  @override
+  String get returnCard => 'রিটার্ন';
+
+  @override
+  String get profitTitle => 'মুনাফা';
+
+  @override
+  String get profitRevenue => 'পণ্যের বিক্রয়';
+
+  @override
+  String get profitDelivery => 'ডেলিভারি চার্জ';
+
+  @override
+  String get profitGross => 'মোট আদায়যোগ্য';
+
+  @override
+  String get costCogs => 'পণ্যের খরচ';
+
+  @override
+  String get costGoodsLoss => 'নষ্ট/হারানো পণ্য';
+
+  @override
+  String get profitNet => 'নিট মুনাফা';
+
+  @override
+  String get marginLabel => 'মার্জিন';
+
+  @override
+  String get stateProvisional => 'সাময়িক';
+
+  @override
+  String get stateFinal => 'চূড়ান্ত';
+
+  @override
+  String get stateIncomplete => 'অসম্পূর্ণ';
+
+  @override
+  String get helpProvisional =>
+      'প্রত্যাশিত ফির ওপর ভিত্তি করে অথবা অর্ডার এখনও নিষ্পত্তি হয়নি।';
+
+  @override
+  String get helpFinal => 'সব পরিমাণ জানা।';
+
+  @override
+  String get helpIncomplete => 'পণ্যের খরচ নেই, তাই মুনাফা নির্ভরযোগ্য নয়।';
+
+  @override
+  String get missingCostFor => 'খরচ নেই';
+
+  @override
+  String get expectedFeesNote => 'প্রত্যাশিত ফি ধরা হয়েছে';
+
+  @override
+  String get hideProfit => 'তালিকায় মুনাফা লুকান';
+
+  @override
+  String get returnTransitDays => 'রিটার্ন পথে থাকলে সতর্কতা (দিন)';
+
+  @override
+  String get fixMissingCosts => 'খরচ ঠিক করুন';
+
+  @override
+  String get noMissingCosts => 'কোনো অর্ডারে খরচ বাকি নেই';
+
+  @override
+  String get alsoUpdateCatalog => 'ক্যাটালগের খরচও এটাই করুন';
+
+  @override
+  String get customerSummary => 'সারাংশ';
+
+  @override
+  String get ordersTotal => 'অর্ডার';
+
+  @override
+  String get deliveredPct => 'ডেলিভারি';
+
+  @override
+  String get returnedPct => 'ফেরত';
+
+  @override
+  String get lifetimeRevenue => 'মোট বিক্রয়';
+
+  @override
+  String get lifetimeProfit => 'মোট মুনাফা';
+
+  @override
+  String get lastOrderOn => 'সর্বশেষ অর্ডার';
 }

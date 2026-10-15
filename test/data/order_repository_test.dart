@@ -6,6 +6,7 @@ import 'package:parcel_khata/core/ids/uuid_v7.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/result/result.dart';
 import 'package:parcel_khata/core/time/clock.dart';
+import 'package:parcel_khata/features/cod/application/ledger_writer.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
@@ -58,7 +59,7 @@ void main() {
     couriers = CourierRepository(db, ids, clock, audit, 's');
     settings = SettingsRepository(db, clock, 's');
     await settings.ensureShop();
-    orders = OrderRepository(db, ids, clock, audit, 's', couriers, settings);
+    orders = OrderRepository(db, ids, clock, audit, 's', couriers, settings, LedgerWriter(db));
     customerId = (await customers
             .create(const CustomerInput(name: 'A', phone: '01712345678')))
         .valueOrNull!

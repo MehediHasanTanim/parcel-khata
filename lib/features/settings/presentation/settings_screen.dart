@@ -185,6 +185,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               value: s.stockTrackingEnabled,
               onChanged: (v) => _apply((x) => x.copyWith(stockTrackingEnabled: v)),
             ),
+            SwitchListTile(
+              title: Text(l.hideProfit),
+              value: s.hideProfitInLists,
+              onChanged: (v) => _apply((x) => x.copyWith(hideProfitInLists: v)),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.returnTransitDays),
+              trailing: DropdownButton<int>(
+                value: s.returnInTransitDays,
+                items: [
+                  for (final d in const [3, 5, 7, 10, 14])
+                    DropdownMenuItem(value: d, child: Text('$d')),
+                ],
+                onChanged: (v) => _apply((x) => x.copyWith(returnInTransitDays: v)),
+              ),
+            ),
             const Divider(height: 32),
             ListTile(
               contentPadding: EdgeInsets.zero,
