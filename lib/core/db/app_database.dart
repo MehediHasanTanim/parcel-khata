@@ -107,6 +107,10 @@ const _reminderIndexes = [
 ];
 
 // Added in schema v8 (expenses, campaigns, real tag links).
+const _importIndexes = [
+  'CREATE UNIQUE INDEX IF NOT EXISTS uq_column_mappings ON column_mappings(signature, kind)',
+];
+
 const _expenseIndexes = [
   'CREATE INDEX IF NOT EXISTS ix_expenses_date ON expenses(shop_id, date)',
   'CREATE UNIQUE INDEX IF NOT EXISTS uq_tag_links ON order_tag_links(order_id, tag) WHERE deleted_at IS NULL',
@@ -127,6 +131,8 @@ WHERE o.deleted_at IS NULL AND trim(j.value) != ''
 ''';
 
 @DriftDatabase(tables: [
+  ImportBatches,
+  ColumnMappings,
   Shops,
   Customers,
   CustomerAddresses,
@@ -159,13 +165,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory(setup: _setup));
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
-          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes, ..._expenseIndexes]) {
+          for (final sql in [..._searchSql, ..._viewIndexes, ..._reminderIndexes, ..._expenseIndexes, ..._importIndexes]) {
             await customStatement(sql);
           }
           for (final sql in [..._customIndexes, ..._orderIndexes, ..._ledgerIndexes, ..._returnIndexes]) {
@@ -250,6 +256,16 @@ class AppDatabase extends _$AppDatabase {
           if (from < 10) {
             await m.addColumn(orders, orders.exchangeOfOrderId);
             await m.addColumn(returnRecords, returnRecords.exchangeOrderId);
+          }
+          if (from < 11) {
+            await m.addColumn(customers, customers.importBatchId);
+            await m.addColumn(orders, orders.importBatchId);
+            await m.addColumn(products, products.importBatchId);
+            await m.createTable(importBatches);
+            await m.createTable(columnMappings);
+            for (final sql in _importIndexes) {
+              await customStatement(sql);
+            }
           }
         },
         beforeOpen: (details) async {

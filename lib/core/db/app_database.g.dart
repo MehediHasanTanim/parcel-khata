@@ -3,6 +3,1219 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class $ImportBatchesTable extends ImportBatches
+    with TableInfo<$ImportBatchesTable, ImportBatch> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ImportBatchesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fileNameMeta = const VerificationMeta(
+    'fileName',
+  );
+  @override
+  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
+    'file_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _createdCountMeta = const VerificationMeta(
+    'createdCount',
+  );
+  @override
+  late final GeneratedColumn<int> createdCount = GeneratedColumn<int>(
+    'created_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('applied'),
+  );
+  static const VerificationMeta _undoneAtMeta = const VerificationMeta(
+    'undoneAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> undoneAt = GeneratedColumn<DateTime>(
+    'undone_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    kind,
+    fileName,
+    createdCount,
+    status,
+    undoneAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'import_batches';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ImportBatch> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('file_name')) {
+      context.handle(
+        _fileNameMeta,
+        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
+      );
+    }
+    if (data.containsKey('created_count')) {
+      context.handle(
+        _createdCountMeta,
+        createdCount.isAcceptableOrUnknown(
+          data['created_count']!,
+          _createdCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('undone_at')) {
+      context.handle(
+        _undoneAtMeta,
+        undoneAt.isAcceptableOrUnknown(data['undone_at']!, _undoneAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ImportBatch map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ImportBatch(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      fileName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_name'],
+      )!,
+      createdCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_count'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      undoneAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}undone_at'],
+      ),
+    );
+  }
+
+  @override
+  $ImportBatchesTable createAlias(String alias) {
+    return $ImportBatchesTable(attachedDatabase, alias);
+  }
+}
+
+class ImportBatch extends DataClass implements Insertable<ImportBatch> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String kind;
+  final String fileName;
+  final int createdCount;
+  final String status;
+  final DateTime? undoneAt;
+  const ImportBatch({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.kind,
+    required this.fileName,
+    required this.createdCount,
+    required this.status,
+    this.undoneAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['kind'] = Variable<String>(kind);
+    map['file_name'] = Variable<String>(fileName);
+    map['created_count'] = Variable<int>(createdCount);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || undoneAt != null) {
+      map['undone_at'] = Variable<DateTime>(undoneAt);
+    }
+    return map;
+  }
+
+  ImportBatchesCompanion toCompanion(bool nullToAbsent) {
+    return ImportBatchesCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      kind: Value(kind),
+      fileName: Value(fileName),
+      createdCount: Value(createdCount),
+      status: Value(status),
+      undoneAt: undoneAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(undoneAt),
+    );
+  }
+
+  factory ImportBatch.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ImportBatch(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      kind: serializer.fromJson<String>(json['kind']),
+      fileName: serializer.fromJson<String>(json['fileName']),
+      createdCount: serializer.fromJson<int>(json['createdCount']),
+      status: serializer.fromJson<String>(json['status']),
+      undoneAt: serializer.fromJson<DateTime?>(json['undoneAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'kind': serializer.toJson<String>(kind),
+      'fileName': serializer.toJson<String>(fileName),
+      'createdCount': serializer.toJson<int>(createdCount),
+      'status': serializer.toJson<String>(status),
+      'undoneAt': serializer.toJson<DateTime?>(undoneAt),
+    };
+  }
+
+  ImportBatch copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? kind,
+    String? fileName,
+    int? createdCount,
+    String? status,
+    Value<DateTime?> undoneAt = const Value.absent(),
+  }) => ImportBatch(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    kind: kind ?? this.kind,
+    fileName: fileName ?? this.fileName,
+    createdCount: createdCount ?? this.createdCount,
+    status: status ?? this.status,
+    undoneAt: undoneAt.present ? undoneAt.value : this.undoneAt,
+  );
+  ImportBatch copyWithCompanion(ImportBatchesCompanion data) {
+    return ImportBatch(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      createdCount: data.createdCount.present
+          ? data.createdCount.value
+          : this.createdCount,
+      status: data.status.present ? data.status.value : this.status,
+      undoneAt: data.undoneAt.present ? data.undoneAt.value : this.undoneAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportBatch(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('kind: $kind, ')
+          ..write('fileName: $fileName, ')
+          ..write('createdCount: $createdCount, ')
+          ..write('status: $status, ')
+          ..write('undoneAt: $undoneAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    kind,
+    fileName,
+    createdCount,
+    status,
+    undoneAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ImportBatch &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.kind == this.kind &&
+          other.fileName == this.fileName &&
+          other.createdCount == this.createdCount &&
+          other.status == this.status &&
+          other.undoneAt == this.undoneAt);
+}
+
+class ImportBatchesCompanion extends UpdateCompanion<ImportBatch> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> kind;
+  final Value<String> fileName;
+  final Value<int> createdCount;
+  final Value<String> status;
+  final Value<DateTime?> undoneAt;
+  final Value<int> rowid;
+  const ImportBatchesCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.createdCount = const Value.absent(),
+    this.status = const Value.absent(),
+    this.undoneAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ImportBatchesCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String kind,
+    this.fileName = const Value.absent(),
+    this.createdCount = const Value.absent(),
+    this.status = const Value.absent(),
+    this.undoneAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       kind = Value(kind);
+  static Insertable<ImportBatch> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? kind,
+    Expression<String>? fileName,
+    Expression<int>? createdCount,
+    Expression<String>? status,
+    Expression<DateTime>? undoneAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (kind != null) 'kind': kind,
+      if (fileName != null) 'file_name': fileName,
+      if (createdCount != null) 'created_count': createdCount,
+      if (status != null) 'status': status,
+      if (undoneAt != null) 'undone_at': undoneAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ImportBatchesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? kind,
+    Value<String>? fileName,
+    Value<int>? createdCount,
+    Value<String>? status,
+    Value<DateTime?>? undoneAt,
+    Value<int>? rowid,
+  }) {
+    return ImportBatchesCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      kind: kind ?? this.kind,
+      fileName: fileName ?? this.fileName,
+      createdCount: createdCount ?? this.createdCount,
+      status: status ?? this.status,
+      undoneAt: undoneAt ?? this.undoneAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (fileName.present) {
+      map['file_name'] = Variable<String>(fileName.value);
+    }
+    if (createdCount.present) {
+      map['created_count'] = Variable<int>(createdCount.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (undoneAt.present) {
+      map['undone_at'] = Variable<DateTime>(undoneAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportBatchesCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('kind: $kind, ')
+          ..write('fileName: $fileName, ')
+          ..write('createdCount: $createdCount, ')
+          ..write('status: $status, ')
+          ..write('undoneAt: $undoneAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ColumnMappingsTable extends ColumnMappings
+    with TableInfo<$ColumnMappingsTable, ColumnMapping> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ColumnMappingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shopIdMeta = const VerificationMeta('shopId');
+  @override
+  late final GeneratedColumn<String> shopId = GeneratedColumn<String>(
+    'shop_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowVersionMeta = const VerificationMeta(
+    'rowVersion',
+  );
+  @override
+  late final GeneratedColumn<int> rowVersion = GeneratedColumn<int>(
+    'row_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _signatureMeta = const VerificationMeta(
+    'signature',
+  );
+  @override
+  late final GeneratedColumn<String> signature = GeneratedColumn<String>(
+    'signature',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _mappingJsonMeta = const VerificationMeta(
+    'mappingJson',
+  );
+  @override
+  late final GeneratedColumn<String> mappingJson = GeneratedColumn<String>(
+    'mapping_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    signature,
+    kind,
+    mappingJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'column_mappings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ColumnMapping> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('shop_id')) {
+      context.handle(
+        _shopIdMeta,
+        shopId.isAcceptableOrUnknown(data['shop_id']!, _shopIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shopIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+        _rowVersionMeta,
+        rowVersion.isAcceptableOrUnknown(data['row_version']!, _rowVersionMeta),
+      );
+    }
+    if (data.containsKey('signature')) {
+      context.handle(
+        _signatureMeta,
+        signature.isAcceptableOrUnknown(data['signature']!, _signatureMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_signatureMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('mapping_json')) {
+      context.handle(
+        _mappingJsonMeta,
+        mappingJson.isAcceptableOrUnknown(
+          data['mapping_json']!,
+          _mappingJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_mappingJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ColumnMapping map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ColumnMapping(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      shopId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shop_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      rowVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_version'],
+      )!,
+      signature: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}signature'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      mappingJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}mapping_json'],
+      )!,
+    );
+  }
+
+  @override
+  $ColumnMappingsTable createAlias(String alias) {
+    return $ColumnMappingsTable(attachedDatabase, alias);
+  }
+}
+
+class ColumnMapping extends DataClass implements Insertable<ColumnMapping> {
+  final String id;
+  final String shopId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int rowVersion;
+  final String signature;
+  final String kind;
+  final String mappingJson;
+  const ColumnMapping({
+    required this.id,
+    required this.shopId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.rowVersion,
+    required this.signature,
+    required this.kind,
+    required this.mappingJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['shop_id'] = Variable<String>(shopId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['row_version'] = Variable<int>(rowVersion);
+    map['signature'] = Variable<String>(signature);
+    map['kind'] = Variable<String>(kind);
+    map['mapping_json'] = Variable<String>(mappingJson);
+    return map;
+  }
+
+  ColumnMappingsCompanion toCompanion(bool nullToAbsent) {
+    return ColumnMappingsCompanion(
+      id: Value(id),
+      shopId: Value(shopId),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      rowVersion: Value(rowVersion),
+      signature: Value(signature),
+      kind: Value(kind),
+      mappingJson: Value(mappingJson),
+    );
+  }
+
+  factory ColumnMapping.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ColumnMapping(
+      id: serializer.fromJson<String>(json['id']),
+      shopId: serializer.fromJson<String>(json['shopId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      signature: serializer.fromJson<String>(json['signature']),
+      kind: serializer.fromJson<String>(json['kind']),
+      mappingJson: serializer.fromJson<String>(json['mappingJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'shopId': serializer.toJson<String>(shopId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'signature': serializer.toJson<String>(signature),
+      'kind': serializer.toJson<String>(kind),
+      'mappingJson': serializer.toJson<String>(mappingJson),
+    };
+  }
+
+  ColumnMapping copyWith({
+    String? id,
+    String? shopId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? rowVersion,
+    String? signature,
+    String? kind,
+    String? mappingJson,
+  }) => ColumnMapping(
+    id: id ?? this.id,
+    shopId: shopId ?? this.shopId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    rowVersion: rowVersion ?? this.rowVersion,
+    signature: signature ?? this.signature,
+    kind: kind ?? this.kind,
+    mappingJson: mappingJson ?? this.mappingJson,
+  );
+  ColumnMapping copyWithCompanion(ColumnMappingsCompanion data) {
+    return ColumnMapping(
+      id: data.id.present ? data.id.value : this.id,
+      shopId: data.shopId.present ? data.shopId.value : this.shopId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      rowVersion: data.rowVersion.present
+          ? data.rowVersion.value
+          : this.rowVersion,
+      signature: data.signature.present ? data.signature.value : this.signature,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      mappingJson: data.mappingJson.present
+          ? data.mappingJson.value
+          : this.mappingJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ColumnMapping(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('signature: $signature, ')
+          ..write('kind: $kind, ')
+          ..write('mappingJson: $mappingJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    shopId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    rowVersion,
+    signature,
+    kind,
+    mappingJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ColumnMapping &&
+          other.id == this.id &&
+          other.shopId == this.shopId &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.rowVersion == this.rowVersion &&
+          other.signature == this.signature &&
+          other.kind == this.kind &&
+          other.mappingJson == this.mappingJson);
+}
+
+class ColumnMappingsCompanion extends UpdateCompanion<ColumnMapping> {
+  final Value<String> id;
+  final Value<String> shopId;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> rowVersion;
+  final Value<String> signature;
+  final Value<String> kind;
+  final Value<String> mappingJson;
+  final Value<int> rowid;
+  const ColumnMappingsCompanion({
+    this.id = const Value.absent(),
+    this.shopId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.signature = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.mappingJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ColumnMappingsCompanion.insert({
+    required String id,
+    required String shopId,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    required String signature,
+    required String kind,
+    required String mappingJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       shopId = Value(shopId),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       signature = Value(signature),
+       kind = Value(kind),
+       mappingJson = Value(mappingJson);
+  static Insertable<ColumnMapping> custom({
+    Expression<String>? id,
+    Expression<String>? shopId,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? rowVersion,
+    Expression<String>? signature,
+    Expression<String>? kind,
+    Expression<String>? mappingJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (shopId != null) 'shop_id': shopId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (signature != null) 'signature': signature,
+      if (kind != null) 'kind': kind,
+      if (mappingJson != null) 'mapping_json': mappingJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ColumnMappingsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? shopId,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? rowVersion,
+    Value<String>? signature,
+    Value<String>? kind,
+    Value<String>? mappingJson,
+    Value<int>? rowid,
+  }) {
+    return ColumnMappingsCompanion(
+      id: id ?? this.id,
+      shopId: shopId ?? this.shopId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      rowVersion: rowVersion ?? this.rowVersion,
+      signature: signature ?? this.signature,
+      kind: kind ?? this.kind,
+      mappingJson: mappingJson ?? this.mappingJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (shopId.present) {
+      map['shop_id'] = Variable<String>(shopId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (signature.present) {
+      map['signature'] = Variable<String>(signature.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (mappingJson.present) {
+      map['mapping_json'] = Variable<String>(mappingJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ColumnMappingsCompanion(')
+          ..write('id: $id, ')
+          ..write('shopId: $shopId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('signature: $signature, ')
+          ..write('kind: $kind, ')
+          ..write('mappingJson: $mappingJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ShopsTable extends Shops with TableInfo<$ShopsTable, Shop> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -846,6 +2059,17 @@ class $CustomersTable extends Customers
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _importBatchIdMeta = const VerificationMeta(
+    'importBatchId',
+  );
+  @override
+  late final GeneratedColumn<String> importBatchId = GeneratedColumn<String>(
+    'import_batch_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -865,6 +2089,7 @@ class $CustomersTable extends Customers
     riskNote,
     isBlocklisted,
     blocklistReason,
+    importBatchId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1003,6 +2228,15 @@ class $CustomersTable extends Customers
         ),
       );
     }
+    if (data.containsKey('import_batch_id')) {
+      context.handle(
+        _importBatchIdMeta,
+        importBatchId.isAcceptableOrUnknown(
+          data['import_batch_id']!,
+          _importBatchIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1080,6 +2314,10 @@ class $CustomersTable extends Customers
         DriftSqlType.string,
         data['${effectivePrefix}blocklist_reason'],
       ),
+      importBatchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}import_batch_id'],
+      ),
     );
   }
 
@@ -1107,6 +2345,7 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String? riskNote;
   final bool isBlocklisted;
   final String? blocklistReason;
+  final String? importBatchId;
   const Customer({
     required this.id,
     required this.shopId,
@@ -1125,6 +2364,7 @@ class Customer extends DataClass implements Insertable<Customer> {
     this.riskNote,
     required this.isBlocklisted,
     this.blocklistReason,
+    this.importBatchId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1157,6 +2397,9 @@ class Customer extends DataClass implements Insertable<Customer> {
     map['is_blocklisted'] = Variable<bool>(isBlocklisted);
     if (!nullToAbsent || blocklistReason != null) {
       map['blocklist_reason'] = Variable<String>(blocklistReason);
+    }
+    if (!nullToAbsent || importBatchId != null) {
+      map['import_batch_id'] = Variable<String>(importBatchId);
     }
     return map;
   }
@@ -1192,6 +2435,9 @@ class Customer extends DataClass implements Insertable<Customer> {
       blocklistReason: blocklistReason == null && nullToAbsent
           ? const Value.absent()
           : Value(blocklistReason),
+      importBatchId: importBatchId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importBatchId),
     );
   }
 
@@ -1218,6 +2464,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       riskNote: serializer.fromJson<String?>(json['riskNote']),
       isBlocklisted: serializer.fromJson<bool>(json['isBlocklisted']),
       blocklistReason: serializer.fromJson<String?>(json['blocklistReason']),
+      importBatchId: serializer.fromJson<String?>(json['importBatchId']),
     );
   }
   @override
@@ -1241,6 +2488,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'riskNote': serializer.toJson<String?>(riskNote),
       'isBlocklisted': serializer.toJson<bool>(isBlocklisted),
       'blocklistReason': serializer.toJson<String?>(blocklistReason),
+      'importBatchId': serializer.toJson<String?>(importBatchId),
     };
   }
 
@@ -1262,6 +2510,7 @@ class Customer extends DataClass implements Insertable<Customer> {
     Value<String?> riskNote = const Value.absent(),
     bool? isBlocklisted,
     Value<String?> blocklistReason = const Value.absent(),
+    Value<String?> importBatchId = const Value.absent(),
   }) => Customer(
     id: id ?? this.id,
     shopId: shopId ?? this.shopId,
@@ -1282,6 +2531,9 @@ class Customer extends DataClass implements Insertable<Customer> {
     blocklistReason: blocklistReason.present
         ? blocklistReason.value
         : this.blocklistReason,
+    importBatchId: importBatchId.present
+        ? importBatchId.value
+        : this.importBatchId,
   );
   Customer copyWithCompanion(CustomersCompanion data) {
     return Customer(
@@ -1314,6 +2566,9 @@ class Customer extends DataClass implements Insertable<Customer> {
       blocklistReason: data.blocklistReason.present
           ? data.blocklistReason.value
           : this.blocklistReason,
+      importBatchId: data.importBatchId.present
+          ? data.importBatchId.value
+          : this.importBatchId,
     );
   }
 
@@ -1336,7 +2591,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('isArchived: $isArchived, ')
           ..write('riskNote: $riskNote, ')
           ..write('isBlocklisted: $isBlocklisted, ')
-          ..write('blocklistReason: $blocklistReason')
+          ..write('blocklistReason: $blocklistReason, ')
+          ..write('importBatchId: $importBatchId')
           ..write(')'))
         .toString();
   }
@@ -1360,6 +2616,7 @@ class Customer extends DataClass implements Insertable<Customer> {
     riskNote,
     isBlocklisted,
     blocklistReason,
+    importBatchId,
   );
   @override
   bool operator ==(Object other) =>
@@ -1381,7 +2638,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.isArchived == this.isArchived &&
           other.riskNote == this.riskNote &&
           other.isBlocklisted == this.isBlocklisted &&
-          other.blocklistReason == this.blocklistReason);
+          other.blocklistReason == this.blocklistReason &&
+          other.importBatchId == this.importBatchId);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -1402,6 +2660,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String?> riskNote;
   final Value<bool> isBlocklisted;
   final Value<String?> blocklistReason;
+  final Value<String?> importBatchId;
   final Value<int> rowid;
   const CustomersCompanion({
     this.id = const Value.absent(),
@@ -1421,6 +2680,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     this.riskNote = const Value.absent(),
     this.isBlocklisted = const Value.absent(),
     this.blocklistReason = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CustomersCompanion.insert({
@@ -1441,6 +2701,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     this.riskNote = const Value.absent(),
     this.isBlocklisted = const Value.absent(),
     this.blocklistReason = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        shopId = Value(shopId),
@@ -1467,6 +2728,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     Expression<String>? riskNote,
     Expression<bool>? isBlocklisted,
     Expression<String>? blocklistReason,
+    Expression<String>? importBatchId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1487,6 +2749,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       if (riskNote != null) 'risk_note': riskNote,
       if (isBlocklisted != null) 'is_blocklisted': isBlocklisted,
       if (blocklistReason != null) 'blocklist_reason': blocklistReason,
+      if (importBatchId != null) 'import_batch_id': importBatchId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1509,6 +2772,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     Value<String?>? riskNote,
     Value<bool>? isBlocklisted,
     Value<String?>? blocklistReason,
+    Value<String?>? importBatchId,
     Value<int>? rowid,
   }) {
     return CustomersCompanion(
@@ -1529,6 +2793,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       riskNote: riskNote ?? this.riskNote,
       isBlocklisted: isBlocklisted ?? this.isBlocklisted,
       blocklistReason: blocklistReason ?? this.blocklistReason,
+      importBatchId: importBatchId ?? this.importBatchId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1587,6 +2852,9 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     if (blocklistReason.present) {
       map['blocklist_reason'] = Variable<String>(blocklistReason.value);
     }
+    if (importBatchId.present) {
+      map['import_batch_id'] = Variable<String>(importBatchId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1613,6 +2881,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
           ..write('riskNote: $riskNote, ')
           ..write('isBlocklisted: $isBlocklisted, ')
           ..write('blocklistReason: $blocklistReason, ')
+          ..write('importBatchId: $importBatchId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2468,6 +3737,17 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _importBatchIdMeta = const VerificationMeta(
+    'importBatchId',
+  );
+  @override
+  late final GeneratedColumn<String> importBatchId = GeneratedColumn<String>(
+    'import_batch_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2483,6 +3763,7 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     stockQty,
     isActive,
     photoPath,
+    importBatchId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2587,6 +3868,15 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
         photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
       );
     }
+    if (data.containsKey('import_batch_id')) {
+      context.handle(
+        _importBatchIdMeta,
+        importBatchId.isAcceptableOrUnknown(
+          data['import_batch_id']!,
+          _importBatchIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2648,6 +3938,10 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
         DriftSqlType.string,
         data['${effectivePrefix}photo_path'],
       ),
+      importBatchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}import_batch_id'],
+      ),
     );
   }
 
@@ -2671,6 +3965,7 @@ class Product extends DataClass implements Insertable<Product> {
   final int? stockQty;
   final bool isActive;
   final String? photoPath;
+  final String? importBatchId;
   const Product({
     required this.id,
     required this.shopId,
@@ -2685,6 +3980,7 @@ class Product extends DataClass implements Insertable<Product> {
     this.stockQty,
     required this.isActive,
     this.photoPath,
+    this.importBatchId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2712,6 +4008,9 @@ class Product extends DataClass implements Insertable<Product> {
     if (!nullToAbsent || photoPath != null) {
       map['photo_path'] = Variable<String>(photoPath);
     }
+    if (!nullToAbsent || importBatchId != null) {
+      map['import_batch_id'] = Variable<String>(importBatchId);
+    }
     return map;
   }
 
@@ -2738,6 +4037,9 @@ class Product extends DataClass implements Insertable<Product> {
       photoPath: photoPath == null && nullToAbsent
           ? const Value.absent()
           : Value(photoPath),
+      importBatchId: importBatchId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importBatchId),
     );
   }
 
@@ -2760,6 +4062,7 @@ class Product extends DataClass implements Insertable<Product> {
       stockQty: serializer.fromJson<int?>(json['stockQty']),
       isActive: serializer.fromJson<bool>(json['isActive']),
       photoPath: serializer.fromJson<String?>(json['photoPath']),
+      importBatchId: serializer.fromJson<String?>(json['importBatchId']),
     );
   }
   @override
@@ -2779,6 +4082,7 @@ class Product extends DataClass implements Insertable<Product> {
       'stockQty': serializer.toJson<int?>(stockQty),
       'isActive': serializer.toJson<bool>(isActive),
       'photoPath': serializer.toJson<String?>(photoPath),
+      'importBatchId': serializer.toJson<String?>(importBatchId),
     };
   }
 
@@ -2796,6 +4100,7 @@ class Product extends DataClass implements Insertable<Product> {
     Value<int?> stockQty = const Value.absent(),
     bool? isActive,
     Value<String?> photoPath = const Value.absent(),
+    Value<String?> importBatchId = const Value.absent(),
   }) => Product(
     id: id ?? this.id,
     shopId: shopId ?? this.shopId,
@@ -2812,6 +4117,9 @@ class Product extends DataClass implements Insertable<Product> {
     stockQty: stockQty.present ? stockQty.value : this.stockQty,
     isActive: isActive ?? this.isActive,
     photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    importBatchId: importBatchId.present
+        ? importBatchId.value
+        : this.importBatchId,
   );
   Product copyWithCompanion(ProductsCompanion data) {
     return Product(
@@ -2834,6 +4142,9 @@ class Product extends DataClass implements Insertable<Product> {
       stockQty: data.stockQty.present ? data.stockQty.value : this.stockQty,
       isActive: data.isActive.present ? data.isActive.value : this.isActive,
       photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      importBatchId: data.importBatchId.present
+          ? data.importBatchId.value
+          : this.importBatchId,
     );
   }
 
@@ -2852,7 +4163,8 @@ class Product extends DataClass implements Insertable<Product> {
           ..write('defaultCostPrice: $defaultCostPrice, ')
           ..write('stockQty: $stockQty, ')
           ..write('isActive: $isActive, ')
-          ..write('photoPath: $photoPath')
+          ..write('photoPath: $photoPath, ')
+          ..write('importBatchId: $importBatchId')
           ..write(')'))
         .toString();
   }
@@ -2872,6 +4184,7 @@ class Product extends DataClass implements Insertable<Product> {
     stockQty,
     isActive,
     photoPath,
+    importBatchId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2889,7 +4202,8 @@ class Product extends DataClass implements Insertable<Product> {
           other.defaultCostPrice == this.defaultCostPrice &&
           other.stockQty == this.stockQty &&
           other.isActive == this.isActive &&
-          other.photoPath == this.photoPath);
+          other.photoPath == this.photoPath &&
+          other.importBatchId == this.importBatchId);
 }
 
 class ProductsCompanion extends UpdateCompanion<Product> {
@@ -2906,6 +4220,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
   final Value<int?> stockQty;
   final Value<bool> isActive;
   final Value<String?> photoPath;
+  final Value<String?> importBatchId;
   final Value<int> rowid;
   const ProductsCompanion({
     this.id = const Value.absent(),
@@ -2921,6 +4236,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     this.stockQty = const Value.absent(),
     this.isActive = const Value.absent(),
     this.photoPath = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProductsCompanion.insert({
@@ -2937,6 +4253,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     this.stockQty = const Value.absent(),
     this.isActive = const Value.absent(),
     this.photoPath = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        shopId = Value(shopId),
@@ -2957,6 +4274,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     Expression<int>? stockQty,
     Expression<bool>? isActive,
     Expression<String>? photoPath,
+    Expression<String>? importBatchId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2973,6 +4291,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
       if (stockQty != null) 'stock_qty': stockQty,
       if (isActive != null) 'is_active': isActive,
       if (photoPath != null) 'photo_path': photoPath,
+      if (importBatchId != null) 'import_batch_id': importBatchId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2991,6 +4310,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     Value<int?>? stockQty,
     Value<bool>? isActive,
     Value<String?>? photoPath,
+    Value<String?>? importBatchId,
     Value<int>? rowid,
   }) {
     return ProductsCompanion(
@@ -3007,6 +4327,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
       stockQty: stockQty ?? this.stockQty,
       isActive: isActive ?? this.isActive,
       photoPath: photoPath ?? this.photoPath,
+      importBatchId: importBatchId ?? this.importBatchId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3053,6 +4374,9 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     if (photoPath.present) {
       map['photo_path'] = Variable<String>(photoPath.value);
     }
+    if (importBatchId.present) {
+      map['import_batch_id'] = Variable<String>(importBatchId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3075,6 +4399,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
           ..write('stockQty: $stockQty, ')
           ..write('isActive: $isActive, ')
           ..write('photoPath: $photoPath, ')
+          ..write('importBatchId: $importBatchId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6378,6 +7703,17 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _importBatchIdMeta = const VerificationMeta(
+    'importBatchId',
+  );
+  @override
+  late final GeneratedColumn<String> importBatchId = GeneratedColumn<String>(
+    'import_batch_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -6420,6 +7756,7 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
     isDisputed,
     disputeNote,
     exchangeOfOrderId,
+    importBatchId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -6743,6 +8080,15 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
         ),
       );
     }
+    if (data.containsKey('import_batch_id')) {
+      context.handle(
+        _importBatchIdMeta,
+        importBatchId.isAcceptableOrUnknown(
+          data['import_batch_id']!,
+          _importBatchIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -6912,6 +8258,10 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
         DriftSqlType.string,
         data['${effectivePrefix}exchange_of_order_id'],
       ),
+      importBatchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}import_batch_id'],
+      ),
     );
   }
 
@@ -6962,6 +8312,7 @@ class Order extends DataClass implements Insertable<Order> {
   final bool isDisputed;
   final String? disputeNote;
   final String? exchangeOfOrderId;
+  final String? importBatchId;
   const Order({
     required this.id,
     required this.shopId,
@@ -7003,6 +8354,7 @@ class Order extends DataClass implements Insertable<Order> {
     required this.isDisputed,
     this.disputeNote,
     this.exchangeOfOrderId,
+    this.importBatchId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7085,6 +8437,9 @@ class Order extends DataClass implements Insertable<Order> {
     if (!nullToAbsent || exchangeOfOrderId != null) {
       map['exchange_of_order_id'] = Variable<String>(exchangeOfOrderId);
     }
+    if (!nullToAbsent || importBatchId != null) {
+      map['import_batch_id'] = Variable<String>(importBatchId);
+    }
     return map;
   }
 
@@ -7166,6 +8521,9 @@ class Order extends DataClass implements Insertable<Order> {
       exchangeOfOrderId: exchangeOfOrderId == null && nullToAbsent
           ? const Value.absent()
           : Value(exchangeOfOrderId),
+      importBatchId: importBatchId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importBatchId),
     );
   }
 
@@ -7219,6 +8577,7 @@ class Order extends DataClass implements Insertable<Order> {
       exchangeOfOrderId: serializer.fromJson<String?>(
         json['exchangeOfOrderId'],
       ),
+      importBatchId: serializer.fromJson<String?>(json['importBatchId']),
     );
   }
   @override
@@ -7265,6 +8624,7 @@ class Order extends DataClass implements Insertable<Order> {
       'isDisputed': serializer.toJson<bool>(isDisputed),
       'disputeNote': serializer.toJson<String?>(disputeNote),
       'exchangeOfOrderId': serializer.toJson<String?>(exchangeOfOrderId),
+      'importBatchId': serializer.toJson<String?>(importBatchId),
     };
   }
 
@@ -7309,6 +8669,7 @@ class Order extends DataClass implements Insertable<Order> {
     bool? isDisputed,
     Value<String?> disputeNote = const Value.absent(),
     Value<String?> exchangeOfOrderId = const Value.absent(),
+    Value<String?> importBatchId = const Value.absent(),
   }) => Order(
     id: id ?? this.id,
     shopId: shopId ?? this.shopId,
@@ -7361,6 +8722,9 @@ class Order extends DataClass implements Insertable<Order> {
     exchangeOfOrderId: exchangeOfOrderId.present
         ? exchangeOfOrderId.value
         : this.exchangeOfOrderId,
+    importBatchId: importBatchId.present
+        ? importBatchId.value
+        : this.importBatchId,
   );
   Order copyWithCompanion(OrdersCompanion data) {
     return Order(
@@ -7450,6 +8814,9 @@ class Order extends DataClass implements Insertable<Order> {
       exchangeOfOrderId: data.exchangeOfOrderId.present
           ? data.exchangeOfOrderId.value
           : this.exchangeOfOrderId,
+      importBatchId: data.importBatchId.present
+          ? data.importBatchId.value
+          : this.importBatchId,
     );
   }
 
@@ -7495,7 +8862,8 @@ class Order extends DataClass implements Insertable<Order> {
           ..write('grossCollected: $grossCollected, ')
           ..write('isDisputed: $isDisputed, ')
           ..write('disputeNote: $disputeNote, ')
-          ..write('exchangeOfOrderId: $exchangeOfOrderId')
+          ..write('exchangeOfOrderId: $exchangeOfOrderId, ')
+          ..write('importBatchId: $importBatchId')
           ..write(')'))
         .toString();
   }
@@ -7542,6 +8910,7 @@ class Order extends DataClass implements Insertable<Order> {
     isDisputed,
     disputeNote,
     exchangeOfOrderId,
+    importBatchId,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -7586,7 +8955,8 @@ class Order extends DataClass implements Insertable<Order> {
           other.grossCollected == this.grossCollected &&
           other.isDisputed == this.isDisputed &&
           other.disputeNote == this.disputeNote &&
-          other.exchangeOfOrderId == this.exchangeOfOrderId);
+          other.exchangeOfOrderId == this.exchangeOfOrderId &&
+          other.importBatchId == this.importBatchId);
 }
 
 class OrdersCompanion extends UpdateCompanion<Order> {
@@ -7630,6 +9000,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
   final Value<bool> isDisputed;
   final Value<String?> disputeNote;
   final Value<String?> exchangeOfOrderId;
+  final Value<String?> importBatchId;
   final Value<int> rowid;
   const OrdersCompanion({
     this.id = const Value.absent(),
@@ -7672,6 +9043,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     this.isDisputed = const Value.absent(),
     this.disputeNote = const Value.absent(),
     this.exchangeOfOrderId = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   OrdersCompanion.insert({
@@ -7715,6 +9087,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     this.isDisputed = const Value.absent(),
     this.disputeNote = const Value.absent(),
     this.exchangeOfOrderId = const Value.absent(),
+    this.importBatchId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        shopId = Value(shopId),
@@ -7765,6 +9138,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     Expression<bool>? isDisputed,
     Expression<String>? disputeNote,
     Expression<String>? exchangeOfOrderId,
+    Expression<String>? importBatchId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -7809,6 +9183,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
       if (isDisputed != null) 'is_disputed': isDisputed,
       if (disputeNote != null) 'dispute_note': disputeNote,
       if (exchangeOfOrderId != null) 'exchange_of_order_id': exchangeOfOrderId,
+      if (importBatchId != null) 'import_batch_id': importBatchId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -7854,6 +9229,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     Value<bool>? isDisputed,
     Value<String?>? disputeNote,
     Value<String?>? exchangeOfOrderId,
+    Value<String?>? importBatchId,
     Value<int>? rowid,
   }) {
     return OrdersCompanion(
@@ -7898,6 +9274,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
       isDisputed: isDisputed ?? this.isDisputed,
       disputeNote: disputeNote ?? this.disputeNote,
       exchangeOfOrderId: exchangeOfOrderId ?? this.exchangeOfOrderId,
+      importBatchId: importBatchId ?? this.importBatchId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -8027,6 +9404,9 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     if (exchangeOfOrderId.present) {
       map['exchange_of_order_id'] = Variable<String>(exchangeOfOrderId.value);
     }
+    if (importBatchId.present) {
+      map['import_batch_id'] = Variable<String>(importBatchId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -8076,6 +9456,7 @@ class OrdersCompanion extends UpdateCompanion<Order> {
           ..write('isDisputed: $isDisputed, ')
           ..write('disputeNote: $disputeNote, ')
           ..write('exchangeOfOrderId: $exchangeOfOrderId, ')
+          ..write('importBatchId: $importBatchId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -18639,6 +20020,8 @@ class OrderTagLinksCompanion extends UpdateCompanion<OrderTagLink> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $ImportBatchesTable importBatches = $ImportBatchesTable(this);
+  late final $ColumnMappingsTable columnMappings = $ColumnMappingsTable(this);
   late final $ShopsTable shops = $ShopsTable(this);
   late final $CustomersTable customers = $CustomersTable(this);
   late final $CustomerAddressesTable customerAddresses =
@@ -18678,6 +20061,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    importBatches,
+    columnMappings,
     shops,
     customers,
     customerAddresses,
@@ -18705,6 +20090,624 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ];
 }
 
+typedef $$ImportBatchesTableCreateCompanionBuilder =
+    ImportBatchesCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      required String kind,
+      Value<String> fileName,
+      Value<int> createdCount,
+      Value<String> status,
+      Value<DateTime?> undoneAt,
+      Value<int> rowid,
+    });
+typedef $$ImportBatchesTableUpdateCompanionBuilder =
+    ImportBatchesCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String> kind,
+      Value<String> fileName,
+      Value<int> createdCount,
+      Value<String> status,
+      Value<DateTime?> undoneAt,
+      Value<int> rowid,
+    });
+
+class $$ImportBatchesTableFilterComposer
+    extends Composer<_$AppDatabase, $ImportBatchesTable> {
+  $$ImportBatchesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get createdCount => $composableBuilder(
+    column: $table.createdCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get undoneAt => $composableBuilder(
+    column: $table.undoneAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ImportBatchesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ImportBatchesTable> {
+  $$ImportBatchesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get createdCount => $composableBuilder(
+    column: $table.createdCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get undoneAt => $composableBuilder(
+    column: $table.undoneAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ImportBatchesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ImportBatchesTable> {
+  $$ImportBatchesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => column);
+
+  GeneratedColumn<int> get createdCount => $composableBuilder(
+    column: $table.createdCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get undoneAt =>
+      $composableBuilder(column: $table.undoneAt, builder: (column) => column);
+}
+
+class $$ImportBatchesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ImportBatchesTable,
+          ImportBatch,
+          $$ImportBatchesTableFilterComposer,
+          $$ImportBatchesTableOrderingComposer,
+          $$ImportBatchesTableAnnotationComposer,
+          $$ImportBatchesTableCreateCompanionBuilder,
+          $$ImportBatchesTableUpdateCompanionBuilder,
+          (
+            ImportBatch,
+            BaseReferences<_$AppDatabase, $ImportBatchesTable, ImportBatch>,
+          ),
+          ImportBatch,
+          PrefetchHooks Function()
+        > {
+  $$ImportBatchesTableTableManager(_$AppDatabase db, $ImportBatchesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ImportBatchesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ImportBatchesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ImportBatchesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> fileName = const Value.absent(),
+                Value<int> createdCount = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> undoneAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ImportBatchesCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                kind: kind,
+                fileName: fileName,
+                createdCount: createdCount,
+                status: status,
+                undoneAt: undoneAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String kind,
+                Value<String> fileName = const Value.absent(),
+                Value<int> createdCount = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> undoneAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ImportBatchesCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                kind: kind,
+                fileName: fileName,
+                createdCount: createdCount,
+                status: status,
+                undoneAt: undoneAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ImportBatchesTable, ImportBatch>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $ImportBatchesTable,
+                    ImportBatch
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ImportBatchesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ImportBatchesTable,
+      ImportBatch,
+      $$ImportBatchesTableFilterComposer,
+      $$ImportBatchesTableOrderingComposer,
+      $$ImportBatchesTableAnnotationComposer,
+      $$ImportBatchesTableCreateCompanionBuilder,
+      $$ImportBatchesTableUpdateCompanionBuilder,
+      (
+        ImportBatch,
+        BaseReferences<_$AppDatabase, $ImportBatchesTable, ImportBatch>,
+      ),
+      ImportBatch,
+      PrefetchHooks Function()
+    >;
+typedef $$ColumnMappingsTableCreateCompanionBuilder =
+    ColumnMappingsCompanion Function({
+      required String id,
+      required String shopId,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      required String signature,
+      required String kind,
+      required String mappingJson,
+      Value<int> rowid,
+    });
+typedef $$ColumnMappingsTableUpdateCompanionBuilder =
+    ColumnMappingsCompanion Function({
+      Value<String> id,
+      Value<String> shopId,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> rowVersion,
+      Value<String> signature,
+      Value<String> kind,
+      Value<String> mappingJson,
+      Value<int> rowid,
+    });
+
+class $$ColumnMappingsTableFilterComposer
+    extends Composer<_$AppDatabase, $ColumnMappingsTable> {
+  $$ColumnMappingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get signature => $composableBuilder(
+    column: $table.signature,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get mappingJson => $composableBuilder(
+    column: $table.mappingJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ColumnMappingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ColumnMappingsTable> {
+  $$ColumnMappingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shopId => $composableBuilder(
+    column: $table.shopId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get signature => $composableBuilder(
+    column: $table.signature,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get mappingJson => $composableBuilder(
+    column: $table.mappingJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ColumnMappingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ColumnMappingsTable> {
+  $$ColumnMappingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get shopId =>
+      $composableBuilder(column: $table.shopId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rowVersion => $composableBuilder(
+    column: $table.rowVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get signature =>
+      $composableBuilder(column: $table.signature, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get mappingJson => $composableBuilder(
+    column: $table.mappingJson,
+    builder: (column) => column,
+  );
+}
+
+class $$ColumnMappingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ColumnMappingsTable,
+          ColumnMapping,
+          $$ColumnMappingsTableFilterComposer,
+          $$ColumnMappingsTableOrderingComposer,
+          $$ColumnMappingsTableAnnotationComposer,
+          $$ColumnMappingsTableCreateCompanionBuilder,
+          $$ColumnMappingsTableUpdateCompanionBuilder,
+          (
+            ColumnMapping,
+            BaseReferences<_$AppDatabase, $ColumnMappingsTable, ColumnMapping>,
+          ),
+          ColumnMapping,
+          PrefetchHooks Function()
+        > {
+  $$ColumnMappingsTableTableManager(
+    _$AppDatabase db,
+    $ColumnMappingsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ColumnMappingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ColumnMappingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ColumnMappingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> shopId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                Value<String> signature = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> mappingJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ColumnMappingsCompanion(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                signature: signature,
+                kind: kind,
+                mappingJson: mappingJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String shopId,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> rowVersion = const Value.absent(),
+                required String signature,
+                required String kind,
+                required String mappingJson,
+                Value<int> rowid = const Value.absent(),
+              }) => ColumnMappingsCompanion.insert(
+                id: id,
+                shopId: shopId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowVersion: rowVersion,
+                signature: signature,
+                kind: kind,
+                mappingJson: mappingJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ColumnMappingsTable, ColumnMapping>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $ColumnMappingsTable,
+                    ColumnMapping
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ColumnMappingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ColumnMappingsTable,
+      ColumnMapping,
+      $$ColumnMappingsTableFilterComposer,
+      $$ColumnMappingsTableOrderingComposer,
+      $$ColumnMappingsTableAnnotationComposer,
+      $$ColumnMappingsTableCreateCompanionBuilder,
+      $$ColumnMappingsTableUpdateCompanionBuilder,
+      (
+        ColumnMapping,
+        BaseReferences<_$AppDatabase, $ColumnMappingsTable, ColumnMapping>,
+      ),
+      ColumnMapping,
+      PrefetchHooks Function()
+    >;
 typedef $$ShopsTableCreateCompanionBuilder = ShopsCompanion Function({
   required String id,
   required String shopId,
@@ -19041,6 +21044,7 @@ typedef $$CustomersTableCreateCompanionBuilder = CustomersCompanion Function({
   Value<String?> riskNote,
   Value<bool> isBlocklisted,
   Value<String?> blocklistReason,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 typedef $$CustomersTableUpdateCompanionBuilder = CustomersCompanion Function({
@@ -19061,6 +21065,7 @@ typedef $$CustomersTableUpdateCompanionBuilder = CustomersCompanion Function({
   Value<String?> riskNote,
   Value<bool> isBlocklisted,
   Value<String?> blocklistReason,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 
@@ -19200,6 +21205,11 @@ class $$CustomersTableFilterComposer
 
   ColumnFilters<String> get blocklistReason => $composableBuilder(
     column: $table.blocklistReason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -19347,6 +21357,11 @@ class $$CustomersTableOrderingComposer
     column: $table.blocklistReason,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CustomersTableAnnotationComposer
@@ -19418,6 +21433,11 @@ class $$CustomersTableAnnotationComposer
 
   GeneratedColumn<String> get blocklistReason => $composableBuilder(
     column: $table.blocklistReason,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
     builder: (column) => column,
   );
 
@@ -19518,6 +21538,7 @@ class $$CustomersTableTableManager
                 Value<String?> riskNote = const Value.absent(),
                 Value<bool> isBlocklisted = const Value.absent(),
                 Value<String?> blocklistReason = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CustomersCompanion(
                 id: id,
@@ -19537,6 +21558,7 @@ class $$CustomersTableTableManager
                 riskNote: riskNote,
                 isBlocklisted: isBlocklisted,
                 blocklistReason: blocklistReason,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -19558,6 +21580,7 @@ class $$CustomersTableTableManager
                 Value<String?> riskNote = const Value.absent(),
                 Value<bool> isBlocklisted = const Value.absent(),
                 Value<String?> blocklistReason = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CustomersCompanion.insert(
                 id: id,
@@ -19577,6 +21600,7 @@ class $$CustomersTableTableManager
                 riskNote: riskNote,
                 isBlocklisted: isBlocklisted,
                 blocklistReason: blocklistReason,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -20140,6 +22164,7 @@ typedef $$ProductsTableCreateCompanionBuilder = ProductsCompanion Function({
   Value<int?> stockQty,
   Value<bool> isActive,
   Value<String?> photoPath,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 typedef $$ProductsTableUpdateCompanionBuilder = ProductsCompanion Function({
@@ -20156,6 +22181,7 @@ typedef $$ProductsTableUpdateCompanionBuilder = ProductsCompanion Function({
   Value<int?> stockQty,
   Value<bool> isActive,
   Value<String?> photoPath,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 
@@ -20258,6 +22284,11 @@ class $$ProductsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> productVariantsRefs(
     Expression<bool> Function($$ProductVariantsTableFilterComposer f) f,
   ) {
@@ -20357,6 +22388,11 @@ class $$ProductsTableOrderingComposer
     column: $table.photoPath,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ProductsTableAnnotationComposer
@@ -20412,6 +22448,11 @@ class $$ProductsTableAnnotationComposer
 
   GeneratedColumn<String> get photoPath =>
       $composableBuilder(column: $table.photoPath, builder: (column) => column);
+
+  GeneratedColumn<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => column,
+  );
 
   Expression<T> productVariantsRefs<T extends Object>(
     Expression<T> Function($$ProductVariantsTableAnnotationComposer a) f,
@@ -20480,6 +22521,7 @@ class $$ProductsTableTableManager
                 Value<int?> stockQty = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion(
                 id: id,
@@ -20495,6 +22537,7 @@ class $$ProductsTableTableManager
                 stockQty: stockQty,
                 isActive: isActive,
                 photoPath: photoPath,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -20512,6 +22555,7 @@ class $$ProductsTableTableManager
                 Value<int?> stockQty = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion.insert(
                 id: id,
@@ -20527,6 +22571,7 @@ class $$ProductsTableTableManager
                 stockQty: stockQty,
                 isActive: isActive,
                 photoPath: photoPath,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -22536,6 +24581,7 @@ typedef $$OrdersTableCreateCompanionBuilder = OrdersCompanion Function({
   Value<bool> isDisputed,
   Value<String?> disputeNote,
   Value<String?> exchangeOfOrderId,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 typedef $$OrdersTableUpdateCompanionBuilder = OrdersCompanion Function({
@@ -22579,6 +24625,7 @@ typedef $$OrdersTableUpdateCompanionBuilder = OrdersCompanion Function({
   Value<bool> isDisputed,
   Value<String?> disputeNote,
   Value<String?> exchangeOfOrderId,
+  Value<String?> importBatchId,
   Value<int> rowid,
 });
 
@@ -22969,6 +25016,11 @@ class $$OrdersTableFilterComposer
 
   ColumnFilters<String> get exchangeOfOrderId => $composableBuilder(
     column: $table.exchangeOfOrderId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -23418,6 +25470,11 @@ class $$OrdersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CustomersTableOrderingComposer get customerId {
     final $$CustomersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -23629,6 +25686,11 @@ class $$OrdersTableAnnotationComposer
 
   GeneratedColumn<String> get exchangeOfOrderId => $composableBuilder(
     column: $table.exchangeOfOrderId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
     builder: (column) => column,
   );
 
@@ -23960,6 +26022,7 @@ class $$OrdersTableTableManager
                 Value<bool> isDisputed = const Value.absent(),
                 Value<String?> disputeNote = const Value.absent(),
                 Value<String?> exchangeOfOrderId = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => OrdersCompanion(
                 id: id,
@@ -24002,6 +26065,7 @@ class $$OrdersTableTableManager
                 isDisputed: isDisputed,
                 disputeNote: disputeNote,
                 exchangeOfOrderId: exchangeOfOrderId,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -24046,6 +26110,7 @@ class $$OrdersTableTableManager
                 Value<bool> isDisputed = const Value.absent(),
                 Value<String?> disputeNote = const Value.absent(),
                 Value<String?> exchangeOfOrderId = const Value.absent(),
+                Value<String?> importBatchId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => OrdersCompanion.insert(
                 id: id,
@@ -24088,6 +26153,7 @@ class $$OrdersTableTableManager
                 isDisputed: isDisputed,
                 disputeNote: disputeNote,
                 exchangeOfOrderId: exchangeOfOrderId,
+                importBatchId: importBatchId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -31290,6 +33356,10 @@ typedef $$OrderTagLinksTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$ImportBatchesTableTableManager get importBatches =>
+      $$ImportBatchesTableTableManager(_db, _db.importBatches);
+  $$ColumnMappingsTableTableManager get columnMappings =>
+      $$ColumnMappingsTableTableManager(_db, _db.columnMappings);
   $$ShopsTableTableManager get shops =>
       $$ShopsTableTableManager(_db, _db.shops);
   $$CustomersTableTableManager get customers =>

@@ -2197,4 +2197,113 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get exchangeExists => 'এই অর্ডারে ইতিমধ্যে রিটার্ন বা এক্সচেঞ্জ আছে।';
+
+  @override
+  String get scanCn => 'বারকোড স্ক্যান';
+
+  @override
+  String get scanTitle => 'কনসাইনমেন্ট বারকোড স্ক্যান';
+
+  @override
+  String get scanTorch => 'টর্চ';
+
+  @override
+  String get scanHint => 'পার্সেলের বারকোড বা QR কোডে ক্যামেরা ধরুন।';
+
+  @override
+  String get scanPermissionDenied =>
+      'ক্যামেরা পাওয়া যাচ্ছে না। নম্বরটি হাতে লিখুন।';
+
+  @override
+  String get scanManualField => 'কনসাইনমেন্ট নম্বর';
+
+  @override
+  String get scanUse => 'ব্যবহার করুন';
+
+  @override
+  String get importProducts => 'পণ্য';
+
+  @override
+  String get importOpeningBalance => 'প্রারম্ভিক বকেয়া';
+
+  @override
+  String get importHistory => 'ইম্পোর্টের ইতিহাস';
+
+  @override
+  String get importUndo => 'ইম্পোর্ট বাতিল';
+
+  @override
+  String get importUndone => 'বাতিল হয়েছে';
+
+  @override
+  String importUndoResult(int removed, int kept) {
+    return '$removedটি সরানো হয়েছে, $keptটি রাখা হয়েছে (ব্যবহৃত)';
+  }
+
+  @override
+  String get importSavedMapping =>
+      'এই ফাইলের জন্য সংরক্ষিত কলাম ম্যাপিং ব্যবহার হচ্ছে।';
+
+  @override
+  String importBatchCount(int n) {
+    return '$nটি সারি';
+  }
+
+  @override
+  String get importOpeningHint =>
+      'কলাম: courier, amount, consignment_no, delivered_date। প্রতিটি সারি একটি ডেলিভারি হওয়া, অপরিশোধিত পার্সেল হবে যাতে পেআউট মেলানো যায়।';
+
+  @override
+  String get importUndoConfirm => 'এই ইম্পোর্টে তৈরি সবকিছু সরাবেন?';
+
+  @override
+  String get importNone => 'এখনো কোনো ইম্পোর্ট নেই।';
+
+  @override
+  String get driveTitle => 'গুগল ড্রাইভ ব্যাকআপ';
+
+  @override
+  String get driveSubtitle =>
+      'ব্যক্তিগত অ্যাপ ফোল্ডারে এনক্রিপ্টেড কপি। শুধু এই অ্যাপ দেখতে পারে।';
+
+  @override
+  String get driveEnable => 'চালু করুন';
+
+  @override
+  String get driveDisable => 'বন্ধ করুন';
+
+  @override
+  String get driveBackupNow => 'এখনই ড্রাইভে ব্যাকআপ';
+
+  @override
+  String get driveRestore => 'ড্রাইভ থেকে রিস্টোর';
+
+  @override
+  String get drivePassphraseHelp =>
+      'আপলোডের আগে এই পাসফ্রেজ দিয়ে ব্যাকআপ এনক্রিপ্ট হয়। এটি নিরাপদে রাখুন: পুনরুদ্ধার করা যায় না।';
+
+  @override
+  String get driveLastSuccess => 'সর্বশেষ ড্রাইভ ব্যাকআপ';
+
+  @override
+  String get driveNoBackups => 'ড্রাইভে কোনো ব্যাকআপ পাওয়া যায়নি।';
+
+  @override
+  String get driveUploaded => 'ড্রাইভে ব্যাকআপ হয়েছে';
+
+  @override
+  String get driveErrNotSignedIn =>
+      'গুগলে সাইন-ইন নেই। এই স্ক্রিনে এসে ড্রাইভ ব্যাকআপ আবার চালু করুন।';
+
+  @override
+  String get driveErrPassphrase => 'এনক্রিপশন পাসফ্রেজ নেই।';
+
+  @override
+  String get driveErrNetwork => 'সংযোগ নেই। Wi-Fi-তে আবার চেষ্টা করুন।';
+
+  @override
+  String get driveErrOther => 'ড্রাইভ ব্যাকআপ ব্যর্থ হয়েছে।';
+
+  @override
+  String get driveSchedule => 'সাপ্তাহিক, Wi-Fi ও চার্জে থাকলে';
 }

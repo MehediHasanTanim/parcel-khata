@@ -21,9 +21,16 @@ cannot read it.
   addresses or amounts.
 
 ## Permissions
-Notifications (daily digest, optional), biometric unlock (optional), and file access only through the
-system file picker/share sheet when you export, import or back up. No contacts, location, camera
-or microphone permission is requested.
+Notifications (daily digest, optional), biometric unlock (optional), camera (only when you tap
+"Scan barcode" to read a courier consignment number; images are processed on the device and never
+stored or sent), and file access only through the system file picker/share sheet when you export,
+import or back up. No contacts, location or microphone permission is requested.
+
+## Optional Google Drive backup
+If you turn it on, an encrypted copy of your backup (encrypted on your phone with your passphrase
+before upload) is stored in a hidden app folder of your own Google Drive using the `drive.appdata`
+scope. The app cannot see any other file in your Drive, and nobody else can read the backup without
+your passphrase. Turn it off in Settings > Data to stop uploads and remove the stored passphrase.
 
 ## Security
 App-private storage, optional PIN/biometric lock, hidden previews in the app switcher, no Android cloud

@@ -13,6 +13,7 @@ import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:parcel_khata/shared/cn_scanner.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 
 /// Steps through confirmed/packed orders that have no CN: enter it, save and
@@ -153,7 +154,21 @@ class _CnEntryScreenState extends ConsumerState<CnEntryScreen> {
         autofocus: true,
         textInputAction: TextInputAction.done,
         onSubmitted: (_) => _save(o),
-        decoration: InputDecoration(labelText: l.consignmentNo),
+        decoration: InputDecoration(
+          labelText: l.consignmentNo,
+          suffixIcon: IconButton(
+            tooltip: l.scanCn,
+            icon: const Icon(Icons.qr_code_scanner),
+            onPressed: () async {
+              final pattern = couriers
+                  .where((c) => c.id == _courierId)
+                  .map((c) => c.cnRegex)
+                  .firstOrNull;
+              final cn = await scanCn(context, ref, courierPattern: pattern);
+              if (cn != null && mounted) setState(() => _cn.text = cn);
+            },
+          ),
+        ),
       ),
       if (_error != null)
         Padding(

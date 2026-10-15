@@ -905,5 +905,55 @@
   "exchangeCost": "Cost",
   "exchangeCreated": "Exchange created",
   "exchangeNotDelivered": "Only delivered orders can be exchanged.",
-  "exchangeExists": "This order already has a return or exchange."
+  "exchangeExists": "This order already has a return or exchange.",
+  "scanCn": "Scan barcode",
+  "scanTitle": "Scan consignment barcode",
+  "scanTorch": "Torch",
+  "scanHint": "Point the camera at the parcel barcode or QR code.",
+  "scanPermissionDenied": "Camera not available. Type the number instead.",
+  "scanManualField": "Consignment number",
+  "scanUse": "Use",
+  "importProducts": "Products",
+  "importOpeningBalance": "Opening balance",
+  "importHistory": "Import history",
+  "importUndo": "Undo import",
+  "importUndone": "Undone",
+  "importUndoResult": "{removed} removed, {kept} kept (already used)",
+  "@importUndoResult": {
+    "placeholders": {
+      "removed": {
+        "type": "int"
+      },
+      "kept": {
+        "type": "int"
+      }
+    }
+  },
+  "importSavedMapping": "Using the column mapping you saved for this file layout.",
+  "importBatchCount": "{n} rows",
+  "@importBatchCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importOpeningHint": "Columns: courier, amount, consignment_no, delivered_date. Each row becomes a delivered, unpaid parcel so payouts can be matched.",
+  "importUndoConfirm": "Remove everything this import created?",
+  "importNone": "No imports yet.",
+  "driveTitle": "Google Drive backup",
+  "driveSubtitle": "Encrypted copy in a private app folder. Only this app can see it.",
+  "driveEnable": "Turn on",
+  "driveDisable": "Turn off",
+  "driveBackupNow": "Back up to Drive now",
+  "driveRestore": "Restore from Drive",
+  "drivePassphraseHelp": "The backup is encrypted with this passphrase before upload. Keep it safe: it cannot be recovered.",
+  "driveLastSuccess": "Last Drive backup",
+  "driveNoBackups": "No backups found in Drive.",
+  "driveUploaded": "Backed up to Drive",
+  "driveErrNotSignedIn": "Not signed in to Google. Open this screen and turn Drive backup on again.",
+  "driveErrPassphrase": "Encryption passphrase is missing.",
+  "driveErrNetwork": "No connection. Try again on Wi-Fi.",
+  "driveErrOther": "Drive backup failed.",
+  "driveSchedule": "Weekly, on Wi-Fi while charging"
 }

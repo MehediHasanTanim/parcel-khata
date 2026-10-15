@@ -905,5 +905,55 @@
   "exchangeCost": "খরচ",
   "exchangeCreated": "এক্সচেঞ্জ তৈরি হয়েছে",
   "exchangeNotDelivered": "শুধু ডেলিভারি হওয়া অর্ডার এক্সচেঞ্জ করা যায়।",
-  "exchangeExists": "এই অর্ডারে ইতিমধ্যে রিটার্ন বা এক্সচেঞ্জ আছে।"
+  "exchangeExists": "এই অর্ডারে ইতিমধ্যে রিটার্ন বা এক্সচেঞ্জ আছে।",
+  "scanCn": "বারকোড স্ক্যান",
+  "scanTitle": "কনসাইনমেন্ট বারকোড স্ক্যান",
+  "scanTorch": "টর্চ",
+  "scanHint": "পার্সেলের বারকোড বা QR কোডে ক্যামেরা ধরুন।",
+  "scanPermissionDenied": "ক্যামেরা পাওয়া যাচ্ছে না। নম্বরটি হাতে লিখুন।",
+  "scanManualField": "কনসাইনমেন্ট নম্বর",
+  "scanUse": "ব্যবহার করুন",
+  "importProducts": "পণ্য",
+  "importOpeningBalance": "প্রারম্ভিক বকেয়া",
+  "importHistory": "ইম্পোর্টের ইতিহাস",
+  "importUndo": "ইম্পোর্ট বাতিল",
+  "importUndone": "বাতিল হয়েছে",
+  "importUndoResult": "{removed}টি সরানো হয়েছে, {kept}টি রাখা হয়েছে (ব্যবহৃত)",
+  "@importUndoResult": {
+    "placeholders": {
+      "removed": {
+        "type": "int"
+      },
+      "kept": {
+        "type": "int"
+      }
+    }
+  },
+  "importSavedMapping": "এই ফাইলের জন্য সংরক্ষিত কলাম ম্যাপিং ব্যবহার হচ্ছে।",
+  "importBatchCount": "{n}টি সারি",
+  "@importBatchCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importOpeningHint": "কলাম: courier, amount, consignment_no, delivered_date। প্রতিটি সারি একটি ডেলিভারি হওয়া, অপরিশোধিত পার্সেল হবে যাতে পেআউট মেলানো যায়।",
+  "importUndoConfirm": "এই ইম্পোর্টে তৈরি সবকিছু সরাবেন?",
+  "importNone": "এখনো কোনো ইম্পোর্ট নেই।",
+  "driveTitle": "গুগল ড্রাইভ ব্যাকআপ",
+  "driveSubtitle": "ব্যক্তিগত অ্যাপ ফোল্ডারে এনক্রিপ্টেড কপি। শুধু এই অ্যাপ দেখতে পারে।",
+  "driveEnable": "চালু করুন",
+  "driveDisable": "বন্ধ করুন",
+  "driveBackupNow": "এখনই ড্রাইভে ব্যাকআপ",
+  "driveRestore": "ড্রাইভ থেকে রিস্টোর",
+  "drivePassphraseHelp": "আপলোডের আগে এই পাসফ্রেজ দিয়ে ব্যাকআপ এনক্রিপ্ট হয়। এটি নিরাপদে রাখুন: পুনরুদ্ধার করা যায় না।",
+  "driveLastSuccess": "সর্বশেষ ড্রাইভ ব্যাকআপ",
+  "driveNoBackups": "ড্রাইভে কোনো ব্যাকআপ পাওয়া যায়নি।",
+  "driveUploaded": "ড্রাইভে ব্যাকআপ হয়েছে",
+  "driveErrNotSignedIn": "গুগলে সাইন-ইন নেই। এই স্ক্রিনে এসে ড্রাইভ ব্যাকআপ আবার চালু করুন।",
+  "driveErrPassphrase": "এনক্রিপশন পাসফ্রেজ নেই।",
+  "driveErrNetwork": "সংযোগ নেই। Wi-Fi-তে আবার চেষ্টা করুন।",
+  "driveErrOther": "ড্রাইভ ব্যাকআপ ব্যর্থ হয়েছে।",
+  "driveSchedule": "সাপ্তাহিক, Wi-Fi ও চার্জে থাকলে"
 }

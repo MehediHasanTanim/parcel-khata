@@ -35,6 +35,9 @@ class ShopSettings {
     this.riskReturnRatePercent = 40,
     this.riskMinOrders = 3,
     this.riskRefusalRecencyDays = 90,
+    this.driveEnabled = false,
+    this.driveLastSuccessMs,
+    this.driveLastError,
   });
 
   static const defaultDigestKinds = [
@@ -100,6 +103,12 @@ class ShopSettings {
   final int riskMinOrders;
   final int riskRefusalRecencyDays;
 
+  /// Optional Google Drive (appdata) backup; the passphrase lives in the
+  /// secure store, never in settings.
+  final bool driveEnabled;
+  final int? driveLastSuccessMs;
+  final String? driveLastError;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -133,6 +142,11 @@ class ShopSettings {
     int? riskReturnRatePercent,
     int? riskMinOrders,
     int? riskRefusalRecencyDays,
+    bool? driveEnabled,
+    int? driveLastSuccessMs,
+    String? driveLastError,
+    bool clearDriveError = false,
+    bool clearLastBackup = false,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -153,7 +167,7 @@ class ShopSettings {
         languageCode: languageCode ?? this.languageCode,
         returnInTransitDays: returnInTransitDays ?? this.returnInTransitDays,
         hideProfitInLists: hideProfitInLists ?? this.hideProfitInLists,
-        lastBackupAtMs: lastBackupAtMs ?? this.lastBackupAtMs,
+        lastBackupAtMs: clearLastBackup ? null : (lastBackupAtMs ?? this.lastBackupAtMs),
         backupReminderDays: backupReminderDays ?? this.backupReminderDays,
         digestEnabled: digestEnabled ?? this.digestEnabled,
         digestMinute: digestMinute ?? this.digestMinute,
@@ -170,6 +184,9 @@ class ShopSettings {
         riskReturnRatePercent: riskReturnRatePercent ?? this.riskReturnRatePercent,
         riskMinOrders: riskMinOrders ?? this.riskMinOrders,
         riskRefusalRecencyDays: riskRefusalRecencyDays ?? this.riskRefusalRecencyDays,
+        driveEnabled: driveEnabled ?? this.driveEnabled,
+        driveLastSuccessMs: driveLastSuccessMs ?? this.driveLastSuccessMs,
+        driveLastError: clearDriveError ? null : (driveLastError ?? this.driveLastError),
       );
 
   Map<String, Object?> toJson() => {
@@ -205,6 +222,9 @@ class ShopSettings {
         'riskReturnRatePercent': riskReturnRatePercent,
         'riskMinOrders': riskMinOrders,
         'riskRefusalRecencyDays': riskRefusalRecencyDays,
+        'driveEnabled': driveEnabled,
+        'driveLastSuccessMs': driveLastSuccessMs,
+        'driveLastError': driveLastError,
       };
 
   String encode() => jsonEncode(toJson());
@@ -257,6 +277,9 @@ class ShopSettings {
         riskMinOrders: j['riskMinOrders'] as int? ?? d.riskMinOrders,
         riskRefusalRecencyDays:
             j['riskRefusalRecencyDays'] as int? ?? d.riskRefusalRecencyDays,
+        driveEnabled: j['driveEnabled'] as bool? ?? d.driveEnabled,
+        driveLastSuccessMs: j['driveLastSuccessMs'] as int?,
+        driveLastError: j['driveLastError'] as String?,
       );
     } on FormatException {
       return const ShopSettings();

@@ -18,6 +18,7 @@ import 'package:parcel_khata/features/reports/presentation/format.dart';
 import 'package:parcel_khata/features/search/presentation/order_filter_sheet.dart';
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:parcel_khata/shared/cn_scanner.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
 
@@ -461,15 +462,26 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               prefixIcon: const Icon(Icons.search),
               hintText: l.searchOrders,
               isDense: true,
-              suffixIcon: _searchCtl.text.isEmpty
-                  ? null
-                  : IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _searchCtl.clear();
-                        _setFilter(_filter.copyWith(query: ''));
-                      },
-                    ),
+              suffixIcon: Row(mainAxisSize: MainAxisSize.min, children: [
+                IconButton(
+                  tooltip: l.scanCn,
+                  icon: const Icon(Icons.qr_code_scanner),
+                  onPressed: () async {
+                    final cn = await scanCn(context, ref);
+                    if (cn == null || !mounted) return;
+                    _searchCtl.text = cn;
+                    await _submitSearch(cn);
+                  },
+                ),
+                if (_searchCtl.text.isNotEmpty)
+                  IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _searchCtl.clear();
+                      _setFilter(_filter.copyWith(query: ''));
+                    },
+                  ),
+              ]),
             ),
             onChanged: (v) {
               _debounce?.cancel();

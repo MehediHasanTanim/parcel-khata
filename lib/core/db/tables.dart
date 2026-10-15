@@ -34,6 +34,8 @@ class Customers extends Table with BaseColumns {
   TextColumn get riskNote => text().nullable()();
   BoolColumn get isBlocklisted => boolean().withDefault(const Constant(false))();
   TextColumn get blocklistReason => text().nullable()();
+  // Set when created by an import (undo import soft-deletes by batch).
+  TextColumn get importBatchId => text().nullable()();
 }
 
 @DataClassName('CustomerAddress')
@@ -55,6 +57,7 @@ class Products extends Table with BaseColumns {
   IntColumn get stockQty => integer().nullable()();
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();
   TextColumn get photoPath => text().nullable()();
+  TextColumn get importBatchId => text().nullable()();
 }
 
 class ProductVariants extends Table with BaseColumns {
@@ -145,6 +148,7 @@ class Orders extends Table with BaseColumns {
   TextColumn get disputeNote => text().nullable()();
   // Set on a replacement order: the delivered order it exchanges (S11).
   TextColumn get exchangeOfOrderId => text().nullable()();
+  TextColumn get importBatchId => text().nullable()();
 }
 
 class OrderLines extends Table with BaseColumns {
@@ -301,4 +305,23 @@ class Expenses extends Table with BaseColumns {
 class OrderTagLinks extends Table with BaseColumns {
   TextColumn get orderId => text().references(Orders, #id)();
   TextColumn get tag => text()();
+}
+
+/// One import run (customers / orders / products / opening balance).
+@DataClassName('ImportBatch')
+class ImportBatches extends Table with BaseColumns {
+  TextColumn get kind => text()();
+  TextColumn get fileName => text().withDefault(const Constant(''))();
+  IntColumn get createdCount => integer().withDefault(const Constant(0))();
+  // applied | undone
+  TextColumn get status => text().withDefault(const Constant('applied'))();
+  DateTimeColumn get undoneAt => dateTime().nullable()();
+}
+
+/// Column mapping remembered per file signature (hash of the header row).
+@DataClassName('ColumnMapping')
+class ColumnMappings extends Table with BaseColumns {
+  TextColumn get signature => text()();
+  TextColumn get kind => text()();
+  TextColumn get mappingJson => text()();
 }

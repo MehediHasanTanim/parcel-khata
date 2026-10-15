@@ -2200,4 +2200,113 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exchangeExists => 'This order already has a return or exchange.';
+
+  @override
+  String get scanCn => 'Scan barcode';
+
+  @override
+  String get scanTitle => 'Scan consignment barcode';
+
+  @override
+  String get scanTorch => 'Torch';
+
+  @override
+  String get scanHint => 'Point the camera at the parcel barcode or QR code.';
+
+  @override
+  String get scanPermissionDenied =>
+      'Camera not available. Type the number instead.';
+
+  @override
+  String get scanManualField => 'Consignment number';
+
+  @override
+  String get scanUse => 'Use';
+
+  @override
+  String get importProducts => 'Products';
+
+  @override
+  String get importOpeningBalance => 'Opening balance';
+
+  @override
+  String get importHistory => 'Import history';
+
+  @override
+  String get importUndo => 'Undo import';
+
+  @override
+  String get importUndone => 'Undone';
+
+  @override
+  String importUndoResult(int removed, int kept) {
+    return '$removed removed, $kept kept (already used)';
+  }
+
+  @override
+  String get importSavedMapping =>
+      'Using the column mapping you saved for this file layout.';
+
+  @override
+  String importBatchCount(int n) {
+    return '$n rows';
+  }
+
+  @override
+  String get importOpeningHint =>
+      'Columns: courier, amount, consignment_no, delivered_date. Each row becomes a delivered, unpaid parcel so payouts can be matched.';
+
+  @override
+  String get importUndoConfirm => 'Remove everything this import created?';
+
+  @override
+  String get importNone => 'No imports yet.';
+
+  @override
+  String get driveTitle => 'Google Drive backup';
+
+  @override
+  String get driveSubtitle =>
+      'Encrypted copy in a private app folder. Only this app can see it.';
+
+  @override
+  String get driveEnable => 'Turn on';
+
+  @override
+  String get driveDisable => 'Turn off';
+
+  @override
+  String get driveBackupNow => 'Back up to Drive now';
+
+  @override
+  String get driveRestore => 'Restore from Drive';
+
+  @override
+  String get drivePassphraseHelp =>
+      'The backup is encrypted with this passphrase before upload. Keep it safe: it cannot be recovered.';
+
+  @override
+  String get driveLastSuccess => 'Last Drive backup';
+
+  @override
+  String get driveNoBackups => 'No backups found in Drive.';
+
+  @override
+  String get driveUploaded => 'Backed up to Drive';
+
+  @override
+  String get driveErrNotSignedIn =>
+      'Not signed in to Google. Open this screen and turn Drive backup on again.';
+
+  @override
+  String get driveErrPassphrase => 'Encryption passphrase is missing.';
+
+  @override
+  String get driveErrNetwork => 'No connection. Try again on Wi-Fi.';
+
+  @override
+  String get driveErrOther => 'Drive backup failed.';
+
+  @override
+  String get driveSchedule => 'Weekly, on Wi-Fi while charging';
 }

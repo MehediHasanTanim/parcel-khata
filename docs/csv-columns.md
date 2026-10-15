@@ -24,8 +24,18 @@ Column names below are a stable contract; add columns only at the end and never 
 
 For simple imports the first item may be given on the order row with `item_name, qty, unit_price, unit_cost` columns instead.
 
-## products.csv (export only)
+## products.csv (export and import)
 `name, sku, sell_price, cost_price, stock, active`
+- `name` and a non-negative `sell_price` are required. Existing products are skipped (matched by
+  SKU, or by name when there is no SKU).
+- `active` accepts yes/no/true/false/1/0 (default active).
+
+## opening_balance.csv (import only)
+`courier, amount, consignment_no, delivered_date, reference`
+- Loads COD a courier already owes you. Each row becomes a delivered, unpaid parcel (profit-neutral:
+  cost = price, dated in the past) held by a hidden "Opening balance" customer, so the next payout
+  reconciles against it. Courier names must match an existing courier.
+- A missing `consignment_no` gets a generated `OB-…` number.
 
 ## payouts.csv / payout_allocations.csv / returns.csv (export only)
 - payouts: `payout_id, courier, paid_at, method, reference, total_received, status`
@@ -36,3 +46,9 @@ For simple imports the first item may be given on the order row with `item_name,
 - **All or nothing** (default): nothing is written if any row is invalid.
 - **Skip bad rows**: valid rows are imported; problems are listed per row.
 - Customers are de-duplicated by normalized phone.
+- `.xlsx` files (first sheet) are accepted and converted to the same rows; Excel date serials are
+  understood.
+- Column mappings are remembered per file layout (hash of the header row).
+- Every import is a batch. Settings > Data > Import shows the history with **Undo import**, which
+  soft-deletes what the batch created. Orders that already have a payout applied, and customers that
+  later gained other orders, are kept.

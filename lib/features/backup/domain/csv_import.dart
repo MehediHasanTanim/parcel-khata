@@ -1,4 +1,6 @@
+import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
+import 'dart:convert';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/customers/domain/phone_normalizer.dart';
 
@@ -45,6 +47,15 @@ abstract final class CsvColumns {
 
   static const products = ['name', 'sku', 'sell_price', 'cost_price', 'stock', 'active'];
 
+  /// Existing COD owed by a courier, loaded as delivered-and-unpaid parcels.
+  static const openingBalance = [
+    'courier',
+    'amount',
+    'consignment_no',
+    'delivered_date',
+    'reference',
+  ];
+
   /// Export-only tables.
   static const payouts = [
     'payout_id',
@@ -85,7 +96,24 @@ const Map<String, List<String>> kHeaderSynonyms = {
   'consignment_no': ['consignment_no', 'cn', 'consignment', 'tracking', 'tracking no'],
   'delivery_charge': ['delivery_charge', 'delivery', 'shipping'],
   'cod_amount': ['cod_amount', 'cod', 'cod amount'],
+  'sell_price': ['sell_price', 'price', 'selling price', 'sell price', 'mrp'],
+  'cost_price': ['cost_price', 'cost', 'buying price', 'cost price'],
+  'sku': ['sku', 'code', 'item code'],
+  'stock': ['stock', 'qty', 'quantity', 'in stock'],
+  'active': ['active', 'enabled'],
+  'courier': ['courier', 'courier name', 'carrier'],
+  'amount': ['amount', 'balance', 'cod owed', 'owed', 'cod amount', 'due'],
+  'delivered_date': ['delivered_date', 'delivered on', 'delivery date', 'date'],
+  'reference': ['reference', 'ref', 'note'],
 };
+
+/// Stable fingerprint of a file's header row, used to remember mappings.
+abstract final class ImportSignature {
+  static String of(List<String> headers) {
+    final norm = headers.map(_norm).join('|');
+    return sha1.convert(utf8.encode(norm)).toString().substring(0, 16);
+  }
+}
 
 String _norm(String s) => s.trim().toLowerCase().replaceAll(RegExp(r'[\s_-]+'), ' ');
 
@@ -209,6 +237,63 @@ class OrderImportPlan {
   final List<ImportRowIssue> issues;
 }
 
+@immutable
+class ProductImportRow {
+  const ProductImportRow({
+    required this.row,
+    required this.name,
+    required this.sellPrice,
+    this.sku,
+    this.costPrice,
+    this.stock,
+    this.active = true,
+  });
+
+  final int row;
+  final String name;
+  final String? sku;
+  final Money sellPrice;
+  final Money? costPrice;
+  final int? stock;
+  final bool active;
+}
+
+@immutable
+class ProductImportPlan {
+  const ProductImportPlan(this.rows, this.issues, this.duplicatesInFile);
+  final List<ProductImportRow> rows;
+  final List<ImportRowIssue> issues;
+  final List<int> duplicatesInFile;
+}
+
+@immutable
+class OpeningBalanceRow {
+  const OpeningBalanceRow({
+    required this.row,
+    required this.courier,
+    required this.amount,
+    this.consignmentNo,
+    this.deliveredAt,
+    this.reference,
+  });
+
+  final int row;
+  final String courier;
+  final Money amount;
+  final String? consignmentNo;
+  final DateTime? deliveredAt;
+  final String? reference;
+}
+
+@immutable
+class OpeningBalancePlan {
+  const OpeningBalancePlan(this.rows, this.issues);
+  final List<OpeningBalanceRow> rows;
+  final List<ImportRowIssue> issues;
+
+  Money get total => rows.fold(Money.zero, (s, r) => s + r.amount);
+}
+
 abstract final class CsvImportPlanner {
   static String _cell(List<String> row, Map<String, int> map, String field) {
     final i = map[field];
@@ -256,9 +341,111 @@ abstract final class CsvImportPlanner {
     return CustomerImportPlan(rows, issues, dups);
   }
 
+  static bool? _bool(String s) {
+    switch (s.trim().toLowerCase()) {
+      case 'true' || 'yes' || 'y' || '1' || 'active' || 'হ্যাঁ':
+        return true;
+      case 'false' || 'no' || 'n' || '0' || 'inactive' || 'না':
+        return false;
+    }
+    return null;
+  }
+
+  /// Products: name + valid non-negative sell price required; a repeated
+  /// SKU (or name when no SKU) inside the file is reported once.
+  static ProductImportPlan products(List<List<String>> data, Map<String, int> map) {
+    final rows = <ProductImportRow>[];
+    final issues = <ImportRowIssue>[];
+    final dups = <int>[];
+    final seen = <String>{};
+    for (var i = 0; i < data.length; i++) {
+      final n = i + 1;
+      final r = data[i];
+      final name = _cell(r, map, 'name');
+      final sell = Money.tryParse(_cell(r, map, 'sell_price'));
+      final costRaw = _cell(r, map, 'cost_price');
+      final cost = Money.tryParse(costRaw);
+      final stockRaw = _cell(r, map, 'stock');
+      final stock = int.tryParse(stockRaw);
+      if (name.isEmpty) {
+        issues.add(ImportRowIssue(n, 'name_required'));
+        continue;
+      }
+      if (sell == null || sell.isNegative) {
+        issues.add(ImportRowIssue(n, 'invalid_price'));
+        continue;
+      }
+      if (costRaw.isNotEmpty && (cost == null || cost.isNegative)) {
+        issues.add(ImportRowIssue(n, 'invalid_cost'));
+        continue;
+      }
+      if (stockRaw.isNotEmpty && (stock == null || stock < 0)) {
+        issues.add(ImportRowIssue(n, 'invalid_stock'));
+        continue;
+      }
+      final sku = _opt(_cell(r, map, 'sku'));
+      final key = (sku ?? name).toLowerCase();
+      if (!seen.add(key)) {
+        dups.add(n);
+        continue;
+      }
+      rows.add(ProductImportRow(
+        row: n,
+        name: name,
+        sku: sku,
+        sellPrice: sell,
+        costPrice: cost,
+        stock: stock,
+        active: _bool(_cell(r, map, 'active')) ?? true,
+      ));
+    }
+    return ProductImportPlan(rows, issues, dups);
+  }
+
+  /// Opening balances: courier + positive amount required.
+  static OpeningBalancePlan openingBalances(
+      List<List<String>> data, Map<String, int> map) {
+    final rows = <OpeningBalanceRow>[];
+    final issues = <ImportRowIssue>[];
+    for (var i = 0; i < data.length; i++) {
+      final n = i + 1;
+      final r = data[i];
+      final courier = _cell(r, map, 'courier');
+      final amount = Money.tryParse(_cell(r, map, 'amount'));
+      final dateRaw = _cell(r, map, 'delivered_date');
+      final date = parseDate(dateRaw);
+      if (courier.isEmpty) {
+        issues.add(ImportRowIssue(n, 'courier_required'));
+        continue;
+      }
+      if (amount == null || amount.poisha <= 0) {
+        issues.add(ImportRowIssue(n, 'invalid_amount'));
+        continue;
+      }
+      if (dateRaw.isNotEmpty && date == null) {
+        issues.add(ImportRowIssue(n, 'invalid_date'));
+        continue;
+      }
+      rows.add(OpeningBalanceRow(
+        row: n,
+        courier: courier,
+        amount: amount,
+        consignmentNo: _opt(_cell(r, map, 'consignment_no')),
+        deliveredAt: date,
+        reference: _opt(_cell(r, map, 'reference')),
+      ));
+    }
+    return OpeningBalancePlan(rows, issues);
+  }
+
   static DateTime? parseDate(String s) {
     final t = s.trim();
     if (t.isEmpty) return null;
+    // Excel serial dates (e.g. 45678) as exported from .xlsx cells.
+    final serial = int.tryParse(t);
+    if (serial != null && serial >= 20000 && serial <= 80000) {
+      return DateTime(1899, 12, 30).add(Duration(days: serial));
+    }
     final iso = DateTime.tryParse(t);
     if (iso != null) return iso;
     final m = RegExp(r'^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{4})$').firstMatch(t);

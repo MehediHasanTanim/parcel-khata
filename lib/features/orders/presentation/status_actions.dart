@@ -15,6 +15,7 @@ import 'package:parcel_khata/features/orders/domain/order_status_machine.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:parcel_khata/shared/cn_scanner.dart';
 
 String transitionErrorText(AppLocalizations l, TransitionError e) => switch (e) {
       TransitionError.notAllowed => l.errNotAllowed,
@@ -315,6 +316,18 @@ class _CourierSheetState extends ConsumerState<_CourierSheet> {
               decoration: InputDecoration(
                 labelText: l.consignmentNo,
                 suffixIcon: Row(mainAxisSize: MainAxisSize.min, children: [
+                  IconButton(
+                    tooltip: l.scanCn,
+                    icon: const Icon(Icons.qr_code_scanner),
+                    onPressed: () async {
+                      final pattern = (ref.read(couriersProvider).value ?? const <Courier>[])
+                          .where((c) => c.id == _courierId)
+                          .map((c) => c.cnRegex)
+                          .firstOrNull;
+                      final cn = await scanCn(context, ref, courierPattern: pattern);
+                      if (cn != null && mounted) setState(() => _cn.text = cn);
+                    },
+                  ),
                   IconButton(
                     tooltip: l.paste,
                     icon: const Icon(Icons.content_paste),

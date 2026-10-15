@@ -1,14 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/features/backup/domain/csv.dart';
+import 'package:parcel_khata/core/db/app_database.dart';
 import 'package:parcel_khata/features/backup/domain/csv_import.dart';
+import 'package:parcel_khata/features/backup/domain/xlsx_reader.dart';
 import 'package:parcel_khata/features/export/application/csv_import_service.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 
-enum _Kind { customers, orders }
+enum _Kind { customers, orders, products, openingBalance }
+
+final _batchesProvider = StreamProvider.autoDispose<List<ImportBatch>>(
+    (ref) => ref.watch(csvImportServiceProvider).watchBatches());
 
 /// CSV import: pick file -> match columns -> validation preview -> import.
 class ImportScreen extends ConsumerStatefulWidget {
@@ -25,6 +31,16 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
   bool _skipBad = false;
   ImportReport? _report;
   bool _busy = false;
+  String _fileName = '';
+  String _signature = '';
+  bool _usedSaved = false;
+
+  String get _kindKey => switch (_kind) {
+        _Kind.customers => 'customers',
+        _Kind.orders => 'orders',
+        _Kind.products => 'products',
+        _Kind.openingBalance => 'opening_balance',
+      };
 
   List<String> get _headers => _rows.isEmpty ? const [] : _rows.first;
   List<List<String>> get _data => _rows.length < 2 ? const [] : _rows.sublist(1);
@@ -38,32 +54,70 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
             'unit_price',
             'unit_cost',
           ],
+        _Kind.products => CsvColumns.products,
+        _Kind.openingBalance => CsvColumns.openingBalance,
       };
 
   Future<void> _pick() async {
     final r = await FilePicker.pickFiles();
     if (r.isEmpty || r.first.path == null) return;
-    final text = await File(r.first.path!).readAsString();
-    final rows = Csv.parse(text);
+    final path = r.first.path!;
+    final List<List<String>> rows;
+    if (path.toLowerCase().endsWith('.xlsx')) {
+      rows = XlsxReader.read(await File(path).readAsBytes());
+    } else {
+      rows = Csv.parse(utf8.decode(await File(path).readAsBytes(), allowMalformed: true));
+    }
+    final sig = rows.isEmpty ? '' : ImportSignature.of(rows.first);
+    final saved = rows.isEmpty
+        ? null
+        : await ref.read(csvImportServiceProvider).loadMapping(sig, _kindKey);
+    if (!mounted) return;
     setState(() {
       _rows = rows;
       _report = null;
-      _map = rows.isEmpty ? {} : autoMapColumns(rows.first, _targets);
+      _fileName = path.split(Platform.pathSeparator).last;
+      _signature = sig;
+      _usedSaved = saved != null;
+      _map = rows.isEmpty ? {} : (saved ?? autoMapColumns(rows.first, _targets));
     });
   }
 
   CustomerImportPlan get _customerPlan => CsvImportPlanner.customers(_data, _map);
   OrderImportPlan get _orderPlan => CsvImportPlanner.orders(_data, _map);
 
-  int get _valid => _kind == _Kind.customers ? _customerPlan.rows.length : _orderPlan.rows.length;
-  int get _bad => _kind == _Kind.customers ? _customerPlan.issues.length : _orderPlan.issues.length;
+  ProductImportPlan get _productPlan => CsvImportPlanner.products(_data, _map);
+  OpeningBalancePlan get _balancePlan => CsvImportPlanner.openingBalances(_data, _map);
+
+  int get _valid => switch (_kind) {
+        _Kind.customers => _customerPlan.rows.length,
+        _Kind.orders => _orderPlan.rows.length,
+        _Kind.products => _productPlan.rows.length,
+        _Kind.openingBalance => _balancePlan.rows.length,
+      };
+  int get _bad => switch (_kind) {
+        _Kind.customers => _customerPlan.issues.length,
+        _Kind.orders => _orderPlan.issues.length,
+        _Kind.products => _productPlan.issues.length,
+        _Kind.openingBalance => _balancePlan.issues.length,
+      };
 
   Future<void> _run() async {
     setState(() => _busy = true);
     final svc = ref.read(csvImportServiceProvider);
-    final r = _kind == _Kind.customers
-        ? await svc.importCustomers(_customerPlan, skipBadRows: _skipBad)
-        : await svc.importOrders(_orderPlan, skipBadRows: _skipBad);
+    final r = switch (_kind) {
+      _Kind.customers => await svc.importCustomers(_customerPlan,
+          skipBadRows: _skipBad, fileName: _fileName),
+      _Kind.orders =>
+        await svc.importOrders(_orderPlan, skipBadRows: _skipBad, fileName: _fileName),
+      _Kind.products => await svc.importProducts(_productPlan,
+          skipBadRows: _skipBad, fileName: _fileName),
+      _Kind.openingBalance => await svc.importOpeningBalances(_balancePlan,
+          skipBadRows: _skipBad, fileName: _fileName),
+    };
+    if (r.applied && _signature.isNotEmpty) {
+      await svc.saveMapping(_signature, _kindKey, _map);
+    }
     if (mounted) {
       setState(() {
         _report = r;
@@ -78,19 +132,29 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l.importCsv)),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        SegmentedButton<_Kind>(
-          segments: [
-            ButtonSegment(value: _Kind.customers, label: Text(l.importCustomers)),
-            ButtonSegment(value: _Kind.orders, label: Text(l.importOrders)),
-          ],
-          selected: {_kind},
-          onSelectionChanged: (s) => setState(() {
-            _kind = s.first;
-            _rows = const [];
-            _map = {};
-            _report = null;
-          }),
-        ),
+        Wrap(spacing: 8, children: [
+          for (final k in _Kind.values)
+            ChoiceChip(
+              label: Text(switch (k) {
+                _Kind.customers => l.importCustomers,
+                _Kind.orders => l.importOrders,
+                _Kind.products => l.importProducts,
+                _Kind.openingBalance => l.importOpeningBalance,
+              }),
+              selected: _kind == k,
+              onSelected: (_) => setState(() {
+                _kind = k;
+                _rows = const [];
+                _map = {};
+                _report = null;
+              }),
+            ),
+        ]),
+        if (_kind == _Kind.openingBalance)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(l.importOpeningHint, style: Theme.of(context).textTheme.bodySmall),
+          ),
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: _pick,
@@ -100,6 +164,7 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
         if (_rows.isNotEmpty) ...[
           const SizedBox(height: 16),
           Text(l.mapColumns, style: Theme.of(context).textTheme.titleSmall),
+          if (_usedSaved) Text(l.importSavedMapping, style: Theme.of(context).textTheme.bodySmall),
           for (final t in _targets)
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -144,7 +209,60 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
           if (_report!.skippedExisting > 0) Text(l.importDuplicates(_report!.skippedExisting)),
           for (final i in _report!.issues.take(20)) Text('#${i.row}: ${i.message}'),
         ],
+        const Divider(height: 32),
+        Text(l.importHistory, style: Theme.of(context).textTheme.titleMedium),
+        _History(onChanged: () => setState(() {})),
       ]),
     );
+  }
+}
+
+class _History extends ConsumerWidget {
+  const _History({required this.onChanged});
+
+  final VoidCallback onChanged;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final batches = ref.watch(_batchesProvider).value ?? const <ImportBatch>[];
+    if (batches.isEmpty) return Padding(padding: const EdgeInsets.all(8), child: Text(l.importNone));
+    return Column(children: [
+      for (final b in batches)
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(b.fileName.isEmpty ? b.kind : b.fileName),
+          subtitle: Text('${b.kind} · ${l.importBatchCount(b.createdCount)} · '
+              '${b.createdAt.toLocal().toString().substring(0, 16)}'),
+          trailing: b.status == 'undone'
+              ? Text(l.importUndone)
+              : TextButton(
+                  onPressed: () async {
+                    final ok = await showDialog<bool>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        content: Text(l.importUndoConfirm),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(ctx, false),
+                              child: Text(l.cancel)),
+                          FilledButton(
+                              onPressed: () => Navigator.pop(ctx, true),
+                              child: Text(l.importUndo)),
+                        ],
+                      ),
+                    );
+                    if (ok != true) return;
+                    final r = await ref.read(csvImportServiceProvider).undo(b.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(l.importUndoResult(r.removed, r.kept))));
+                    }
+                    onChanged();
+                  },
+                  child: Text(l.importUndo),
+                ),
+        ),
+    ]);
   }
 }

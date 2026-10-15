@@ -4321,6 +4321,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This order already has a return or exchange.'**
   String get exchangeExists;
+
+  /// No description provided for @scanCn.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan barcode'**
+  String get scanCn;
+
+  /// No description provided for @scanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan consignment barcode'**
+  String get scanTitle;
+
+  /// No description provided for @scanTorch.
+  ///
+  /// In en, this message translates to:
+  /// **'Torch'**
+  String get scanTorch;
+
+  /// No description provided for @scanHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the parcel barcode or QR code.'**
+  String get scanHint;
+
+  /// No description provided for @scanPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera not available. Type the number instead.'**
+  String get scanPermissionDenied;
+
+  /// No description provided for @scanManualField.
+  ///
+  /// In en, this message translates to:
+  /// **'Consignment number'**
+  String get scanManualField;
+
+  /// No description provided for @scanUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get scanUse;
+
+  /// No description provided for @importProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get importProducts;
+
+  /// No description provided for @importOpeningBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get importOpeningBalance;
+
+  /// No description provided for @importHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Import history'**
+  String get importHistory;
+
+  /// No description provided for @importUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo import'**
+  String get importUndo;
+
+  /// No description provided for @importUndone.
+  ///
+  /// In en, this message translates to:
+  /// **'Undone'**
+  String get importUndone;
+
+  /// No description provided for @importUndoResult.
+  ///
+  /// In en, this message translates to:
+  /// **'{removed} removed, {kept} kept (already used)'**
+  String importUndoResult(int removed, int kept);
+
+  /// No description provided for @importSavedMapping.
+  ///
+  /// In en, this message translates to:
+  /// **'Using the column mapping you saved for this file layout.'**
+  String get importSavedMapping;
+
+  /// No description provided for @importBatchCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} rows'**
+  String importBatchCount(int n);
+
+  /// No description provided for @importOpeningHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns: courier, amount, consignment_no, delivered_date. Each row becomes a delivered, unpaid parcel so payouts can be matched.'**
+  String get importOpeningHint;
+
+  /// No description provided for @importUndoConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove everything this import created?'**
+  String get importUndoConfirm;
+
+  /// No description provided for @importNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No imports yet.'**
+  String get importNone;
+
+  /// No description provided for @driveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Drive backup'**
+  String get driveTitle;
+
+  /// No description provided for @driveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted copy in a private app folder. Only this app can see it.'**
+  String get driveSubtitle;
+
+  /// No description provided for @driveEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get driveEnable;
+
+  /// No description provided for @driveDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get driveDisable;
+
+  /// No description provided for @driveBackupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up to Drive now'**
+  String get driveBackupNow;
+
+  /// No description provided for @driveRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Drive'**
+  String get driveRestore;
+
+  /// No description provided for @drivePassphraseHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup is encrypted with this passphrase before upload. Keep it safe: it cannot be recovered.'**
+  String get drivePassphraseHelp;
+
+  /// No description provided for @driveLastSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Drive backup'**
+  String get driveLastSuccess;
+
+  /// No description provided for @driveNoBackups.
+  ///
+  /// In en, this message translates to:
+  /// **'No backups found in Drive.'**
+  String get driveNoBackups;
+
+  /// No description provided for @driveUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up to Drive'**
+  String get driveUploaded;
+
+  /// No description provided for @driveErrNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Not signed in to Google. Open this screen and turn Drive backup on again.'**
+  String get driveErrNotSignedIn;
+
+  /// No description provided for @driveErrPassphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption passphrase is missing.'**
+  String get driveErrPassphrase;
+
+  /// No description provided for @driveErrNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Try again on Wi-Fi.'**
+  String get driveErrNetwork;
+
+  /// No description provided for @driveErrOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Drive backup failed.'**
+  String get driveErrOther;
+
+  /// No description provided for @driveSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly, on Wi-Fi while charging'**
+  String get driveSchedule;
 }
 
 class _AppLocalizationsDelegate

@@ -16,6 +16,7 @@ import 'package:parcel_khata/features/couriers/application/courier_repository.da
 import 'package:parcel_khata/features/customers/application/customer_repository.dart';
 import 'package:parcel_khata/features/export/application/csv_exporter.dart';
 import 'package:parcel_khata/features/export/application/csv_import_service.dart';
+import 'package:parcel_khata/features/products/application/product_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/orders/domain/cod_amount_calculator.dart';
@@ -61,6 +62,9 @@ class _Env {
   late final CourierRepository couriers;
   late final OrderRepository orders;
   late final OrderStatusService status;
+
+  CsvImportService csv() => CsvImportService(db, customers, orders, status, couriers,
+      ProductRepository(db, ids, clock, audit, 's'), ids, clock, 's');
 
   static Future<_Env> create(AppDatabase db, FakeClock clock) async {
     final ids = UuidV7(clock: clock);
@@ -110,7 +114,7 @@ void main() {
 
     final b = AppDatabase.memory();
     final eb = await _Env.create(b, clock);
-    final svc = CsvImportService(b, eb.customers, eb.orders, eb.status, eb.couriers);
+    final svc = eb.csv();
 
     final cRows = Csv.parse(customersCsv);
     final cPlan = CsvImportPlanner.customers(
@@ -143,7 +147,7 @@ void main() {
   test('all-or-nothing import writes nothing when a row is bad', () async {
     final db = AppDatabase.memory();
     final e = await _Env.create(db, clock);
-    final svc = CsvImportService(db, e.customers, e.orders, e.status, e.couriers);
+    final svc = e.csv();
     final plan = CsvImportPlanner.customers([
       ['Good', '01712345678'],
       ['Bad', 'nope'],
