@@ -13,6 +13,13 @@ Mirror of `data-safety.md` (Play). Keep both and `privacy-policy.md` in sync.
 | Camera | On-device barcode scan only; images are not stored or sent |
 | Face ID | Local authentication only; the app receives only success/failure |
 
+## Ads (free version, AdMob, non-personalised, no ATT prompt)
+Declare: Identifiers > Device ID; Usage Data > Product Interaction and Advertising Data; Diagnostics >
+Performance Data. Purpose: Third-Party Advertising. Not linked to the user's identity; **not used for
+tracking** while ads are non-personalised. If personalised ads are ever enabled, add the ATT prompt
+(`NSUserTrackingUsageDescription`), set `NSPrivacyTracking` true with Google's tracking domains, and
+update this label first.
+
 ## When optional features ship
 
 | Feature | Label impact |

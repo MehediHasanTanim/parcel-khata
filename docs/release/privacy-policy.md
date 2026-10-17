@@ -31,6 +31,13 @@ import or back up. No contacts, location or microphone permission is requested.
 WhatsApp message), entirely on your device to pre-fill an order form. The text is not sent anywhere
 and nothing is saved until you confirm the order.
 
+## Advertising (free version)
+The free version shows small banner ads from Google AdMob. Google's SDK may collect device and usage
+information (advertising ID, IP address, device type, ad interactions). We request non-personalised
+ads and never pass orders, customers, amounts or notes to the ad service. Ads are not shown on screens
+with customer details, money, backups or security settings. Consent is requested where required and
+can be changed in More > Privacy and ad choices. Hosted copy: `site/privacy.md`.
+
 ## Optional Google Drive backup
 If you turn it on, an encrypted copy of your backup (encrypted on your phone with your passphrase
 before upload) is stored in a hidden app folder of your own Google Drive using the `drive.appdata`
