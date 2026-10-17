@@ -25,7 +25,17 @@ jobs:
           keyAlias=${{ secrets.UPLOAD_KEY_ALIAS }}
           keyPassword=${{ secrets.UPLOAD_KEY_PASSWORD }}
           EOP
-      - run: flutter build appbundle --release --build-number ${{ github.run_number }}
+      # AdMob ids are public identifiers (they ship inside the app), so they
+      # live here, not in secrets. Test ids remain the default for every
+      # other build. See docs/release/ads.md.
+      - run: >
+          flutter build appbundle --release
+          --build-number ${{ github.run_number }}
+          --dart-define=ADS=1
+          --dart-define=ADMOB_BANNER_ANDROID=ca-app-pub-3379896207398236/5100042108
+          --dart-define=ADMOB_BANNER_IOS=ca-app-pub-3379896207398236/2473878760
+        env:
+          ORG_GRADLE_PROJECT_ADMOB_APP_ID: ca-app-pub-3379896207398236~5904576050
       - uses: actions/upload-artifact@v4
         with:
           name: app-release.aab

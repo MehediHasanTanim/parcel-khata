@@ -1,1 +1,4 @@
 #include "Generated.xcconfig"
+// AdMob app id: Google's public TEST id by default; override in CI/release
+// (xcodebuild ADMOB_APP_ID=ca-app-pub-XXXX~YYYY).
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
