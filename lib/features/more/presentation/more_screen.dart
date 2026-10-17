@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/ads/ads_policy.dart';
+import 'package:parcel_khata/shared/ad_slot.dart';
+import 'package:parcel_khata/shared/ads_providers.dart';
 import 'package:parcel_khata/app/debug_menu.dart';
 import 'package:parcel_khata/features/sync/application/role_providers.dart';
 import 'package:parcel_khata/features/sync/domain/permissions.dart';
@@ -14,7 +17,9 @@ class MoreScreen extends ConsumerWidget {
     final l = context.l10n;
     return Scaffold(
       appBar: AppBar(title: Text(l.moreTitle)),
-      body: ListView(
+      body: Column(children: [
+        Expanded(
+          child: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.people_outline),
@@ -102,8 +107,18 @@ class MoreScreen extends ConsumerWidget {
               title: Text(l.debugMenu),
               onTap: () => context.push('/debug'),
             ),
+          // Required by the consent platform when a privacy form exists.
+          if (ref.watch(privacyOptionsRequiredProvider).value ?? false)
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: Text(l.adsPrivacyChoices),
+              onTap: () => ref.read(adsServiceProvider).showPrivacyOptions(),
+            ),
         ],
       ),
+        ),
+        const AdSlot(AdPlacement.moreFooter),
+      ]),
     );
   }
 }

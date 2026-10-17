@@ -2518,4 +2518,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activityMoney => 'Money';
+
+  @override
+  String get adsPrivacyChoices => 'Privacy and ad choices';
 }

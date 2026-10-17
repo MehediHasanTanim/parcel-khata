@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/ads/ads_policy.dart';
+import 'package:parcel_khata/shared/ad_slot.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/cod/application/cod_queries.dart';
@@ -35,13 +37,19 @@ class ReportsScreen extends StatelessWidget {
         );
     return Scaffold(
       appBar: AppBar(title: Text(l.reportsTitle)),
-      body: ListView(children: [
+      body: Column(children: [
+        Expanded(
+          child: ListView(children: [
         item(Icons.today, l.reportDaily, ReportKind.daily),
         item(Icons.hourglass_empty, l.ageingTitle, ReportKind.ageing),
         item(Icons.local_shipping_outlined, l.reportCourier, ReportKind.courier),
         item(Icons.trending_up, l.reportProfit, ReportKind.profit),
         item(Icons.assignment_return_outlined, l.reportReturns, ReportKind.returns),
         item(Icons.account_balance_outlined, l.reportPnl, ReportKind.pnl),
+          ]),
+        ),
+        // The index lists report names only; the numbers screens stay ad-free.
+        const AdSlot(AdPlacement.reportsFooter),
       ]),
     );
   }

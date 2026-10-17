@@ -1022,5 +1022,6 @@
   "roleOwner": "মালিক",
   "roleOrderTaker": "অর্ডার নেওয়ার সহকারী",
   "rolePacker": "প্যাকার",
-  "activityMoney": "টাকা"
+  "activityMoney": "টাকা",
+  "adsPrivacyChoices": "গোপনীয়তা ও বিজ্ঞাপনের পছন্দ"
 }

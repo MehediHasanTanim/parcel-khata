@@ -4921,6 +4921,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Money'**
   String get activityMoney;
+
+  /// No description provided for @adsPrivacyChoices.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy and ad choices'**
+  String get adsPrivacyChoices;
 }
 
 class _AppLocalizationsDelegate

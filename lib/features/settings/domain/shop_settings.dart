@@ -38,6 +38,7 @@ class ShopSettings {
     this.driveEnabled = false,
     this.driveLastSuccessMs,
     this.driveLastError,
+    this.adsRemoved = false,
   });
 
   static const defaultDigestKinds = [
@@ -109,6 +110,10 @@ class ShopSettings {
   final int? driveLastSuccessMs;
   final String? driveLastError;
 
+  /// The shop paid to remove ads (set by the purchase flow). Roles/ads are
+  /// inert without a store product, so this stays false until then.
+  final bool adsRemoved;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -147,6 +152,7 @@ class ShopSettings {
     String? driveLastError,
     bool clearDriveError = false,
     bool clearLastBackup = false,
+    bool? adsRemoved,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -187,6 +193,7 @@ class ShopSettings {
         driveEnabled: driveEnabled ?? this.driveEnabled,
         driveLastSuccessMs: driveLastSuccessMs ?? this.driveLastSuccessMs,
         driveLastError: clearDriveError ? null : (driveLastError ?? this.driveLastError),
+        adsRemoved: adsRemoved ?? this.adsRemoved,
       );
 
   Map<String, Object?> toJson() => {
@@ -225,6 +232,7 @@ class ShopSettings {
         'driveEnabled': driveEnabled,
         'driveLastSuccessMs': driveLastSuccessMs,
         'driveLastError': driveLastError,
+        'adsRemoved': adsRemoved,
       };
 
   String encode() => jsonEncode(toJson());
@@ -280,6 +288,7 @@ class ShopSettings {
         driveEnabled: j['driveEnabled'] as bool? ?? d.driveEnabled,
         driveLastSuccessMs: j['driveLastSuccessMs'] as int?,
         driveLastError: j['driveLastError'] as String?,
+        adsRemoved: j['adsRemoved'] as bool? ?? d.adsRemoved,
       );
     } on FormatException {
       return const ShopSettings();

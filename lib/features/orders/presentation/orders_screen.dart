@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/core/ads/ads_policy.dart';
+import 'package:parcel_khata/shared/ad_slot.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/couriers/domain/stuck_parcel_policy.dart';
@@ -609,6 +611,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                       },
                     ),
         ),
+        // Never on a customer's own order list (personal data on screen).
+        if (!_selecting && widget.customerId == null && widget.measure == null)
+          const AdSlot(AdPlacement.ordersListFooter),
       ]),
     );
   }

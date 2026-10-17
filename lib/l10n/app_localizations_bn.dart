@@ -2513,4 +2513,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get activityMoney => 'টাকা';
+
+  @override
+  String get adsPrivacyChoices => 'গোপনীয়তা ও বিজ্ঞাপনের পছন্দ';
 }

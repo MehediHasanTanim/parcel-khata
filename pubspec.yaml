@@ -66,6 +66,7 @@ dependencies:
   workmanager: ^0.10.10
   xml: ^7.1.0
   path_provider_foundation: ^2.6.0
+  google_mobile_ads: ^9.1.0
 
 dev_dependencies:
   integration_test:

@@ -1022,5 +1022,6 @@
   "roleOwner": "Owner",
   "roleOrderTaker": "Order taker",
   "rolePacker": "Packer",
-  "activityMoney": "Money"
+  "activityMoney": "Money",
+  "adsPrivacyChoices": "Privacy and ad choices"
 }
