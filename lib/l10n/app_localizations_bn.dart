@@ -22,7 +22,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get navNewOrder => 'নতুন অর্ডার';
 
   @override
-  String get navCod => 'ক্যাশ অন ডেলিভারি';
+  String get navCod => 'COD';
 
   @override
   String get navMore => 'আরও';

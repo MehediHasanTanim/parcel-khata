@@ -28,6 +28,7 @@ void main() {
       'languageEnglish', // "English"
       'secEraseWord', // typed confirmation word is the same in every language
       'payCod', // "COD"
+      'navCod', // "COD" (short label for the bottom bar)
       'sku',
       'methodBank',
       'methodBkash',
