@@ -51,7 +51,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
                     itemBuilder: (_, i) {
                       final c = rows[i];
                       return ListTile(
-                        leading: const CircleAvatar(child: Icon(Icons.person)),
+                        leading: const Icon(Icons.person_outline),
                         title: Text(c.name),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

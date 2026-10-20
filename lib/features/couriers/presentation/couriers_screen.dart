@@ -30,7 +30,7 @@ class CouriersScreen extends ConsumerWidget {
                 itemBuilder: (_, i) {
                   final c = rows[i];
                   return ListTile(
-                    leading: const CircleAvatar(child: Icon(Icons.local_shipping)),
+                    leading: const Icon(Icons.local_shipping_outlined),
                     title: Text(c.name),
                     subtitle: Text(c.phone ?? ''),
                     trailing: c.isActive ? null : Text(l.archivedBadge),

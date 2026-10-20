@@ -28,7 +28,7 @@ IconData _icon(RiskBadgeKind k) => switch (k) {
 Color _color(BuildContext c, RiskBadgeKind k) {
   final s = Theme.of(c).colorScheme;
   return switch (k) {
-    RiskBadgeKind.reliable => Colors.green.shade700,
+    RiskBadgeKind.reliable => const Color(0xFF1B7F3B),
     RiskBadgeKind.newCustomer => s.primary,
     _ => s.error,
   };

@@ -164,8 +164,8 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
   }
 
   Color _tone(BuildContext c, Confidence k) => switch (k) {
-        Confidence.high => Colors.green.shade700,
-        Confidence.medium => Colors.amber.shade800,
+        Confidence.high => const Color(0xFF1B7F3B),
+        Confidence.medium => const Color(0xFFB26A00),
         Confidence.low => Theme.of(c).colorScheme.error,
       };
 
@@ -285,7 +285,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
     final line = _lines[i];
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.zero,
         side: BorderSide(color: _tone(context, line.confidence), width: 1.5),
       ),
       child: Padding(

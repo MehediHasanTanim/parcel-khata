@@ -51,6 +51,11 @@ class HomeScreen extends ConsumerWidget {
         };
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.push('/orders/new'),
+        icon: const Icon(Icons.add),
+        label: Text(l.navNewOrder),
+      ),
       appBar: AppBar(
         title: Text(l.homeTitle),
         actions: [
@@ -291,7 +296,7 @@ class _TileCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.zero,
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(12),

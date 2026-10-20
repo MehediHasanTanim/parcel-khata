@@ -971,7 +971,7 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
               child: ListView.builder(
                 itemCount: rows.length,
                 itemBuilder: (_, i) => ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.person)),
+                  leading: const Icon(Icons.person_outline),
                   title: Text(rows[i].name),
                   subtitle: Text(rows[i].phonePrimary),
                   onTap: () => Navigator.pop(context, rows[i]),

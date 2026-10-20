@@ -213,7 +213,7 @@ class _Bars extends StatelessWidget {
                   toY: values[i],
                   color: values[i] < 0 ? neg : color,
                   width: 16,
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.zero,
                 ),
               ]),
           ],
