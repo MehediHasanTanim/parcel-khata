@@ -16,6 +16,7 @@ import 'package:printing/printing.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _payoutsProvider = StreamProvider<List<Payout>>(
     (ref) => ref.watch(payoutServiceProvider).watchPayouts());
@@ -33,12 +34,12 @@ class PayoutsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: l.stmtImport,
-            icon: const Icon(Icons.upload_file),
+            icon: const Icon(LucideIcons300.fileUp),
             onPressed: () => context.push('/cod/payout/statement'),
           ),
           IconButton(
             tooltip: l.shareStatement,
-            icon: const Icon(Icons.picture_as_pdf_outlined),
+            icon: const Icon(LucideIcons300.fileText),
             onPressed: () => _statement(context, ref),
           ),
         ],
@@ -47,7 +48,7 @@ class PayoutsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (list) => list.isEmpty
-            ? EmptyState(icon: Icons.receipt_long_outlined, title: l.noPayouts)
+            ? EmptyState(icon: LucideIcons300.receiptText, title: l.noPayouts)
             : ListView.separated(
                 itemCount: list.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
@@ -60,7 +61,7 @@ class PayoutsScreen extends ConsumerWidget {
                     trailing: p.status == 'reversed'
                         ? StatusChip(
                             label: l.payoutStatusReversed,
-                            icon: Icons.undo,
+                            icon: LucideIcons300.undo2,
                             tone: StatusTone.danger)
                         : null,
                     onTap: () => context.push('/cod/payouts/${p.id}'),
@@ -99,7 +100,7 @@ class PayoutDetailScreen extends ConsumerWidget {
               Card(
                 color: Theme.of(context).colorScheme.errorContainer,
                 child: ListTile(
-                  leading: const Icon(Icons.undo),
+                  leading: const Icon(LucideIcons300.undo2),
                   title: Text(l.payoutReversed),
                   subtitle: Text(p.reversedReason ?? ''),
                 ),
@@ -127,7 +128,7 @@ class PayoutDetailScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             if (!reversed)
               OutlinedButton.icon(
-                icon: const Icon(Icons.undo),
+                icon: const Icon(LucideIcons300.undo2),
                 label: Text(l.reversePayout),
                 onPressed: () async {
                   final c = TextEditingController();
@@ -178,7 +179,7 @@ class DisputedScreen extends ConsumerWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (rows.isEmpty) {
-            return EmptyState(icon: Icons.flag_outlined, title: l.emptyDefaultTitle);
+            return EmptyState(icon: LucideIcons300.flag, title: l.emptyDefaultTitle);
           }
           return ListView.separated(
             itemCount: rows.length,

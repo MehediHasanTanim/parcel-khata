@@ -15,6 +15,7 @@ import 'package:parcel_khata/features/settings/application/settings_repository.d
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/cn_scanner.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Steps through confirmed/packed orders that have no CN: enter it, save and
 /// hand over, next. Keypad-friendly (S3-17).
@@ -122,7 +123,7 @@ class _CnEntryScreenState extends ConsumerState<CnEntryScreen> {
           ? const Center(child: CircularProgressIndicator())
           : done
               ? EmptyState(
-                  icon: Icons.task_alt,
+                  icon: LucideIcons300.circleCheck,
                   title: l.allHaveCn,
                   action: FilledButton(onPressed: () => context.pop(), child: Text(l.ok)),
                 )
@@ -158,7 +159,7 @@ class _CnEntryScreenState extends ConsumerState<CnEntryScreen> {
           labelText: l.consignmentNo,
           suffixIcon: IconButton(
             tooltip: l.scanCn,
-            icon: const Icon(Icons.qr_code_scanner),
+            icon: const Icon(LucideIcons300.scanLine),
             onPressed: () async {
               final pattern = couriers
                   .where((c) => c.id == _courierId)

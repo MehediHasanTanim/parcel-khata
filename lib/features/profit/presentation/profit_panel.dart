@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String profitStateLabel(AppLocalizations l, ProfitState s) => switch (s) {
       ProfitState.provisional => l.stateProvisional,
@@ -22,9 +23,9 @@ StatusTone profitStateTone(ProfitState s) => switch (s) {
     };
 
 IconData profitStateIcon(ProfitState s) => switch (s) {
-      ProfitState.provisional => Icons.hourglass_empty,
-      ProfitState.finalised => Icons.verified_outlined,
-      ProfitState.incomplete => Icons.help_outline,
+      ProfitState.provisional => LucideIcons300.hourglass,
+      ProfitState.finalised => LucideIcons300.badgeCheck,
+      ProfitState.incomplete => LucideIcons300.circleHelp,
     };
 
 String _costLabel(AppLocalizations l, CostKind k) => switch (k) {
@@ -139,13 +140,13 @@ class ProfitChip extends StatelessWidget {
     if (profit == null || stateDb == null) return const SizedBox.shrink();
     if (stateDb == ProfitState.incomplete.dbValue) {
       return StatusChip(
-          label: l.stateIncomplete, icon: Icons.help_outline, tone: StatusTone.neutral);
+          label: l.stateIncomplete, icon: LucideIcons300.circleHelp, tone: StatusTone.neutral);
     }
     final provisional = stateDb == ProfitState.provisional.dbValue;
     final loss = profit! < 0;
     return StatusChip(
       label: '${Money(profit!).format()}${provisional ? ' *' : ''}',
-      icon: loss ? Icons.trending_down : Icons.trending_up,
+      icon: loss ? LucideIcons300.trendingDown : LucideIcons300.trendingUp,
       tone: loss ? StatusTone.danger : StatusTone.success,
     );
   }

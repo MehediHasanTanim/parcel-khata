@@ -7,6 +7,7 @@ import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/presentation/orders_screen.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _draftsProvider = StreamProvider<List<OrderListItem>>((ref) async* {
   final repo = ref.watch(orderRepositoryProvider);
@@ -30,7 +31,7 @@ class DraftsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (rows) => rows.isEmpty
-            ? EmptyState(icon: Icons.edit_note, title: l.emptyDefaultTitle)
+            ? EmptyState(icon: LucideIcons300.notebookPen, title: l.emptyDefaultTitle)
             : ListView.separated(
                 itemCount: rows.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
@@ -39,7 +40,7 @@ class DraftsScreen extends ConsumerWidget {
                   onTap: () => context.push('/orders/${rows[i].order.id}/edit'),
                   trailing: IconButton(
                     tooltip: l.remove,
-                    icon: const Icon(Icons.delete_outline),
+                    icon: const Icon(LucideIcons300.trash2),
                     onPressed: () =>
                         unawaited(ref.read(orderRepositoryProvider).softDelete(rows[i].order.id)),
                   ),

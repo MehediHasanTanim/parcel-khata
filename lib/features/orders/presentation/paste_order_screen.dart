@@ -11,6 +11,7 @@ import 'package:parcel_khata/features/orders/domain/paste_parser.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
 import 'package:parcel_khata/features/telemetry/application/telemetry_providers.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _LineDraft {
   _LineDraft({
@@ -176,7 +177,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
             : OutlineInputBorder(borderSide: BorderSide(color: _tone(c, k), width: 1.5)),
         suffixIcon: k == null
             ? null
-            : Icon(k == Confidence.high ? Icons.check_circle_outline : Icons.help_outline,
+            : Icon(k == Confidence.high ? LucideIcons300.circleCheck : LucideIcons300.circleHelp,
                 color: _tone(c, k)),
       );
 
@@ -197,7 +198,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
         Row(children: [
           OutlinedButton.icon(
             onPressed: _paste,
-            icon: const Icon(Icons.content_paste),
+            icon: const Icon(LucideIcons300.clipboardPaste),
             label: Text(l.pasteFromClipboard),
           ),
           const SizedBox(width: 8),
@@ -220,7 +221,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
           if (_existing != null)
             Card(
               child: ListTile(
-                leading: const Icon(Icons.person),
+                leading: const Icon(LucideIcons300.user),
                 title: Text('${l.pasteExisting}: ${_existing!.name}'),
                 subtitle: Text(l.pasteExistingNote +
                     (_name.text.trim().isNotEmpty && _name.text.trim() != _existing!.name
@@ -316,12 +317,12 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
           const SizedBox(height: 8),
           Row(children: [
             IconButton(
-              icon: const Icon(Icons.remove_circle_outline),
+              icon: const Icon(LucideIcons300.circleMinus),
               onPressed: line.qty > 1 ? () => setState(() => line.qty--) : null,
             ),
             Text('${l.pasteQty}: ${line.qty}'),
             IconButton(
-              icon: const Icon(Icons.add_circle_outline),
+              icon: const Icon(LucideIcons300.circlePlus),
               onPressed: () => setState(() => line.qty++),
             ),
             const SizedBox(width: 8),
@@ -335,7 +336,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
             ),
             IconButton(
               tooltip: l.remove,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () => setState(() => _lines.removeAt(i).price.dispose()),
             ),
           ]),

@@ -9,6 +9,7 @@ import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _settledProvider = FutureProvider.family<Money, String>((ref, orderId) {
   ref.watch(codRevisionProvider);
@@ -82,7 +83,7 @@ class LedgerPanel extends ConsumerWidget {
             ),
             StatusChip(
                 label: codLabel(l, cod),
-                icon: Icons.payments_outlined,
+                icon: LucideIcons300.banknote,
                 tone: codTone(cod)),
           ]),
           const SizedBox(height: 8),
@@ -96,7 +97,7 @@ class LedgerPanel extends ConsumerWidget {
               trailing: status == OrderStatus.delivered
                   ? IconButton(
                       tooltip: l.recordCollected,
-                      icon: const Icon(Icons.edit, size: 18),
+                      icon: const Icon(LucideIcons300.pencil, size: 18),
                       onPressed: () => _editCollected(context, ref, state.collected),
                     )
                   : null,
@@ -111,7 +112,7 @@ class LedgerPanel extends ConsumerWidget {
                     eff.format(),
                     trailing: IconButton(
                       tooltip: l.enterActual,
-                      icon: const Icon(Icons.edit, size: 18),
+                      icon: const Icon(LucideIcons300.pencil, size: 18),
                       onPressed: () => _editActual(context, service, type, eff),
                     ),
                   );
@@ -126,7 +127,7 @@ class LedgerPanel extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
                   onPressed: () => _dispute(context, service, !order.isDisputed),
-                  icon: Icon(order.isDisputed ? Icons.check : Icons.flag_outlined),
+                  icon: Icon(order.isDisputed ? LucideIcons300.check : LucideIcons300.flag),
                   label: Text(order.isDisputed ? l.resolveDispute : l.markDispute),
                 ),
               ),

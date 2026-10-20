@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/settings/application/settings_repository.d
 import 'package:parcel_khata/features/settings/domain/shop_settings.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String _t(int minute) =>
     '${(minute ~/ 60).toString().padLeft(2, '0')}:${(minute % 60).toString().padLeft(2, '0')}';
@@ -100,7 +101,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
           ),
         if (Platform.isAndroid)
           ListTile(
-            leading: const Icon(Icons.battery_saver),
+            leading: const Icon(LucideIcons300.batteryLow),
             title: Text(l.batteryGuideTitle),
             onTap: () => _showBatteryGuide(context),
           ),
@@ -113,7 +114,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
     return showDialog<void>(
       context: context,
       builder: (d) => AlertDialog(
-        icon: const Icon(Icons.battery_alert),
+        icon: const Icon(LucideIcons300.batteryWarning),
         title: Text(l.batteryGuideTitle),
         content: Text(l.batteryGuideBody),
         actions: [

@@ -10,6 +10,7 @@ import 'package:parcel_khata/features/returns/application/exchange_service.dart'
 import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/returns/domain/exchange_calculator.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _Row {
   _Row({String name = '', String qty = '1', String sell = '', String cost = ''})
@@ -175,7 +176,7 @@ class _ExchangeScreenState extends ConsumerState<ExchangeScreen> {
                   subtitle: Text(Money(line.unitSellPrice).format()),
                   trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                     IconButton(
-                      icon: const Icon(Icons.remove_circle_outline),
+                      icon: const Icon(LucideIcons300.circleMinus),
                       onPressed: (_returnQty[line.id] ?? 0) > 0
                           ? () {
                               setState(() => _returnQty[line.id] = _returnQty[line.id]! - 1);
@@ -185,7 +186,7 @@ class _ExchangeScreenState extends ConsumerState<ExchangeScreen> {
                     ),
                     Text('${_returnQty[line.id] ?? 0} / ${line.qty}'),
                     IconButton(
-                      icon: const Icon(Icons.add_circle_outline),
+                      icon: const Icon(LucideIcons300.circlePlus),
                       onPressed: (_returnQty[line.id] ?? 0) < line.qty
                           ? () {
                               setState(() =>
@@ -201,12 +202,12 @@ class _ExchangeScreenState extends ConsumerState<ExchangeScreen> {
               for (var i = 0; i < _rows.length; i++) _rowCard(l, i),
               Wrap(spacing: 8, children: [
                 OutlinedButton.icon(
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(LucideIcons300.plus),
                   label: Text(l.exchangeAddItem),
                   onPressed: () => setState(() => _rows.add(_Row())),
                 ),
                 OutlinedButton.icon(
-                  icon: const Icon(Icons.swap_horiz),
+                  icon: const Icon(LucideIcons300.arrowLeftRight),
                   label: Text(l.exchangeSameItems),
                   onPressed: _sameItems,
                 ),
@@ -295,7 +296,7 @@ class _ExchangeScreenState extends ConsumerState<ExchangeScreen> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () {
                 setState(() => _rows.removeAt(i).dispose());
                 _refresh();
@@ -347,12 +348,12 @@ class ExchangeLinkCard extends ConsumerWidget {
               Text(l.exchangeLinked, style: Theme.of(context).textTheme.titleMedium),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.swap_horiz),
+                leading: const Icon(LucideIcons300.arrowLeftRight),
                 title: Text(other.orderNo),
                 subtitle: Text(isOriginal
                     ? l.exchangeReplacementOrder
                     : l.exchangeOriginalOrder),
-                trailing: const Icon(Icons.chevron_right),
+                trailing: const Icon(LucideIcons300.chevronRight),
                 onTap: () => context.push('/orders/${other.id}'),
               ),
               if (!g.incomplete)

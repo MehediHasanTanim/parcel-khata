@@ -13,6 +13,7 @@ import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/products/application/product_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Non-production debug menu. Clock override and DB export are added as their
 /// backing features land (S3-18, S7-12).
@@ -27,7 +28,7 @@ class DebugMenuScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(context.l10n.debugMenu)),
       body: ListView(children: [
         ListTile(
-          leading: const Icon(Icons.auto_awesome),
+          leading: const Icon(LucideIcons300.sparkles),
           title: const Text('Seed demo data (60 orders, mixed statuses, payouts)'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -45,7 +46,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.dataset),
+          leading: const Icon(LucideIcons300.layoutGrid),
           title: const Text('Seed 500 customers, 80 products, 4 couriers'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -58,7 +59,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.receipt_long),
+          leading: const Icon(LucideIcons300.receiptText),
           title: const Text('Seed 5,000 orders (90 days)'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -71,7 +72,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.timeline),
+          leading: const Icon(LucideIcons300.activity),
           title: const Text('Apply realistic status mix to seeded orders'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -85,7 +86,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.account_balance_wallet),
+          leading: const Icon(LucideIcons300.wallet),
           title: const Text('Seed payouts (shortfalls, disputes)'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -98,7 +99,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.build),
+          leading: const Icon(LucideIcons300.wrench),
           title: const Text('Repair derived ledger fields'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -107,7 +108,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.assignment_return),
+          leading: const Icon(LucideIcons300.undo2),
           title: const Text('Seed returns (full, partial, damaged)'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -120,7 +121,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.speed),
+          leading: const Icon(LucideIcons300.gauge),
           title: const Text('Seed 20,000 orders (fast bulk)'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);
@@ -137,7 +138,7 @@ class DebugMenuScreen extends ConsumerWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.timer),
+          leading: const Icon(LucideIcons300.timer),
           title: const Text('Measure dashboard load'),
           onTap: () async {
             final m = ScaffoldMessenger.of(context);

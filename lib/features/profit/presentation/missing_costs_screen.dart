@@ -5,6 +5,7 @@ import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/features/profit/application/profit_queries.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class MissingCostsScreen extends ConsumerStatefulWidget {
   const MissingCostsScreen({super.key});
@@ -66,7 +67,7 @@ class _MissingCostsScreenState extends ConsumerState<MissingCostsScreen> {
           }
           final rows = snap.data ?? const [];
           if (rows.isEmpty) {
-            return EmptyState(icon: Icons.task_alt, title: l.noMissingCosts);
+            return EmptyState(icon: LucideIcons300.circleCheck, title: l.noMissingCosts);
           }
           return Column(children: [
             SwitchListTile(

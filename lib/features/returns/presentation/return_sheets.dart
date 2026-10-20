@@ -13,6 +13,7 @@ import 'package:parcel_khata/features/returns/application/return_service.dart';
 import 'package:parcel_khata/features/returns/domain/return_loss_calculator.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String conditionLabel(AppLocalizations l, ReturnCondition c) => switch (c) {
       ReturnCondition.resellable => l.conditionResellable,
@@ -122,7 +123,7 @@ class _InitiateSheetState extends ConsumerState<_InitiateSheet> {
                       onPressed: (_qty[line.id] ?? 0) > 0
                           ? () => setState(() => _qty[line.id] = _qty[line.id]! - 1)
                           : null,
-                      icon: const Icon(Icons.remove),
+                      icon: const Icon(LucideIcons300.minus),
                     ),
                     SizedBox(
                       width: 28,
@@ -132,7 +133,7 @@ class _InitiateSheetState extends ConsumerState<_InitiateSheet> {
                       onPressed: (_qty[line.id] ?? 0) < line.qty
                           ? () => setState(() => _qty[line.id] = _qty[line.id]! + 1)
                           : null,
-                      icon: const Icon(Icons.add),
+                      icon: const Icon(LucideIcons300.plus),
                     ),
                   ]),
                 ),
@@ -261,7 +262,7 @@ class _ReceiveSheetState extends ConsumerState<_ReceiveSheet> {
             Text(l.actionReturned, style: Theme.of(context).textTheme.titleLarge),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.event),
+              leading: const Icon(LucideIcons300.calendar),
               title: Text(l.receivedBackOn),
               subtitle: Text(formatDateTime(_at)),
               trailing: TextButton(

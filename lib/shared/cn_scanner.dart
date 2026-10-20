@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:parcel_khata/features/couriers/domain/cn_normalizer.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// What the scan sheet gives a camera view to report back through.
 class ScannerHandle {
@@ -70,7 +71,7 @@ class _CameraViewState extends State<_CameraView> {
         top: 8,
         child: IconButton.filledTonal(
           tooltip: context.l10n.scanTorch,
-          icon: const Icon(Icons.flashlight_on_outlined),
+          icon: const Icon(LucideIcons300.flashlight),
           onPressed: _controller.toggleTorch,
         ),
       ),

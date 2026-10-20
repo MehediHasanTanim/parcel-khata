@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/customers/application/customer_repository.
 import 'package:parcel_khata/features/customers/application/customer_risk_queries.dart';
 import 'package:parcel_khata/features/customers/domain/customer_risk.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String riskBadgeLabel(AppLocalizations l, RiskBadgeKind k) => switch (k) {
       RiskBadgeKind.reliable => l.riskReliable,
@@ -18,11 +19,11 @@ String riskBadgeLabel(AppLocalizations l, RiskBadgeKind k) => switch (k) {
     };
 
 IconData _icon(RiskBadgeKind k) => switch (k) {
-      RiskBadgeKind.reliable => Icons.verified_outlined,
-      RiskBadgeKind.refusedLastCod => Icons.assignment_return_outlined,
-      RiskBadgeKind.highReturnRate => Icons.trending_up,
-      RiskBadgeKind.newCustomer => Icons.fiber_new_outlined,
-      RiskBadgeKind.blocklisted => Icons.block,
+      RiskBadgeKind.reliable => LucideIcons300.badgeCheck,
+      RiskBadgeKind.refusedLastCod => LucideIcons300.undo2,
+      RiskBadgeKind.highReturnRate => LucideIcons300.trendingUp,
+      RiskBadgeKind.newCustomer => LucideIcons300.sparkles,
+      RiskBadgeKind.blocklisted => LucideIcons300.ban,
     };
 
 Color _color(BuildContext c, RiskBadgeKind k) {
@@ -82,10 +83,10 @@ Future<void> showRiskBadgeOrders(
         else
           for (final o in rows)
             ListTile(
-              leading: const Icon(Icons.receipt_long_outlined),
+              leading: const Icon(LucideIcons300.receiptText),
               title: Text(o.orderNo),
               subtitle: Text(o.status),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(LucideIcons300.chevronRight),
               onTap: () {
                 Navigator.pop(ctx);
                 context.push('/orders/${o.id}');
@@ -136,7 +137,7 @@ class RiskBanner extends ConsumerWidget {
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            Icon(Icons.warning_amber_rounded, color: scheme.onErrorContainer),
+            Icon(LucideIcons300.triangleAlert, color: scheme.onErrorContainer),
             const SizedBox(width: 8),
             Expanded(
               child: Text(l.riskBannerTitle,
@@ -195,18 +196,18 @@ class RiskSection extends ConsumerWidget {
           if (customer.isBlocklisted && customer.blocklistReason != null)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.block),
+              leading: const Icon(LucideIcons300.ban),
               title: Text(customer.blocklistReason!),
             ),
           if (customer.riskNote != null)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.sticky_note_2_outlined),
+              leading: const Icon(LucideIcons300.stickyNote),
               title: Text(customer.riskNote!),
             ),
           Wrap(spacing: 8, children: [
             OutlinedButton.icon(
-              icon: const Icon(Icons.edit_note),
+              icon: const Icon(LucideIcons300.notebookPen),
               label: Text(l.riskCaution),
               onPressed: () async {
                 final t = await _ask(context, l.riskCaution, l.riskCautionHint,
@@ -218,7 +219,7 @@ class RiskSection extends ConsumerWidget {
               },
             ),
             OutlinedButton.icon(
-              icon: Icon(customer.isBlocklisted ? Icons.lock_open : Icons.block),
+              icon: Icon(customer.isBlocklisted ? LucideIcons300.lockOpen : LucideIcons300.ban),
               label: Text(customer.isBlocklisted ? l.riskUnblock : l.riskBlocklist),
               onPressed: () async {
                 if (customer.isBlocklisted) {

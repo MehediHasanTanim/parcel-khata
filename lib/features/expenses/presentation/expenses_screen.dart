@@ -11,6 +11,7 @@ import 'package:parcel_khata/features/expenses/domain/business_pnl.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String categoryLabel(AppLocalizations l, ExpenseCategory c) => switch (c) {
       ExpenseCategory.ads => l.catAds,
@@ -21,11 +22,11 @@ String categoryLabel(AppLocalizations l, ExpenseCategory c) => switch (c) {
     };
 
 IconData categoryIcon(ExpenseCategory c) => switch (c) {
-      ExpenseCategory.ads => Icons.campaign_outlined,
-      ExpenseCategory.packaging => Icons.inventory_2_outlined,
-      ExpenseCategory.rent => Icons.home_work_outlined,
-      ExpenseCategory.salary => Icons.badge_outlined,
-      ExpenseCategory.misc => Icons.category_outlined,
+      ExpenseCategory.ads => LucideIcons300.megaphone,
+      ExpenseCategory.packaging => LucideIcons300.package,
+      ExpenseCategory.rent => LucideIcons300.warehouse,
+      ExpenseCategory.salary => LucideIcons300.idCard,
+      ExpenseCategory.misc => LucideIcons300.shapes,
     };
 
 final _monthExpensesProvider = StreamProvider.family<List<Expense>, DateTime>((ref, month) {
@@ -68,19 +69,19 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
         actions: [
           IconButton(
             tooltip: l.periodLastMonth,
-            icon: const Icon(Icons.chevron_left),
+            icon: const Icon(LucideIcons300.chevronLeft),
             onPressed: () => setState(() => _month = DateTime(_month.year, _month.month - 1)),
           ),
           Center(child: Text('${_month.month}/${_month.year}')),
           IconButton(
-            icon: const Icon(Icons.chevron_right),
+            icon: const Icon(LucideIcons300.chevronRight),
             onPressed: () => setState(() => _month = DateTime(_month.year, _month.month + 1)),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showExpenseSheet(context, ref),
-        icon: const Icon(Icons.add),
+        icon: const Icon(LucideIcons300.plus),
         label: Text(l.expenseNew),
       ),
       body: rows.when(
@@ -88,7 +89,7 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
         error: (e, _) => Center(child: Text('$e')),
         data: (list) {
           if (list.isEmpty) {
-            return EmptyState(icon: Icons.payments_outlined, title: l.emptyDefaultTitle);
+            return EmptyState(icon: LucideIcons300.banknote, title: l.emptyDefaultTitle);
           }
           final total = list.fold(0, (s, e) => s + e.amount);
           return ListView(children: [
@@ -221,7 +222,7 @@ class _ExpenseSheetState extends ConsumerState<_ExpenseSheet> {
             const SizedBox(height: 12),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.event),
+              leading: const Icon(LucideIcons300.calendar),
               title: Text(l.expenseDate),
               subtitle: Text(formatDate(_date)),
               onTap: () async {

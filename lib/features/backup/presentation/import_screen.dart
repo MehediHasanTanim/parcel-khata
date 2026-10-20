@@ -10,6 +10,7 @@ import 'package:parcel_khata/features/backup/domain/csv_import.dart';
 import 'package:parcel_khata/features/backup/domain/xlsx_reader.dart';
 import 'package:parcel_khata/features/export/application/csv_import_service.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 enum _Kind { customers, orders, products, openingBalance }
 
@@ -158,7 +159,7 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: _pick,
-          icon: const Icon(Icons.folder_open),
+          icon: const Icon(LucideIcons300.folderOpen),
           label: Text(l.pickFile),
         ),
         if (_rows.isNotEmpty) ...[

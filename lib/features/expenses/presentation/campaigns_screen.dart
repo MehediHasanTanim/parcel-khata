@@ -10,6 +10,7 @@ import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _campaignsProvider = StreamProvider<List<Campaign>>(
     (ref) => ref.watch(campaignRepositoryProvider).watchAll());
@@ -26,21 +27,21 @@ class CampaignsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l.campaignsTitle)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/campaigns/new'),
-        icon: const Icon(Icons.add),
+        icon: const Icon(LucideIcons300.plus),
         label: Text(l.campaignNew),
       ),
       body: rows.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (list) => list.isEmpty
-            ? EmptyState(icon: Icons.campaign_outlined, title: l.emptyDefaultTitle)
+            ? EmptyState(icon: LucideIcons300.megaphone, title: l.emptyDefaultTitle)
             : ListView.separated(
                 itemCount: list.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
                 itemBuilder: (_, i) {
                   final c = list[i];
                   return ListTile(
-                    leading: const Icon(Icons.campaign_outlined),
+                    leading: const Icon(LucideIcons300.megaphone),
                     title: Text(c.name),
                     subtitle: Text('#${c.tag} · ${formatDate(c.startDate)} – ${formatDate(c.endDate)}'),
                     trailing: Column(
@@ -51,7 +52,7 @@ class CampaignsScreen extends ConsumerWidget {
                         if (c.allocatedAt != null)
                           StatusChip(
                             label: repo.needsReapply(c) ? l.allocNeedsReapply : l.allocApply,
-                            icon: repo.needsReapply(c) ? Icons.refresh : Icons.check,
+                            icon: repo.needsReapply(c) ? LucideIcons300.refreshCw : LucideIcons300.check,
                             tone: repo.needsReapply(c) ? StatusTone.warning : StatusTone.success,
                           ),
                       ],
@@ -178,7 +179,7 @@ class _CampaignScreenState extends ConsumerState<CampaignScreen> {
           if (_id != null)
             IconButton(
               tooltip: l.deleteView,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () async {
                 await repo.delete(_id!);
                 if (context.mounted) context.pop();
@@ -213,7 +214,7 @@ class _CampaignScreenState extends ConsumerState<CampaignScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _pick(true),
-                    icon: const Icon(Icons.event),
+                    icon: const Icon(LucideIcons300.calendar),
                     label: Text('${l.campaignStart}: ${formatDate(_start)}'),
                   ),
                 ),
@@ -221,7 +222,7 @@ class _CampaignScreenState extends ConsumerState<CampaignScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _pick(false),
-                    icon: const Icon(Icons.event),
+                    icon: const Icon(LucideIcons300.calendar),
                     label: Text('${l.campaignEnd}: ${formatDate(_end)}'),
                   ),
                 ),

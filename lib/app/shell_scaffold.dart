@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Bottom navigation: Home - Orders - (+) New order - COD - More.
 class ShellScaffold extends StatelessWidget {
@@ -32,24 +33,24 @@ class ShellScaffold extends StatelessWidget {
         },
         destinations: [
           NavigationDestination(
-              icon: const Icon(Icons.home_outlined),
-              selectedIcon: const Icon(Icons.home),
+              icon: const Icon(LucideIcons300.house),
+              selectedIcon: const Icon(LucideIcons300.house),
               label: l.navHome),
           NavigationDestination(
-              icon: const Icon(Icons.receipt_long_outlined),
-              selectedIcon: const Icon(Icons.receipt_long),
+              icon: const Icon(LucideIcons300.receiptText),
+              selectedIcon: const Icon(LucideIcons300.receiptText),
               label: l.navOrders),
           NavigationDestination(
               icon: _NewOrderGlyph(color: accent, onColor: onAccent),
               selectedIcon: _NewOrderGlyph(color: accent, onColor: onAccent),
               label: l.navNewOrder),
           NavigationDestination(
-              icon: const Icon(Icons.payments_outlined),
-              selectedIcon: const Icon(Icons.payments),
+              icon: const Icon(LucideIcons300.banknote),
+              selectedIcon: const Icon(LucideIcons300.banknote),
               label: l.navCod),
           NavigationDestination(
-              icon: const Icon(Icons.more_horiz),
-              selectedIcon: const Icon(Icons.more),
+              icon: const Icon(LucideIcons300.ellipsis),
+              selectedIcon: const Icon(LucideIcons300.ellipsis),
               label: l.navMore),
         ],
       ),
@@ -69,6 +70,6 @@ class _NewOrderGlyph extends StatelessWidget {
         width: 40,
         height: 32,
         color: color,
-        child: Icon(Icons.add, color: onColor, size: 24),
+        child: Icon(LucideIcons300.plus, color: onColor, size: 24),
       );
 }

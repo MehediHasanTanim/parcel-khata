@@ -29,6 +29,7 @@ import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final orderDetailProvider =
     StreamProvider.family<OrderDetail?, String>((ref, id) async* {
@@ -152,7 +153,7 @@ class OrderDetailScreen extends ConsumerWidget {
               if (cod != CodStatus.notApplicable)
                 StatusChip(
                     label: codLabel(l, cod),
-                    icon: Icons.payments_outlined,
+                    icon: LucideIcons300.banknote,
                     tone: codTone(cod)),
             ]),
             const SizedBox(height: 12),
@@ -161,7 +162,7 @@ class OrderDetailScreen extends ConsumerWidget {
             _section(context, l.customer, [
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.person),
+                leading: const Icon(LucideIcons300.user),
                 title: Text(d.customer?.name ?? '—'),
                 subtitle: Text(d.customer?.phonePrimary ?? ''),
                 onTap: d.customer == null
@@ -170,7 +171,7 @@ class OrderDetailScreen extends ConsumerWidget {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.place_outlined),
+                leading: const Icon(LucideIcons300.mapPin),
                 title: Text(o.addressSnapshot.isEmpty ? '—' : o.addressSnapshot),
               ),
             ]),
@@ -184,7 +185,7 @@ class OrderDetailScreen extends ConsumerWidget {
                   trailing: line.unitCostPrice == null
                       ? StatusChip(
                           label: l.costMissing,
-                          icon: Icons.warning_amber,
+                          icon: LucideIcons300.triangleAlert,
                           tone: StatusTone.warning)
                       : null,
                 ),
@@ -203,7 +204,7 @@ class OrderDetailScreen extends ConsumerWidget {
                   alignment: Alignment.centerLeft,
                   child: StatusChip(
                       label: l.codOverriddenMark,
-                      icon: Icons.edit,
+                      icon: LucideIcons300.pencil,
                       tone: StatusTone.warning),
                 ),
             ]),
@@ -254,7 +255,7 @@ class OrderDetailScreen extends ConsumerWidget {
       for (final e in d.edits)
         (
           e.at,
-          Icons.edit_outlined,
+          LucideIcons300.pencil,
           '${e.field}: ${e.oldValue ?? '—'} → ${e.newValue ?? '—'}',
         ),
     ]..sort((a, b) => a.$1.compareTo(b.$1));
@@ -427,7 +428,7 @@ class _CourierCard extends ConsumerWidget {
           Wrap(spacing: 8, children: [
             OutlinedButton.icon(
               onPressed: () => showCourierSheet(context, ref, order: order),
-              icon: const Icon(Icons.local_shipping_outlined),
+              icon: const Icon(LucideIcons300.truck),
               label: Text(l.assignCourier),
             ),
             if (courier != null && cn != null)
@@ -436,7 +437,7 @@ class _CourierCard extends ConsumerWidget {
                     ? () => ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text(l.trackUnavailable)))
                     : () => launchUrl(url, mode: LaunchMode.externalApplication),
-                icon: const Icon(Icons.open_in_new),
+                icon: const Icon(LucideIcons300.externalLink),
                 label: Text(l.trackParcel),
               ),
           ]),
@@ -501,7 +502,7 @@ class _ReturnCard extends ConsumerWidget {
                   ),
                 if (canPartial)
                   OutlinedButton.icon(
-                    icon: const Icon(Icons.swap_horiz),
+                    icon: const Icon(LucideIcons300.arrowLeftRight),
                     onPressed: () => context.push('/orders/${order.id}/exchange'),
                     label: Text(l.exchangeAction),
                   ),

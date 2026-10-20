@@ -6,6 +6,7 @@ import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 const _filterStatuses = [
   OrderStatus.confirmed,
@@ -99,8 +100,8 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
           title: Text(label),
           subtitle: from == null ? null : Text('${formatDate(from)} – ${formatDate(to!.subtract(const Duration(days: 1)))}'),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-            if (from != null) IconButton(icon: const Icon(Icons.clear), onPressed: clear),
-            IconButton(icon: const Icon(Icons.date_range), onPressed: pick),
+            if (from != null) IconButton(icon: const Icon(LucideIcons300.x), onPressed: clear),
+            IconButton(icon: const Icon(LucideIcons300.calendarRange), onPressed: pick),
           ]),
         );
     return SafeArea(

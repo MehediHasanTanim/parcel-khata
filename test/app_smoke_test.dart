@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:parcel_khata/app/app.dart';
 
 import 'helpers/app_harness.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 void main() {
   testWidgets('shell shows 5 destinations and navigates', (t) async {
@@ -13,7 +14,7 @@ void main() {
     expect(find.byType(NavigationDestination), findsNWidgets(5));
     await t.tap(find.descendant(
       of: find.byType(NavigationBar),
-      matching: find.byIcon(Icons.receipt_long_outlined),
+      matching: find.byIcon(LucideIcons300.receiptText),
     ));
     await t.pumpAndSettle();
     expect(find.byType(FloatingActionButton), findsOneWidget);

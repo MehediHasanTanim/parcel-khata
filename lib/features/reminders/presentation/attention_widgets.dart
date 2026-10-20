@@ -17,6 +17,7 @@ import 'package:parcel_khata/features/templates/domain/message_templates.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String attentionText(AppLocalizations l, AttentionItem i) => switch (i.kind) {
       AttentionKind.staleHandedOver => l.attStale(i.days),
@@ -29,13 +30,13 @@ String attentionText(AppLocalizations l, AttentionItem i) => switch (i.kind) {
     };
 
 IconData attentionIcon(AttentionKind k) => switch (k) {
-      AttentionKind.staleHandedOver => Icons.local_shipping_outlined,
-      AttentionKind.overdueCod => Icons.payments_outlined,
-      AttentionKind.returnTooLong => Icons.assignment_return_outlined,
-      AttentionKind.oldDraft => Icons.edit_note,
-      AttentionKind.dispute => Icons.flag_outlined,
-      AttentionKind.toDispatch => Icons.outbox_outlined,
-      AttentionKind.backupDue => Icons.backup_outlined,
+      AttentionKind.staleHandedOver => LucideIcons300.truck,
+      AttentionKind.overdueCod => LucideIcons300.banknote,
+      AttentionKind.returnTooLong => LucideIcons300.undo2,
+      AttentionKind.oldDraft => LucideIcons300.notebookPen,
+      AttentionKind.dispute => LucideIcons300.flag,
+      AttentionKind.toDispatch => LucideIcons300.send,
+      AttentionKind.backupDue => LucideIcons300.databaseBackup,
     };
 
 StatusTone attentionTone(AttentionKind k) => switch (k) {
@@ -114,10 +115,10 @@ class AttentionTile extends ConsumerWidget {
 
     if (o != null && item.kind == AttentionKind.staleHandedOver) {
       out
-        ..add(chip(l.statusDelivered, Icons.done_all, () async {
+        ..add(chip(l.statusDelivered, LucideIcons300.checkCheck, () async {
           await status.changeStatus(o.orderId, to: OrderStatus.delivered);
         }))
-        ..add(chip(l.statusFailed, Icons.error_outline, () async {
+        ..add(chip(l.statusFailed, LucideIcons300.circleAlert, () async {
           final p = await showStatusParamsSheet(
             context,
             to: OrderStatus.deliveryFailed,
@@ -127,42 +128,42 @@ class AttentionTile extends ConsumerWidget {
           await status.changeStatus(o.orderId,
               to: OrderStatus.deliveryFailed, at: p.at, reason: p.reason, note: p.note);
         }))
-        ..add(chip(l.stillInTransit, Icons.hourglass_bottom, () async {
+        ..add(chip(l.stillInTransit, LucideIcons300.hourglass, () async {
           await status.acknowledge(o.orderId);
           ref.invalidate(_noop);
         }));
     }
     if (o != null && item.kind == AttentionKind.overdueCod) {
-      out.add(chip(l.recordPayout, Icons.add_card, () {
+      out.add(chip(l.recordPayout, LucideIcons300.creditCard, () {
         context.push('/cod/payout/new');
       }));
     }
     if (o != null && item.kind == AttentionKind.returnTooLong) {
-      out.add(chip(l.actionReturned, Icons.inventory_2_outlined,
+      out.add(chip(l.actionReturned, LucideIcons300.package,
           () => context.push('/orders/${o.orderId}')));
     }
     if (o != null && (o.customerPhone ?? '').isNotEmpty) {
       out
-        ..add(chip(l.callCustomer, Icons.call, () {
+        ..add(chip(l.callCustomer, LucideIcons300.phone, () {
           unawaited(launchUrl(Uri(scheme: 'tel', path: o.customerPhone)));
         }))
-        ..add(chip(l.whatsappCustomer, Icons.chat, () => _whatsApp(context, ref, o)));
+        ..add(chip(l.whatsappCustomer, LucideIcons300.messageSquare, () => _whatsApp(context, ref, o)));
     }
     if (o != null &&
         (o.trackingTemplate ?? '').isNotEmpty &&
         (o.consignmentNo ?? '').isNotEmpty) {
       final url = TrackingUrl.build(o.trackingTemplate!, o.consignmentNo!);
       if (url != null) {
-        out.add(chip(l.openTracking, Icons.open_in_new, () {
+        out.add(chip(l.openTracking, LucideIcons300.externalLink, () {
           unawaited(launchUrl(url, mode: LaunchMode.externalApplication));
         }));
       }
     }
     final reminders = ref.read(reminderRepositoryProvider);
     out
-      ..add(chip(l.snooze1d, Icons.snooze, () => reminders.snooze(item, 1)))
-      ..add(chip(l.snooze3d, Icons.snooze, () => reminders.snooze(item, 3)))
-      ..add(chip(l.dismissItem, Icons.close, () => _dismiss(context, reminders, l)));
+      ..add(chip(l.snooze1d, LucideIcons300.alarmClock, () => reminders.snooze(item, 1)))
+      ..add(chip(l.snooze3d, LucideIcons300.alarmClock, () => reminders.snooze(item, 3)))
+      ..add(chip(l.dismissItem, LucideIcons300.x, () => _dismiss(context, reminders, l)));
     return _render(acts);
   }
 
@@ -179,7 +180,7 @@ class AttentionTile extends ConsumerWidget {
       if (acts.length > visible)
         PopupMenuButton<_Act>(
           padding: EdgeInsets.zero,
-          child: const Chip(label: Icon(Icons.more_horiz, size: 18)),
+          child: const Chip(label: Icon(LucideIcons300.ellipsis, size: 18)),
           onSelected: (a) => a.onTap(),
           itemBuilder: (_) => [
             for (final a in acts.skip(visible))

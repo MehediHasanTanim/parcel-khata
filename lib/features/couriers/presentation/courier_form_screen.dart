@@ -7,6 +7,7 @@ import 'package:parcel_khata/features/couriers/domain/charge_calculator.dart';
 import 'package:parcel_khata/features/couriers/domain/tracking_url.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _RuleCtl {
   _RuleCtl({this.zone = 'inside_dhaka', String fee = '', String min = '0', String max = ''})
@@ -278,7 +279,7 @@ class _CourierFormScreenState extends ConsumerState<CourierFormScreen> {
                 gap(),
                 OutlinedButton.icon(
                   onPressed: () => setState(() => _rules.add(_RuleCtl())),
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(LucideIcons300.plus),
                   label: Text(l.addRule),
                 ),
                 gap(80),
@@ -308,7 +309,7 @@ class _CourierFormScreenState extends ConsumerState<CourierFormScreen> {
             ),
             IconButton(
               tooltip: l.remove,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () => setState(() => _rules.removeAt(i).dispose()),
             ),
           ]),

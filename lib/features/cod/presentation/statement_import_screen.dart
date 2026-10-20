@@ -21,6 +21,7 @@ import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:printing/printing.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Courier statement import: file -> profile -> review -> confirm.
 /// Nothing is written until the final confirm (one transaction).
@@ -286,7 +287,7 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
         if (_matches.any((m) => m.outcome == dom.StatementOutcome.amountMismatch))
           IconButton(
             tooltip: l.stmtDisputePdf,
-            icon: const Icon(Icons.picture_as_pdf_outlined),
+            icon: const Icon(LucideIcons300.fileText),
             onPressed: _disputePdf,
           ),
       ]),
@@ -330,14 +331,14 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
           ),
           IconButton(
             tooltip: l.stmtEditMapping,
-            icon: const Icon(Icons.tune),
+            icon: const Icon(LucideIcons300.slidersHorizontal),
             onPressed: _editProfile,
           ),
         ]),
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: _courierId == null || _busy ? null : _pick,
-          icon: const Icon(Icons.folder_open),
+          icon: const Icon(LucideIcons300.folderOpen),
           label: Text(_fileName.isEmpty ? l.stmtPickFile : _fileName),
         ),
         if (_busy) const Padding(padding: EdgeInsets.all(16), child: LinearProgressIndicator()),
@@ -350,7 +351,7 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
           Card(
             margin: const EdgeInsets.only(top: 12),
             child: ListTile(
-              leading: const Icon(Icons.check_circle_outline),
+              leading: const Icon(LucideIcons300.circleCheck),
               title: Text(l.stmtAlreadyApplied),
               subtitle: Text(formatDateTime(_already!.createdAt)),
             ),

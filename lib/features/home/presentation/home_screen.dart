@@ -16,6 +16,7 @@ import 'package:parcel_khata/features/settings/application/settings_repository.d
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/blueprint.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Opens a filtered order list whose header total equals the tapped tile.
 void openDrillDown(
@@ -65,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
             icon: Badge(
               isLabelVisible: attention.isNotEmpty,
               label: Text('${attention.length}'),
-              child: const Icon(Icons.notifications_none),
+              child: const Icon(LucideIcons300.bell),
             ),
           ),
         ],
@@ -112,7 +113,7 @@ class HomeScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: ActionChip(
-                      avatar: Icon(v.isDefault ? Icons.push_pin_outlined : Icons.bookmark_outline,
+                      avatar: Icon(v.isDefault ? LucideIcons300.pin : LucideIcons300.bookmark,
                           size: 16),
                       label: Text(viewDisplayName(l, v)),
                       onPressed: () => openDrillDown(
@@ -242,11 +243,11 @@ class _SectionsState extends ConsumerState<_Sections> {
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       section(l.sectionCash, [
-        tile(TileId.pending, l.pendingWithCourier, Icons.account_balance_wallet_outlined),
-        tile(TileId.inTransitCod, l.inTransitCod, Icons.local_shipping_outlined),
+        tile(TileId.pending, l.pendingWithCourier, LucideIcons300.wallet),
+        tile(TileId.inTransitCod, l.inTransitCod, LucideIcons300.truck),
         _TileCard(
           label: l.settledThisMonth,
-          icon: Icons.savings_outlined,
+          icon: LucideIcons300.piggyBank,
           value: hideAmounts && !_revealed.contains(TileId.settled)
               ? '••••'
               : formatMoneyOrDash(data.settled),
@@ -258,23 +259,23 @@ class _SectionsState extends ConsumerState<_Sections> {
             context.push('/cod/payouts');
           },
         ),
-        tile(TileId.disputed, l.codDisputed, Icons.flag_outlined, warn: true),
+        tile(TileId.disputed, l.codDisputed, LucideIcons300.flag, warn: true),
       ]),
       section(l.sectionOps, [
-        tile(TileId.ordersInPeriod, l.tileOrders, Icons.receipt_long_outlined),
-        tile(TileId.toDispatch, l.tileToDispatch, Icons.outbox_outlined),
-        tile(TileId.inTransit, l.tileInTransitOps, Icons.directions_bike_outlined),
-        tile(TileId.stuck, l.tileStuck, Icons.hourglass_bottom, warn: true),
-        tile(TileId.returnsAwaiting, l.tileReturnsAwaiting, Icons.assignment_return_outlined),
+        tile(TileId.ordersInPeriod, l.tileOrders, LucideIcons300.receiptText),
+        tile(TileId.toDispatch, l.tileToDispatch, LucideIcons300.send),
+        tile(TileId.inTransit, l.tileInTransitOps, LucideIcons300.bike),
+        tile(TileId.stuck, l.tileStuck, LucideIcons300.hourglass, warn: true),
+        tile(TileId.returnsAwaiting, l.tileReturnsAwaiting, LucideIcons300.undo2),
       ]),
       section(l.sectionPerformance, [
-        tile(TileId.revenue, l.tileRevenue, Icons.payments_outlined),
-        tile(TileId.profitFinal, l.tileProfitFinal, Icons.verified_outlined),
-        tile(TileId.profitProvisional, l.tileProfitProvisional, Icons.hourglass_empty),
-        tile(TileId.margin, l.tileMargin, Icons.percent),
-        tile(TileId.deliverySuccess, l.tileDeliverySuccess, Icons.done_all),
-        tile(TileId.returnRate, l.tileReturnRate, Icons.undo),
-        tile(TileId.avgProfit, l.tileAvgProfit, Icons.trending_up),
+        tile(TileId.revenue, l.tileRevenue, LucideIcons300.banknote),
+        tile(TileId.profitFinal, l.tileProfitFinal, LucideIcons300.badgeCheck),
+        tile(TileId.profitProvisional, l.tileProfitProvisional, LucideIcons300.hourglass),
+        tile(TileId.margin, l.tileMargin, LucideIcons300.percent),
+        tile(TileId.deliverySuccess, l.tileDeliverySuccess, LucideIcons300.checkCheck),
+        tile(TileId.returnRate, l.tileReturnRate, LucideIcons300.undo2),
+        tile(TileId.avgProfit, l.tileAvgProfit, LucideIcons300.trendingUp),
       ]),
       const SizedBox(height: 24),
     ]);

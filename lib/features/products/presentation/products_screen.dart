@@ -6,6 +6,7 @@ import 'package:parcel_khata/features/products/application/product_repository.da
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({super.key});
@@ -25,7 +26,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
       appBar: AppBar(title: Text(l.products)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/products/new'),
-        icon: const Icon(Icons.add),
+        icon: const Icon(LucideIcons300.plus),
         label: Text(l.productNew),
       ),
       body: Column(children: [
@@ -33,7 +34,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           padding: const EdgeInsets.all(12),
           child: TextField(
             decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search), hintText: l.searchProducts),
+                prefixIcon: const Icon(LucideIcons300.search), hintText: l.searchProducts),
             onChanged: (v) => setState(() => _q = v),
           ),
         ),
@@ -43,7 +44,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
             error: (e, _) => Center(child: Text('$e')),
             data: (rows) => rows.isEmpty
                 ? EmptyState(
-                    icon: Icons.inventory_2_outlined,
+                    icon: LucideIcons300.package,
                     title: _q.isEmpty ? l.emptyDefaultTitle : l.noResults)
                 : ListView.separated(
                     itemCount: rows.length,
@@ -56,7 +57,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         trailing: p.defaultCostPrice == null
                             ? StatusChip(
                                 label: l.costMissing,
-                                icon: Icons.warning_amber,
+                                icon: LucideIcons300.triangleAlert,
                                 tone: StatusTone.warning)
                             : (p.isActive ? null : Text(l.archivedBadge)),
                         onTap: () => context.push('/products/${p.id}/edit'),

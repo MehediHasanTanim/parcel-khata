@@ -8,6 +8,7 @@ import 'package:parcel_khata/app/debug_menu.dart';
 import 'package:parcel_khata/features/sync/application/role_providers.dart';
 import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class MoreScreen extends ConsumerWidget {
   const MoreScreen({super.key});
@@ -23,98 +24,98 @@ class MoreScreen extends ConsumerWidget {
         children: [
           _GroupHeader(l.moreGroupPeople),
           ListTile(
-            leading: const Icon(Icons.people_outline),
+            leading: const Icon(LucideIcons300.users),
             title: Text(l.customers),
             onTap: () => context.push('/customers'),
           ),
           ListTile(
-            leading: const Icon(Icons.inventory_2_outlined),
+            leading: const Icon(LucideIcons300.package),
             title: Text(l.products),
             onTap: () => context.push('/products'),
           ),
           ListTile(
-            leading: const Icon(Icons.local_shipping_outlined),
+            leading: const Icon(LucideIcons300.truck),
             title: Text(l.couriers),
             onTap: () => context.push('/couriers'),
           ),
           _GroupHeader(l.moreGroupMoney),
           if (ref.watch(canProvider(Capability.viewReports)))
           ListTile(
-            leading: const Icon(Icons.insights),
+            leading: const Icon(LucideIcons300.chartLine),
             title: Text(l.reportsTitle),
             onTap: () => context.push('/reports'),
           ),
           if (ref.watch(canProvider(Capability.manageExpenses)))
           ListTile(
-            leading: const Icon(Icons.payments_outlined),
+            leading: const Icon(LucideIcons300.banknote),
             title: Text(l.expensesTitle),
             onTap: () => context.push('/expenses'),
           ),
           if (ref.watch(canProvider(Capability.manageExpenses)))
           ListTile(
-            leading: const Icon(Icons.campaign_outlined),
+            leading: const Icon(LucideIcons300.megaphone),
             title: Text(l.campaignsTitle),
             onTap: () => context.push('/campaigns'),
           ),
           if (ref.watch(canProvider(Capability.manageReturns)))
           ListTile(
-            leading: const Icon(Icons.assignment_return_outlined),
+            leading: const Icon(LucideIcons300.undo2),
             title: Text(l.returnsTitle),
             onTap: () => context.push('/returns'),
           ),
           if (ref.watch(canProvider(Capability.viewCostAndProfit)))
           ListTile(
-            leading: const Icon(Icons.warning_amber),
+            leading: const Icon(LucideIcons300.triangleAlert),
             title: Text(l.fixMissingCosts),
             onTap: () => context.push('/orders/cost-missing'),
           ),
           _GroupHeader(l.moreGroupComms),
           ListTile(
-            leading: const Icon(Icons.chat_outlined),
+            leading: const Icon(LucideIcons300.messageSquare),
             title: Text(l.messageTemplates),
             onTap: () => context.push('/templates'),
           ),
           if (ref.watch(canProvider(Capability.manageSettings)))
           ListTile(
-            leading: const Icon(Icons.notifications_active_outlined),
+            leading: const Icon(LucideIcons300.bellRing),
             title: Text(l.digestSettings),
             onTap: () => context.push('/settings/notifications'),
           ),
           _GroupHeader(l.moreGroupSystem),
           if (ref.watch(canProvider(Capability.manageSettings)))
           ListTile(
-            leading: const Icon(Icons.security_outlined),
+            leading: const Icon(LucideIcons300.shield),
             title: Text(l.secTitle),
             onTap: () => context.push('/settings/security'),
           ),
           if (ref.watch(canProvider(Capability.manageSettings)))
           ListTile(
-            leading: const Icon(Icons.storage_outlined),
+            leading: const Icon(LucideIcons300.database),
             title: Text(l.dataSection),
             onTap: () => context.push('/settings/data'),
           ),
           if (ref.watch(canProvider(Capability.manageSettings)))
           ListTile(
-            leading: const Icon(Icons.settings_outlined),
+            leading: const Icon(LucideIcons300.settings),
             title: Text(l.settings),
             onTap: () => context.push('/settings'),
           ),
           if (ref.watch(canProvider(Capability.viewActivity)))
             ListTile(
-              leading: const Icon(Icons.history),
+              leading: const Icon(LucideIcons300.history),
               title: Text(l.activityTitle),
               onTap: () => context.push('/settings/activity'),
             ),
           if (DebugMenuScreen.enabled)
             ListTile(
-              leading: const Icon(Icons.bug_report_outlined),
+              leading: const Icon(LucideIcons300.bug),
               title: Text(l.debugMenu),
               onTap: () => context.push('/debug'),
             ),
           // Required by the consent platform when a privacy form exists.
           if (ref.watch(privacyOptionsRequiredProvider).value ?? false)
             ListTile(
-              leading: const Icon(Icons.privacy_tip_outlined),
+              leading: const Icon(LucideIcons300.shieldCheck),
               title: Text(l.adsPrivacyChoices),
               onTap: () => ref.read(adsServiceProvider).showPrivacyOptions(),
             ),

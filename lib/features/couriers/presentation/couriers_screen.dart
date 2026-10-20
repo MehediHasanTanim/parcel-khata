@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class CouriersScreen extends ConsumerWidget {
   const CouriersScreen({super.key});
@@ -16,21 +17,21 @@ class CouriersScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l.couriers)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/couriers/new'),
-        icon: const Icon(Icons.add),
+        icon: const Icon(LucideIcons300.plus),
         label: Text(l.courierNew),
       ),
       body: couriers.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (rows) => rows.isEmpty
-            ? EmptyState(icon: Icons.local_shipping_outlined, title: l.emptyDefaultTitle)
+            ? EmptyState(icon: LucideIcons300.truck, title: l.emptyDefaultTitle)
             : ListView.separated(
                 itemCount: rows.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
                 itemBuilder: (_, i) {
                   final c = rows[i];
                   return ListTile(
-                    leading: const Icon(Icons.local_shipping_outlined),
+                    leading: const Icon(LucideIcons300.truck),
                     title: Text(c.name),
                     subtitle: Text(c.phone ?? ''),
                     trailing: c.isActive ? null : Text(l.archivedBadge),

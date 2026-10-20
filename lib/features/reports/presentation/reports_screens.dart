@@ -20,6 +20,7 @@ import 'package:parcel_khata/features/reports/domain/report_math.dart';
 import 'package:parcel_khata/features/reports/presentation/format.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 enum ReportKind { daily, ageing, courier, profit, returns, pnl }
 
@@ -32,7 +33,7 @@ class ReportsScreen extends StatelessWidget {
     Widget item(IconData icon, String title, ReportKind k) => ListTile(
           leading: Icon(icon),
           title: Text(title),
-          trailing: const Icon(Icons.chevron_right),
+          trailing: const Icon(LucideIcons300.chevronRight),
           onTap: () => context.push('/reports/${k.name}'),
         );
     return Scaffold(
@@ -40,12 +41,12 @@ class ReportsScreen extends StatelessWidget {
       body: Column(children: [
         Expanded(
           child: ListView(children: [
-        item(Icons.today, l.reportDaily, ReportKind.daily),
-        item(Icons.hourglass_empty, l.ageingTitle, ReportKind.ageing),
-        item(Icons.local_shipping_outlined, l.reportCourier, ReportKind.courier),
-        item(Icons.trending_up, l.reportProfit, ReportKind.profit),
-        item(Icons.assignment_return_outlined, l.reportReturns, ReportKind.returns),
-        item(Icons.account_balance_outlined, l.reportPnl, ReportKind.pnl),
+        item(LucideIcons300.calendarDays, l.reportDaily, ReportKind.daily),
+        item(LucideIcons300.hourglass, l.ageingTitle, ReportKind.ageing),
+        item(LucideIcons300.truck, l.reportCourier, ReportKind.courier),
+        item(LucideIcons300.trendingUp, l.reportProfit, ReportKind.profit),
+        item(LucideIcons300.undo2, l.reportReturns, ReportKind.returns),
+        item(LucideIcons300.landmark, l.reportPnl, ReportKind.pnl),
           ]),
         ),
         // The index lists report names only; the numbers screens stay ad-free.
@@ -245,7 +246,7 @@ class _DailyReport extends ConsumerWidget {
         final rows = data.$1;
         final total = rows.fold(0, (s, r) => s + r.created);
         if (rows.isEmpty || total == 0 && data.$2 == 0) {
-          return EmptyState(icon: Icons.insights, title: l.noData);
+          return EmptyState(icon: LucideIcons300.chartLine, title: l.noData);
         }
         return ListView(padding: const EdgeInsets.all(12), children: [
           ListTile(
@@ -341,7 +342,7 @@ class _CourierReport extends ConsumerWidget {
         final rows = snap.data;
         if (rows == null) return const Center(child: CircularProgressIndicator());
         if (rows.every((r) => r.parcels == 0)) {
-          return EmptyState(icon: Icons.insights, title: l.noData);
+          return EmptyState(icon: LucideIcons300.chartLine, title: l.noData);
         }
         String days(double? v) => v == null ? '—' : v.toStringAsFixed(1);
         return ListView(padding: const EdgeInsets.all(12), children: [
@@ -441,7 +442,7 @@ class _ProfitReportState extends ConsumerState<_ProfitReport> {
               child: Center(child: CircularProgressIndicator()),
             )
           else if (d.$1.isEmpty)
-            EmptyState(icon: Icons.insights, title: l.noData)
+            EmptyState(icon: LucideIcons300.chartLine, title: l.noData)
           else ...[
             const SizedBox(height: 8),
             if (d.$4.incompleteCount > 0)
@@ -531,7 +532,7 @@ class _ReturnsReportState extends ConsumerState<_ReturnsReport> {
               child: Center(child: CircularProgressIndicator()),
             );
           }
-          if (rows.isEmpty) return EmptyState(icon: Icons.insights, title: l.noData);
+          if (rows.isEmpty) return EmptyState(icon: LucideIcons300.chartLine, title: l.noData);
           final total = rows.fold(0, (s, r) => s + r.loss);
           return Column(children: [
             ListTile(
@@ -609,7 +610,7 @@ class _PnlReport extends ConsumerWidget {
           const SizedBox(height: 12),
           OutlinedButton.icon(
             onPressed: () => context.push('/expenses'),
-            icon: const Icon(Icons.payments_outlined),
+            icon: const Icon(LucideIcons300.banknote),
             label: Text(l.openExpenses),
           ),
         ]);

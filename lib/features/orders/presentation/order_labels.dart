@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String statusLabel(AppLocalizations l, OrderStatus s) => switch (s) {
       OrderStatus.draft => l.statusDraft,
@@ -18,16 +19,16 @@ String statusLabel(AppLocalizations l, OrderStatus s) => switch (s) {
     };
 
 IconData statusIcon(OrderStatus s) => switch (s) {
-      OrderStatus.draft => Icons.edit_note,
-      OrderStatus.confirmed => Icons.check_circle_outline,
-      OrderStatus.packed => Icons.inventory_2_outlined,
-      OrderStatus.handedToCourier => Icons.local_shipping_outlined,
-      OrderStatus.inTransit => Icons.directions_bike_outlined,
-      OrderStatus.delivered => Icons.done_all,
-      OrderStatus.deliveryFailed => Icons.error_outline,
-      OrderStatus.returnInTransit => Icons.undo,
-      OrderStatus.returned => Icons.assignment_return_outlined,
-      OrderStatus.cancelled => Icons.cancel_outlined,
+      OrderStatus.draft => LucideIcons300.notebookPen,
+      OrderStatus.confirmed => LucideIcons300.circleCheck,
+      OrderStatus.packed => LucideIcons300.package,
+      OrderStatus.handedToCourier => LucideIcons300.truck,
+      OrderStatus.inTransit => LucideIcons300.bike,
+      OrderStatus.delivered => LucideIcons300.checkCheck,
+      OrderStatus.deliveryFailed => LucideIcons300.circleAlert,
+      OrderStatus.returnInTransit => LucideIcons300.undo2,
+      OrderStatus.returned => LucideIcons300.undo2,
+      OrderStatus.cancelled => LucideIcons300.circleX,
     };
 
 StatusTone statusTone(OrderStatus s) => switch (s) {

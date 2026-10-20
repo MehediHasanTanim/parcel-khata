@@ -6,6 +6,7 @@ import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/orders/presentation/orders_screen.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _deletedProvider = StreamProvider<List<OrderListItem>>(
     (ref) => ref.watch(orderRepositoryProvider).watchRecentlyDeleted());
@@ -23,7 +24,7 @@ class DeletedOrdersScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (items) => items.isEmpty
-            ? EmptyState(icon: Icons.delete_outline, title: l.emptyDefaultTitle)
+            ? EmptyState(icon: LucideIcons300.trash2, title: l.emptyDefaultTitle)
             : ListView.separated(
                 itemCount: items.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),

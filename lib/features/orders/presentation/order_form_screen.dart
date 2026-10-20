@@ -24,6 +24,7 @@ import 'package:parcel_khata/features/telemetry/domain/telemetry.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _LineCtl {
   _LineCtl({
@@ -303,7 +304,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
         await showDialog<void>(
           context: context,
           builder: (c) => AlertDialog(
-            icon: const Icon(Icons.warning_amber),
+            icon: const Icon(LucideIcons300.triangleAlert),
             title: Text(l.warnDialogTitle),
             content: Text(l.warnEditAfterHandover),
             actions: [
@@ -399,7 +400,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
         children: [
           for (final a in addrs)
             ListTile(
-              leading: Icon(a.isDefault ? Icons.star : Icons.place_outlined),
+              leading: Icon(a.isDefault ? LucideIcons300.star : LucideIcons300.mapPin),
               title: Text(a.fullText),
               subtitle: Text(a.label),
               onTap: () => Navigator.pop(context, a),
@@ -539,7 +540,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Row(children: [
-                        Icon(Icons.error_outline, color: t.colorScheme.onErrorContainer),
+                        Icon(LucideIcons300.circleAlert, color: t.colorScheme.onErrorContainer),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(_error!,
@@ -556,10 +557,10 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 _heading(l.customer),
                 Card(
                   child: ListTile(
-                    leading: const Icon(Icons.person_outline),
+                    leading: const Icon(LucideIcons300.user),
                     title: Text(_customer?.name ?? l.selectCustomer),
                     subtitle: _customer == null ? null : Text(_customer!.phonePrimary),
-                    trailing: const Icon(Icons.chevron_right),
+                    trailing: const Icon(LucideIcons300.chevronRight),
                     onTap: _pickCustomer,
                   ),
                 ),
@@ -578,7 +579,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                         ? null
                         : IconButton(
                             tooltip: l.chooseSavedAddress,
-                            icon: const Icon(Icons.bookmark_outline),
+                            icon: const Icon(LucideIcons300.bookmark),
                             onPressed: _chooseAddress,
                           ),
                   ),
@@ -591,7 +592,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _addFromCatalog,
-                      icon: const Icon(Icons.inventory_2_outlined),
+                      icon: const Icon(LucideIcons300.package),
                       label: Text(l.addFromCatalog),
                     ),
                   ),
@@ -599,7 +600,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _addFreeText,
-                      icon: const Icon(Icons.edit_outlined),
+                      icon: const Icon(LucideIcons300.pencil),
                       label: Text(l.addFreeText),
                     ),
                   ),
@@ -794,7 +795,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
               child: Row(children: [
                 StatusChip(
                     label: l.codOverriddenMark,
-                    icon: Icons.edit,
+                    icon: LucideIcons300.pencil,
                     tone: StatusTone.warning),
                 TextButton(
                   onPressed: () => setState(() {
@@ -829,7 +830,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
             ),
             IconButton(
               tooltip: l.remove,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () => setState(() {
                 _lines.removeAt(i).dispose();
                 _dirty = true;
@@ -845,7 +846,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                         _dirty = true;
                       })
                   : null,
-              icon: const Icon(Icons.remove),
+              icon: const Icon(LucideIcons300.minus),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -856,7 +857,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 line.qty++;
                 _dirty = true;
               }),
-              icon: const Icon(Icons.add),
+              icon: const Icon(LucideIcons300.plus),
             ),
             const SizedBox(width: 12),
             Expanded(child: MoneyFormField(controller: line.sell, label: l.unitPrice)),
@@ -872,13 +873,13 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
             if (costMissing)
               StatusChip(
                   label: l.costMissing,
-                  icon: Icons.warning_amber,
+                  icon: LucideIcons300.triangleAlert,
                   tone: StatusTone.warning),
             const Spacer(),
             if (!fromCatalog)
               TextButton.icon(
                 onPressed: () => _saveLineToCatalog(line),
-                icon: const Icon(Icons.bookmark_add_outlined),
+                icon: const Icon(LucideIcons300.bookmarkPlus),
                 label: Text(l.saveToCatalog),
               ),
           ]),
@@ -951,12 +952,12 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
               child: TextField(
                 autofocus: true,
                 decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search), hintText: l.searchCustomers),
+                    prefixIcon: const Icon(LucideIcons300.search), hintText: l.searchCustomers),
                 onChanged: (v) => setState(() => _q = v),
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person_add),
+              leading: const Icon(LucideIcons300.userPlus),
               title: Text(l.addNewCustomer),
               onTap: () async {
                 final nav = Navigator.of(context);
@@ -971,7 +972,7 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
               child: ListView.builder(
                 itemCount: rows.length,
                 itemBuilder: (_, i) => ListTile(
-                  leading: const Icon(Icons.person_outline),
+                  leading: const Icon(LucideIcons300.user),
                   title: Text(rows[i].name),
                   subtitle: Text(rows[i].phonePrimary),
                   onTap: () => Navigator.pop(context, rows[i]),
@@ -1012,7 +1013,7 @@ class _ProductPickerSheetState extends ConsumerState<_ProductPickerSheet> {
               child: TextField(
                 autofocus: true,
                 decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search), hintText: l.searchProducts),
+                    prefixIcon: const Icon(LucideIcons300.search), hintText: l.searchProducts),
                 onChanged: (v) => setState(() => _q = v),
               ),
             ),

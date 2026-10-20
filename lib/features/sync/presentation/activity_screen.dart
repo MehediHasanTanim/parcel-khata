@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/core/db/providers.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _Entry {
   const _Entry(this.at, this.actor, this.entity, this.action, this.money);
@@ -100,7 +101,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                         final e = rows[i];
                         return ListTile(
                           dense: true,
-                          leading: Icon(e.money ? Icons.payments_outlined : Icons.edit_note),
+                          leading: Icon(e.money ? LucideIcons300.banknote : LucideIcons300.notebookPen),
                           title: Text('${e.entity} · ${e.action}'),
                           subtitle: Text(
                               '${e.actor.isEmpty ? l.activityYou : e.actor} · ${formatDateTime(e.at)}'),

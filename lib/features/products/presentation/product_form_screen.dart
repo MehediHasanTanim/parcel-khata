@@ -6,6 +6,7 @@ import 'package:parcel_khata/features/products/application/product_repository.da
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _VarCtl {
   _VarCtl({this.id, String label = '', String sell = '', String cost = ''})
@@ -177,7 +178,7 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                           ),
                           IconButton(
                             tooltip: l.remove,
-                            icon: const Icon(Icons.delete_outline),
+                            icon: const Icon(LucideIcons300.trash2),
                             onPressed: () => setState(() => _vars.removeAt(i).dispose()),
                           ),
                         ]),
@@ -197,7 +198,7 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                 gap(),
                 OutlinedButton.icon(
                   onPressed: () => setState(() => _vars.add(_VarCtl())),
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(LucideIcons300.plus),
                   label: Text(l.addVariant),
                 ),
                 gap(80),

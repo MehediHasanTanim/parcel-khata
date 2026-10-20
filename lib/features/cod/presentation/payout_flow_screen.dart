@@ -10,6 +10,7 @@ import 'package:parcel_khata/features/couriers/application/courier_repository.da
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 const _methods = ['bank', 'bkash', 'nagad', 'cash', 'other'];
 
@@ -206,7 +207,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
         ]),
         leading: _step > 0
             ? IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(LucideIcons300.arrowLeft),
                 onPressed: () => setState(() {
                   _step--;
                   _error = null;
@@ -260,7 +261,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
       const SizedBox(height: 12),
       ListTile(
         contentPadding: EdgeInsets.zero,
-        leading: const Icon(Icons.event),
+        leading: const Icon(LucideIcons300.calendar),
         title: Text(l.paidOn),
         subtitle: Text(formatDate(_paidAt ?? now)),
         onTap: () async {
@@ -298,7 +299,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
 
   Widget _stepTwo(AppLocalizations l) {
     if (_payable.isEmpty) {
-      return EmptyState(icon: Icons.task_alt, title: l.noPayableOrders);
+      return EmptyState(icon: LucideIcons300.circleCheck, title: l.noPayableOrders);
     }
     final expected = PayoutReconciler.expectedTotal(_selectedOrders);
     final diff = _received - expected;
@@ -316,7 +317,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
           Divider(color: t.colorScheme.onSurface, height: 12),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(children: [
-              Icon(diff.isZero ? Icons.check_circle_outline : Icons.warning_amber,
+              Icon(diff.isZero ? LucideIcons300.circleCheck : LucideIcons300.triangleAlert,
                   size: 18,
                   color: diff.isZero
                       ? const Color(0xFF1B7F3B)
@@ -333,7 +334,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
             alignment: Alignment.centerRight,
             child: TextButton.icon(
               onPressed: _autoAllocate,
-              icon: const Icon(Icons.done_all, size: 18),
+              icon: const Icon(LucideIcons300.checkCheck, size: 18),
               label: Text(l.autoAllocate),
             ),
           ),

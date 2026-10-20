@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/features/sync/application/role_providers.dart';
 import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Shows [child] only when the signed-in role may perform [action]; otherwise
 /// a plain "not available for your role" page (or [fallback]). UX only: the
@@ -24,7 +25,7 @@ class PermissionGate extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Icon(Icons.lock_outline, size: 48),
+                const Icon(LucideIcons300.lock, size: 48),
                 const SizedBox(height: 12),
                 Text(context.l10n.notAllowedForRole, textAlign: TextAlign.center),
               ]),

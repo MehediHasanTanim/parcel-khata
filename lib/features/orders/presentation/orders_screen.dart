@@ -27,6 +27,7 @@ import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/cn_scanner.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final draftCountProvider = StreamProvider<int>((ref) async* {
   final repo = ref.watch(orderRepositoryProvider);
@@ -350,7 +351,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
       appBar: _selecting
           ? AppBar(
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(LucideIcons300.x),
                 onPressed: () => setState(_selected.clear),
               ),
               title: Text(l.selectedCount(_selected.length)),
@@ -372,7 +373,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     icon: Badge(
                       isLabelVisible: drafts > 0,
                       label: Text('$drafts'),
-                      child: const Icon(Icons.edit_note),
+                      child: const Icon(LucideIcons300.notebookPen),
                     ),
                   ),
                 IconButton(
@@ -381,12 +382,12 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                   icon: Badge(
                     isLabelVisible: _filter.activeCount > 0,
                     label: Text('${_filter.activeCount}'),
-                    child: const Icon(Icons.filter_list),
+                    child: const Icon(LucideIcons300.listFilter),
                   ),
                 ),
                 PopupMenuButton<OrderSort>(
                   tooltip: l.sortLabel,
-                  icon: const Icon(Icons.sort),
+                  icon: const Icon(LucideIcons300.arrowDownWideNarrow),
                   onSelected: (v) {
                     setState(() => _sort = v);
                     if (widget._isMainTab) ref.read(ordersSortProvider.notifier).set(v);
@@ -403,7 +404,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                 ),
                 IconButton(
                   tooltip: l.savedViews,
-                  icon: const Icon(Icons.bookmarks_outlined),
+                  icon: const Icon(LucideIcons300.bookmarkCheck),
                   onPressed: _openViews,
                 ),
                 if (widget._isMainTab)
@@ -425,7 +426,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           ? null
           : FloatingActionButton.extended(
               onPressed: () => context.push('/orders/new'),
-              icon: const Icon(Icons.add),
+              icon: const Icon(LucideIcons300.plus),
               label: Text(l.orderNew),
             ),
       bottomNavigationBar: !_selecting
@@ -437,7 +438,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                   Expanded(
                     child: FilledButton.icon(
                       onPressed: () => _bulk(OrderStatus.handedToCourier),
-                      icon: const Icon(Icons.local_shipping_outlined),
+                      icon: const Icon(LucideIcons300.truck),
                       label: Text(l.statusHanded),
                     ),
                   ),
@@ -445,7 +446,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                   Expanded(
                     child: FilledButton.icon(
                       onPressed: () => _bulk(OrderStatus.delivered),
-                      icon: const Icon(Icons.done_all),
+                      icon: const Icon(LucideIcons300.checkCheck),
                       label: Text(l.statusDelivered),
                     ),
                   ),
@@ -453,7 +454,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () => _bulk(OrderStatus.deliveryFailed),
-                      icon: const Icon(Icons.error_outline),
+                      icon: const Icon(LucideIcons300.circleAlert),
                       label: Text(l.statusFailed),
                     ),
                   ),
@@ -467,13 +468,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             controller: _searchCtl,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon: const Icon(LucideIcons300.search),
               hintText: l.searchOrders,
               isDense: true,
               suffixIcon: Row(mainAxisSize: MainAxisSize.min, children: [
                 IconButton(
                   tooltip: l.scanCn,
-                  icon: const Icon(Icons.qr_code_scanner),
+                  icon: const Icon(LucideIcons300.scanLine),
                   onPressed: () async {
                     final cn = await scanCn(context, ref);
                     if (cn == null || !mounted) return;
@@ -483,7 +484,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                 ),
                 if (_searchCtl.text.isNotEmpty)
                   IconButton(
-                    icon: const Icon(Icons.clear),
+                    icon: const Icon(LucideIcons300.x),
                     onPressed: () {
                       _searchCtl.clear();
                       _setFilter(_filter.copyWith(query: ''));
@@ -539,7 +540,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: ChoiceChip(
-                  avatar: const Icon(Icons.hourglass_bottom, size: 18),
+                  avatar: const Icon(LucideIcons300.hourglass, size: 18),
                   label: Text(l.stuckParcels),
                   selected: _stuckOnly,
                   onSelected: (v) =>
@@ -564,13 +565,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               ? const Center(child: CircularProgressIndicator())
               : _items.isEmpty
                   ? EmptyState(
-                      icon: Icons.receipt_long_outlined,
+                      icon: LucideIcons300.receiptText,
                       title: l.noOrders,
                       message: l.emptyOrdersHint,
                       action: widget._isMainTab && _filter.activeCount == 0
                           ? FilledButton.icon(
                               onPressed: () => context.push('/orders/new'),
-                              icon: const Icon(Icons.add),
+                              icon: const Icon(LucideIcons300.plus),
                               label: Text(l.emptyOrdersCta),
                             )
                           : null,
@@ -597,9 +598,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                         return Dismissible(
                           key: ValueKey(id),
                           background: _swipeBg(context, Alignment.centerLeft,
-                              Icons.done_all, l.statusDelivered),
+                              LucideIcons300.checkCheck, l.statusDelivered),
                           secondaryBackground: _swipeBg(context, Alignment.centerRight,
-                              Icons.local_shipping_outlined, l.statusHanded),
+                              LucideIcons300.truck, l.statusHanded),
                           confirmDismiss: (dir) async {
                             await _swipe(
                                 item,
@@ -666,7 +667,7 @@ class OrderTile extends ConsumerWidget {
       selectedTileColor: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
       onTap: onTap ?? () => context.push('/orders/${o.id}'),
       onLongPress: onLongPress,
-      leading: selected ? const Icon(Icons.check_circle) : null,
+      leading: selected ? const Icon(LucideIcons300.circleCheck) : null,
       title: Text('${o.orderNo} · ${item.customerName ?? '—'}',
           style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
       subtitle: Padding(
@@ -678,7 +679,7 @@ class OrderTile extends ConsumerWidget {
               tone: statusTone(status)),
           if (cod != CodStatus.notApplicable && status != OrderStatus.draft)
             StatusChip(
-                label: codLabel(l, cod), icon: Icons.payments_outlined, tone: codTone(cod)),
+                label: codLabel(l, cod), icon: LucideIcons300.banknote, tone: codTone(cod)),
           if (!hideProfit &&
               status != OrderStatus.draft &&
               ref.watch(canProvider(Capability.viewCostAndProfit)))
@@ -686,13 +687,13 @@ class OrderTile extends ConsumerWidget {
           if (o.exchangeOfOrderId != null)
             StatusChip(
                 label: l.exchangeChip,
-                icon: Icons.swap_horiz,
+                icon: LucideIcons300.arrowLeftRight,
                 tone: StatusTone.neutral),
           if (stuck != StuckLevel.none)
             StatusChip(
               label: l.withCourierDays(
                   StuckParcelPolicy.daysWithCourier(o.handedOverAt!, now)),
-              icon: Icons.hourglass_bottom,
+              icon: LucideIcons300.hourglass,
               tone: stuck == StuckLevel.red ? StatusTone.danger : StatusTone.warning,
             ),
         ]),

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/security/application/app_lock.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Wraps the app: covers content while locked, and while the app is in the
 /// task switcher so no order data shows in screenshots/recents.
@@ -154,7 +155,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 360),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(Icons.lock_outline, size: 48, color: t.colorScheme.primary),
+              Icon(LucideIcons300.lock, size: 48, color: t.colorScheme.primary),
               const SizedBox(height: 12),
               Text(l.lockTitle, style: t.textTheme.titleLarge),
               const SizedBox(height: 4),
@@ -165,7 +166,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Icon(
-                      i < _pin.length ? Icons.circle : Icons.circle_outlined,
+                      i < _pin.length ? LucideIcons300.circleDot : LucideIcons300.circle,
                       size: 14,
                       semanticLabel: null,
                     ),
@@ -192,12 +193,12 @@ class _LockScreenState extends ConsumerState<LockScreen> {
                 ]),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 _Key(
-                  icon: Icons.fingerprint,
+                  icon: LucideIcons300.fingerprintPattern,
                   tooltip: l.lockUseBiometric,
                   onTap: (s?.biometric ?? false) ? _bio : null,
                 ),
                 _Key(label: '0', onTap: lockedOut ? null : () => _digit('0')),
-                _Key(icon: Icons.backspace_outlined, tooltip: l.remove, onTap: _back),
+                _Key(icon: LucideIcons300.delete, tooltip: l.remove, onTap: _back),
               ]),
               const SizedBox(height: 8),
               TextButton(

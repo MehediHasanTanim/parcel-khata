@@ -4,6 +4,7 @@ import 'package:parcel_khata/features/reminders/application/attention_service.da
 import 'package:parcel_khata/features/reminders/presentation/attention_widgets.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class AttentionScreen extends ConsumerWidget {
   const AttentionScreen({super.key});
@@ -28,7 +29,7 @@ class AttentionScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (list) => list.isEmpty
-            ? EmptyState(icon: Icons.task_alt, title: l.attentionEmpty)
+            ? EmptyState(icon: LucideIcons300.circleCheck, title: l.attentionEmpty)
             : ListView(
                 padding: const EdgeInsets.all(12),
                 children: [for (final i in list) AttentionTile(item: i)],

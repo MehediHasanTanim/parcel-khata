@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/profit/application/profit_queries.dart';
 import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _customerProvider = FutureProvider.family<Customer?, String>(
     (ref, id) => ref.watch(customerRepositoryProvider).getById(id));
@@ -34,7 +35,7 @@ class CustomerDetailScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: l.edit,
-            icon: const Icon(Icons.edit),
+            icon: const Icon(LucideIcons300.pencil),
             onPressed: () async {
               await context.push('/customers/$customerId/edit');
               ref.invalidate(_customerProvider(customerId));
@@ -49,21 +50,21 @@ class CustomerDetailScreen extends ConsumerWidget {
           if (c == null) return const SizedBox.shrink();
           return ListView(children: [
             ListTile(
-                leading: const Icon(Icons.phone),
+                leading: const Icon(LucideIcons300.phone),
                 title: Text(c.phonePrimary),
                 subtitle: Text(l.fieldPhone)),
             if (c.phoneAlt != null)
               ListTile(
-                  leading: const Icon(Icons.phone_forwarded),
+                  leading: const Icon(LucideIcons300.phoneForwarded),
                   title: Text(c.phoneAlt!),
                   subtitle: Text(l.fieldPhoneAlt)),
             if (c.whatsapp != null)
               ListTile(
-                  leading: const Icon(Icons.chat),
+                  leading: const Icon(LucideIcons300.messageSquare),
                   title: Text(c.whatsapp!),
                   subtitle: Text(l.fieldWhatsapp)),
             if (c.notes != null)
-              ListTile(leading: const Icon(Icons.notes), title: Text(c.notes!)),
+              ListTile(leading: const Icon(LucideIcons300.textAlignStart), title: Text(c.notes!)),
             RiskSection(
               customer: c,
               onChanged: () => ref.invalidate(_customerProvider(customerId)),
@@ -74,7 +75,7 @@ class CustomerDetailScreen extends ConsumerWidget {
               child: Text(l.addresses, style: Theme.of(context).textTheme.titleMedium),
             ),
             ...addresses.value?.map((a) => ListTile(
-                      leading: Icon(a.isDefault ? Icons.star : Icons.place_outlined),
+                      leading: Icon(a.isDefault ? LucideIcons300.star : LucideIcons300.mapPin),
                       title: Text(a.fullText),
                       subtitle: Text([a.label, a.area, a.district]
                           .whereType<String>()
@@ -88,15 +89,15 @@ class CustomerDetailScreen extends ConsumerWidget {
               child: _StatsCard(stats: ref.watch(_statsProvider(customerId)).value),
             ),
             ListTile(
-              leading: const Icon(Icons.receipt_long_outlined),
+              leading: const Icon(LucideIcons300.receiptText),
               title: Text(l.ordersTitle),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(LucideIcons300.chevronRight),
               onTap: () => context.push('/customers/$customerId/orders'),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: OutlinedButton.icon(
-                icon: Icon(c.isArchived ? Icons.unarchive : Icons.archive_outlined),
+                icon: Icon(c.isArchived ? LucideIcons300.archiveRestore : LucideIcons300.archive),
                 label: Text(c.isArchived ? l.unarchive : l.archive),
                 onPressed: () async {
                   final repo = ref.read(customerRepositoryProvider);

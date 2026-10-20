@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parcel_khata/features/orders/domain/order_filter.dart';
 import 'package:parcel_khata/features/search/application/saved_view_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String viewDisplayName(AppLocalizations l, SavedViewItem v) {
   if (!v.isDefault) return v.name;
@@ -72,7 +73,7 @@ class _SavedViewsSheet extends ConsumerWidget {
             child: Text(l.savedViews, style: Theme.of(context).textTheme.titleLarge),
           ),
           ListTile(
-            leading: const Icon(Icons.bookmark_add_outlined),
+            leading: const Icon(LucideIcons300.bookmarkPlus),
             title: Text(l.saveCurrentView),
             onTap: () async {
               final name = await _askName(context, l.saveCurrentView);
@@ -82,7 +83,7 @@ class _SavedViewsSheet extends ConsumerWidget {
           const Divider(height: 1),
           for (final v in views)
             ListTile(
-              leading: Icon(v.isDefault ? Icons.push_pin_outlined : Icons.bookmark_outline),
+              leading: Icon(v.isDefault ? LucideIcons300.pin : LucideIcons300.bookmark),
               title: Text(viewDisplayName(l, v)),
               onTap: () => Navigator.pop(context, v),
               trailing: v.isDefault
@@ -90,7 +91,7 @@ class _SavedViewsSheet extends ConsumerWidget {
                   : Row(mainAxisSize: MainAxisSize.min, children: [
                       IconButton(
                         tooltip: l.renameView,
-                        icon: const Icon(Icons.edit_outlined),
+                        icon: const Icon(LucideIcons300.pencil),
                         onPressed: () async {
                           final n = await _askName(context, l.renameView, initial: v.name);
                           if (n != null) await repo.rename(v.id, n);
@@ -98,7 +99,7 @@ class _SavedViewsSheet extends ConsumerWidget {
                       ),
                       IconButton(
                         tooltip: l.deleteView,
-                        icon: const Icon(Icons.delete_outline),
+                        icon: const Icon(LucideIcons300.trash2),
                         onPressed: () => repo.delete(v.id),
                       ),
                     ]),

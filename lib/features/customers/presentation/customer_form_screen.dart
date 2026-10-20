@@ -7,6 +7,7 @@ import 'package:parcel_khata/features/customers/domain/phone_normalizer.dart';
 import 'package:parcel_khata/features/orders/application/order_prefill.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/form_helpers.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class _AddrCtl {
   _AddrCtl({String label = '', String text = '', String district = '', String area = '', this.isDefault = false, this.id})
@@ -176,7 +177,7 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
                     content: Text(_duplicateName == null
                         ? l.duplicatePhone
                         : '${l.duplicatePhone}: $_duplicateName'),
-                    leading: const Icon(Icons.warning_amber),
+                    leading: const Icon(LucideIcons300.triangleAlert),
                     actions: [
                       TextButton(
                         onPressed: () => context.pushReplacement('/customers/$_duplicateId'),
@@ -225,7 +226,7 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
                 gap(),
                 OutlinedButton.icon(
                   onPressed: () => setState(() => _addrs.add(_AddrCtl(isDefault: _addrs.isEmpty))),
-                  icon: const Icon(Icons.add_location_alt_outlined),
+                  icon: const Icon(LucideIcons300.mapPinPlus),
                   label: Text(l.addAddress),
                 ),
                 gap(80),
@@ -250,7 +251,7 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
             ),
             IconButton(
               tooltip: l.remove,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(LucideIcons300.trash2),
               onPressed: () => setState(() => _addrs.removeAt(i).dispose()),
             ),
           ]),

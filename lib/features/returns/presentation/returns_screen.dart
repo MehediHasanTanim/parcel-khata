@@ -8,6 +8,7 @@ import 'package:parcel_khata/features/returns/application/return_queries.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 final _returnRowsProvider = FutureProvider<List<ReturnRow>>((ref) async {
   // Re-run whenever orders change.
@@ -65,7 +66,7 @@ class _ReturnsScreenState extends ConsumerState<ReturnsScreen> {
                     _ => r.received,
                   }).toList();
               if (shown.isEmpty) {
-                return EmptyState(icon: Icons.assignment_return_outlined, title: l.emptyDefaultTitle);
+                return EmptyState(icon: LucideIcons300.undo2, title: l.emptyDefaultTitle);
               }
               final loss = shown.fold(0, (s, r) => s + r.loss.poisha);
               return ListView(children: [
@@ -84,7 +85,7 @@ class _ReturnsScreenState extends ConsumerState<ReturnsScreen> {
                       if (r.overdue)
                         StatusChip(
                             label: l.tabNotReceived,
-                            icon: Icons.schedule,
+                            icon: LucideIcons300.clock,
                             tone: StatusTone.danger),
                     ]),
                     trailing: r.received && r.loss.poisha > 0 ? Text(r.loss.format()) : null,

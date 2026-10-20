@@ -6,6 +6,7 @@ import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/blueprint.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class CodScreen extends ConsumerWidget {
   const CodScreen({super.key});
@@ -21,19 +22,19 @@ class CodScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: l.ageingTitle,
-            icon: const Icon(Icons.hourglass_empty),
+            icon: const Icon(LucideIcons300.hourglass),
             onPressed: () => context.push('/cod/ageing'),
           ),
           IconButton(
             tooltip: l.payoutsHistory,
-            icon: const Icon(Icons.receipt),
+            icon: const Icon(LucideIcons300.receipt),
             onPressed: () => context.push('/cod/payouts'),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/cod/payout/new'),
-        icon: const Icon(Icons.add_card),
+        icon: const Icon(LucideIcons300.creditCard),
         label: Text(l.recordPayout),
       ),
       body: ListView(padding: const EdgeInsets.all(16), children: [
@@ -50,13 +51,13 @@ class CodScreen extends ConsumerWidget {
               mainAxisExtent: 92 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
             ),
             children: [
-              _Tile(l.pendingWithCourier, s.pending.format(), Icons.account_balance_wallet,
+              _Tile(l.pendingWithCourier, s.pending.format(), LucideIcons300.wallet,
                   () => context.push('/cod/ageing')),
-              _Tile(l.inTransitCod, s.inTransit.format(), Icons.local_shipping_outlined,
+              _Tile(l.inTransitCod, s.inTransit.format(), LucideIcons300.truck,
                   () => context.go('/orders')),
-              _Tile(l.codDisputed, s.disputed.format(), Icons.flag_outlined,
+              _Tile(l.codDisputed, s.disputed.format(), LucideIcons300.flag,
                   () => context.push('/cod/disputed')),
-              _Tile(l.settledThisMonth, s.settledThisMonth.format(), Icons.savings_outlined,
+              _Tile(l.settledThisMonth, s.settledThisMonth.format(), LucideIcons300.piggyBank,
                   () => context.push('/cod/payouts')),
             ],
           ),
@@ -70,7 +71,7 @@ class CodScreen extends ConsumerWidget {
           loading: () => const SizedBox.shrink(),
           error: (e, _) => Text('$e'),
           data: (rows) => rows.isEmpty
-              ? EmptyState(icon: Icons.payments_outlined, title: l.noPayableOrders)
+              ? EmptyState(icon: LucideIcons300.banknote, title: l.noPayableOrders)
               : Column(children: [
                   for (final r in rows)
                     Card(
@@ -84,7 +85,7 @@ class CodScreen extends ConsumerWidget {
                           if (r.overdueCount > 0)
                             StatusChip(
                               label: '${l.overdueLabel}: ${r.overdueCount}',
-                              icon: Icons.schedule,
+                              icon: LucideIcons300.clock,
                               tone: StatusTone.danger,
                             ),
                         ]),

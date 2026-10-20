@@ -19,6 +19,7 @@ import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String backupProblemText(AppLocalizations l, BackupProblem p) => switch (p) {
       BackupProblem.notABackup => l.errBackupNotBackup,
@@ -234,7 +235,7 @@ class _DataScreenState extends ConsumerState<DataScreen> {
         child: ListView(shrinkWrap: true, children: [
           for (final r in refs)
             ListTile(
-              leading: const Icon(Icons.cloud_download_outlined),
+              leading: const Icon(LucideIcons300.cloudDownload),
               title: Text(r.name),
               subtitle: r.modified == null ? null : Text(formatDateTime(r.modified!.toLocal())),
               onTap: () => Navigator.pop(ctx, r),
@@ -262,7 +263,7 @@ class _DataScreenState extends ConsumerState<DataScreen> {
     final on = s?.driveEnabled ?? false;
     return [
       SwitchListTile(
-        secondary: const Icon(Icons.cloud_outlined),
+        secondary: const Icon(LucideIcons300.cloud),
         title: Text(l.driveTitle),
         subtitle: Text(on ? l.driveSchedule : l.driveSubtitle),
         value: on,
@@ -279,17 +280,17 @@ class _DataScreenState extends ConsumerState<DataScreen> {
         if (s?.driveLastError != null)
           ListTile(
             dense: true,
-            leading: Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
+            leading: Icon(LucideIcons300.circleAlert, color: Theme.of(context).colorScheme.error),
             title: Text(_driveError(l, s!.driveLastError!)),
           ),
         ListTile(
-          leading: const Icon(Icons.cloud_upload_outlined),
+          leading: const Icon(LucideIcons300.cloudUpload),
           title: Text(l.driveBackupNow),
           onTap: _busy ? null : _driveBackupNow,
         ),
       ],
       ListTile(
-        leading: const Icon(Icons.cloud_download_outlined),
+        leading: const Icon(LucideIcons300.cloudDownload),
         title: Text(l.driveRestore),
         onTap: _busy ? null : _driveRestore,
       ),
@@ -309,13 +310,13 @@ class _DataScreenState extends ConsumerState<DataScreen> {
       body: Stack(children: [
         ListView(children: [
           ListTile(
-            leading: const Icon(Icons.backup_outlined),
+            leading: const Icon(LucideIcons300.databaseBackup),
             title: Text(l.backupNow),
             subtitle: Text('${l.lastBackup}: $last'),
             onTap: _busy ? null : _backup,
           ),
           ListTile(
-            leading: const Icon(Icons.restore),
+            leading: const Icon(LucideIcons300.rotateCcw),
             title: Text(l.restoreBackup),
             onTap: _busy ? null : _restore,
           ),
@@ -327,43 +328,43 @@ class _DataScreenState extends ConsumerState<DataScreen> {
             child: Text(l.exportData, style: Theme.of(context).textTheme.titleSmall),
           ),
           ListTile(
-            leading: const Icon(Icons.table_chart_outlined),
+            leading: const Icon(LucideIcons300.table),
             title: Text(l.exportOrders),
             onTap: () => _export('orders', exp.orders),
           ),
           ListTile(
-            leading: const Icon(Icons.table_rows_outlined),
+            leading: const Icon(LucideIcons300.rows3),
             title: Text('${l.exportOrders} – ${l.items}'),
             onTap: () => _export('order_lines', exp.orderLines),
           ),
           ListTile(
-            leading: const Icon(Icons.people_outline),
+            leading: const Icon(LucideIcons300.users),
             title: Text(l.exportCustomers),
             onTap: () => _export('customers', exp.customers),
           ),
           ListTile(
-            leading: const Icon(Icons.inventory_2_outlined),
+            leading: const Icon(LucideIcons300.package),
             title: Text(l.exportProducts),
             onTap: () => _export('products', exp.products),
           ),
           ListTile(
-            leading: const Icon(Icons.account_balance_wallet_outlined),
+            leading: const Icon(LucideIcons300.wallet),
             title: Text(l.exportPayouts),
             onTap: () => _export('payouts', exp.payouts),
           ),
           ListTile(
-            leading: const Icon(Icons.assignment_return_outlined),
+            leading: const Icon(LucideIcons300.undo2),
             title: Text(l.exportReturns),
             onTap: () => _export('returns', exp.returns),
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.upload_file),
+            leading: const Icon(LucideIcons300.fileUp),
             title: Text(l.importCsv),
             onTap: () => context.push('/settings/import'),
           ),
           ListTile(
-            leading: const Icon(Icons.description_outlined),
+            leading: const Icon(LucideIcons300.fileText),
             title: Text(l.downloadTemplate),
             subtitle: Text('${l.importCustomers} / ${l.importOrders}'),
             onTap: () async {

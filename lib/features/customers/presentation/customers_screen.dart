@@ -5,6 +5,7 @@ import 'package:parcel_khata/features/customers/application/customer_repository.
 import 'package:parcel_khata/features/customers/presentation/risk_widgets.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class CustomersScreen extends ConsumerStatefulWidget {
   const CustomersScreen({super.key});
@@ -24,7 +25,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
       appBar: AppBar(title: Text(l.customers)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/customers/new'),
-        icon: const Icon(Icons.person_add),
+        icon: const Icon(LucideIcons300.userPlus),
         label: Text(l.customerNew),
       ),
       body: Column(children: [
@@ -32,7 +33,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
           padding: const EdgeInsets.all(12),
           child: TextField(
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon: const Icon(LucideIcons300.search),
               hintText: l.searchCustomers,
             ),
             // Debounce is unnecessary: queries are local and indexed.
@@ -43,7 +44,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
           child: customers.when(
             data: (rows) => rows.isEmpty
                 ? EmptyState(
-                    icon: Icons.people_outline,
+                    icon: LucideIcons300.users,
                     title: _query.isEmpty ? l.emptyDefaultTitle : l.noResults)
                 : ListView.separated(
                     itemCount: rows.length,
@@ -51,7 +52,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
                     itemBuilder: (_, i) {
                       final c = rows[i];
                       return ListTile(
-                        leading: const Icon(Icons.person_outline),
+                        leading: const Icon(LucideIcons300.user),
                         title: Text(c.name),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

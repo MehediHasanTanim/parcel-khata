@@ -7,6 +7,7 @@ import 'package:parcel_khata/features/security/domain/pin_security.dart';
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/settings/domain/shop_settings.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 class SecurityScreen extends ConsumerWidget {
   const SecurityScreen({super.key});
@@ -146,7 +147,7 @@ class SecurityScreen extends ConsumerWidget {
         ),
         const Divider(),
         ListTile(
-          leading: Icon(Icons.delete_forever, color: Theme.of(context).colorScheme.error),
+          leading: Icon(LucideIcons300.trash, color: Theme.of(context).colorScheme.error),
           title: Text(l.secErase,
               style: TextStyle(color: Theme.of(context).colorScheme.error)),
           onTap: () => _erase(context, ref),
@@ -162,7 +163,7 @@ class SecurityScreen extends ConsumerWidget {
       context: context,
       builder: (d) => StatefulBuilder(
         builder: (d, setState) => AlertDialog(
-          icon: const Icon(Icons.warning_amber),
+          icon: const Icon(LucideIcons300.triangleAlert),
           title: Text(l.secErase),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Text(l.secEraseWarn),
