@@ -2521,4 +2521,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adsPrivacyChoices => 'Privacy and ad choices';
+
+  @override
+  String get codWhoOwesYou => 'Who owes you';
+
+  @override
+  String payoutStepOf(int n) {
+    return 'Step $n of 3';
+  }
 }

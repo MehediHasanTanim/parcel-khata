@@ -143,11 +143,12 @@ class OrderDetailScreen extends ConsumerWidget {
             ],
           ),
           body: ListView(padding: const EdgeInsets.all(16), children: [
+            StatusBanner(
+                label: statusLabel(l, status),
+                icon: statusIcon(status),
+                tone: statusTone(status)),
+            const SizedBox(height: 8),
             Wrap(spacing: 8, runSpacing: 8, children: [
-              StatusChip(
-                  label: statusLabel(l, status),
-                  icon: statusIcon(status),
-                  tone: statusTone(status)),
               if (cod != CodStatus.notApplicable)
                 StatusChip(
                     label: codLabel(l, cod),

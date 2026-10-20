@@ -1023,5 +1023,14 @@
   "roleOrderTaker": "Order taker",
   "rolePacker": "Packer",
   "activityMoney": "Money",
-  "adsPrivacyChoices": "Privacy and ad choices"
+  "adsPrivacyChoices": "Privacy and ad choices",
+  "codWhoOwesYou": "Who owes you",
+  "payoutStepOf": "Step {n} of 3",
+  "@payoutStepOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

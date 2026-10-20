@@ -2516,4 +2516,12 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get adsPrivacyChoices => 'গোপনীয়তা ও বিজ্ঞাপনের পছন্দ';
+
+  @override
+  String get codWhoOwesYou => 'কার কাছে কত পাবেন';
+
+  @override
+  String payoutStepOf(int n) {
+    return 'ধাপ $n / ৩';
+  }
 }

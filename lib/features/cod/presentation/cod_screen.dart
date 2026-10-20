@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/features/cod/application/cod_queries.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:parcel_khata/shared/blueprint.dart';
 import 'package:parcel_khata/shared/empty_state.dart';
 import 'package:parcel_khata/shared/status_chip.dart';
 
@@ -61,6 +62,10 @@ class CodScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(l.codWhoOwesYou, style: Theme.of(context).textTheme.titleMedium),
+        ),
         couriers.when(
           loading: () => const SizedBox.shrink(),
           error: (e, _) => Text('$e'),
@@ -69,8 +74,10 @@ class CodScreen extends ConsumerWidget {
               : Column(children: [
                   for (final r in rows)
                     Card(
+                      margin: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
-                        title: Text(r.courier.name),
+                        title: Text(r.courier.name,
+                            style: const TextStyle(fontWeight: FontWeight.w700)),
                         subtitle: Wrap(spacing: 8, runSpacing: 4, children: [
                           Text(l.ordersCountN(r.orderCount)),
                           Text(l.oldestDays(r.oldestAgeDays)),
@@ -82,7 +89,7 @@ class CodScreen extends ConsumerWidget {
                             ),
                         ]),
                         trailing: Text(r.total.format(),
-                            style: Theme.of(context).textTheme.titleMedium),
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 19)),
                         onTap: () => context.push('/cod/payout/new?courier=${r.courier.id}'),
                       ),
                     ),
@@ -105,11 +112,11 @@ class _Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    return Card(
+    return Blueprint(
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Icon(icon, size: 18),
@@ -117,7 +124,7 @@ class _Tile extends StatelessWidget {
               Expanded(child: Text(label, style: t.textTheme.labelMedium, maxLines: 2)),
             ]),
             const Spacer(),
-            Text(value, style: t.textTheme.titleLarge),
+            Text(value, style: t.textTheme.headlineSmall?.copyWith(fontSize: 26)),
           ]),
         ),
       ),

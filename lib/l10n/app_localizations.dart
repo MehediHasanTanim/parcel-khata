@@ -4927,6 +4927,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy and ad choices'**
   String get adsPrivacyChoices;
+
+  /// No description provided for @codWhoOwesYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Who owes you'**
+  String get codWhoOwesYou;
+
+  /// No description provided for @payoutStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of 3'**
+  String payoutStepOf(int n);
 }
 
 class _AppLocalizationsDelegate

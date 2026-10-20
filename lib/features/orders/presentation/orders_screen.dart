@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'dart:ui' show FontFeature;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -656,13 +658,17 @@ class OrderTile extends ConsumerWidget {
       now: now,
       stuckDays: item.courierStuckDays ?? 0,
     );
+    final th = Theme.of(context);
     return ListTile(
+      shape: Border(top: BorderSide(color: th.colorScheme.outlineVariant)),
+      minVerticalPadding: 10,
       selected: selected,
       selectedTileColor: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
       onTap: onTap ?? () => context.push('/orders/${o.id}'),
       onLongPress: onLongPress,
       leading: selected ? const Icon(Icons.check_circle) : null,
-      title: Text('${o.orderNo} · ${item.customerName ?? '—'}'),
+      title: Text('${o.orderNo} · ${item.customerName ?? '—'}',
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 6),
         child: Wrap(spacing: 6, runSpacing: 4, children: [
@@ -697,7 +703,10 @@ class OrderTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(Money(o.codExpected).format(),
-                    style: Theme.of(context).textTheme.titleMedium),
+                    style: th.textTheme.titleLarge?.copyWith(
+                      fontSize: 19,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    )),
                 Text(formatDate(o.orderDate), style: Theme.of(context).textTheme.bodySmall),
               ]),
     );

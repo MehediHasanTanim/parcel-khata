@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parcel_khata/app/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/money/money.dart';
@@ -199,7 +200,10 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
     final l = context.l10n;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l.payoutNewTitle),
+        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(l.payoutNewTitle),
+          Text(l.payoutStepOf(_step + 1), style: Theme.of(context).textTheme.bodySmall),
+        ]),
         leading: _step > 0
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -284,6 +288,14 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
         _ => l.methodOther,
       };
 
+  Widget _sumRow(ThemeData t, String k, String v) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(k),
+          Text(v, style: t.textTheme.titleLarge?.copyWith(fontSize: 19)),
+        ]),
+      );
+
   Widget _stepTwo(AppLocalizations l) {
     if (_payable.isEmpty) {
       return EmptyState(icon: Icons.task_alt, title: l.noPayableOrders);
@@ -295,28 +307,36 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
     final surplusNeedsFlag = diff.poisha > 0;
     return Column(children: [
       Container(
+        margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
         padding: const EdgeInsets.all(12),
-        color: t.colorScheme.surfaceContainerHighest,
+        decoration: BoxDecoration(border: Border.all(color: t.colorScheme.outlineVariant)),
         child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('${l.expectedLabel}: ${expected.format()}'),
-            Text('${l.receivedLabel}: ${_received.format()}'),
-          ]),
-          const SizedBox(height: 4),
+          _sumRow(t, l.expectedLabel, expected.format()),
+          _sumRow(t, l.receivedLabel, _received.format()),
+          Divider(color: t.colorScheme.onSurface, height: 12),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(children: [
-              Icon(diff.isZero ? Icons.check_circle : Icons.warning_amber,
+              Icon(diff.isZero ? Icons.check_circle_outline : Icons.warning_amber,
                   size: 18,
-                  color: diff.isZero ? Colors.green : t.colorScheme.error),
+                  color: diff.isZero
+                      ? const Color(0xFF1B7F3B)
+                      : t.extension<StatusColors>()!.danger),
               const SizedBox(width: 6),
               Text(
-                '${diff.isZero ? l.differenceLabel : (shortfall ? l.shortfallLabel : l.surplusLabel)}: '
-                '${diff.format()}',
+                diff.isZero ? l.differenceLabel : (shortfall ? l.shortfallLabel : l.surplusLabel),
                 style: t.textTheme.titleSmall,
               ),
             ]),
-            TextButton(onPressed: _autoAllocate, child: Text(l.autoAllocate)),
+            Text(diff.format(), style: t.textTheme.headlineSmall?.copyWith(fontSize: 24)),
           ]),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: _autoAllocate,
+              icon: const Icon(Icons.done_all, size: 18),
+              label: Text(l.autoAllocate),
+            ),
+          ),
           if (surplusNeedsFlag)
             SwitchListTile(
               dense: true,
