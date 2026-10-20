@@ -32,6 +32,7 @@ class ParcelKhataApp extends ConsumerWidget {
         }
       });
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (c) => c.l10n.appName,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
