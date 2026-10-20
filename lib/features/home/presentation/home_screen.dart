@@ -36,6 +36,8 @@ void openDrillDown(
   context.push(Uri(path: '/drill', queryParameters: q).toString());
 }
 
+int _tileColumns(double width) => width >= 900 ? 4 : (width >= 600 ? 3 : 2);
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -232,7 +234,8 @@ class _SectionsState extends ConsumerState<_Sections> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                // 2 columns on phones, 3 from 600dp, 4 from 900dp (tablets).
+                crossAxisCount: _tileColumns(MediaQuery.sizeOf(context).width),
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
                 mainAxisExtent:

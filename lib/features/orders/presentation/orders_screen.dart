@@ -596,7 +596,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                         final id = item.order.id;
                         final tile = OrderTile(
                           item: item,
-                          selected: _selected.contains(id) || (wide && id == _paneOrderId),
+                          selected: _selected.contains(id),
+                          highlighted: wide && id == _paneOrderId,
                           onLongPress: () => setState(() => _selected.add(id)),
                           onTap: _selecting
                               ? () => setState(() {
@@ -666,8 +667,12 @@ class OrderTile extends ConsumerWidget {
     this.onTap,
     this.onLongPress,
     this.selected = false,
+    this.highlighted = false,
     super.key,
   });
+
+  /// The order open in the wide layout's detail pane (tinted, no check icon).
+  final bool highlighted;
 
   final OrderListItem item;
   final Widget? trailing;
@@ -693,7 +698,9 @@ class OrderTile extends ConsumerWidget {
     // A plain row (not a ListTile) so the trailing column can grow with the
     // text scale instead of overflowing a fixed-height tile.
     return Material(
-      color: selected ? th.colorScheme.primaryContainer.withValues(alpha: 0.4) : Colors.transparent,
+      color: selected || highlighted
+          ? th.colorScheme.primaryContainer.withValues(alpha: 0.4)
+          : Colors.transparent,
       child: InkWell(
         onTap: onTap ?? () => context.push('/orders/${o.id}'),
         onLongPress: onLongPress,
