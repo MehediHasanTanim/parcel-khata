@@ -108,12 +108,9 @@ class AttentionTile extends ConsumerWidget {
   List<Widget> _actions(BuildContext context, WidgetRef ref, AppLocalizations l) {
     final o = item.order;
     final status = ref.read(orderStatusServiceProvider);
-    final out = <Widget>[];
-    Widget chip(String label, IconData icon, VoidCallback onTap) => ActionChip(
-          avatar: Icon(icon, size: 16),
-          label: Text(label),
-          onPressed: onTap,
-        );
+    final acts = <_Act>[];
+    final out = _ActList(acts);
+    _Act chip(String label, IconData icon, VoidCallback onTap) => _Act(label, icon, onTap);
 
     if (o != null && item.kind == AttentionKind.staleHandedOver) {
       out
@@ -166,7 +163,34 @@ class AttentionTile extends ConsumerWidget {
       ..add(chip(l.snooze1d, Icons.snooze, () => reminders.snooze(item, 1)))
       ..add(chip(l.snooze3d, Icons.snooze, () => reminders.snooze(item, 3)))
       ..add(chip(l.dismissItem, Icons.close, () => _dismiss(context, reminders, l)));
-    return out;
+    return _render(acts);
+  }
+
+  /// Two primary actions as chips, the rest behind an overflow menu.
+  List<Widget> _render(List<_Act> acts) {
+    const visible = 2;
+    return [
+      for (final a in acts.take(visible))
+        ActionChip(
+          avatar: Icon(a.icon, size: 16),
+          label: Text(a.label),
+          onPressed: a.onTap,
+        ),
+      if (acts.length > visible)
+        PopupMenuButton<_Act>(
+          padding: EdgeInsets.zero,
+          child: const Chip(label: Icon(Icons.more_horiz, size: 18)),
+          onSelected: (a) => a.onTap(),
+          itemBuilder: (_) => [
+            for (final a in acts.skip(visible))
+              PopupMenuItem(value: a, child: Row(children: [
+                Icon(a.icon, size: 18),
+                const SizedBox(width: 8),
+                Flexible(child: Text(a.label)),
+              ])),
+          ],
+        ),
+    ];
   }
 
   Future<void> _dismiss(
@@ -214,3 +238,20 @@ class AttentionTile extends ConsumerWidget {
 }
 
 final _noop = Provider<int>((ref) => 0);
+
+class _Act {
+  const _Act(this.label, this.icon, this.onTap);
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+}
+
+/// Lets the existing `out..add(chip(...))` chains append to [_acts].
+class _ActList {
+  _ActList(this._acts);
+
+  final List<_Act> _acts;
+
+  void add(_Act a) => _acts.add(a);
+}

@@ -2522,7 +2522,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String payoutStepOf(int n) {
-    return 'ধাপ $n / ৩';
+    return 'ধাপ $n / 3';
   }
 
   @override

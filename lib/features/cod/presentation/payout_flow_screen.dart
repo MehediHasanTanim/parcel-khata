@@ -355,7 +355,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
           ),
           for (final p in _payable)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: Row(children: [
                 Checkbox(
                   value: _selected.contains(p.order.id),
@@ -377,7 +377,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
                   ]),
                 ),
                 SizedBox(
-                  width: 110,
+                  width: 136,
                   child: TextField(
                     controller: _amounts[p.order.id],
                     enabled: _selected.contains(p.order.id),
@@ -385,7 +385,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
                     decoration: InputDecoration(
                       isDense: true,
                       prefixText: '৳ ',
-                      labelText: l.amountApplied,
+                      hintText: l.amountApplied,
                     ),
                     onChanged: (_) => setState(() {}),
                   ),

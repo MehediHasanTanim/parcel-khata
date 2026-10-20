@@ -27,6 +27,24 @@ class DebugMenuScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(context.l10n.debugMenu)),
       body: ListView(children: [
         ListTile(
+          leading: const Icon(Icons.auto_awesome),
+          title: const Text('Seed demo data (60 orders, mixed statuses, payouts)'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            final seeder = DevSeeder(
+              ref.read(customerRepositoryProvider),
+              ref.read(productRepositoryProvider),
+              ref.read(courierRepositoryProvider),
+            );
+            await seeder.seed();
+            await seeder.seedOrders(ref.read(orderRepositoryProvider), count: 60, days: 30);
+            await seeder.seedStatusMix(
+                ref.read(orderRepositoryProvider), ref.read(orderStatusServiceProvider));
+            await seeder.seedPayouts(ref.read(payoutServiceProvider));
+            m.showSnackBar(const SnackBar(content: Text('Demo data seeded')));
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.dataset),
           title: const Text('Seed 500 customers, 80 products, 4 couriers'),
           onTap: () async {
