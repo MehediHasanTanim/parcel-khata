@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/_ds_bundle.js"></script>
+<style>@keyframes pkspin{to{transform:rotate(360deg)}}@keyframes pkpulse{50%{opacity:.4}}@media (prefers-reduced-motion:reduce){.pkm{animation:none!important}}</style>
+</helmet>
+<div style="padding:56px;display:flex;flex-direction:column;gap:96px;width:1700px;font-family:var(--font-body);color:var(--color-text)">
+<div style="display:flex;gap:20px;font-size:14px;flex-wrap:wrap"><a href="Parcel Khata UX.dc.html">Overview · icon · system · key screens</a><a href="Parcel Khata - System.dc.html">System completion · accessibility</a><a href="Parcel Khata - States.dc.html">Partial-screen states</a><a href="Parcel Khata - Screens.dc.html">Remaining screens</a><a href="Parcel Khata - Variants.dc.html">Dark · 320dp · tablet · 200% text</a><a href="Parcel Khata - Flows.dc.html">Flow storyboards</a></div>
+
+<section id="6d" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">6d</span><h1 style="margin:0;white-space:nowrap">Accessibility — drawn on frames</h1></div>
+<p style="max-width:860px;margin:0">Numbered badges = focus / reading order. Dashed boxes = touch targets (min 48×48dp, 8dp gap). Pills = measured text contrast (WCAG AA 4.5:1; 3:1 for large text and icons). Right column = screen-reader labels, read in the same order.</p>
+<div style="display:flex;gap:48px;flex-wrap:wrap;align-items:flex-start">
+<sc-for list="{{ a11y }}" as="f" hint-placeholder-count="2">
+<div style="display:flex;gap:20px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:8px"><b style="font:600 14px var(--font-body)">{{ f.name }}</b>
+<div style="position:relative;width:360px;height:640px;background:var(--color-bg);border:1px solid var(--color-text);overflow:hidden">
+{{ f.art }}
+<sc-for list="{{ f.targets }}" as="t" hint-placeholder-count="6"><div style="position:absolute;left:{{ t.x }}px;top:{{ t.y }}px;width:{{ t.w }}px;height:{{ t.h }}px;border:1.5px dashed #C62828;background:rgba(198,40,40,.06);box-sizing:border-box"></div></sc-for>
+<sc-for list="{{ f.cons }}" as="c" hint-placeholder-count="4"><span style="position:absolute;left:{{ c.x }}px;top:{{ c.y }}px;font:600 11px var(--font-body);background:#1d1f20;color:#fff;padding:1px 5px;white-space:nowrap">{{ c.t }}</span></sc-for>
+<sc-for list="{{ f.targets }}" as="t" hint-placeholder-count="6"><span style="position:absolute;left:{{ t.bx }}px;top:{{ t.by }}px;width:20px;height:20px;border-radius:50%;background:#C62828;color:#fff;font:700 12px var(--font-body);display:flex;align-items:center;justify-content:center;z-index:2">{{ t.n }}</span></sc-for>
+</div></div>
+<div style="width:300px;display:flex;flex-direction:column;gap:6px;padding-top:26px">
+<sc-for list="{{ f.labels }}" as="l" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:13px;line-height:1.35;border-bottom:1px solid var(--color-divider);padding-bottom:6px"><b style="color:#C62828">{{ l.n }}</b><span><b>{{ l.role }}</b> — “{{ l.t }}”</span></div></sc-for>
+</div></div>
+</sc-for>
+</div>
+<div style="display:flex;gap:40px;flex-wrap:wrap;font-size:13px;max-width:1100px">
+<div style="flex:1;min-width:300px"><h4 style="margin:0 0 6px">Rules shown above</h4><ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px"><li>Order follows the visual top→bottom, start→end; FAB comes after content, nav last.</li><li>Every icon-only control carries a text label for TalkBack / Voice Access.</li><li>Status is never colour alone: icon + word + colour.</li><li>Money is read as “taka”, with the sign: “minus 440 taka”.</li><li>Row targets are the full row, not the chevron.</li></ul></div>
+<div style="flex:1;min-width:300px"><h4 style="margin:0 0 6px">Dynamic type & motion</h4><ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px"><li>Layout holds at 200% text; rows grow, nothing truncates money.</li><li>Reduce-motion: transitions become instant, pulses stop, spinners keep rotating slowly.</li><li>Errors are announced as live regions, focus moves to the first invalid field.</li></ul></div>
+</div>
+</section>
+
+<section id="6c" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">6c</span><h1 style="margin:0;white-space:nowrap">Component spec frames</h1></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">App bar</b>
+<div style="height:56px;border-bottom:1px solid var(--color-text);display:flex;align-items:center;gap:4px;padding:0 4px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px">←</span><b style="flex:1;font:600 22px var(--font-heading)">ORD-0042</b><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px">⋮</span></div>
+<span style="font-size:13px;opacity:.8">56dp · title Barlow Condensed 22/600 · back 48×48 · max 2 actions, rest in overflow · title may wrap to 2 lines at 200% (bar grows) · bottom hairline appears on scroll.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">FAB · extended + collapsed</b>
+<div style="display:flex;gap:16px;align-items:center;height:76px"><span style="height:56px;padding:0 20px;background:var(--color-accent-700);color:var(--color-bg);display:flex;align-items:center;gap:8px;font:600 17px var(--font-heading);box-shadow:var(--shadow-md)">＋ New order</span><span style="width:56px;height:56px;background:var(--color-accent-700);color:var(--color-bg);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--shadow-md)">＋</span></div>
+<span style="font-size:13px;opacity:.8">56dp square, 16dp from edges, sits 16dp above nav. Collapses to icon on scroll down (200ms). Hidden when keyboard is open. Label always in accessibility name.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Quantity stepper</b>
+<div style="display:flex;gap:24px;align-items:center;height:76px"><div style="display:flex;border:1px solid var(--color-text)"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px">−</span><b style="width:56px;display:flex;align-items:center;justify-content:center;font:600 20px var(--font-heading);border-inline:1px solid var(--color-divider)">2</b><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px">＋</span></div><div style="display:flex;border:1px solid var(--color-divider);opacity:.45"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px">−</span><b style="width:56px;display:flex;align-items:center;justify-content:center;font:600 20px var(--font-heading);border-inline:1px solid var(--color-divider)">1</b><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px">＋</span></div></div>
+<span style="font-size:13px;opacity:.8">Min 1. “−” disabled at 1 (use delete row instead). Tap the number to type. Long-press ± repeats. Announces “Quantity 2”.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Date field</b>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><div style="flex:1;min-width:150px"><div style="font-size:13px">Delivery date</div><div style="height:48px;border:1px solid var(--color-text);display:flex;align-items:center;justify-content:space-between;padding:0 12px"><span>16 Oct 2026</span><span>▦</span></div></div><div style="flex:1;min-width:150px"><div style="font-size:13px">Delivery date</div><div style="height:48px;border:2px solid #C62828;display:flex;align-items:center;justify-content:space-between;padding:0 12px"><span style="opacity:.55">DD MMM YYYY</span><span>▦</span></div><div style="font-size:12px;color:#C62828">Pick a date after today.</div></div></div>
+<span style="font-size:13px;opacity:.8">Opens a system date picker. Shows Bangla numerals and month names in বাংলা. Presets: Today · Tomorrow. Typed entry allowed for keyboard users.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Timeline</b>
+<div style="display:flex;flex-direction:column;font-size:14px">
+<sc-for list="{{ timeline }}" as="e" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:28px 1fr auto;gap:8px;min-height:44px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:22px;height:22px;border:1.5px solid {{ e.c }};background:{{ e.bg }};color:{{ e.c }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ e.g }}</span><i style="flex:1;width:0;border-left:1.5px {{ e.ln }} var(--color-divider)"></i></div><div><b>{{ e.t }}</b><div style="font-size:12px;opacity:.7">{{ e.s }}</div></div><span style="font-size:12px;opacity:.7">{{ e.w }}</span></div></sc-for></div>
+<span style="font-size:13px;opacity:.8">Newest first. Solid line = happened; dashed = expected. Each node: glyph + word + time, never colour only.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Compact table</b>
+<div style="font-size:13px;border:1px solid var(--color-divider)">
+<div style="display:grid;grid-template-columns:1fr 54px 70px 70px;gap:6px;padding:6px 8px;background:var(--color-accent-100);font-weight:600"><span>Date</span><span style="text-align:right">Ord</span><span style="text-align:right">Revenue</span><span style="text-align:right">Profit</span></div>
+<sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1fr 54px 70px 70px;gap:6px;padding:8px;border-top:1px solid var(--color-divider);min-height:40px;align-items:center"><span>{{ r.a }}</span><span style="text-align:right;font-variant-numeric:tabular-nums">{{ r.b }}</span><span style="text-align:right;font-variant-numeric:tabular-nums">{{ r.c }}</span><b style="text-align:right;font-variant-numeric:tabular-nums">{{ r.d }}</b></div></sc-for></div>
+<span style="font-size:13px;opacity:.8">Row ≥40dp (≥48 when tappable). Numbers right-aligned, tabular. First column sticky on horizontal scroll. At 200% text the table becomes stacked cards.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Line chart</b>
+<svg viewBox="0 0 300 130" style="width:100%;height:auto"><path d="M30 10V105H295" fill="none" stroke="#1d1f20" stroke-width="1"/><path d="M30 70H295M30 35H295" stroke="#c9ccd0" stroke-width="1" stroke-dasharray="3 3"/><polyline points="30,90 70,78 110,84 150,52 190,60 230,34 270,28" fill="none" stroke="#416180" stroke-width="2"/><polyline points="30,98 70,92 110,96 150,80 190,84 230,72 270,66" fill="none" stroke="#5F6368" stroke-width="2" stroke-dasharray="5 4"/><circle cx="270" cy="28" r="4" fill="#416180"/><text x="26" y="108" text-anchor="end" font-size="10">0</text><text x="26" y="38" text-anchor="end" font-size="10">20k</text><text x="30" y="122" font-size="10">9 Oct</text><text x="250" y="122" font-size="10">15 Oct</text></svg>
+<span style="font-size:13px;opacity:.8">Solid = Revenue, dashed = Profit (line style differs, not just colour). Tap a point → value tooltip. “View as table” toggle is always available for screen readers.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Donut chart</b>
+<div style="display:flex;gap:16px;align-items:center"><svg viewBox="0 0 120 120" style="width:130px;height:130px;flex:none"><g fill="none" stroke-width="18" transform="rotate(-90 60 60)"><circle cx="60" cy="60" r="44" stroke="#416180" stroke-dasharray="152 276"/><circle cx="60" cy="60" r="44" stroke="#8fa9c4" stroke-dasharray="69 276" stroke-dashoffset="-154"/><circle cx="60" cy="60" r="44" stroke="#C62828" stroke-dasharray="25 276" stroke-dashoffset="-225"/></g><text x="60" y="58" text-anchor="middle" font-size="18" font-weight="700" font-family="Barlow Condensed">৳32.4k</text><text x="60" y="73" text-anchor="middle" font-size="10">Revenue</text></svg>
+<div style="font-size:13px;display:flex;flex-direction:column;gap:6px"><span>■ Delivered 55%</span><span>▨ Pending 25%</span><span>□ Returned 9%</span></div></div>
+<span style="font-size:13px;opacity:.8">Legend carries the numbers; slice order fixed. 3 slices max, rest grouped as “Other”. Centre = total.</span></div>
+
+<div class="blueprint" style="padding:16px;display:flex;flex-direction:column;gap:10px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 20px var(--font-heading)">Sync pill</b>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;min-height:76px">
+<sc-for list="{{ syncPills }}" as="p" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px {{ p.bs }} {{ p.c }};background:color-mix(in srgb,{{ p.c }} 12%,transparent);color:{{ p.fg }};font:600 13px var(--font-body)"><span class="pkm" style="display:{{ p.sp }};width:12px;height:12px;border:2px solid {{ p.c }};border-top-color:transparent;border-radius:50%;animation:pkspin 900ms linear infinite"></span>{{ p.g }} {{ p.t }}</span></sc-for></div>
+<span style="font-size:13px;opacity:.8">In app bar, 32dp visual / 48dp target → opens Sync status (S-49). Offline never blocks work; pending count is always visible.</span></div>
+</div>
+</section>
+
+<section id="6b" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">6b</span><h1 style="margin:0;white-space:nowrap">Component states · Bangla-long · 200% text</h1></div>
+<div style="display:grid;grid-template-columns:130px repeat(7,minmax(0,1fr));gap:12px;align-items:center;font-size:13px">
+<span></span><sc-for list="{{ stateNames }}" as="s" hint-placeholder-count="7"><b style="font:600 13px var(--font-body);opacity:.7">{{ s }}</b></sc-for>
+<sc-for list="{{ matrix }}" as="c" hint-placeholder-count="28">
+<div style="display:{{ c.lab }};font:600 14px var(--font-body)">{{ c.row }}</div>
+<div style="display:{{ c.cell }};min-height:48px;box-sizing:border-box;padding:0 12px;align-items:center;justify-content:center;gap:6px;background:{{ c.bg }};color:{{ c.fg }};border:{{ c.bd }};opacity:{{ c.op }};outline:{{ c.ol }};outline-offset:2px;font:600 15px var(--font-heading);text-align:center"><span class="pkm" style="display:{{ c.sp }};width:13px;height:13px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:pkspin 900ms linear infinite"></span>{{ c.t }}</div>
+</sc-for></div>
+<p style="margin:0;font-size:13px;opacity:.75;max-width:900px">Focus: 2px accent ring, 2px offset. Pressed: one ramp step darker. Disabled: 45% opacity, not focusable, reason shown nearby. Error: danger border + icon + message (never colour alone). Loading: spinner replaces icon, label becomes the progressive verb, control is non-interactive.</p>
+<div style="display:flex;gap:40px;flex-wrap:wrap">
+<div style="width:360px;display:flex;flex-direction:column;gap:10px"><b>Bangla-long (Noto Sans Bengali, 1.15× line height)</b>
+<span style="min-height:48px;background:var(--color-accent-700);color:var(--color-bg);padding:8px 14px;display:flex;align-items:center;justify-content:center;text-align:center;font:600 17px/1.5 'Noto Sans Bengali'">কুরিয়ারের পেমেন্ট রেকর্ড করে সংরক্ষণ করুন</span>
+<span style="min-height:48px;border:1px solid var(--color-text);padding:8px 14px;display:flex;align-items:center;justify-content:center;text-align:center;font:600 17px/1.5 'Noto Sans Bengali'">অর্ডারগুলো স্বয়ংক্রিয়ভাবে বরাদ্দ করুন</span>
+<div><div style="font:500 13px/1.5 'Noto Sans Bengali'">ডেলিভারি চার্জ (আনুমানিক)</div><div style="min-height:48px;border:1px solid var(--color-divider);padding:8px 12px;font:400 16px/1.6 'Noto Sans Bengali'">১১০</div></div>
+<span style="display:inline-flex;align-self:flex-start;border:1px solid #B26A00;background:color-mix(in srgb,#B26A00 12%,transparent);color:#8a5200;padding:4px 10px;font:600 13px/1.5 'Noto Sans Bengali'">কুরিয়ারের কাছে · ৬ দিন</span></div>
+<div style="width:360px;display:flex;flex-direction:column;gap:10px"><b>200% text (buttons stack, rows grow)</b>
+<span style="min-height:64px;background:var(--color-accent-700);color:var(--color-bg);padding:10px 14px;display:flex;align-items:center;justify-content:center;text-align:center;font:600 34px/1.15 var(--font-heading)">Record payout</span>
+<span style="min-height:64px;border:1px solid var(--color-text);padding:10px 14px;display:flex;align-items:center;justify-content:center;text-align:center;font:600 34px/1.15 var(--font-heading)">Auto-allocate (oldest first)</span>
+<div><div style="font-size:26px">Delivery fee</div><div style="min-height:72px;border:1px solid var(--color-divider);padding:10px 12px;font-size:32px">৳110</div></div>
+<span style="display:inline-flex;align-self:flex-start;border:1px solid #B26A00;background:color-mix(in srgb,#B26A00 12%,transparent);color:#8a5200;padding:6px 14px;font:600 26px var(--font-body)">With courier · 6 days</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px"><h4 style="margin:0">Status chips — contrast check (chip text on 12% tint over #F2F2F3)</h4>
+<div style="display:grid;grid-template-columns:130px 1fr 1fr 110px;gap:10px 20px;align-items:center;font-size:13px;max-width:1000px"><b>Status</b><b>Standard</b><b>High-contrast mode</b><b>Ratio std → HC</b>
+<sc-for list="{{ hcChips }}" as="h" hint-placeholder-count="5"><span>{{ h.n }}</span><span style="justify-self:start;display:inline-flex;gap:5px;border:1px solid {{ h.c }};background:color-mix(in srgb,{{ h.c }} 12%,transparent);color:{{ h.c }};padding:4px 10px;font:600 13px var(--font-body)">{{ h.g }} {{ h.n }}</span><span style="justify-self:start;display:inline-flex;gap:5px;border:2px solid {{ h.hc }};background:#fff;color:{{ h.hc }};padding:3px 9px;font:700 13px var(--font-body)">{{ h.g }} {{ h.n }}</span><b>{{ h.r }}</b></sc-for></div>
+<span style="font-size:13px;opacity:.75;max-width:900px">Chips under 4.5:1 get the darker HC ink in Settings → Display → High contrast, a solid white fill, and a 2px border. Glyph + word are always present.</span></div>
+</section>
+
+<section id="6a" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">6a</span><h1 style="margin:0;white-space:nowrap">Tokens · iconography</h1></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px"><h4 style="margin:0">Spacing — 4dp base</h4>
+<sc-for list="{{ spacing }}" as="s" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:90px 50px 1fr;gap:10px;align-items:center;font-size:13px"><b>{{ s.n }}</b><span>{{ s.v }}dp</span><i style="display:block;height:12px;width:{{ s.v }}px;background:var(--color-accent-700)"></i></div></sc-for>
+<span style="font-size:13px;opacity:.75">Screen margin 16 (12 at 320dp, 24 tablet). Row padding 12/16. Card gap 12. Between sections 24.</span></div>
+<div style="display:flex;flex-direction:column;gap:14px"><h4 style="margin:0">Radius</h4>
+<div style="display:flex;gap:20px;flex-wrap:wrap"><sc-for list="{{ radii }}" as="r" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:6px;font-size:13px;width:150px"><i style="display:block;width:64px;height:48px;border:1.5px solid var(--color-text);border-radius:{{ r.v }}px"></i><b>{{ r.n }} · {{ r.v }}dp</b><span style="opacity:.75">{{ r.u }}</span></div></sc-for></div>
+<h4 style="margin:8px 0 0">Elevation</h4>
+<div style="display:flex;gap:24px;flex-wrap:wrap"><sc-for list="{{ elev }}" as="e" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:6px;font-size:13px;width:150px"><i style="display:block;width:96px;height:56px;background:var(--color-bg);border:1px solid var(--color-divider);box-shadow:{{ e.sh }}"></i><b>{{ e.n }}</b><span style="opacity:.75">{{ e.u }}</span></div></sc-for></div></div></div>
+<div style="display:flex;flex-direction:column;gap:10px"><h4 style="margin:0">Motion</h4>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;font-size:13px"><sc-for list="{{ motion }}" as="m" hint-placeholder-count="4"><div class="blueprint" style="padding:12px;display:flex;flex-direction:column;gap:4px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font:600 18px var(--font-heading)">{{ m.n }} · {{ m.ms }}ms</b><span>{{ m.e }}</span><span style="opacity:.75">{{ m.u }}</span></div></sc-for></div>
+<span style="font-size:13px;opacity:.75;max-width:900px"><b>Reduce motion:</b> slides and scales become 0ms cross-fades; skeleton pulse stops (static tint); sync spinner slows to 2s. No motion carries meaning alone.</span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><h4 style="margin:0">Iconography — Lucide, 1.5 stroke, 24dp grid (20 in rows, 18 inline, 14 in chips)</h4>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--color-divider)">
+<sc-for list="{{ icons }}" as="i" hint-placeholder-count="16"><div style="display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--color-divider);margin:-.5px"><svg viewBox="0 0 24 24" style="width:28px;height:28px" fill="none" stroke="#1d1f20" stroke-width="1.5" stroke-linejoin="miter"><path d="{{ i.d }}"/></svg><div style="font-size:13px;line-height:1.3"><b>{{ i.c }}</b><div style="opacity:.7">{{ i.n }}</div></div></div></sc-for></div></div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const lum = h => { const c = [1,3,5].map(i => parseInt(h.slice(i,i+2),16)/255).map(v => v<=.03928 ? v/12.92 : Math.pow((v+.055)/1.055,2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+    const rgb = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+    const mix = (fg,bg,a) => { const f=rgb(fg), b=rgb(bg); return '#'+f.map((v,i)=>Math.round(v*a+b[i]*(1-a)).toString(16).padStart(2,'0')).join(''); };
+    const cr = (a,b) => { const x=lum(a), y=lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+    const BG = '#f2f2f3';
+    const chipR = (fg) => cr(fg, mix(fg, BG, .12));
+    const hcChips = [['Delivered','✓','#1B7F3B','#0F5A28'],['With courier','▸','#B26A00','#6B3F00'],['Failed / Disputed','!','#C62828','#8E1515'],['Draft','○','#5F6368','#3B3E42'],['Confirmed','●','#416180','#27405C']].map(([n,g,c,hc]) => ({ n, g, c, hc, r: chipR(c).toFixed(1)+' → '+cr(hc,'#ffffff').toFixed(1) }));
+
+    const stateNames = ['Default','Hover','Pressed','Focused','Disabled','Error','Loading'];
+    const A7 = 'var(--color-accent-700)', A8 = 'var(--color-accent-800)', A9 = 'var(--color-accent-900)', D = '#C62828';
+    const FOC = '2px solid var(--color-accent)';
+    const mk = (kind) => {
+      const base = { bg:'transparent', fg:'inherit', bd:'1px solid var(--color-divider)', op:1, ol:'none', sp:'none', t:'' };
+      const row = (arr) => arr;
+      if (kind==='p') return [
+        {...base,bg:A7,fg:'var(--color-bg)',bd:'1px solid '+A7,t:'Save order'},
+        {...base,bg:A8,fg:'var(--color-bg)',bd:'1px solid '+A8,t:'Save order'},
+        {...base,bg:A9,fg:'var(--color-bg)',bd:'1px solid '+A9,t:'Save order'},
+        {...base,bg:A7,fg:'var(--color-bg)',bd:'1px solid '+A7,ol:FOC,t:'Save order'},
+        {...base,bg:A7,fg:'var(--color-bg)',bd:'1px solid '+A7,op:.45,t:'Save order'},
+        {...base,bg:D,fg:'#fff',bd:'1px solid '+D,t:'! Retry save'},
+        {...base,bg:A7,fg:'var(--color-bg)',bd:'1px solid '+A7,op:.7,sp:'inline-block',t:'Saving…'}];
+      if (kind==='s') return [
+        {...base,bd:'1px solid var(--color-text)',t:'Save draft'},
+        {...base,bg:'var(--color-accent-100)',bd:'1px solid var(--color-text)',t:'Save draft'},
+        {...base,bg:'var(--color-accent-200)',bd:'1px solid var(--color-text)',t:'Save draft'},
+        {...base,bd:'1px solid var(--color-text)',ol:FOC,t:'Save draft'},
+        {...base,bd:'1px solid var(--color-text)',op:.45,t:'Save draft'},
+        {...base,bd:'1px solid '+D,fg:D,t:'! Not saved'},
+        {...base,bd:'1px solid var(--color-text)',op:.7,sp:'inline-block',t:'Saving…'}];
+      if (kind==='f') return [
+        {...base,t:'01712 345678'},
+        {...base,bd:'1px solid var(--color-text)',t:'01712 345678'},
+        {...base,bd:'1px solid var(--color-text)',bg:'var(--color-accent-100)',t:'01712 345678'},
+        {...base,bd:'2px solid var(--color-accent)',ol:FOC,t:'01712 3456'},
+        {...base,op:.45,t:'01712 345678'},
+        {...base,bd:'2px solid '+D,fg:D,t:'! 11 digits needed'},
+        {...base,sp:'inline-block',t:'Checking…'}];
+      return [
+        {...base,t:'With courier'},
+        {...base,bg:'var(--color-accent-100)',t:'With courier'},
+        {...base,bg:'var(--color-accent-200)',t:'With courier'},
+        {...base,ol:FOC,t:'With courier'},
+        {...base,op:.45,t:'With courier'},
+        {...base,bd:'1px solid '+D,fg:D,t:'! Failed'},
+        {...base,sp:'inline-block',t:'Loading'}];
+    };
+    const matrix = [];
+    [['Primary button','p'],['Secondary button','s'],['Text field','f'],['Filter chip','c']].forEach(([n,k]) => mk(k).forEach((c,i) => matrix.push({ ...c, row:n, lab: i===0?'block':'none', cell:'flex' }))
+    );
+    // interleave label cells: each row = label + 7 cells
+    const mx = [];
+    [['Primary button','p'],['Secondary button','s'],['Text field','f'],['Filter chip','c']].forEach(([n,k]) => {
+      mx.push({ row:n, lab:'block', cell:'none', bg:'', fg:'', bd:'', op:1, ol:'none', sp:'none', t:'' });
+      mk(k).forEach(c => mx.push({ ...c, row:'', lab:'none', cell:'flex' }));
+    });
+
+    const spacing = [['space-1',4],['space-2',8],['space-3',12],['space-4',16],['space-5',24],['space-6',32],['space-7',48],['space-8',64]].map(([n,v]) => ({ n, v }));
+    const radii = [{ n:'Square', v:0, u:'Cards, buttons, fields, sheets (default)' },{ n:'Hairline', v:2, u:'Focus ring corners, tags' },{ n:'Round', v:999, u:'Avatar, switch thumb only' }];
+    const elev = [{ n:'0 · Flat', sh:'none', u:'Rows, cards (line only)' },{ n:'1 · Raised', sh:'var(--shadow-sm)', u:'App bar on scroll' },{ n:'2 · Float', sh:'var(--shadow-md)', u:'FAB, snackbar' },{ n:'3 · Overlay', sh:'var(--shadow-lg)', u:'Dialog, bottom sheet' }];
+    const motion = [{ n:'Instant', ms:100, e:'linear', u:'Press, toggle, ripple' },{ n:'Quick', ms:150, e:'ease-out', u:'Chip select, FAB collapse, tooltips' },{ n:'Standard', ms:200, e:'cubic-bezier(.2,0,0,1)', u:'Sheets, dialogs, page push' },{ n:'Emphasis', ms:250, e:'cubic-bezier(.2,0,0,1)', u:'Success check, undo bar' }];
+    const P = {
+      receipt:'M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1ZM16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8M12 17.5v-11',
+      truck:'M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14M17 18a2 2 0 1 0 4 0 2 2 0 1 0-4 0M3 18a2 2 0 1 0 4 0 2 2 0 1 0-4 0',
+      cash:'M2 6h20v12H2zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6M6 12h.01M18 12h.01',
+      user:'M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8',
+      box:'M11 21.7V12M3.3 7 12 12l8.7-5M12 2 3 7v10l9 5 9-5V7z',
+      chart:'M3 3v18h18M8 17v-5M13 17V8M18 17v-9',
+      sync:'M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5',
+      plus:'M5 12h14M12 5v14',
+      cal:'M8 2v4M16 2v4M3 4h18v18H3zM3 10h18',
+      lock:'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4',
+      search:'M11 3a8 8 0 1 0 0 16 8 8 0 0 0 0-16M21 21l-4.3-4.3',
+      undo:'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11',
+      home:'M3 10l9-7 9 7v11H3zM9 21v-8h6v8',
+      phone:'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
+      alert:'M12 3 2 21h20zM12 10v5M12 18h.01',
+      check:'M20 6 9 17l-5-5',
+      ban:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M5.6 5.6l12.8 12.8',
+      clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l3 2',
+      shield:'M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z',
+      dl:'M12 3v12M7 10l5 5 5-5M4 21h16'
+    };
+    const icons = [['receipt','Order','Receipt'],['truck','Courier / with courier','Truck'],['cash','COD / payout','Banknote'],['user','Customer','User'],['box','Product / stock','Package'],['chart','Reports','Bar chart'],['sync','Sync / refresh','Refresh'],['plus','New / add','Plus'],['cal','Date','Calendar'],['lock','Locked / no access','Lock'],['search','Search','Search'],['undo','Return / undo','Undo'],['home','Home','Home'],['phone','Call','Phone'],['alert','Failed / attention','Triangle alert'],['check','Delivered / success','Check'],['ban','Cancelled','Ban'],['clock','Provisional / waiting','Clock'],['shield','Role / permission','Shield'],['dl','Backup / export','Download']].map(([k,c,n]) => ({ d:P[k], c, n:'Lucide · '+n }));
+
+    const timeline = [
+      { g:'✓', t:'Delivered', s:'Customer paid ৳2,450', w:'Today 2:10', c:'#1B7F3B', bg:'color-mix(in srgb,#1B7F3B 12%,transparent)', ln:'solid' },
+      { g:'▸', t:'Out for delivery', s:'Pathao · CN PT2410881', w:'Today 9:30', c:'#416180', bg:'transparent', ln:'solid' },
+      { g:'!', t:'Delivery failed', s:'Not reachable · 2nd try', w:'14 Oct', c:'#C62828', bg:'color-mix(in srgb,#C62828 12%,transparent)', ln:'dashed' },
+      { g:'○', t:'Payout expected', s:'Pathao weekly cycle', w:'~19 Oct', c:'#5F6368', bg:'transparent', ln:'dashed' }];
+    const tableRows = [{a:'Thu 15 Oct',b:'9',c:'৳15,200',d:'+৳3,100'},{a:'Wed 14 Oct',b:'7',c:'৳11,900',d:'+৳2,250'},{a:'Tue 13 Oct',b:'2',c:'৳5,300',d:'−৳420'}];
+    const syncPills = [{t:'Synced',g:'✓',c:'#1B7F3B',fg:'#14602c',sp:'none',bs:'solid'},{t:'Syncing…',g:'',c:'#416180',fg:'#27405C',sp:'inline-block',bs:'solid'},{t:'Pending 3',g:'●',c:'#B26A00',fg:'#7a4800',sp:'none',bs:'dashed'},{t:'Sync failed',g:'!',c:'#C62828',fg:'#9d1f1f',sp:'none',bs:'solid'}];
+
+    // ---- accessibility frames
+    const box = (x,y,w,h,child,s={}) => React.createElement('div',{style:{position:'absolute',left:x,top:y,width:w,height:h,boxSizing:'border-box',display:'flex',alignItems:'center',...s}},child);
+    const H = {fontFamily:'Barlow Condensed',fontWeight:600};
+    const homeArt = React.createElement(React.Fragment,null,
+      box(0,0,360,56,React.createElement('b',{style:{...H,fontSize:22,paddingLeft:16}},'Rina Fashion House'),{borderBottom:'1px solid #1d1f20'}),
+      box(222,12,76,32,'✓ Synced',{border:'1px solid #1B7F3B',background:'rgba(27,127,59,.12)',color:'#14602c',font:'600 13px Barlow',justifyContent:'center'}),
+      box(304,4,48,48,'⌕',{justifyContent:'center',fontSize:24}),
+      ...['Today','Yesterday','7 days'].map((t,i)=>box(12+i*92,64,84,36,t,{border:'1px solid '+(i?'#c9ccd0':'#416180'),background:i?'transparent':'#dbe5ef',justifyContent:'center',font:'500 14px Barlow'})),
+      box(16,112,200,24,'Needs attention (5)',{...H,fontSize:18}),
+      ...[['ORD-0042 · 6 days with Pathao','No update. Delivered?'],['COD overdue by 3 days','Steadfast · ৳6,200']].map(([a,b],i)=>box(12,140+i*68,336,64,React.createElement('div',{style:{padding:'0 12px',fontSize:14}},React.createElement('b',null,a),React.createElement('div',{style:{fontSize:13,opacity:.75}},b)),{border:'1px solid #c9ccd0',borderLeft:'1px solid #c9ccd0'})),
+      box(16,288,200,24,'Cash',{...H,fontSize:18}),
+      ...[['Pending with couriers','৳24,650'],['COD in transit','৳11,300']].map(([a,b],i)=>box(12+i*170,316,166,76,React.createElement('div',{style:{padding:'0 10px'}},React.createElement('div',{style:{fontSize:13}},a),React.createElement('b',{style:{...H,fontSize:26}},b)),{border:'1px solid #c9ccd0'})),
+      box(214,500,134,56,'＋ New order',{background:'#416180',color:'#f2f2f3',font:'600 17px Barlow Condensed',justifyContent:'center',boxShadow:'0 4px 10px rgba(0,0,0,.2)'}),
+      box(0,584,360,56,null,{borderTop:'1px solid #1d1f20',background:'#f2f2f3'}),
+      ...['Home','Orders','COD','More'].map((t,i)=>box(i*90,584,90,56,t,{justifyContent:'center',font:(i?'500':'700')+' 13px Barlow',color:i?'#1d1f20':'#416180'})));
+    const homeT = [
+      {x:304,y:4,w:48,h:48,n:1,bx:300,by:0},{x:218,y:8,w:82,h:40,n:2,bx:210,by:2},{x:12,y:60,w:276,h:44,n:3,bx:6,by:54},
+      {x:12,y:140,w:336,h:64,n:4,bx:6,by:134},{x:12,y:208,w:336,h:64,n:5,bx:6,by:202},{x:12,y:316,w:166,h:76,n:6,bx:6,by:310},
+      {x:214,y:500,w:134,h:56,n:7,bx:208,by:494},{x:0,y:584,w:360,h:56,n:8,bx:2,by:586}];
+    const homeC = [{x:16,y:404,t:'Heading 18sp · 12.6:1'},{x:16,y:424,t:'Sub text 13sp · 4.6:1'},{x:16,y:444,t:'Synced pill #14602c on tint · 6.1:1'},{x:16,y:464,t:'Chips 4.8:1 · icons 3:1+'},{x:16,y:484,t:'FAB: #f2f2f3 on #416180 · 5.9:1'}];
+    const homeL = [['Button','Search orders'],['Button','Sync status: all synced'],['Chip group','Date range. Today, selected, 1 of 3'],['Button','Order 42, with courier 6 days, no update. Delivered?'],['Button','COD overdue 3 days, Steadfast, 6,200 taka'],['Button','Pending with couriers, 24,650 taka'],['Button','New order'],['Tab bar','Home, selected, tab 1 of 4']].map(([role,t],i)=>({n:i+1,role,t}));
+    const detArt = React.createElement(React.Fragment,null,
+      box(0,0,360,56,React.createElement('b',{style:{...H,fontSize:22,paddingLeft:60}},'ORD-0042'),{borderBottom:'1px solid #1d1f20'}),
+      box(4,4,48,48,'←',{justifyContent:'center',fontSize:24}),box(304,4,48,48,'⋮',{justifyContent:'center',fontSize:22}),
+      box(12,68,336,48,'▸ With courier · Pathao · 6 days',{border:'1px solid #B26A00',background:'rgba(178,106,0,.12)',color:'#7a4800',font:'600 15px Barlow',padding:'0 12px'}),
+      box(12,128,336,64,React.createElement('div',{style:{padding:'0 12px',fontSize:14}},React.createElement('b',null,'Rahim Uddin'),React.createElement('div',{style:{fontSize:13,opacity:.75}},'Flat 4B, Sector 7, Uttara')),{border:'1px solid #c9ccd0'}),
+      box(12,204,196,52,'Mark delivered',{background:'#416180',color:'#f2f2f3',font:'600 17px Barlow Condensed',justifyContent:'center'}),
+      box(216,204,132,52,'Track parcel',{border:'1px solid #1d1f20',font:'600 17px Barlow Condensed',justifyContent:'center'}),
+      box(16,276,200,24,'COD ledger',{...H,fontSize:18}),
+      ...[['Expected COD','৳2,450'],['Fees (expected)','−৳170'],['Net receivable','৳2,280']].map(([a,b],i)=>box(12,304+i*40,336,40,React.createElement('div',{style:{display:'flex',justifyContent:'space-between',width:'100%',padding:'0 12px',fontSize:14}},React.createElement('span',null,a),React.createElement('b',null,b)),{borderBottom:'1px solid #c9ccd0'})),
+      box(0,584,360,56,React.createElement('div',{style:{display:'flex',gap:8,padding:'0 12px',width:'100%',boxSizing:'border-box'}},React.createElement('div',{style:{flex:1,height:48,border:'1px solid #1d1f20',display:'flex',alignItems:'center',justifyContent:'center',font:'600 17px Barlow Condensed'}},'Edit'),React.createElement('div',{style:{flex:1.4,height:48,background:'#416180',color:'#f2f2f3',display:'flex',alignItems:'center',justifyContent:'center',font:'600 17px Barlow Condensed'}},'Record payout')),{borderTop:'1px solid #1d1f20'}));
+    const detT = [
+      {x:4,y:4,w:48,h:48,n:1,bx:0,by:0},{x:304,y:4,w:48,h:48,n:2,bx:300,by:0},{x:12,y:68,w:336,h:48,n:3,bx:6,by:62},{x:12,y:128,w:336,h:64,n:4,bx:6,by:122},
+      {x:12,y:204,w:196,h:52,n:5,bx:6,by:198},{x:216,y:204,w:132,h:52,n:6,bx:210,by:198},{x:12,y:578,w:166,h:56,n:7,bx:6,by:572},{x:182,y:578,w:166,h:56,n:8,bx:176,by:572}];
+    const detC = [{x:16,y:410,t:'Status #7a4800 on tint · 5.8:1'},{x:16,y:432,t:'Net ৳2,280 · 12.6:1'},{x:16,y:454,t:'Status = ▸ + word + colour'}];
+    const detL = [['Button','Back'],['Button','More actions'],['Status','With courier, Pathao, 6 days with no update'],['Link','Customer Rahim Uddin, Flat 4B, Sector 7, Uttara'],['Button','Mark delivered'],['Button','Track parcel'],['Button','Edit order'],['Button','Record payout, primary action']].map(([role,t],i)=>({n:i+1,role,t}));
+    const a11y = [{ name:'S-04 · Home — focus order, targets, contrast', art:homeArt, targets:homeT, cons:homeC, labels:homeL },{ name:'S-11 · Order detail — focus order, targets, contrast', art:detArt, targets:detT, cons:detC, labels:detL }];
+    return { hcChips, stateNames, matrix:mx, spacing, radii, elev, motion, icons, timeline, tableRows, syncPills, a11y };
+  }
+}
+</script>
+</body>
+</html>

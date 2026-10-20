@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/_ds_bundle.js"></script>
+</helmet>
+<div style="padding:56px;display:flex;flex-direction:column;gap:96px;width:1700px;font-family:var(--font-body);color:var(--color-text)">
+<div style="display:flex;gap:20px;font-size:14px;flex-wrap:wrap"><a href="Parcel Khata UX.dc.html">Overview · icon · system · key screens</a><a href="Parcel Khata - States.dc.html">Partial-screen states</a><a href="Parcel Khata - Screens.dc.html">Remaining screens</a><a href="Parcel Khata - Variants.dc.html">Dark · 320dp · tablet · 200% text</a><a href="Parcel Khata - Flows.dc.html">Flow storyboards</a></div>
+
+
+
+
+
+<section id="2a" style="display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">2a</span><h1 style="margin:0;white-space:nowrap">Partial screens — remaining states</h1></div>
+
+<div><h4 style="margin:0 0 12px">S-01 Onboarding — steps 2–5</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ obSteps }}" as="s" hint-placeholder-count="4"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:80px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 16px 8px"><span style="display:flex;gap:6px"><sc-for list="{{ s.dots }}" as="d" hint-placeholder-count="5"><i style="width:22px;height:4px;background:{{ d.bg }}"></i></sc-for></span><span style="color:var(--color-accent-700);font-weight:600;padding:12px">Skip</span></div>
+<div style="padding:8px 24px;flex:1;display:flex;flex-direction:column;gap:14px;overflow:hidden">
+<div><h2 style="margin:0 0 6px">{{ s.title }}</h2><div style="font-size:16px;opacity:.8">{{ s.sub }}</div></div>
+<sc-for list="{{ s.fields }}" as="f" hint-placeholder-count="3"><div style="border:1px solid var(--color-divider);padding:8px 12px"><div style="font-size:12px;opacity:.65">{{ f.label }}</div><div style="font-size:17px;display:flex;justify-content:space-between"><span>{{ f.val }}</span><span style="font-size:12px;opacity:.6">{{ f.hint }}</span></div></div></sc-for>
+<div style="display:{{ s.chipD }};flex-wrap:wrap;gap:8px"><sc-for list="{{ s.chips }}" as="q" hint-placeholder-count="6"><span style="border:1px solid {{ q.bd }};background:{{ q.bg }};color:{{ q.fg }};padding:10px 14px;min-height:44px;font-size:15px;display:flex;align-items:center">{{ q.t }}</span></sc-for></div>
+<div class="blueprint" style="display:{{ s.swD }};padding:14px;gap:12px;align-items:center"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div style="flex:1"><b>{{ s.sw.title }}</b><div style="font-size:14px;opacity:.75;margin-top:2px">{{ s.sw.help }}</div></div><i style="width:46px;height:26px;border:1.5px solid var(--color-text);background:{{ s.sw.bg }};position:relative;flex:none"><b style="position:absolute;top:3px;left:{{ s.sw.left }}px;width:16px;height:16px;background:{{ s.sw.knob }}"></b></i></div>
+<div style="font-size:13px;opacity:.7;display:{{ s.swD }}">{{ s.note }}</div>
+</div>
+<div style="flex:none;padding:10px 24px 20px;display:flex;justify-content:space-between;align-items:center"><span style="padding:12px;font-size:16px">Back</span><button class="btn btn-primary" style="min-height:52px;min-width:140px;font-size:18px">{{ s.next }}</button></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-02 App lock — states</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ lockStates }}" as="s" hint-placeholder-count="3"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-accent-900);color:var(--color-bg);overflow:hidden;display:flex;flex-direction:column;align-items:center;padding-top:96px;gap:10px;position:relative">
+{{ ic.lockbig }}<h3 style="margin:8px 0 0;color:var(--color-bg)">Parcel Khata is locked</h3><div style="opacity:.8">Enter your PIN</div>
+<div style="display:flex;gap:16px;margin:12px 0 4px"><sc-for list="{{ s.dots }}" as="d" hint-placeholder-count="4"><i style="width:14px;height:14px;background:{{ d.bg }};border:1.5px solid {{ d.bd }};display:block"></i></sc-for></div>
+<div style="height:24px;font-size:15px;font-weight:600;color:{{ s.mc }};display:flex;gap:6px;align-items:center">{{ s.msg }}</div>
+<div style="display:grid;grid-template-columns:repeat(3,64px);gap:14px 28px;opacity:{{ s.keyOp }}"><sc-for list="{{ keys }}" as="k" hint-placeholder-count="12"><div style="width:64px;height:64px;border:1px solid {{ k.bd }};display:flex;align-items:center;justify-content:center;font:600 28px var(--font-heading)">{{ k.l }}</div></sc-for></div>
+<div style="margin-top:14px;font-size:14px;color:var(--color-accent-300)">Use fingerprint / face</div>
+<div style="display:{{ s.ovD }};position:absolute;inset:0;background:rgba(0,0,0,.5);align-items:flex-end"><div style="width:100%;background:var(--color-bg);color:var(--color-text);padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px"><div style="color:var(--color-accent-700)">{{ ic.shield }}</div><b style="font:600 22px var(--font-heading)">Confirm your fingerprint</b><span style="font-size:14px;opacity:.75">Unlock Parcel Khata</span><div style="display:flex;gap:8px;width:100%"><button class="btn btn-secondary" style="flex:1;min-height:48px">Cancel</button><button class="btn btn-primary" style="flex:1;min-height:48px">Use PIN</button></div></div></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-04 Home — loading, zero data, masked, error</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ homeStates }}" as="s" hint-placeholder-count="4"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div>
+<div style="height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 16px"><div style="font:600 22px var(--font-heading)">Rina Fashion House</div><div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.bell }}</div></div>
+<div style="flex:1;overflow:hidden;padding:4px 16px 0;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:6px;overflow:hidden"><span style="flex:none;padding:7px 12px;border:1px solid var(--color-accent);background:var(--color-accent-200);font-size:14px">Today</span><span style="flex:none;padding:7px 12px;border:1px solid var(--color-divider);font-size:14px">Yesterday</span><span style="flex:none;padding:7px 12px;border:1px solid var(--color-divider);font-size:14px">7 days</span></div>
+<div class="blueprint" style="display:{{ s.zeroD }};padding:20px;flex-direction:column;align-items:center;gap:8px;text-align:center"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div style="color:var(--color-accent-700)">{{ ic.big_box }}</div><b style="font:600 24px var(--font-heading)">Take your first order</b><span style="font-size:14px;opacity:.75">Orders from Facebook, WhatsApp or the phone show up here.</span><button class="btn btn-primary" style="min-height:48px;gap:6px">{{ ic.plus }}New order</button></div>
+<div style="display:{{ s.errD }};border:1px solid #C62828;background:color-mix(in srgb,#C62828 8%,transparent);padding:14px;flex-direction:column;gap:8px"><b style="display:flex;gap:8px;align-items:center;color:#9d1f1f">{{ ic.alert }}Could not load your numbers</b><span style="font-size:14px">This is a problem on this phone, not your data. Try again.</span><button class="btn btn-secondary" style="min-height:44px;align-self:flex-start">Retry</button></div>
+<div style="display:{{ s.maskD }};font-size:13px;opacity:.75;gap:6px;align-items:center">{{ ic14.eye }}Amounts hidden. Tap a tile to show it.</div>
+<div style="display:{{ s.tilesD }};flex-direction:column;gap:10px"><h6 style="margin:0;opacity:.65">Cash</h6>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ s.tiles }}" as="m" hint-placeholder-count="4"><div class="blueprint" style="padding:10px 12px"><i class="corner tl"></i><i class="corner br"></i><div style="font-size:13px;line-height:1.3;min-height:34px;background:{{ m.lbg }};color:{{ m.lc }}">{{ m.label }}</div><div style="font:600 26px/1.25 var(--font-heading);min-height:32px;margin-top:4px;background:{{ m.vbg }};color:{{ m.vc }}">{{ m.val }}</div></div></sc-for></div>
+<h6 style="margin:6px 0 0;opacity:.65">Operations</h6><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ s.tiles2 }}" as="m" hint-placeholder-count="2"><div class="blueprint" style="padding:10px 12px"><i class="corner tl"></i><i class="corner br"></i><div style="font-size:13px;line-height:1.3;min-height:34px;background:{{ m.lbg }};color:{{ m.lc }}">{{ m.label }}</div><div style="font:600 26px/1.25 var(--font-heading);min-height:32px;margin-top:4px;background:{{ m.vbg }};color:{{ m.vc }}">{{ m.val }}</div></div></sc-for></div></div>
+</div>
+<div style="height:64px;flex:none;border-top:1px solid var(--color-divider);display:grid;grid-template-columns:repeat(5,1fr)"><sc-for list="{{ navHome }}" as="n" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:{{ n.fg }};border-top:2px solid {{ n.bt }};font-size:11px;font-weight:{{ n.w }}"><span style="background:{{ n.box }};color:{{ n.bfg }};width:{{ n.bs }}px;height:{{ n.bs }}px;display:flex;align-items:center;justify-content:center">{{ n.icon }}</span>{{ n.label }}</div></sc-for></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-06 Orders list — selection, empty, filtered-empty, loading</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ orderStates }}" as="s" hint-placeholder-count="4"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div>
+<div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px 0 16px;background:{{ s.abg }};color:{{ s.afg }}"><span style="display:{{ s.xD }};width:48px;height:48px;align-items:center;justify-content:center;margin-left:-16px">{{ ic.x }}</span><h3 style="margin:0;flex:1;color:inherit">{{ s.title }}</h3><span style="display:{{ s.xD }};font-size:14px;font-weight:600;padding-right:8px">Select all</span></div>
+<div style="display:{{ s.srchD }};padding:0 16px 8px;flex-direction:column;gap:8px;flex:none"><div style="border:1px solid var(--color-divider);height:48px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:15px">{{ ic.search }}<span style="flex:1;opacity:.6">Search order, name, phone, CN…</span>{{ ic.scan }}</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ s.fchips }}" as="q" hint-placeholder-count="2"><span style="border:1px solid var(--color-accent);background:var(--color-accent-200);padding:6px 10px;font-size:13px;display:flex;gap:4px;align-items:center">{{ q }}{{ ic14.x }}</span></sc-for></div></div>
+<div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+<sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="3"><div style="flex:none;padding:10px 16px;border-top:1px solid var(--color-divider);display:flex;gap:10px;min-height:84px;background:{{ r.bg }}"><i style="width:24px;height:24px;border:1.5px solid var(--color-text);background:{{ r.ckbg }};color:var(--color-bg);display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px">{{ r.ck }}</i><div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-weight:600;font-size:15px">{{ r.no }} · {{ r.name }}</div><div style="display:flex;flex-wrap:wrap;gap:4px"><sc-for list="{{ r.chips }}" as="c" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:3px;font:600 12px/1.2 var(--font-body);padding:3px 7px;border:{{ c.bd }};color:{{ c.fg }};background:{{ c.bg }}">{{ c.icon }}{{ c.label }}</span></sc-for></div></div><div style="text-align:right;flex:none"><div style="font:600 19px var(--font-heading)">{{ r.cod }}</div><div style="font-size:12px;opacity:.65">{{ r.date }}</div></div></div></sc-for>
+<div style="display:{{ s.emptyD }};flex:1;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 40px"><div style="color:var(--color-accent-700)">{{ s.eIcon }}</div><b style="font:600 24px var(--font-heading)">{{ s.eTitle }}</b><span style="font-size:15px;opacity:.75">{{ s.eHint }}</span><button class="btn btn-primary" style="min-height:48px;margin-top:6px">{{ s.eCta }}</button></div>
+<sc-for list="{{ s.skel }}" as="k" hint-placeholder-count="5"><div style="flex:none;padding:12px 16px;border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;min-height:84px"><div style="display:flex;flex-direction:column;gap:10px;width:60%"><i style="height:16px;width:80%;background:var(--color-neutral-300);display:block"></i><i style="height:14px;width:100%;background:var(--color-neutral-200);display:block"></i></div><i style="height:20px;width:20%;background:var(--color-neutral-300);display:block"></i></div></sc-for>
+</div>
+<div style="display:{{ s.barD }};flex:none;border-top:1px solid var(--color-text);padding:10px 12px;flex-direction:column;gap:8px"><div style="font-size:12px;opacity:.75">2 will change · 1 skipped: already delivered</div><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;min-height:48px;flex-direction:column;gap:0;font-size:13px">{{ ic14.truck }}Handed to courier</button><button class="btn btn-primary" style="flex:1;min-height:48px;flex-direction:column;gap:0;font-size:13px">{{ ic14.checks }}Mark delivered</button><button class="btn btn-secondary" style="flex:1;min-height:48px;flex-direction:column;gap:0;font-size:13px;color:#C62828">{{ ic14.ban }}Cancel</button></div></div>
+<div style="display:{{ s.navD }};height:64px;flex:none;border-top:1px solid var(--color-divider);grid-template-columns:repeat(5,1fr)"><sc-for list="{{ navOrders }}" as="n" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:{{ n.fg }};border-top:2px solid {{ n.bt }};font-size:11px;font-weight:{{ n.w }}"><span style="background:{{ n.box }};color:{{ n.bfg }};width:{{ n.bs }}px;height:{{ n.bs }}px;display:flex;align-items:center;justify-content:center">{{ n.icon }}</span>{{ n.label }}</div></sc-for></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-09 Order form — edit delivered, validation, customer picker, dirty guard</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ formStates }}" as="s" hint-placeholder-count="4"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column;position:relative">
+<div style="height:24px;flex:none"></div>
+<div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0;flex:1">{{ s.title }}</h3></div>
+<div style="flex:1;overflow:hidden;padding:4px 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:{{ s.banD }};border:1px solid #B26A00;background:color-mix(in srgb,#B26A00 10%,transparent);padding:10px 12px;gap:8px;font-size:14px">{{ ic.alert }}<span>This order is delivered. Changed amounts are logged in the timeline.</span></div>
+<div><div class="blueprint" style="padding:10px 12px;display:flex;align-items:center;gap:10px;border-color:{{ s.eb }}"><i class="corner tl"></i><i class="corner br"></i>{{ ic.user }}<div style="flex:1"><div style="font-weight:600">{{ s.cust }}</div><div style="font-size:13px;opacity:.7">{{ s.phone }}</div></div>{{ ic.chev }}</div><div style="display:{{ s.errD }};color:#C62828;font-size:13px;margin-top:4px;gap:4px;align-items:center">{{ ic14.alert }}Select a customer</div></div>
+<div><div style="border:1px solid {{ s.eb }};padding:10px 12px;font-size:14px;min-height:60px"><div style="font-size:12px;opacity:.65">Delivery address</div>{{ s.addr }}</div><div style="display:{{ s.errD }};color:#C62828;font-size:13px;margin-top:4px;gap:4px;align-items:center">{{ ic14.alert }}Enter a delivery address</div></div>
+<div><div style="border:1px solid {{ s.eb }};padding:10px 12px;display:flex;flex-direction:column;gap:8px"><div style="display:{{ s.itemD }};justify-content:space-between"><b>Cotton T-shirt · L × 2</b><b>৳ 1,300</b></div><div style="display:{{ s.noItemD }};font-size:14px;opacity:.7">No items yet</div></div><div style="display:{{ s.errD }};color:#C62828;font-size:13px;margin-top:4px;gap:4px;align-items:center">{{ ic14.alert }}Add at least one item</div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-secondary" style="flex:1;min-height:44px">From catalog</button><button class="btn btn-secondary" style="flex:1;min-height:44px">Free item</button></div>
+</div>
+<div style="flex:none;border-top:1px solid var(--color-text);padding:10px 16px 14px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:12px">COD to collect</div><b style="font:600 24px var(--font-heading)">৳ 1,380</b></div><button class="btn btn-primary" style="min-height:48px;font-size:17px">Save order</button></div>
+<div style="display:{{ s.dimD }};position:absolute;inset:0;background:rgba(29,31,32,.5)"></div>
+<div style="display:{{ s.pickD }};position:absolute;left:0;right:0;bottom:0;top:120px;background:var(--color-bg);border-top:1px solid var(--color-text);padding:12px 16px;flex-direction:column;gap:10px"><i style="width:40px;height:4px;background:var(--color-neutral-400);align-self:center"></i><b style="font:600 22px var(--font-heading)">Select customer</b><div style="border:1px solid var(--color-accent);height:48px;display:flex;align-items:center;gap:8px;padding:0 12px">{{ ic.search }}<span style="opacity:.6">Search by name or phone</span></div><div style="display:flex;gap:10px;align-items:center;color:var(--color-accent-700);min-height:48px;font-weight:600;border:1px dashed var(--color-accent);padding:0 12px">{{ ic.plus }}Add new customer</div><h6 style="margin:0;opacity:.6">Recent</h6><sc-for list="{{ recents }}" as="p" hint-placeholder-count="4"><div style="min-height:56px;display:flex;gap:12px;align-items:center;border-top:1px solid var(--color-divider)">{{ ic.user }}<div style="flex:1"><div style="font-weight:600">{{ p.n }}</div><div style="font-size:13px;opacity:.7">{{ p.p }}</div></div><span style="display:{{ p.rd }};font:600 12px var(--font-body);color:#C62828;padding:3px 7px;background:color-mix(in srgb,#C62828 12%,transparent)">Refused last COD</span></div></sc-for></div>
+<div style="display:{{ s.dlgD }};position:absolute;left:24px;right:24px;top:260px;background:var(--color-bg);border:1px solid var(--color-text);box-shadow:var(--shadow-lg);padding:20px;flex-direction:column;gap:10px"><b style="font:600 22px var(--font-heading)">{{ s.dt }}</b><span style="font-size:15px">{{ s.db }}</span><div style="display:flex;flex-direction:column;gap:8px;margin-top:6px"><sc-for list="{{ s.da }}" as="a" hint-placeholder-count="3"><button class="btn {{ a.k }}" style="min-height:48px">{{ a.t }}</button></sc-for></div></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-11 Order detail — status sheet, return/exchange/timeline, cancelled, disputed, helper</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">S-11 · Change status sheet</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;position:relative">
+<div style="padding:40px 16px;opacity:.5"><h3>ORD-0042</h3><div class="blueprint" style="padding:12px;height:160px"><b>Rahim Uddin</b></div></div>
+<div style="position:absolute;inset:0;background:rgba(29,31,32,.5)"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--color-bg);border-top:1px solid var(--color-text);padding:12px 16px 20px;display:flex;flex-direction:column;gap:10px"><i style="width:40px;height:4px;background:var(--color-neutral-400);align-self:center"></i><b style="font:600 22px var(--font-heading)">Change status</b><span style="font-size:13px;opacity:.7">Only allowed next steps are shown.</span>
+<sc-for list="{{ nextStatuses }}" as="n" hint-placeholder-count="4"><div style="min-height:52px;display:flex;gap:12px;align-items:center;padding:0 12px;border:1px solid {{ n.bd }};background:{{ n.bg }};color:{{ n.fg }}">{{ n.icon }}<span style="flex:1;font-weight:600">{{ n.t }}</span></div></sc-for>
+<div style="border:1px solid var(--color-divider);padding:8px 12px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;opacity:.65">When</div>Today, 4:30 pm</div><span style="color:var(--color-accent-700);font-weight:600">Change</span></div>
+<div style="font-size:13px;opacity:.75">COD ৳2,450 will move to "With courier". You can undo for 5 seconds.</div><button class="btn btn-primary" style="min-height:52px;font-size:17px">Confirm</button></div></div></div>
+
+<div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">S-11 · Return, exchange link, charges, timeline</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0;flex:1">ORD-0040</h3>{{ ic.more }}</div>
+<div style="flex:1;overflow:hidden;padding:4px 16px;display:flex;flex-direction:column;gap:12px">
+<div class="blueprint" style="padding:12px;display:flex;flex-direction:column;gap:8px"><i class="corner tl"></i><i class="corner br"></i><b style="font:600 18px var(--font-heading)">Return</b><div style="display:flex;justify-content:space-between;font-size:14px"><span>Full return · Customer refused</span><span style="font:600 12px var(--font-body);color:#B26A00;background:color-mix(in srgb,#B26A00 12%,transparent);padding:3px 7px">In transit · 9 days</span></div><div style="font-size:13px;color:#B26A00;display:flex;gap:6px;align-items:center">{{ ic14.clock }}Taking too long</div><div style="display:flex;gap:8px"><button class="btn btn-primary" style="flex:1;min-height:44px">Received back</button><button class="btn btn-secondary" style="flex:1;min-height:44px">Exchange</button></div></div>
+<div class="blueprint" style="padding:12px;font-size:14px;display:flex;flex-direction:column;gap:6px"><i class="corner tl"></i><i class="corner br"></i><b style="font:600 18px var(--font-heading)">Linked exchange</b><div style="display:flex;justify-content:space-between"><span>Replacement order</span><b style="color:var(--color-accent-700)">ORD-0051</b></div><div style="display:flex;justify-content:space-between"><span>Profit of both orders</span><b>+৳310</b></div></div>
+<div style="border:1px solid var(--color-divider);padding:10px 12px;font-size:14px;display:flex;flex-direction:column;gap:5px"><b style="font:600 17px var(--font-heading)">Courier &amp; other charges</b><sc-for list="{{ charges }}" as="l" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;opacity:{{ l.op }}"><span>{{ l.k }}</span><span>{{ l.v }}</span></div></sc-for></div>
+<div style="border:1px solid var(--color-divider);padding:10px 12px;display:flex;flex-direction:column;gap:10px"><b style="font:600 17px var(--font-heading)">Timeline</b><sc-for list="{{ timeline }}" as="t" hint-placeholder-count="5"><div style="display:flex;gap:10px;font-size:14px"><span style="color:{{ t.fg }}">{{ t.icon }}</span><div style="flex:1"><div>{{ t.t }}</div><div style="font-size:12px;opacity:.65">{{ t.time }}</div></div></div></sc-for></div>
+</div></div></div>
+
+<sc-for list="{{ detailVariants }}" as="s" hint-placeholder-count="3"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0;flex:1">{{ s.no }}</h3>{{ ic.more }}</div>
+<div style="flex:1;overflow:hidden;padding:4px 16px;display:flex;flex-direction:column;gap:12px;opacity:{{ s.op }}">
+<div style="border:1px solid {{ s.bb }};background:{{ s.bbg }};padding:10px 12px;display:flex;gap:8px;font-size:14px;color:{{ s.bfg }}">{{ s.bicon }}<span>{{ s.btext }}</span></div>
+<div class="blueprint" style="padding:12px;display:flex;flex-direction:column;gap:8px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><b style="font-size:18px">{{ s.name }}</b><div style="font-size:14px;opacity:.75">{{ s.addr }}</div><div style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ s.chips }}" as="c" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:4px;font:600 13px var(--font-body);padding:4px 9px;border:{{ c.bd }};color:{{ c.fg }};background:{{ c.bg }}">{{ c.icon }}{{ c.label }}</span></sc-for></div></div>
+<div style="border:1px solid var(--color-divider);padding:10px 12px;font-size:14px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ s.lines }}" as="l" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between"><span>{{ l.k }}</span><b style="text-decoration:{{ s.td }}">{{ l.v }}</b></div></sc-for><div style="display:{{ s.codD }};justify-content:space-between;border-top:1px solid var(--color-divider);padding-top:6px"><b>COD amount</b><b style="font:600 20px var(--font-heading);text-decoration:{{ s.td }}">৳ 2,450</b></div></div>
+<div style="display:{{ s.ledD }};border:1px solid var(--color-divider);padding:10px 12px;font-size:14px;flex-direction:column;gap:5px"><b style="font:600 17px var(--font-heading)">COD ledger</b><sc-for list="{{ ledger }}" as="l" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;opacity:{{ l.op }}"><span>{{ l.k }}{{ l.exp }}</span><b>{{ l.v }}</b></div></sc-for><button class="btn btn-primary" style="min-height:44px;margin-top:4px">Resolve dispute</button></div>
+<div style="border:1px solid var(--color-divider);padding:10px 12px;display:flex;flex-direction:column;gap:10px"><b style="font:600 17px var(--font-heading)">Timeline</b><sc-for list="{{ s.tl }}" as="t" hint-placeholder-count="3"><div style="display:flex;gap:10px;font-size:14px"><span style="color:{{ t.fg }}">{{ t.icon }}</span><div style="flex:1"><div>{{ t.t }}</div><div style="font-size:12px;opacity:.65">{{ t.time }}</div></div></div></sc-for></div>
+</div></div></div></sc-for>
+</div></div>
+
+<div><h4 style="margin:0 0 12px">S-28 COD tab — empty and masked</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ codStates }}" as="s" hint-placeholder-count="2"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column;position:relative">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 16px"><h3 style="margin:0">COD</h3>{{ ic.file }}</div>
+<div style="flex:1;overflow:hidden;padding:4px 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:{{ s.maskD }};font-size:13px;opacity:.75;gap:6px;align-items:center">{{ ic14.eye }}Amounts hidden. Tap to show.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ s.tiles }}" as="m" hint-placeholder-count="4"><div class="blueprint" style="padding:10px 12px"><i class="corner tl"></i><i class="corner br"></i><div style="font-size:13px;line-height:1.3;min-height:34px">{{ m.label }}</div><div style="font:600 26px/1.25 var(--font-heading);color:{{ m.vc }}">{{ m.val }}</div></div></sc-for></div>
+<div style="display:{{ s.emptyD }};flex:1;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 30px"><div style="color:var(--color-accent-700)">{{ ic.big_box }}</div><b style="font:600 24px var(--font-heading)">Nothing is owed by couriers</b><span style="font-size:15px;opacity:.75">When you mark an order delivered, the cash it owes you shows up here.</span></div>
+<div style="display:{{ s.listD }};flex-direction:column;gap:12px"><sc-for list="{{ s.couriers }}" as="c" hint-placeholder-count="3"><div class="blueprint" style="padding:12px;display:flex;justify-content:space-between;align-items:center"><i class="corner tl"></i><i class="corner br"></i><div><b style="font-size:17px">{{ c.name }}</b><div style="font-size:13px;opacity:.7">{{ c.sub }}</div></div><div style="font:600 30px var(--font-heading)">{{ c.owed }}</div></div></sc-for></div>
+</div>
+<div style="position:absolute;right:16px;bottom:84px;background:var(--color-accent);color:var(--color-bg);height:52px;padding:0 18px;display:{{ s.fabD }};gap:8px;align-items:center;font:600 17px var(--font-heading)">{{ ic.wallet }}Record payout</div>
+<div style="height:64px;flex:none;border-top:1px solid var(--color-divider);display:grid;grid-template-columns:repeat(5,1fr)"><sc-for list="{{ navCod }}" as="n" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:{{ n.fg }};border-top:2px solid {{ n.bt }};font-size:11px;font-weight:{{ n.w }}"><span style="background:{{ n.box }};color:{{ n.bfg }};width:{{ n.bs }}px;height:{{ n.bs }}px;display:flex;align-items:center;justify-content:center">{{ n.icon }}</span>{{ n.label }}</div></sc-for></div>
+</div></div></sc-for></div></div>
+
+<div><h4 style="margin:0 0 12px">S-33 Record payout — step 1 and step 3</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">S-33 · Step 1 — courier &amp; total</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0">Record payout</h3></div>
+<div style="display:flex;gap:4px;padding:0 16px;flex:none"><i style="flex:1;height:4px;background:var(--color-accent)"></i><i style="flex:1;height:4px;background:var(--color-divider)"></i><i style="flex:1;height:4px;background:var(--color-divider)"></i></div>
+<div style="padding:12px 16px;display:flex;flex-direction:column;gap:12px;flex:1;overflow:hidden">
+<div style="border:1px solid var(--color-divider);padding:8px 12px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;opacity:.65">Courier</div><b>Pathao</b></div>{{ ic.chev }}</div>
+<div class="blueprint" style="padding:12px 14px;border-color:var(--color-accent)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div style="font-size:13px;opacity:.7">Total received</div><div style="font:600 44px/1.2 var(--font-heading)">৳ 17,980</div><div style="font-size:12px;opacity:.65">You are owed ৳18,420 across 14 orders</div></div>
+<div><div style="font-size:12px;opacity:.65;margin-bottom:6px">Method</div><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ methods }}" as="q" hint-placeholder-count="5"><span style="border:1px solid {{ q.bd }};background:{{ q.bg }};color:{{ q.fg }};padding:10px 14px;min-height:44px;font-size:15px;display:flex;align-items:center">{{ q.t }}</span></sc-for></div></div>
+<div style="display:flex;gap:8px"><div style="flex:1;border:1px solid var(--color-divider);padding:8px 12px"><div style="font-size:12px;opacity:.65">Reference no.</div>TRX 88213</div><div style="flex:1;border:1px solid var(--color-divider);padding:8px 12px"><div style="font-size:12px;opacity:.65">Paid on</div>15 Oct 2026</div></div>
+</div>
+<div style="flex:none;border-top:1px solid var(--color-text);padding:10px 16px 14px"><button class="btn btn-primary" style="width:100%;min-height:48px;font-size:17px">Next</button></div></div></div>
+<div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">S-33 · Step 3 — shortfall handling</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0">Record payout</h3></div>
+<div style="display:flex;gap:4px;padding:0 16px;flex:none"><i style="flex:1;height:4px;background:var(--color-accent)"></i><i style="flex:1;height:4px;background:var(--color-accent)"></i><i style="flex:1;height:4px;background:var(--color-accent)"></i></div>
+<div style="padding:12px 16px;display:flex;flex-direction:column;gap:12px;flex:1;overflow:hidden">
+<div style="border:1px solid #C62828;background:color-mix(in srgb,#C62828 8%,transparent);padding:10px 12px;font-size:14px;display:flex;gap:8px">{{ ic.alert }}<span><b>Shortfall ৳440</b> on 2 orders. Choose how to handle it.</span></div>
+<h5 style="margin:0">How to handle the shortfall?</h5>
+<sc-for list="{{ shortfall }}" as="o" hint-placeholder-count="3"><div style="border:1px solid {{ o.bd }};background:{{ o.bg }};padding:10px 12px;display:flex;gap:12px;align-items:flex-start;min-height:56px"><i style="width:22px;height:22px;border:1.5px solid var(--color-text);border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none"><b style="width:10px;height:10px;border-radius:50%;background:{{ o.dot }}"></b></i><div><b>{{ o.t }}</b><div style="font-size:13px;opacity:.75">{{ o.s }}</div></div></div></sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;min-height:48px"><span>Allow overpayment</span><i style="width:46px;height:26px;border:1.5px solid var(--color-text);position:relative"><b style="position:absolute;top:3px;left:3px;width:16px;height:16px;background:var(--color-text)"></b></i></div>
+<div class="blueprint" style="padding:12px;font-size:14px;display:flex;flex-direction:column;gap:4px"><i class="corner tl"></i><i class="corner br"></i><b style="font:600 17px var(--font-heading)">What will happen</b><span>5 orders settled · ৳17,980 received</span><span>2 orders marked disputed · ৳440 stays outstanding</span><span>Reversible: Reverse payout restores balances.</span></div>
+</div>
+<div style="flex:none;border-top:1px solid var(--color-text);padding:10px 16px 14px"><button class="btn btn-primary" style="width:100%;min-height:48px;font-size:17px">Save payout</button></div></div></div>
+</div></div>
+
+<div><h4 style="margin:0 0 12px">S-37 Reports — Daily (chart + table), Ageing, Courier, Profit, Returns</h4><div style="display:flex;gap:44px;flex-wrap:wrap">
+<sc-for list="{{ reports }}" as="s" hint-placeholder-count="6"><div><div style="font:600 13px var(--font-body);margin-bottom:8px;color:var(--color-accent-700)">{{ s.label }}</div>
+<div style="width:360px;height:800px;background:var(--color-bg);border:1px solid var(--color-divider);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:24px;flex:none"></div><div style="height:56px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px"><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center">{{ ic.back }}</span><h3 style="margin:0;flex:1">{{ s.title }}</h3>{{ ic.share }}</div>
+<div style="display:flex;gap:6px;padding:0 16px 10px;flex:none;overflow:hidden"><span style="border:1px solid var(--color-divider);padding:6px 10px;font-size:13px;white-space:nowrap">Today</span><span style="border:1px solid var(--color-accent);background:var(--color-accent-200);padding:6px 10px;font-size:13px;white-space:nowrap">7 days</span><span style="border:1px solid var(--color-divider);padding:6px 10px;font-size:13px;white-space:nowrap">This month</span><span style="border:1px solid var(--color-divider);padding:6px 10px;font-size:13px;white-space:nowrap">Custom</span></div>
+<div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:{{ s.segD }};border:1px solid var(--color-text);text-align:center;font-size:14px;grid-template-columns:repeat(3,1fr)"><sc-for list="{{ s.seg }}" as="g" hint-placeholder-count="3"><span style="padding:10px 0;background:{{ g.bg }};color:{{ g.fg }}">{{ g.t }}</span></sc-for></div>
+<div style="display:{{ s.grpD }};gap:6px;overflow:hidden"><sc-for list="{{ s.groups }}" as="g" hint-placeholder-count="6"><span style="flex:none;border:1px solid {{ g.bd }};background:{{ g.bg }};padding:6px 10px;font-size:13px">{{ g.t }}</span></sc-for></div>
+<div style="display:{{ s.banD }};border:1px solid #B26A00;background:color-mix(in srgb,#B26A00 9%,transparent);padding:8px 12px;font-size:13px;gap:8px;align-items:center">{{ ic14.alert }}<span style="flex:1">2 orders excluded: cost missing</span><b style="color:var(--color-accent-700)">Fix it</b></div>
+<div style="display:{{ s.kpiD }};grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ s.kpis }}" as="m" hint-placeholder-count="4"><div class="blueprint" style="padding:8px 12px"><i class="corner tl"></i><i class="corner br"></i><div style="font-size:12px;opacity:.7">{{ m.k }}</div><div style="font:600 24px var(--font-heading);font-variant-numeric:tabular-nums">{{ m.v }}</div></div></sc-for></div>
+<div style="display:{{ s.donutD }};gap:16px;align-items:center"><div style="width:120px;height:120px;border-radius:50%;background:{{ s.donut }};position:relative;flex:none"><i style="position:absolute;inset:30px;border-radius:50%;background:var(--color-bg);display:block"></i></div><div><div style="font-size:12px;opacity:.7">Total loss</div><b style="font:600 30px var(--font-heading);color:#C62828">−৳6,900</b></div></div>
+<div style="display:{{ s.chartD }};border:1px solid var(--color-divider);padding:10px 12px;flex-direction:column;gap:6px"><div style="font-size:13px;font-weight:600">Orders by day</div><div style="display:flex;align-items:flex-end;gap:8px;height:110px"><sc-for list="{{ s.bars }}" as="b" hint-placeholder-count="7"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><i style="width:100%;height:{{ b.h }}px;background:var(--color-accent-700);display:block"></i><span style="font-size:11px">{{ b.l }}</span></div></sc-for></div><div style="font-size:12px;opacity:.7">Mon–Sun: 18 orders, peak Thursday.</div></div>
+<div style="border:1px solid var(--color-divider);display:flex;flex-direction:column"><sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="5"><div style="padding:8px 12px;border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:10px;align-items:center"><div style="min-width:0"><div style="font-weight:600;font-size:15px">{{ r.a }}</div><div style="font-size:12px;opacity:.75">{{ r.b }}</div><div style="font-size:12px;opacity:.75">{{ r.c }}</div></div><b style="font:600 19px var(--font-heading);font-variant-numeric:tabular-nums;color:{{ r.vc }};white-space:nowrap">{{ r.v }}</b></div></sc-for></div>
+</div>
+<div style="flex:none;padding:8px 16px 14px;display:flex"><div style="flex:1;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--color-text);text-align:center;font-size:14px"><span style="padding:10px;background:{{ s.tb1 }};color:{{ s.tf1 }}">Chart</span><span style="padding:10px;background:{{ s.tb2 }};color:{{ s.tf2 }}">Table</span></div></div>
+</div></div></sc-for></div></div>
+
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  more2({ I, ic, T, nav }) {
+    const TY = ['h','p','field','money','chips','seg','rows','kv','sw','ban','btns','tiles','empty','search','cam','ad','cal'];
+    const B = (type, o = {}) => { const b = { tw:'calc(50% - 4px)', h:'', p:'', pc:'inherit', fl:'', fv:'', fh:'', fhc:'inherit', fe:'', fb:'var(--color-divider)', fmin:0, fw:400, feD:'none', chips:[], seg:[], rows:[], kv:[], btns:[], tiles:[], days:[], swt:'', swh:'', swbg:'', swknob:'', swleft:3, bbg:'', bbd:'', bic:'', ei:'', et:'', eh:'', ec:'', ecD:'none', sph:'', ...o }; TY.forEach(t => b['d' + t] = t === type ? 'flex' : 'none'); if (b.fe) b.feD = 'flex'; return b; };
+    const q = (t, on) => ({ t, bg: on ? 'var(--color-accent)' : 'transparent', fg: on ? 'var(--color-bg)' : 'inherit', bd: on ? 'var(--color-accent)' : 'var(--color-divider)' });
+    const h = t => B('h', { h: t }), p = (t, c) => B('p', { p: t, pc: c || 'inherit' });
+    const fld = (fl, fv, o) => B('field', { fl, fv, ...o });
+    const efld = (fl, fv, fe) => B('field', { fl, fv, fe, fb: T.d });
+    const chips = (a, sel = []) => B('chips', { chips: a.map((t, i) => q(t, sel.includes(i))) });
+    const seg = (a, i) => B('seg', { seg: a.map((t, k) => ({ t, bg: k === i ? 'var(--color-text)' : 'transparent', fg: k === i ? 'var(--color-bg)' : 'inherit' })) });
+    const tag = (cl, tone, icon) => ({ cl, cld: 'inline-flex', clfg: T[tone], clbg: `color-mix(in srgb, ${T[tone]} 12%, transparent)`, clic: icon ? I(icon, 12) : '' });
+    const R = (a, b, v, o = {}) => ({ a, b, v, ic: '', icd: 'none', icc: 'inherit', cl: '', cld: 'none', clfg: '', clbg: '', clic: '', vc: 'inherit', vs: 18, bg: 'transparent', ...o, ...(o.icn ? { ic: I(o.icn, 20), icd: 'flex' } : {}) });
+    const rows = a => B('rows', { rows: a });
+    const kv = a => B('kv', { kv: a.map(([k, v, b]) => ({ k, v, w: b ? 700 : 400, bt: b ? '1px solid var(--color-text)' : 'none' })) });
+    const sw = (swt, swh, on) => B('sw', { swt, swh, swbg: on ? 'var(--color-text)' : 'transparent', swknob: on ? 'var(--color-bg)' : 'var(--color-text)', swleft: on ? 26 : 3 });
+    const ban = (p, tone, icon) => B('ban', { p, bbd: T[tone], bbg: `color-mix(in srgb, ${T[tone]} 10%, transparent)`, bic: I(icon, 20) });
+    const btns = a => B('btns', { btns: a.map(([t, k, c]) => ({ t, k: k || 'btn-secondary', c: c || 'inherit' })) });
+    const tiles = (a, tw) => B('tiles', { tw: tw || 'calc(50% - 4px)', tiles: a.map(([k, v]) => ({ k, v })) });
+    const empty = (ei, et, eh, ec) => B('empty', { ei: I(ei, 48), et, eh, ec: ec || '', ecD: ec ? 'flex' : 'none' });
+    const search = sph => B('search', { sph });
+    const bar = a => a.map(([t, k, f, c]) => ({ t, k: k || 'btn-primary', f: f || 1, c: c || 'inherit' }));
+    const acts = (...n) => n.map(x => ic[x]);
+    const F = (label, title, blocks, o = {}) => ({ label, title, w: 360, ts: 1, railD: 'none', rail: [], arrowD: 'none', cols: [{ fl: '1 1 0', br: 'none', pd: 0, blocks }], sub: '', apad: 0, backD: 'flex', acts: [], blocks, bar: [], barD: 'none', navs: [], navD: 'none', fab: '', fabD: 'none', fabB: 16, dimD: 'none', pos: 'relative', lft: 0, top: 'auto', bot: 'auto', cflex: '1 1 0', cbg: 'transparent', cbd: 'none', csh: 'none', pad: '4px 16px 12px', hbD: 'none', stD: 'none', sheetTitle: '', aflex: '1 1 0', h: 800, ...o, barD: (o.bar || []).length ? 'flex' : 'none' });
+    const S = (label, ghost, sheetTitle, blocks, o = {}, top = 120) => F(label, ghost, blocks, { pos: 'absolute', top: top + 'px', bot: '0', cflex: 'none', cbg: 'var(--color-bg)', cbd: '1px solid var(--color-text)', pad: '10px 16px 14px', hbD: 'flex', stD: 'flex', sheetTitle, dimD: 'block', apad: 16, backD: 'none', ...o });
+    const D = (label, ghost, sheetTitle, blocks, o = {}) => F(label, ghost, blocks, { pos: 'absolute', top: '120px', bot: 'auto', lft: 24, cflex: 'none', cbg: 'var(--color-bg)', cbd: '1px solid var(--color-text)', csh: 'var(--shadow-lg)', pad: '18px', stD: 'flex', sheetTitle, dimD: 'block', aflex: '0 0 auto', apad: 16, backD: 'none', h: 560, ...o });
+    const ord = (n, name, st, tone, icn, amt, o = {}) => R(n + ' · ' + name, o.sub || '', amt, { ...tag(st, tone, icn), ...o });
+    const cal = Array.from({ length: 31 }, (_, i) => ({ d: i + 1, bg: i + 1 >= 5 && i + 1 <= 12 ? 'var(--color-accent-200)' : 'transparent', bd: i + 1 === 5 || i + 1 === 12 ? '2px solid var(--color-accent)' : 'none' }));
+    const P1 = [
+      S('S-07 · Filters sheet', 'Orders', 'Filters', [h('Status'), chips(['All','Draft','Confirmed','With courier','Delivered','Failed','Returned'], [3]), h('COD status'), chips(['Pending','With courier','Settled','Disputed'], [1]), h('Courier'), chips(['All couriers','Pathao','Steadfast','RedX'], [1]), fld('Ordered between','1 Oct – 15 Oct 2026',{fh:'Change'}), fld('Amount','Min ৳500 · Max ৳5,000'), sw('Include drafts','Drafts are excluded from totals',0)], { bar: bar([['Clear','btn-secondary',.5],['Show 12 orders']]) }, 60),
+      S('S-08 · Saved views', 'Orders', 'Saved views', [rows([R('To dispatch today','Confirmed, no CN','12',{icn:'star',icc:'var(--color-accent-700)'}), R('Delivered, COD pending > 5 days','','7',{icn:'cod'}), R('Returns not received','','3',{icn:'undo'}), R('Loss-making orders','','4',{icn:'alert'})]), p('Pinned views show on Home. Long-press to rename or delete.'), btns([['Save current filters as view']])], { }, 300),
+      F('S-10 · Paste order — input', 'Paste order', [fld('Customer message','Rahim bhai, 01712345678, Uttara sector 7, 2 ta T-shirt L, 1 wallet. Delivery 80, advance 500 bkash',{fmin:150}), btns([['Paste'],['Read message','btn-primary']]), p('Nothing is saved from this screen. You review everything first.')]),
+      F('S-10 · Paste order — review', 'Paste order', [ban('Check the highlighted fields before creating the order. Nothing is saved yet.','i','alert'), fld('Mobile number','01712 345678',{fb:T.s,fh:'Sure',fhc:T.s}), kv([['Existing customer found','Rahim Uddin',1],['This customer is used as saved. Details are not changed.','']]), fld('Delivery address','Uttara, sector 7',{fb:T.w,fh:'Check',fhc:T.w}), h('Products'), rows([R('Cotton T-shirt','Catalog match · Qty 2','৳1,300'), R('wallet','Several products match','৳1,070',{...tag('Ambiguous','w','alert'),bg:'color-mix(in srgb,'+T.w+' 7%,transparent)'})]), sw('Use delivery charge from message','৳80',1), sw('Use advance from message','৳500',1)], { bar: bar([['Create order']]) }),
+      F('S-10 · Paste order — nothing recognised', 'Paste order', [fld('Customer message','Hello, price?',{fmin:100}), ban('Nothing recognised. Fill the order manually.','w','alert'), btns([['Open order form','btn-primary']])]),
+      S('S-12 · Courier & CN sheet', 'Order ORD-0044', 'Courier & CN', [fld('Courier','Pathao',{fh:'▾'}), fld('Zone','Inside Dhaka',{fh:'▾'}), fld('Weight (g)','500'), fld('Consignment no. (CN)','PT2410881',{fh:'Paste · Scan · Clear'}), ban('CN does not match the usual pattern','w','alert'), sw('Mark as handed over','Moves status to With courier',1)], { bar: bar([['Save']]) }, 190),
+      S('S-12 · CN already used', 'Order ORD-0044', 'Courier & CN', [fld('Courier','Pathao'), efld('Consignment no. (CN)','PT2410700','This CN is already used by another order'), btns([['View order'],]), sw('Mark as handed over','',0)], { bar: bar([['Save']]) }, 230),
+      S('S-13 · Scan barcode', 'Courier & CN', 'Scan consignment barcode', [B('cam'), p('Point the camera at the parcel barcode or QR code.'), btns([['Type instead','btn-ghost']])], {}, 150),
+      S('S-13 · Camera unavailable', 'Courier & CN', 'Scan consignment barcode', [ban('Camera not available. Type the number instead.','w','alert'), fld('Consignment number','PT24108'), btns([['Use','btn-primary']])], {}, 260),
+      S('S-14 · Initiate return', 'ORD-0040', 'Start return', [seg(['Full return','Partial return'],1), h('Reason'), chips(['Customer refused','Not reachable','Wrong address','Wrong/damaged item','Size/colour','Changed mind','Fake order','Other'],[0]), rows([R('Cotton T-shirt L','Ordered 2','− 1 +'), R('Leather wallet','Ordered 1','0')]), fld('Return started','Today, 15 Oct',{fh:'Change'})], { bar: bar([['Start return']]) }, 70),
+      S('S-14 · Receive return', 'ORD-0040', 'Received back', [fld('Received on','Today, 15 Oct',{fh:'Change'}), rows([R('Cotton T-shirt L × 1','Condition',''), R('Leather wallet × 1','Condition','')]), chips(['Resellable','Damaged','Lost'],[0]), kv([['Goods lost','৳0'],['Delivery + return fees','৳165'],['Total loss','−৳165',1]]), p('Resellable items go back to stock.')], { bar: bar([['Confirm received']]) }, 120),
+      F('S-15 · Exchange', 'Exchange order', [h('Items coming back'), rows([R('Cotton T-shirt L','Qty to return','1')]), h('Replacement items'), rows([R('Cotton T-shirt XL','Qty 1 · ৳650 · cost ৳310','৳650')]), btns([['Same items, new size']]), h('Who pays the courier'), seg(['I pay','Customer pays'],0), kv([['Value coming back','৳650'],['Replacement value','৳650'],['Collect on delivery','৳0',1],['Refund due to customer','৳0'],['Shipping you absorb','৳165']])], { bar: bar([['Create exchange']]) }),
+      F('S-19 · Fix missing costs', 'Fix missing costs', [p('3 of 7 fixed'), rows([R('ORD-0039 · Sadia Akter','Canvas bag × 1 · ৳1,850','Cost ৳___',{icn:'alert',icc:T.w,vc:T.w}), R('ORD-0036 · Nusrat J.','Mug set × 2 · ৳1,200','Cost ৳___',{icn:'alert',icc:T.w,vc:T.w}), R('ORD-0033 · Karim H.','Free item · ৳900','Cost ৳420',{icn:'okc',icc:T.s})]), sw('Also set this as the catalog cost','',1)], { bar: bar([['Save']]) }),
+      F('S-19 · All fixed', 'Fix missing costs', [empty('okc','All profits are complete','No orders with missing costs.')])
+    ];
+    const P2 = [
+      F('S-29 · COD ageing', 'COD ageing', [seg(['0–3','4–7','8–14','15+'],2), chips(['All couriers','Pathao','Steadfast','RedX'],[0]), kv([['8–14 days · 5 orders','৳5,300',1]]), rows([ord('ORD-0031','Rahim U.','Overdue','d','alert','৳2,100',{sub:'Pathao · 9 days owed'}), ord('ORD-0033','Karim H.','Overdue','d','alert','৳1,540',{sub:'Pathao · 9 days owed'}), ord('ORD-0034','Sadia A.','8 days','w','clock','৳980',{sub:'Steadfast · 8 days owed'})])], { navs: nav(3), navD: 'grid' }),
+      F('S-30 · Disputed', 'Disputed', [rows([R('ORD-0035 · Tanvir A.','Pathao paid ৳440 less than the statement · 4 days','৳440',{...tag('Disputed','d','flag'),vc:T.d}), R('ORD-0028 · Sadia A.','Courier says customer paid less · 9 days','৳250',{...tag('Disputed','d','flag'),vc:T.d})]), btns([['Resolve','btn-secondary'],['Open','btn-secondary']]), p('Resolve asks for a note and keeps it on the order timeline.')]),
+      F('S-31 · Payouts history', 'Payouts', [rows([R('Pathao','15 Oct · bKash · TRX 88213','৳17,980',{icn:'wallet'}), R('Steadfast','12 Oct · Bank · SF-2210','৳8,230',{icn:'wallet'}), R('Pathao','8 Oct · bKash · TRX 87110','৳9,400',{icn:'wallet',...tag('Reversed','n','undo')})])], { acts: acts('dl','file'), fab: 'Record payout', fabD: 'flex', fabB: 16 }),
+      F('S-32 · Payout detail', 'Payout', [kv([['Courier','Pathao'],['Total received','৳17,980',1],['Date','15 Oct 2026'],['Method','bKash · TRX 88213'],['Shortfall policy','Marked disputed']]), h('Allocations'), rows([R('ORD-0031','Applied ৳2,100 · deductions ৳170','৳2,100'), R('ORD-0035','Applied ৳2,320 · write-off ৳0','৳2,320',{...tag('Disputed','d','flag')})]), btns([['Reverse payout','btn-secondary',T.d]]), p('Reversing restores every order balance exactly. A reason is required.')]),
+      F('S-34 · Import statement — setup', 'Courier statement', [fld('Courier','Pathao',{fh:'▾'}), fld('Column profile','Pathao portal CSV',{fh:'Edit columns'}), btns([['Choose statement file (CSV or Excel)','btn-primary']]), ban('This exact file was already applied. Nothing more to do.','i','alert')]),
+      F('S-34 · Import statement — review', 'Courier statement', [chips(['All 24','Matched 19','Unknown CN 2','Duplicate 1','Amount differs 2','Settled 0'],[0]), rows([R('PT2410881 · Matched','Recorded ৳2,450 · Statement ৳2,450','৳2,280',{...tag('Matched','s','okc')}), R('PT2410795 · Amount differs','Recorded ৳1,980 · Statement ৳1,540','৳1,420',{...tag('Differs','w','alert')}), R('PT2410002 · Unknown CN','Not found in your orders','—',{...tag('Unknown','d','search')})]), sw('Use the statement’s collected amount','Applies to 2 rows',1), kv([['Payout to record','৳17,980',1],['Actual fees to save','৳1,420']])], { acts: acts('file'), bar: bar([['Apply statement']]) }),
+      F('S-35 · Returns', 'Returns', [seg(['In transit','Not received','Received'],0), rows([R('ORD-0036 · Nusrat J.','Customer refused · RedX','9 days',{...tag('Taking too long','w','clock'),vc:T.w}), R('ORD-0040 · Karim H.','Not reachable · Pathao','4 days'), R('ORD-0029 · Tanvir A.','Wrong address · Steadfast','2 days')]), btns([['Mark received','btn-secondary']])]),
+      F('S-36 · Reports index', 'Reports', [rows([R('Daily summary','','',{icn:'chart'}), R('COD ageing','','',{icn:'hourglass'}), R('Courier performance','','',{icn:'truck'}), R('Profit report','','',{icn:'wallet'}), R('Returns report','','',{icn:'undo'}), R('Business profit (P&L)','','',{icn:'receipt'})]), B('ad')], { navs: nav(4), navD: 'grid' })
+    ];
+    const P3 = [
+      F('S-17 · Drafts', 'Drafts', [rows([R('Draft · Karim Hossain','2 items · 1 day ago','৳1,380',{...tag('Draft','n','pencil'),vc:T.n}), R('Draft · no customer','1 item · 3 days ago','৳650',{...tag('Draft','n','pencil'),vc:T.n})]), p('Tap to resume. Swipe to delete (Undo for 5 seconds).')]),
+      F('S-18 · Recently deleted', 'Recently deleted', [ban('This CN is already used by another order. Restore failed.','d','alert'), rows([R('ORD-0030 · Rahim U.','Deleted 14 Oct · 27 days left','Restore',{vc:'var(--color-accent-700)',vs:16}), R('ORD-0027 · Sadia A.','Deleted 2 Oct · 17 days left','Restore',{vc:'var(--color-accent-700)',vs:16})])]),
+      F('S-20 · Customers', 'Customers', [search('Search by name or phone'), rows([R('Karim Hossain','01712 345678','',{icn:'user',...tag('Refused last COD','d','flag')}), R('Nusrat Jahan','01911 223344','',{icn:'user',...tag('Reliable','s','okc')}), R('Sadia Akter','01811 556677','',{icn:'user',...tag('New customer','i','user')}), R('Tanvir Ahmed','01611 998877','',{icn:'user',...tag('Blocklisted','d','ban')})])], { fab: 'New customer', fabD: 'flex', navs: nav(4), navD: 'grid', fabB: 80 }),
+      F('S-22 · Customer form', 'New customer', [ban('A customer with this number already exists. Use existing customer','w','alert'), fld('Name','Rahim'), efld('Mobile number','0171234','Enter a valid mobile number'), fld('Alternate number',''), fld('WhatsApp number',''), h('Addresses'), fld('Home · Default','Flat 4B, Sector 7, Uttara',{fh:'Uttara · Dhaka'}), btns([['Add address']])], { bar: bar([['Save']]) }),
+      S('S-23 · Product picker', 'New order', 'Search products', [search('Search products'), btns([['New product','btn-secondary']]), rows([R('Cotton T-shirt','SKU TS-01 · Sizes M L XL','৳650'), R('Leather wallet','SKU WL-02','৳1,070'), R('Canvas bag','SKU CB-07 · Cost missing','৳1,850',{...tag('Cost missing','w','alert')})])], {}, 90),
+      F('S-24 · Products', 'Products', [search('Search products'), rows([R('Cotton T-shirt','TS-01 · Cost ৳310','৳650',{...tag('Low stock 3','w','alert')}), R('Leather wallet','WL-02 · Cost ৳540','৳1,070'), R('Canvas bag','CB-07','৳1,850',{...tag('Cost missing','w','alert')}), R('Old mug set','MG-01','৳600',{...tag('Archived','n','ban')})])], { fab: 'New product', fabD: 'flex', navs: nav(4), navD: 'grid', fabB: 80 }),
+      F('S-25 · Product form', 'New product', [fld('Name','Cotton T-shirt'), fld('SKU / code','TS-01'), fld('Selling price','৳ 650'), fld('Cost price','৳ 310',{fh:'optional'}), fld('Stock quantity','24'), sw('Active','',1), h('Variants'), rows([R('M','TS-01-M · same price','',{icn:'box'}), R('L','TS-01-L · same price','',{icn:'box'})]), btns([['Add variant']])], { bar: bar([['Save']]) }),
+      F('S-26 · Couriers', 'Couriers', [rows([R('Pathao','Payout every 3 days · tracking link','',{icn:'truck',...tag('Default','i','star')}), R('Steadfast','Payout every 5 days · tracking link','',{icn:'truck'}), R('RedX','Payout every 7 days','',{icn:'truck'})])], { fab: 'New courier', fabD: 'flex', navs: nav(4), navD: 'grid', fabB: 80 }),
+      F('S-27 · Courier form', 'New courier', [h('Quick add'), chips(['Pathao','Steadfast','RedX','eCourier','Paperfly'],[0]), fld('Name','Pathao'), fld('Tracking link','https://track.example/{cn}',{fh:'{cn} = consignment no.'}), fld('Payout cycle (days)','3'), fld('Stuck parcel after (days)','3'), fld('CN pattern (optional regex)','^PT\\d{7}$'), fld('COD fee (%)','1'), h('Return fee'), seg(['None','Flat','% of delivery'],2), h('Rate card'), rows([R('Inside Dhaka · 0–500 g','','৳60'), R('Outside Dhaka · 0–500 g','','৳110')]), p('Rates are only used to estimate. Actual fees come from the courier’s statement.')], { bar: bar([['Save']]) }),
+      F('S-38 · Expenses', 'Expenses', [kv([['‹  October 2026  ›','',1],['Total','−৳27,400',1]]), rows([R('Salary','15 Oct · Packer','−৳15,000',{icn:'user',...tag('Repeats monthly','n','clock')}), R('Rent','1 Oct','−৳12,000',{icn:'home'}), R('Ads','12 Oct · Eid campaign','−৳8,000',{icn:'mega'})])], { fab: 'Add expense', fabD: 'flex', navs: nav(4), navD: 'grid', fabB: 80 }),
+      S('S-38 · Add expense sheet', 'Expenses', 'Add expense', [B('money', { fl: 'Amount', fv: '৳ 8,000', fh: '' }), chips(['Ads','Packaging','Rent','Salary','Misc'],[0]), fld('Date','12 Oct 2026'), fld('Campaign','Eid sale',{fh:'▾'}), fld('Note','Facebook boost'), sw('Repeats every month','',0)], { bar: bar([['Save']]) }, 130),
+      F('S-39 · Campaigns', 'Ad campaigns', [rows([R('Eid sale','Tag eid-sale · 1–15 Oct','−৳8,000',{...tag('Applied','s','okc')}), R('Live sale Friday','Tag live · 9 Oct','−৳2,500',{...tag('Changed: apply again','w','alert')}), R('Page boost','Tag boost · 20 Sep','−৳4,000',{...tag('Not applied','n','hourglass')})])], { fab: 'New campaign', fabD: 'flex', fabB: 16 }),
+      F('S-40 · Campaign', 'Eid sale', [fld('Campaign name','Eid sale'), fld('Order tag','eid-sale',{fh:'Orders with this tag share the spend'}), fld('From – To','1 Oct – 15 Oct'), fld('Ad spend','৳ 8,000'), seg(['Equal share per order','In proportion to sales'],0), h('Preview'), kv([['Orders carrying the tag','42'],['Share per order','৳190',1]]), p('Applying again replaces earlier shares. Cancelled orders are skipped.')], { bar: bar([['Remove','btn-secondary',.5,T.d],['Apply to orders']]) }),
+      F('S-41 · Message templates', 'Message templates', [rows([R('Order confirmation','Hi {name}, order {order} confirmed. Total ৳{amount}…','',{icn:'msg'}), R('Dispatch notice','Your parcel went with {courier}, CN {cn}…','',{icn:'truck'}), R('Delivery follow-up','','',{icn:'phone'}), R('Please be available','','',{icn:'bell'})])]),
+      F('S-41 · Edit template', 'Dispatch notice', [seg(['বাংলা','English'],1), fld('Message','Hi {name}, your order {order} is with {courier}. CN: {cn}. Please keep ৳{amount} ready.',{fmin:130}), chips(['{name}','{order}','{amount}','{courier}','{cn}','{shop}']), kv([['Preview','',1],['Hi Rahim, your order ORD-0042 is with Pathao. CN: PT2410881. Please keep ৳2,450 ready.','']])], { bar: bar([['Reset to default','btn-secondary'],['Save']]) }),
+      F('S-42 · Daily digest', 'Daily digest', [sw('Send a daily reminder','Local notification, no server',1), fld('Time','9:00 pm'), fld('Quiet hours','10:00 pm – 8:00 am'), h('What to include'), rows([R('Parcels with no update','','On',{icn:'truck'}), R('COD overdue','','On',{icn:'cod'}), R('Returns in transit','','On',{icn:'undo'}), R('Drafts','','Off',{icn:'pencil'}), R('Backup due','','On',{icn:'dl'})]), ban('Some phones stop apps in the background. Allow Parcel Khata without battery limits. How to allow','i','alert')])
+    ];
+    const P4 = [
+      F('S-03 · Security & privacy', 'Security & privacy', [h('App lock'), sw('Lock the app with a PIN','',1), rows([R('Change PIN','','',{icn:'lock'})]), sw('Unlock with fingerprint / face','',1), fld('Lock after leaving the app','After 1 minute',{fh:'▾'}), h('Privacy'), sw('Hide dashboard amounts until tapped','',1), sw('Hide profit everywhere','',0), h('Diagnostics'), sw('Share anonymous usage and crash reports','Never includes customers, phones, addresses or amounts.',0), ban('Erase all data: deletes every order, customer, product and setting on this phone. It cannot be undone. Make a backup first.','d','alert')]),
+      F('S-43 · Settings', 'Settings', [h('Business profile'), fld('Business name','Rina Fashion House'), fld('Order number prefix','ORD'), h('Defaults'), fld('Default delivery charge','৳ 80'), sw('Add default packaging to new orders','৳20',1), h('Workflow'), sw('Use Packed step','',0), sw('Track stock','',1), fld('Flag returns in transit after','7 days'), h('Language'), seg(['বাংলা','English'],0)], { sub: 'Saved' }),
+      F('S-44 · Data', 'Data', [rows([R('Create backup','Last backup: 11 Oct','',{icn:'dl'}), R('Restore from backup','','',{icn:'undo'})]), h('Google Drive backup'), sw('Back up to Drive','Weekly, on Wi-Fi while charging',1), kv([['Last Drive backup','11 Oct, 9:00 pm']]), btns([['Back up to Drive now'],['Restore from Drive']]), h('Export data (CSV)'), chips(['Orders','Items','Customers','Products','Payouts','Returns']), rows([R('Import from CSV','','',{icn:'file'}), R('Share CSV template','','',{icn:'share'})])]),
+      F('S-45 · Import', 'Import from CSV', [chips(['Customers','Orders','Products','Opening balance'],[1]), btns([['Choose file','btn-primary']]), p('Using the column mapping you saved for this file layout.'), rows([R('phone ←','mobile','',{icn:'check'}), R('customer_name ←','name','',{icn:'check'}), R('cod_amount ←','— not used —','',{icn:'alert',icc:T.w})]), kv([['48 rows ready','',1],['3 rows have problems',''],['5 already exist and will be skipped','']]), sw('Import only if every row is valid','',0), h('Import history'), rows([R('Customers · 14 Oct','32 rows','Undo import',{vc:T.d,vs:15})])], { bar: bar([['Import']]) }),
+      F('S-46 · Who changed what', 'Who changed what', [chips(['Everyone','You','Packer (Rubel)'],[0]), sw('Money-affecting only','',1), rows([R('Order · Delivered','You · 15 Oct, 4:30 pm','',{icn:'checks',...tag('Money','w','wallet')}), R('Payout · Recorded','You · 15 Oct, 4:10 pm','',{icn:'wallet',...tag('Money','w','wallet')}), R('Customer · Edited','Rubel · 14 Oct, 11:00 am','',{icn:'pencil'})])]),
+      F('S-48 · Access denied', 'COD', [empty('lock','Your role does not have access to this.','Ask the owner if you need it.','Back')]),
+      F('S-49 · Sync status (future)', 'Sync status', [B('chips', { chips: [{ t: 'Pending 3', bg: 'color-mix(in srgb,'+T.w+' 12%,transparent)', fg: T.w, bd: T.w }] }), kv([['Last sync','Today, 9:12 pm'],['Pending changes','3']]), h('Conflicts'), rows([R('ORD-0042 · Delivery charge','Your edit ৳80 lost to ৳60','Mark resolved',{icn:'alert',icc:T.w,vc:'var(--color-accent-700)',vs:15}), R('ORD-0045 · Duplicate CN','Rejected','Mark resolved',{icn:'ban',icc:T.d,vc:'var(--color-accent-700)',vs:15})])], { proposal: 1 })
+    ];
+    const P5 = [
+      D('Dialog · Passphrase', 'Data', 'Passphrase (optional)', [p('Encrypts the backup file. Keep it safe: it cannot be recovered.'), fld('Passphrase','••••••••')], { bar: bar([['Cancel','btn-secondary'],['Confirm']]), top: '200px' }),
+      D('Dialog · Restore preview', 'Data', 'This backup contains', [kv([['Orders','1,284'],['Customers','312'],['Products','48'],['Payouts','96']]), p('Merge adds what is missing. Replace deletes everything on this phone first.')], { bar: bar([['Merge: add what is missing'],]), top: '170px', h: 600 }),
+      D('Dialog · Irreversible money action', 'Record payout', 'Save payout?', [kv([['Received','৳17,980'],['Orders settled','5'],['Marked disputed','2 · ৳440'],['Written off','৳0',1]]), p('You can reverse this later with a reason.')], { bar: bar([['Cancel','btn-secondary'],['Save payout']]), top: '190px' }),
+      D('Dialog · Reason prompt', 'ORD-0042', 'Why is this being corrected?', [chips(['Customer refused','Not reachable','Wrong address','Customer cancelled','Courier issue','Other'],[0]), fld('Note (optional)','')], { bar: bar([['Cancel','btn-secondary'],['Confirm']]), top: '170px' }),
+      S('Sheet · Risk-badge explanation', 'Customer', 'Orders behind this badge', [B('chips', { chips: [{ t: 'Refused last COD', bg: 'color-mix(in srgb,'+T.d+' 12%,transparent)', fg: T.d, bd: T.d }] }), rows([R('ORD-0040','13 Oct · Customer refused','৳1,200',{...tag('Failed','d','alert')}), R('ORD-0032','2 Oct · Delivered','৳980',{...tag('Delivered','s','checks')})]), p('Seller-private. Based only on your own orders.')], {}, 300),
+      D('Dialog · Blocklist reason', 'Customer', 'Blocklist this customer?', [fld('Reason','Fake order twice'), p('They will show a warning on new orders. Only you can see this.')], { bar: bar([['Cancel','btn-secondary'],['Blocklist','btn-primary',1,]]), top: '200px' }),
+      D('Dialog · Caution note', 'Customer', 'Caution note', [fld('Private note about this customer','Calls late. Ask for bKash advance.',{fmin:90})], { bar: bar([['Cancel','btn-secondary'],['Save']]), top: '200px' }),
+      S('Sheet · Date-range picker', 'Home', 'Select dates', [B('cal', { days: cal }), kv([['October 2026','5 Oct – 12 Oct',1]])], { bar: bar([['Cancel','btn-secondary'],['Apply']]) }, 200)
+    ];
+    const railOf = a => [['plus','New order'],['home','Home'],['orders','Orders'],['cod','COD'],['more','More']].map(([n, l], i) => ({ icon: I(n, 22), label: l, bg: i === 0 ? 'var(--color-accent)' : (i - 1 === a ? 'var(--color-accent-200)' : 'transparent'), fg: i === 0 ? 'var(--color-bg)' : 'inherit' }));
+    const attn3 = [R('ORD-0042 · 6 days with Pathao','No update. Delivered?','Call',{icn:'truck',icc:T.d,vc:'var(--color-accent-700)',vs:15}), R('COD overdue by 3 days','Steadfast · ৳6,200','Payout',{icn:'cod',icc:T.w,vc:'var(--color-accent-700)',vs:15}), R('ORD-0036 · return in transit 9 days','Customer refused · RedX','Track',{icn:'undo',icc:T.w,vc:'var(--color-accent-700)',vs:15})];
+    const orderRows = [ord('ORD-0042','Rahim Uddin','With courier','w','truck','৳2,450',{sub:'COD with courier · +৳640 expected · 6 days with Pathao'}), ord('ORD-0041','Nusrat Jahan','Delivered','s','checks','৳1,980',{sub:'Settled · +৳512 Final'}), ord('ORD-0040','Karim Hossain','Failed','d','alert','৳1,200',{sub:'Not collected · −৳120 Final'}), ord('ORD-0039','Sadia Akter','Confirmed','i','okc','৳1,850',{sub:'COD pending · Cost missing'})];
+    const cashTiles = [['Pending with couriers','৳24,650'],['COD in transit','৳11,300'],['Disputed','৳1,240'],['Received this month','৳86,400']];
+    const opsTiles = [['Orders','48'],['To dispatch','6'],['In transit','14'],['Stuck parcels','2']];
+    const couriersR = [R('Pathao','14 orders · oldest 9 days','৳12,420',{...tag('Overdue','d','alert'),vs:26}), R('Steadfast','9 orders · oldest 4 days','৳8,230',{vs:26}), R('RedX','4 orders · oldest 2 days','৳4,000',{vs:26})];
+    const ledgerKV = kv([['Expected COD','৳2,450'],['Collected by courier','৳2,450'],['Fees (expected)','−৳170'],['Net receivable','৳2,280',1],['Outstanding','৳2,280']]);
+    const payRowsK = [R('ORD-0031','Delivered 8 Oct · Outstanding ৳2,100','৳2,100',{icn:'okc'}), R('ORD-0033','Delivered 9 Oct · Outstanding ৳1,540','৳1,540',{icn:'okc'}), R('ORD-0035','Delivered 10 Oct · Outstanding ৳2,760','৳2,760',{icn:'okc'})];
+    const K = {
+      home: (o = {}) => F('S-04 · Home', 'Rina Fashion House', [chips(['Today','Yesterday','7 days','This month'],[0]), h('Needs attention (5)'), rows(attn3), h('Cash'), tiles(cashTiles, o.tw), h('Operations'), tiles(opsTiles, o.tw)], { acts: acts('bell'), navs: nav(0), navD: 'grid', backD: 'none', apad: 16, ...o }),
+      orders: (o = {}) => F('S-06 · Orders list', 'Orders', [search('Search order, name, phone, CN…'), chips(['With courier ×','Filters','Saved views','Newest ▾'],[0]), rows(orderRows)], { acts: acts('more'), navs: nav(1), navD: 'grid', backD: 'none', apad: 16, fab: 'New order', fabD: 'flex', fabB: 80, ...o }),
+      form: (o = {}) => F('S-09 · Order form', 'New order', [rows([R('Karim Hossain','01712 345678','',{icn:'user'})]), ban('Risky customer — consider taking an advance.','d','alert'), btns([['Take advance','btn-primary']]), fld('Delivery address','House 12, Road 5, Mirpur 10'), rows([R('Cotton T-shirt · L × 2','Cost missing','৳1,300',{...tag('Cost missing','w','alert')})]), seg(['COD','Prepaid','Advance + COD'],2), fld('Advance received','৳ 500'), fld('Delivery charge','৳ 80'), kv([['COD to collect','৳2,180',1]])], { bar: bar([['Save draft','btn-secondary',.7],['Save order','btn-primary',1.3]]), ...o }),
+      detail: (o = {}) => F('S-11 · Order detail', 'ORD-0042', [rows([R('Rahim Uddin','Flat 4B, Sector 7, Uttara','',{icn:'user',...tag('With courier','w','truck')})]), p('6 days with Pathao · Last updated by you: 2 days ago', T.w), btns([['Mark delivered','btn-primary'],['Track parcel']]), kv([['Cotton T-shirt L × 2','৳1,300'],['Leather wallet × 1','৳1,070'],['Delivery charge','৳80'],['COD amount','৳2,450',1]]), h('COD ledger'), ledgerKV, h('Profit'), rows([R('Net profit (expected)','Based on expected fees','+৳640',{...tag('Provisional','w','hourglass'),vc:T.s})])], { acts: acts('more'), ...o }),
+      cod: (o = {}) => F('S-28 · COD tab', 'COD', [tiles(cashTiles, o.tw), h('Who owes you'), rows(couriersR)], { acts: acts('file'), navs: nav(3), navD: 'grid', backD: 'none', apad: 16, fab: 'Record payout', fabD: 'flex', fabB: 80, ...o }),
+      payout: (o = {}) => F('S-33 · Record payout (step 2)', 'Record payout', [p('Step 2 of 3 · Pathao · bKash'), kv([['Expected','৳18,420'],['Received','৳17,980'],['Shortfall','−৳440',1]]), btns([['Auto-allocate (oldest first)']]), h('Orders covered by this payout'), rows(payRowsK)], { bar: bar([['Next']]), ...o }),
+      cust: (o = {}) => F('S-21 · Customer detail', 'Customers', [rows([R('Karim Hossain','01712 345678','',{icn:'user'})]), btns([['Call'],['WhatsApp']]), h('Risk flags'), chips(['Refused last COD','High return rate']), p('Caution: calls late. Ask for bKash advance.'), btns([['Caution note'],['Blocklist']]), h('Summary'), tiles([['Orders','12'],['Delivered','58%'],['Returned','33%'],['Lifetime profit','৳1,860']], o.tw)], { sub: 'Edit', ...o }),
+      pnl: (o = {}) => F('S-37 · Business P&L', 'Business profit (P&L)', [chips(['This month','Last month','Custom'],[1]), ban('3 incomplete orders are excluded from margins. Fix it','w','alert'), kv([['Revenue','৳1,92,400'],['Product cost','−৳98,200'],['Courier fees','−৳14,380'],['Returns & write-offs','−৳6,900'],['Packaging','−৳3,200'],['Ads (on orders)','−৳8,000'],['Order profit','৳61,720',1],['Expenses','−৳27,000'],['Business profit','৳34,720',1]]), seg(['Table','Chart'],0)], { acts: acts('share'), ...o })
+    };
+    const TAB = { w: 900, h: 640, railD: 'flex', backD: 'none', apad: 16, navD: 'none' };
+    const tablets = [
+      F('Tablet · Orders two-pane + rail', 'Orders', [], { ...TAB, rail: railOf(1), cols: [
+        { fl: '0 0 340px', br: '1px solid var(--color-divider)', pd: 12, blocks: [search('Search order, name, phone, CN…'), rows(orderRows.map((r, i) => i === 0 ? { ...r, bg: 'var(--color-accent-100)' } : r))] },
+        { fl: '1 1 0', br: 'none', pd: 0, blocks: [h('ORD-0042 · Rahim Uddin'), rows([R('Flat 4B, Sector 7, Uttara','Last updated by you: 2 days ago','',{...tag('With courier','w','truck')})]), btns([['Mark delivered','btn-primary'],['Track parcel']]), kv([['Cotton T-shirt L × 2','৳1,300'],['Leather wallet × 1','৳1,070'],['COD amount','৳2,450',1]]), ledgerKV] }] }),
+      K.home({ label: 'Tablet · Home, 4 columns + rail', ...TAB, rail: railOf(0), tw: 'calc(25% - 6px)', acts: [] }),
+      F('Tablet · Order form centred (max 640)', 'New order', [], { ...TAB, rail: railOf(1), cols: [
+        { fl: '1 1 0', br: 'none', pd: 0, blocks: [] },
+        { fl: '0 0 640px', br: 'none', pd: 0, blocks: K.form().cols[0].blocks },
+        { fl: '1 1 0', br: 'none', pd: 0, blocks: [] }], bar: bar([['Save draft','btn-secondary',.7],['Save order','btn-primary',1.3]]) }),
+      F('Tablet · Order detail, two columns', 'ORD-0042', [], { ...TAB, rail: railOf(1), cols: [
+        { fl: '1 1 0', br: '1px solid var(--color-divider)', pd: 12, blocks: [rows([R('Rahim Uddin','Flat 4B, Sector 7, Uttara','',{icn:'user',...tag('With courier','w','truck')})]), btns([['Mark delivered','btn-primary'],['Track parcel']]), kv([['Cotton T-shirt L × 2','৳1,300'],['Leather wallet × 1','৳1,070'],['COD amount','৳2,450',1]])] },
+        { fl: '1 1 0', br: 'none', pd: 0, blocks: [h('COD ledger'), ledgerKV, h('Profit'), rows([R('Net profit (expected)','Provisional','+৳640',{...tag('Provisional','w','hourglass'),vc:T.s})])] }] }),
+      K.cod({ label: 'Tablet · COD + rail', ...TAB, rail: railOf(2), tw: 'calc(25% - 6px)', fabD: 'none', acts: [] })
+    ];
+    const narrow = ['home','orders','form','detail','cod','payout','cust','pnl'].map(k => { const f = K[k]({ w: 320, h: 640 }); return { ...f, label: f.label.replace(' · ', ' · 320dp · ') }; });
+    const txt = ['home','orders','form','cod','payout'].map(k => { const f = K[k]({ ts: 2, tw: '100%', h: 900 }); return { ...f, label: f.label.replace(' · ', ' · 200% text · ') }; });
+    const flow = (title, a) => ({ title, zoom: .5, gbg: 'transparent', gpad: 0, vars: '', frames: a.map(([f, c], i) => ({ ...f, label: (i + 1) + ' · ' + c, arrowD: i < a.length - 1 ? 'flex' : 'none' })) });
+    const onb1 = F('', 'Welcome', [h('Welcome to Parcel Khata'), p('Track orders, courier cash and real profit in one place.'), seg(['বাংলা','English'],0)], { backD: 'none', apad: 16, bar: bar([['Next']]) });
+    const homeEmpty = F('', 'Rina Fashion House', [empty('box','Take your first order','Orders from Facebook or WhatsApp show up here.','New order')], { navs: nav(0), navD: 'grid', backD: 'none', apad: 16 });
+    const picker = S('', 'New order', 'Select customer', [search('Search by name or phone'), btns([['Add new customer','btn-secondary']]), rows([R('Karim Hossain','01712 345678','',{icn:'user',...tag('Refused last COD','d','flag')}), R('Nusrat Jahan','01911 223344','',{icn:'user'})])], {}, 200);
+    const orderSel = F('', '2 selected', [rows(orderRows.slice(0, 3).map((r, i) => ({ ...r, ...(i < 2 ? { icn: 'okc', ic: I('okc', 20), icd: 'flex', bg: 'var(--color-accent-100)' } : {}) })))], { bar: bar([['Handed to courier','btn-secondary'],['Mark delivered']]) });
+    const bulk = S('', 'Orders', 'Mark handed to courier?', [kv([['Will change','2'],['Skipped','1 · already delivered']])], { bar: bar([['Cancel','btn-secondary'],['Confirm']]) }, 460);
+    const fastCN = F('', 'Fast CN entry', [rows([R('ORD-0044 · Sadia Akter','Road 11, Dhanmondi','৳1,850')]), fld('Courier','Pathao'), fld('Consignment no. (CN)','PT2410881',{fh:'Scan',fb:'var(--color-accent)',fw:700})], { sub: '7 left', bar: bar([['Skip','btn-secondary',.6],['Save & next']]) });
+    const payout1 = F('', 'Record payout', [fld('Courier','Pathao'), B('money',{fl:'Total received',fv:'৳ 17,980',fh:'You are owed ৳18,420'}), chips(['Bank','bKash','Nagad','Cash','Other'],[1]), fld('Reference no.','TRX 88213')], { bar: bar([['Next']]) });
+    const payout3 = F('', 'Record payout', [ban('Shortfall ৳440 on 2 orders. Choose how to handle it.','d','alert'), rows([R('Leave the balance outstanding','',''), R('Mark unpaid orders as disputed','','✓',{bg:'var(--color-accent-100)'}), R('Write off (accept the loss)','','')]), kv([['Settled','5 orders'],['Disputed','2 · ৳440']])], { bar: bar([['Save payout']]) });
+    const failedD = F('', 'ORD-0040', [rows([R('Karim Hossain','Customer refused · Pathao','',{icn:'user',...tag('Delivery failed','d','alert')})]), btns([['Start return','btn-primary'],['Exchange']])]);
+    const helperHome = F('', 'Rina Fashion House', [chips(['Today','7 days'],[0]), h('Operations'), tiles(opsTiles), ban('COD, profit and reports are hidden for your role.','i','shield')], { navs: nav(0), navD: 'grid', backD: 'none', apad: 16 });
+    const helperDetail = F('', 'ORD-0042', [rows([R('Rahim Uddin','Flat 4B, Uttara','',{icn:'user',...tag('With courier','w','truck')})]), kv([['Cotton T-shirt L','× 2'],['Leather wallet','× 1']]), ban('Your role does not show money or profit.','i','shield')]);
+    const restored = F('', 'Data', [empty('okc','Restore complete','1,284 orders merged.')]);
+    const flows = [
+      flow('Flow 1 · First run → first order', [[onb1,'Onboarding'],[homeEmpty,'Home, empty'],[K.form(),'Order form'],[K.detail(),'Order detail']]),
+      flow('Flow 2 · Repeat customer in <30 s', [[picker,'Pick customer'],[K.form(),'Risk banner → Take advance'],[P1[0],'Filters (find later)'],[K.detail(),'Saved']]),
+      flow('Flow 3 · From chat', [[P1[2],'Paste'],[P1[3],'Review'],[K.form(),'Pre-filled form'],[K.detail(),'Saved']]),
+      flow('Flow 4 · Dispatch day', [[orderSel,'Select orders'],[bulk,'Confirm'],[fastCN,'Fast CN'],[K.home(),'To dispatch = 0']]),
+      flow('Flow 5 · Getting paid', [[K.cod(),'COD tab'],[payout1,'Total'],[K.payout(),'Allocate'],[payout3,'Shortfall'],[P2[3],'Payout detail']]),
+      flow('Flow 6 · Return & exchange', [[failedD,'Delivery failed'],[P1[9],'Start return'],[P1[10],'Receive'],[P1[11],'Exchange']]),
+      flow('Flow 7 · Month end', [[K.home(),'Last month'],[P2[7],'Reports'],[K.pnl(),'P&L'],[P3[10],'Add rent'],[P3[12],'Apply campaign']]),
+      flow('Flow 8 · Safety', [[P4[2],'Data'],[P5[0],'Passphrase'],[P5[1],'Restore preview'],[restored,'Done']]),
+      flow('Flow 9 · Helper role (future)', [[helperHome,'Limited home'],[K.form(),'Create order'],[helperDetail,'No money'],[P4[5],'Access denied']])
+    ];
+    return { P1, P2, P3, P4, P5, K, tablets, narrow, txt, flows, groups: [
+      { title: 'Priority 1 — Orders, returns, scan & paste', frames: P1 },
+      { title: 'Priority 1 — COD, payouts, returns list & reports', frames: P2 },
+      { title: 'Priority 2 — Supporting screens', frames: P3 },
+      { title: 'Priority 3 — Settings, admin & edge', frames: P4 },
+      { title: 'Cross-cutting dialogs & sheets', frames: P5 }
+    ] };
+  }
+  compose(L, D) {
+    const g = (title, frames, o = {}) => ({ title, frames, zoom: 1, gbg: 'transparent', gpad: 0, vars: '', ...o });
+    const dv = '--color-bg:#16191B;--color-text:#ECEFF1;--color-divider:rgba(236,239,241,.2);--color-accent:#94BCE3;--color-accent-100:#202c38;--color-accent-200:#2c455d;--color-accent-300:#416180;--color-accent-700:#94BCE3;--color-accent-800:#B5D9FD;--color-accent-900:#0b131b;--color-neutral-200:#2a2f33;--color-neutral-300:#383d42;--color-neutral-400:#555b61;--shadow-lg:0 12px 32px rgba(0,0,0,.6);--shadow-md:0 3px 10px rgba(0,0,0,.5)';
+    const Dk = D.K, dl = (f, t) => ({ ...f, label: f.label.replace(' · ', ' · dark · ') });
+    const dark = [Dk.home(), Dk.orders(), Dk.form(), Dk.detail(), Dk.cod(), Dk.payout(), Dk.cust(), Dk.pnl(), D.P1[0], D.P2[7], D.P3[5], D.P4[0], D.P5[2]].map(dl);
+    const out = [
+      g('Dark mode — status colours use the dark values; surfaces lift instead of shadows', dark, { gbg: '#16191B', gpad: 28, vars: dv }),
+      g('320dp narrow phones — 8 key screens', L.narrow),
+      g('Tablet / iPad ≥600dp — navigation rail, two-pane Orders, centred forms (max 640)', L.tablets),
+      g('200% text scale — labels wrap, amounts never truncate, tiles go single column', L.txt),
+      ...L.flows,
+      ...L.groups.map(x => g(x.title, x.frames))
+    ];
+    const M = 'none'; return { groups: M === 'screens' ? L.groups.map(x => g(x.title, x.frames)) : M === 'variants' ? out.slice(0, 4) : M === 'flows' ? L.flows : [] };
+  }
+  more({ I, ic, ic14, T, ch, tile, nav, keys, rows, ledger }) {
+    const dots = i => [0,1,2,3,4].map(k => ({ bg: k <= i ? 'var(--color-accent)' : 'var(--color-divider)' }));
+    const f = (label, val, hint) => ({ label, val, hint: hint || '' });
+    const q = (t, on) => ({ t, bg: on ? 'var(--color-accent)' : 'transparent', fg: on ? 'var(--color-bg)' : 'inherit', bd: on ? 'var(--color-accent)' : 'var(--color-divider)' });
+    const sw = (title, help, on) => ({ title, help, bg: on ? 'var(--color-text)' : 'transparent', knob: on ? 'var(--color-bg)' : 'var(--color-text)', left: on ? 26 : 3 });
+    const obSteps = [
+      { label: 'S-01 · Step 2 — Business', dots: dots(1), title: 'Your business', sub: 'Used on order slips and as defaults.', fields: [f('Business name','Rina Fashion House'), f('Business phone','01712 345678','optional'), f('Order number prefix','ORD'), f('Default channel','Facebook ▾')], chipD: 'none', chips: [], swD: 'none', sw: sw('','',0), note: '', next: 'Next' },
+      { label: 'S-01 · Step 3 — Courier', dots: dots(2), title: 'Which courier do you use most?', sub: 'You can add rates and more couriers later.', fields: [f('Default delivery charge','৳ 80','optional')], chipD: 'flex', chips: [q('Pathao',1), q('Steadfast',1), q('RedX'), q('eCourier'), q('Paperfly'), q('Sundarban'), q('+ Add custom')], swD: 'none', sw: sw('','',0), note: '', next: 'Next' },
+      { label: 'S-01 · Step 4 — Sample data', dots: dots(3), title: 'Try it with sample data?', sub: 'Two customers and three products so you can try an order right away.', fields: [], chipD: 'none', chips: [], swD: 'flex', sw: sw('Add a few sample records','Two customers and three products.',1), note: 'Reversible: remove them any time from Data.', next: 'Next' },
+      { label: 'S-01 · Step 5 — Diagnostics consent', dots: dots(4), title: 'Help improve the app', sub: 'Optional. Off by default.', fields: [], chipD: 'none', chips: [], swD: 'flex', sw: sw('Share anonymous usage reports','Never includes customers, phones, addresses or amounts.',0), note: 'You can change this later in Security & privacy.', next: 'Start using the app' }
+    ];
+    const dd = (n, err) => [0,1,2,3].map(k => ({ bg: k < n ? '#f2f2f3' : 'transparent', bd: err ? '#FF8A80' : '#f2f2f3' }));
+    const lockStates = [
+      { label: 'S-02 · Wrong PIN', dots: dd(4, 1), msg: 'Wrong PIN · 2 attempts left', mc: '#FF8A80', keyOp: 1, ovD: 'none' },
+      { label: 'S-02 · Locked out', dots: dd(0), msg: 'Try again in 28 seconds', mc: '#FFB74D', keyOp: .3, ovD: 'none' },
+      { label: 'S-02 · Biometric prompt', dots: dd(0), msg: '', mc: '#f2f2f3', keyOp: 1, ovD: 'flex' }
+    ];
+    const sk = (n) => Array.from({ length: n }, () => ({ label: '', val: '', lbg: 'var(--color-neutral-300)', vbg: 'var(--color-neutral-200)', lc: 'inherit', vc: 'inherit' }));
+    const tv = (label, val, o = {}) => ({ label, val, lbg: 'transparent', vbg: 'transparent', lc: 'inherit', vc: o.vc || 'inherit' });
+    const homeStates = [
+      { label: 'S-04 · Loading (skeleton)', zeroD: 'none', errD: 'none', maskD: 'none', tilesD: 'flex', tiles: sk(4), tiles2: sk(2) },
+      { label: 'S-04 · Zero data', zeroD: 'flex', errD: 'none', maskD: 'none', tilesD: 'flex', tiles: [tv('Pending with couriers','৳0',{vc:'#5F6368'}), tv('COD in transit','৳0',{vc:'#5F6368'}), tv('Disputed','৳0',{vc:'#5F6368'}), tv('Received this month','—',{vc:'#5F6368'})], tiles2: [tv('Orders','0',{vc:'#5F6368'}), tv('To dispatch','0',{vc:'#5F6368'})] },
+      { label: 'S-04 · Masked amounts', zeroD: 'none', errD: 'none', maskD: 'flex', tilesD: 'flex', tiles: [tv('Pending with couriers','••••'), tv('COD in transit','৳11,300'), tv('Disputed','••••'), tv('Received this month','••••')], tiles2: [tv('Orders','48'), tv('To dispatch','6')] },
+      { label: 'S-04 · Error', zeroD: 'none', errD: 'flex', maskD: 'none', tilesD: 'none', tiles: [], tiles2: [] }
+    ];
+    const sel = rows.slice(0, 3).map((r, i) => ({ ...r, bg: i < 2 ? 'var(--color-accent-100)' : 'transparent', ckbg: i < 2 ? 'var(--color-text)' : 'transparent', ck: i < 2 ? I('check', 16) : '' }));
+    const orderStates = [
+      { label: 'S-06 · Selection mode', title: '2 selected', abg: 'var(--color-accent-900)', afg: 'var(--color-bg)', xD: 'flex', srchD: 'none', fchips: [], rows: sel, emptyD: 'none', eIcon: '', eTitle: '', eHint: '', eCta: '', skel: [], barD: 'flex', navD: 'none' },
+      { label: 'S-06 · Empty', title: 'Orders', abg: 'transparent', afg: 'inherit', xD: 'none', srchD: 'flex', fchips: [], rows: [], emptyD: 'flex', eIcon: I('orders', 48), eTitle: 'No orders yet', eHint: 'Orders you take on Facebook, WhatsApp or by phone appear here.', eCta: 'Create your first order', skel: [], barD: 'none', navD: 'grid' },
+      { label: 'S-06 · Empty, filtered', title: 'Orders', abg: 'transparent', afg: 'inherit', xD: 'none', srchD: 'flex', fchips: ['Failed', 'Pathao'], rows: [], emptyD: 'flex', eIcon: I('search', 48), eTitle: 'No results', eHint: 'Nothing matches these filters.', eCta: 'Clear filters', skel: [], barD: 'none', navD: 'grid' },
+      { label: 'S-06 · Loading', title: 'Orders', abg: 'transparent', afg: 'inherit', xD: 'none', srchD: 'flex', fchips: [], rows: [], emptyD: 'none', eIcon: '', eTitle: '', eHint: '', eCta: '', skel: [1,2,3,4,5,6], barD: 'none', navD: 'grid' }
+    ];
+    const fs = (o) => ({ title: 'New order', banD: 'none', cust: 'Select customer', phone: '', addr: '', eb: 'var(--color-divider)', errD: 'none', itemD: 'flex', noItemD: 'none', dimD: 'none', pickD: 'none', dlgD: 'none', dt: '', db: '', da: [], ...o });
+    const formStates = [
+      fs({ label: 'S-09 · Edit delivered order', title: 'Edit order', banD: 'flex', cust: 'Rahim Uddin', phone: '01712 345678', addr: 'Flat 4B, Sector 7, Uttara, Dhaka', dimD: 'block', dlgD: 'flex', dt: 'Change amounts?', db: 'This order is delivered. Change its amounts anyway?', da: [{ t: 'Confirm', k: 'btn-primary' }, { t: 'Cancel', k: 'btn-secondary' }] }),
+      fs({ label: 'S-09 · Validation errors', eb: '#C62828', errD: 'flex', itemD: 'none', noItemD: 'flex' }),
+      fs({ label: 'S-09 · Customer picker sheet', dimD: 'block', pickD: 'flex' }),
+      fs({ label: 'S-09 · Dirty-form guard', cust: 'Karim Hossain', phone: '01712 345678', addr: 'House 12, Road 5, Mirpur 10', dimD: 'block', dlgD: 'flex', dt: 'Leave this order?', db: 'You have unsaved changes.', da: [{ t: 'Save as draft', k: 'btn-primary' }, { t: 'Discard', k: 'btn-secondary' }, { t: 'Keep editing', k: 'btn-ghost' }] })
+    ];
+    const recents = [['Karim Hossain','01712 345678',1],['Nusrat Jahan','01911 223344'],['Sadia Akter','01811 556677'],['Tanvir Ahmed','01611 998877']].map(([n,p,r]) => ({ n, p, rd: r ? 'inline-block' : 'none' }));
+    const nextStatuses = [['In transit','truck',0],['Mark delivered','checks',1],['Delivery failed','alert',0],['Cancel order','ban',0]].map(([t,i,on]) => ({ t, icon: I(i, 22), bd: on ? 'var(--color-accent)' : 'var(--color-divider)', bg: on ? 'var(--color-accent-200)' : 'transparent', fg: t === 'Cancel order' || t === 'Delivery failed' ? '#C62828' : 'inherit' }));
+    const charges = [{ k: 'Delivery fee', v: '৳110 (expected)', op: .7 }, { k: 'COD fee', v: '৳24 (expected)', op: .7 }, { k: 'Return fee', v: '৳55 · actual', op: 1 }, { k: 'Packaging', v: '৳20', op: 1 }];
+    const ev = (icon, t, tone, time) => ({ icon: I(icon, 18), fg: T[tone], t, time });
+    const timeline = [ev('undo','Return in transit · Customer refused','w','14 Oct, 11:20'), ev('alert','Delivery failed · Customer refused','d','13 Oct, 6:05 pm'), ev('truck','With courier · Pathao PT2410881','w','10 Oct, 2:10 pm'), ev('pencil','Delivery charge: ৳60 → ৳80','n','9 Oct, 9:40 am'), ev('okc','Confirmed','i','9 Oct, 9:12 am')];
+    const base = (l, o) => ({ label: l, no: 'ORD-0042', op: 1, td: 'none', codD: 'flex', ledD: 'none', name: 'Rahim Uddin', addr: 'Flat 4B, Sector 7, Uttara, Dhaka', lines: [{ k: 'Cotton T-shirt L × 2', v: '৳ 1,300' }, { k: 'Leather wallet × 1', v: '৳ 1,070' }], tl: timeline.slice(2), ...o });
+    const detailVariants = [
+      base('S-11 · Cancelled', { no: 'ORD-0037', op: .7, td: 'line-through', bb: 'var(--color-divider)', bbg: 'transparent', bfg: 'inherit', bicon: ic.ban, btext: 'Cancelled · Customer cancelled · 12 Oct', chips: [ch('Cancelled','n','ban')], tl: [ev('ban','Cancelled · Customer cancelled','n','12 Oct, 4:00 pm'), ev('okc','Confirmed','i','12 Oct, 10:12 am')] }),
+      base('S-11 · Disputed', { bb: '#C62828', bbg: 'color-mix(in srgb,#C62828 8%,transparent)', bfg: '#9d1f1f', bicon: ic.flag, btext: 'Disputed · Pathao paid ৳440 less than the statement', chips: [ch('Delivered','s','checks'), ch('Disputed','d','flag')], ledD: 'flex', tl: [ev('flag','Marked disputed · ৳440 short','d','15 Oct, 5:20 pm'), ev('checks','Delivered','s','12 Oct, 1:15 pm')] }),
+      base('S-11 · Helper role (no money)', { bb: 'var(--color-accent)', bbg: 'var(--color-accent-100)', bfg: 'var(--color-accent-800)', bicon: ic.shield, btext: 'Your role does not show money, profit or COD.', chips: [ch('With courier','w','truck')], codD: 'none', lines: [{ k: 'Cotton T-shirt L', v: '× 2' }, { k: 'Leather wallet', v: '× 1' }] })
+    ];
+    const cc = (name, sub, owed) => ({ name, sub, owed });
+    const codStates = [
+      { label: 'S-28 · Empty', maskD: 'none', emptyD: 'flex', listD: 'none', fabD: 'none', tiles: [tv('Pending with couriers','৳0',{vc:'#5F6368'}), tv('COD in transit','৳0',{vc:'#5F6368'}), tv('Disputed','৳0',{vc:'#5F6368'}), tv('Received this month','৳0',{vc:'#5F6368'})], couriers: [] },
+      { label: 'S-28 · Masked amounts', maskD: 'flex', emptyD: 'none', listD: 'flex', fabD: 'flex', tiles: [tv('Pending with couriers','••••'), tv('COD in transit','••••'), tv('Disputed','••••'), tv('Received this month','৳86,400')], couriers: [cc('Pathao','14 orders · oldest 9 days','••••'), cc('Steadfast','9 orders · oldest 4 days','••••'), cc('RedX','4 orders · oldest 2 days','••••')] }
+    ];
+    const methods = [q('Bank'), q('bKash', 1), q('Nagad'), q('Cash'), q('Other')];
+    const shortfall = [['Leave the balance outstanding','Stays on the orders as money owed.',0],['Mark unpaid orders as disputed','Flags them with a note to follow up.',1],['Write off (accept the loss)','Recorded as a cost on those orders.',0]].map(([t,s,on]) => ({ t, s, bd: on ? 'var(--color-accent)' : 'var(--color-divider)', bg: on ? 'var(--color-accent-100)' : 'transparent', dot: on ? 'var(--color-text)' : 'transparent' }));
+    const seg = i => ['Reason','Product','Courier'].map((t, k) => ({ t, bg: k === i ? 'var(--color-text)' : 'transparent', fg: k === i ? 'var(--color-bg)' : 'inherit' }));
+    const grp = i => ['Day','Courier','Channel','Customer','Product','Area'].map((t, k) => ({ t, bd: k === i ? 'var(--color-accent)' : 'var(--color-divider)', bg: k === i ? 'var(--color-accent-200)' : 'transparent' }));
+    const bars = [4,6,5,9,7,3,2].map((v, i) => ({ h: v * 10, l: ['M','T','W','T','F','S','S'][i] }));
+    const kp = (k, v) => ({ k, v });
+    const rw = (a, b, c, v, vc) => ({ a, b, c, v, vc: vc || 'inherit' });
+    const rep = (o) => ({ title: '', segD: 'none', seg: [], grpD: 'none', groups: [], banD: 'none', kpiD: 'none', kpis: [], donutD: 'none', donut: '', chartD: 'none', bars: [], rows: [], tb1: 'var(--color-text)', tf1: 'var(--color-bg)', tb2: 'transparent', tf2: 'inherit', ...o });
+    const dailyRows = [rw('Thu 15 Oct','Orders 9 · Delivered 6','Payouts received ৳8,000','৳15,200'), rw('Wed 14 Oct','Orders 7 · Delivered 5','Payouts received ৳0','৳11,900'), rw('Tue 13 Oct','Orders 5 · Delivered 4','Payouts received ৳10,000','৳7,300')];
+    const reports = [
+      rep({ label: 'S-37 · Daily summary — chart view', title: 'Daily summary', kpiD: 'grid', kpis: [kp('Orders','18'), kp('Delivered','12'), kp('Revenue','৳32,400'), kp('Profit','৳7,150')], chartD: 'flex', bars, rows: dailyRows }),
+      rep({ label: 'S-37 · Daily summary — table view', title: 'Daily summary', kpiD: 'grid', kpis: [kp('Orders','18'), kp('Delivered','12'), kp('Revenue','৳32,400'), kp('Profit','৳7,150')], tb1: 'transparent', tf1: 'inherit', tb2: 'var(--color-text)', tf2: 'var(--color-bg)', rows: [...dailyRows, rw('Mon 12 Oct','Orders 4 · Delivered 3','Payouts received ৳0','৳6,100'), rw('Sun 11 Oct','Orders 3 · Delivered 2','Payouts received ৳0','৳4,800')] }),
+      rep({ label: 'S-37 · COD ageing', title: 'COD ageing', kpiD: 'grid', kpis: [kp('0–3 days','৳9,200'), kp('4–7 days','৳8,400'), kp('8–14 days','৳5,300'), kp('15+ days','৳1,750')], rows: [rw('Pathao','14 orders · oldest 9 days','','৳12,420','#C62828'), rw('Steadfast','9 orders · oldest 4 days','','৳8,230'), rw('RedX','4 orders · oldest 2 days','','৳4,000')] }),
+      rep({ label: 'S-37 · Courier performance', title: 'Courier performance', rows: [rw('Pathao','48 orders · Delivered 82% · Returned 11%','Avg 3.1 days · Fees ৳4,200 · Payout lag 4 days','৳12,420','#C62828'), rw('Steadfast','31 orders · Delivered 88% · Returned 7%','Avg 2.6 days · Fees ৳2,650 · Payout lag 3 days','৳8,230'), rw('RedX','12 orders · Delivered 75% · Returned 17%','Avg 3.8 days · Fees ৳1,010 · Payout lag 6 days','৳4,000')] }),
+      rep({ label: 'S-37 · Profit report', title: 'Profit report', grpD: 'flex', groups: grp(4), banD: 'flex', rows: [rw('Cotton T-shirt','Revenue ৳18,200 · Cost ৳9,100','Margin 38%','+৳6,900','#1B7F3B'), rw('Leather wallet','Revenue ৳12,800 · Cost ৳7,400','Margin 29%','+৳3,700','#1B7F3B'), rw('Canvas bag','Revenue ৳6,400 · Cost ৳5,900','Margin 4%','+৳250','#1B7F3B'), rw('Mug set','Revenue ৳3,200 · Cost ৳3,600','Margin −13%','−৳420','#C62828')] }),
+      rep({ label: 'S-37 · Returns report', title: 'Returns report', segD: 'grid', seg: seg(0), donutD: 'flex', donut: 'conic-gradient(#416180 0 38%, #B26A00 0 62%, #C62828 0 80%, #5F6368 0 92%, #94BCE3 0 100%)', rows: [rw('Customer refused','12 returns','','−৳3,100','#C62828'), rw('Not reachable','8 returns','','−৳1,900','#C62828'), rw('Wrong address','6 returns','','−৳1,200','#C62828'), rw('Wrong or damaged item','4 returns','','−৳700','#C62828')] })
+    ];
+    return { obSteps, lockStates, homeStates, navHome: nav(0), orderStates, formStates, recents, nextStatuses, charges, timeline, detailVariants, codStates, methods, shortfall, reports };
+  }
+  renderVals() {
+    const P = {
+      home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+      orders:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M12 11h4M12 16h4M8 11h.01M8 16h.01"/>',
+      plus:'<path d="M12 5v14M5 12h14"/>',
+      minus:'<path d="M5 12h14"/>',
+      cod:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+      more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+      bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+      search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+      scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/>',
+      truck:'<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+      checks:'<path d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16"/>',
+      alert:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
+      undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+      user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+      phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+      chev:'<path d="m9 18 6-6-6-6"/>', back:'<path d="m15 18-6-6 6-6"/>',
+      lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+      hourglass:'<path d="M5 22h14M5 2h14M17 22v-4.2a2 2 0 0 0-.6-1.4L12 12l-4.4 4.4a2 2 0 0 0-.6 1.4V22M7 2v4.2a2 2 0 0 0 .6 1.4L12 12l4.4-4.4A2 2 0 0 0 17 6.2V2"/>',
+      flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/>',
+      wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+      sliders:'<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>',
+      x:'<path d="M18 6 6 18M6 6l12 12"/>', check:'<path d="M20 6 9 17l-5-5"/>',
+      clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+      chart:'<path d="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3"/>',
+      box:'<path d="m7.5 4.3 9 5.2M21 8v8a2 2 0 0 1-1 1.7l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.7l7-4a2 2 0 0 1 2 0l7 4A2 2 0 0 1 21 8zM3.3 7l8.7 5 8.7-5M12 22V12"/>',
+      pencil:'<path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>',
+      okc:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+      ban:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+      msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/>',
+      star:'<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>',
+      file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/>',
+      share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>',
+      shield:'<path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/>',
+      mega:'<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+      receipt:'<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M16 8H8M16 12H8M13 16H8"/>',
+      dl:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+      cog:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+      eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
+    };
+    const I = (n, s = 20, extra = {}) => React.createElement('svg', { width: s, height: s, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: 'none', display: 'block', ...extra }, dangerouslySetInnerHTML: { __html: P[n] } });
+    const ic = {}, ic14 = {};
+    Object.keys(P).forEach(k => { ic[k] = I(k, 22); ic14[k] = I(k, 14); });
+    ic.big_box = I('box', 40); ic.lockbig = I('lock', 48);
+    const T = { s:'#1B7F3B', w:'#B26A00', d:'#C62828', n:'#5F6368', i:'#416180' };
+    const TD = { s:'#66D18A', w:'#FFB74D', d:'#FF8A80', n:'#B0B4BA', i:'#94BCE3' };
+    const ch = (label, t, icon, dash, note) => ({ label, note: note || '', fg: T[t], bg: `color-mix(in srgb, ${T[t]} 12%, transparent)`, bd: dash ? `1px dashed ${T[t]}` : '1px solid transparent', icon: I(icon, 14) });
+    const nav = (a, bn) => {
+      const L = bn ? ['হোম','অর্ডার','নতুন','COD','আরও'] : ['Home','Orders','New order','COD','More'];
+      const ics = ['home','orders','plus','cod','more'];
+      return ics.map((n, i) => {
+        const act = i === a, c = i === 2;
+        return { label: L[i], icon: I(n, c ? 24 : 22), fg: act ? 'var(--color-accent-700)' : 'var(--color-text)', bt: act ? 'var(--color-accent)' : 'transparent', w: act ? 700 : 400, box: c ? 'var(--color-accent)' : 'transparent', bfg: c ? 'var(--color-bg)' : 'inherit', bs: c ? 40 : 24 };
+      });
+    };
+    const tile = (label, val, icon, o = {}) => ({ label, val, sub: o.sub || '', icon: I(icon, 16), bd: o.warn ? '1px solid #B26A00' : '1px solid var(--color-divider)', lc: o.warn ? '#8f5500' : 'inherit', bg: o.bg || 'transparent', vs: o.vs || '' });
+    const per = (arr, i) => arr.map((t, k) => ({ t, bd: k === i ? 'var(--color-accent)' : 'var(--color-divider)', bg: k === i ? 'var(--color-accent-200)' : 'transparent', fg: 'inherit' }));
+    const en = {
+      ff: 'var(--font-body)', hf: 'var(--font-heading)', shop: 'Rina Fashion House', att: 'Needs attention', all: 'View all',
+      periods: per(['Today','Yesterday','7 days','This month','Last month','Custom'], 0),
+      items: [
+        { icon: I('truck', 20), fg: T.d, t: 'ORD-0042 · 6 days with Pathao', s: 'No update. Delivered?', act: 'Call' },
+        { icon: I('cod', 20), fg: T.w, t: 'COD overdue by 3 days', s: 'Steadfast · ৳6,200', act: 'Payout' },
+        { icon: I('undo', 20), fg: T.w, t: 'ORD-0036 · return 9 days', s: 'Return in transit', act: 'Track' }],
+      cash: 'Cash', ops: 'Operations',
+      tiles: [tile('Pending with couriers','৳24,650','cod',{sub:'3 couriers'}), tile('COD in transit','৳11,300','truck'), tile('Disputed','৳1,240','flag',{warn:1}), tile('Received this month','৳86,400','wallet')],
+      tiles2: [tile('Orders','48','orders'), tile('To dispatch','6','box'), tile('In transit','14','truck'), tile('Stuck parcels','2','alert',{warn:1})],
+      nav: nav(0)
+    };
+    const bn = {
+      ff: "'Noto Sans Bengali', var(--font-body)", hf: "'Noto Sans Bengali', var(--font-heading)", shop: 'রিনা ফ্যাশন হাউস', att: 'নজর দরকার', all: 'সব দেখুন',
+      periods: per(['আজ','গতকাল','৭ দিন','এই মাস','গত মাস','কাস্টম'], 0),
+      items: [
+        { icon: I('truck', 20), fg: T.d, t: 'ORD-0042 · পাঠাও-এর কাছে ৬ দিন', s: 'আপডেট নেই। ডেলিভারি হয়েছে?', act: 'কল' },
+        { icon: I('cod', 20), fg: T.w, t: 'COD ৩ দিন বকেয়া', s: 'স্টেডফাস্ট · ৳6,200', act: 'পেআউট' },
+        { icon: I('undo', 20), fg: T.w, t: 'ORD-0036 · ফেরত ৯ দিন ধরে পথে', s: 'ফেরত পথে', act: 'ট্র্যাক' }],
+      cash: 'নগদ', ops: 'কাজ',
+      tiles: [tile('কুরিয়ারের কাছে বাকি','৳24,650','cod',{sub:'৩টি কুরিয়ার'}), tile('পথে থাকা COD','৳11,300','truck'), tile('বিরোধ','৳1,240','flag',{warn:1}), tile('এ মাসে পেয়েছি','৳86,400','wallet')],
+      tiles2: [tile('অর্ডার','৪৮','orders'), tile('পাঠানো বাকি','৬','box'), tile('পথে','১৪','truck'), tile('আটকে আছে','২','alert',{warn:1})],
+      nav: nav(0, true)
+    };
+    const row = (no, name, chips, cod, date, o = {}) => ({ no, name, chips, cod, date, op: o.op || 1, td: o.td || 'none' });
+    const rows = [
+      row('ORD-0042','Rahim Uddin',[ch('With courier','w','truck'),ch('COD with courier','w','cod'),ch('+৳640 expected','s','hourglass',true),ch('6 days with Pathao','d','clock')],'৳2,450','15 Oct'),
+      row('ORD-0041','Nusrat Jahan',[ch('Delivered','s','checks'),ch('Settled','s','okc'),ch('+৳512 Final','s','check')],'৳1,980','14 Oct'),
+      row('ORD-0040','Karim Hossain',[ch('Failed','d','alert'),ch('Not collected','d','ban'),ch('−৳120 Final','d','minus')],'৳1,200','13 Oct'),
+      row('ORD-0039','Sadia Akter',[ch('Confirmed','i','okc'),ch('COD pending','n','hourglass'),ch('Cost missing · Fix it','w','alert')],'৳1,850','13 Oct'),
+      row('ORD-0037','Tanvir Ahmed',[ch('Cancelled','n','ban')],'৳900','12 Oct',{op:.6,td:'line-through'})
+    ];
+    const iconV = (name, bg, fg, size, r, note) => ({ name, bg, fg, size, r, note });
+    const icons = [
+      iconV('Primary','#416180','#f2f2f3',160,'22%','Steel accent-700 · iOS squircle approx.'),
+      iconV('Dark','#1d2d3d','#b5d9fd',160,'22%','Accent-900 ground, accent-300 line'),
+      iconV('Paper / light','#f2f2f3','#416180',160,'22%','Ground colour, steel line · store listing'),
+      iconV('Android adaptive','#416180','#f2f2f3',160,'50%','Circle mask · glyph inside 66dp safe zone'),
+      iconV('Themed / mono','#d6ebff','#1d2d3d',160,'50%','Android 13 monochrome layer'),
+      iconV('Notification','#1d2d3d','#f2f2f3',72,'0','White-only glyph on transparent')
+    ];
+    const tok = (name, light, dark) => ({ name, light, lightHex: light, dark });
+    const tokens = [
+      tok('primary', '#416180', '#94BCE3'), tok('onPrimary', '#F2F2F3', '#1D2D3D'), tok('surface', '#F2F2F3', '#16191B'),
+      tok('surfaceContainer', '#E9E9EA', '#202427'), tok('outline', '#B7B7BA', '#42474B'), tok('success', '#1B7F3B', '#66D18A'),
+      tok('warning', '#B26A00', '#FFB74D'), tok('danger', '#C62828', '#FF8A80'), tok('neutral', '#5F6368', '#B0B4BA'),
+      tok('info (proposal)', '#416180', '#94BCE3'), tok('money-in (proposal)', '#1B7F3B', '#66D18A'), tok('money-out (proposal)', '#C62828', '#FF8A80')
+    ];
+    const typeScale = [
+      { font: "600 32px/1.2 var(--font-heading)", sample: 'Display 32', spec: 'Barlow Cond 600' },
+      { font: "600 24px/1.2 var(--font-heading)", sample: 'Headline 24', spec: 'Barlow Cond 600' },
+      { font: "600 20px/1.3 var(--font-heading)", sample: 'Title Large 20', spec: 'Barlow Cond 600' },
+      { font: "500 16px/1.3 var(--font-body)", sample: 'Title 16 medium', spec: 'Barlow 500' },
+      { font: "400 16px/1.5 var(--font-body)", sample: 'Body 16 — minimum', spec: 'Barlow 400 · Bangla 1.5+' },
+      { font: "400 14px/1.4 var(--font-body)", sample: 'Body small 14 · Label 12–14', spec: 'Barlow 400' },
+      { font: "700 28px/1.2 var(--font-heading)", sample: '৳ 24,650', spec: 'Money Large 28 · tabular' }
+    ];
+    const taxonomy = [
+      { title: 'Order status', chips: [ch('Draft','n','pencil',false,'neutral'),ch('Confirmed','i','okc',false,'info'),ch('Packed','i','box',false,'info'),ch('With courier','w','truck',false,'+ N days'),ch('In transit','w','truck'),ch('Delivered','s','checks'),ch('Failed','d','alert'),ch('Return in transit','w','undo'),ch('Returned','d','undo'),ch('Cancelled','n','ban')] },
+      { title: 'COD status', chips: [ch('COD pending','n','hourglass'),ch('With courier','w','truck'),ch('Partly settled','w','wallet'),ch('Settled','s','okc'),ch('Not collected','d','ban'),ch('Disputed','d','flag'),] },
+      { title: 'Profit state', chips: [ch('+৳512 Final','s','check',false,'solid'),ch('+৳640 Provisional','s','hourglass',true,'dashed · "expected"'),ch('Cost missing','w','alert',false,'tappable · Fix it')] },
+      { title: 'Customer risk', chips: [ch('Reliable','s','okc'),ch('Refused last COD','d','flag'),ch('High return rate','d','undo'),ch('New customer','i','user'),ch('Blocklisted','d','ban')] }
+    ];
+    const tileStates = [
+      tile('Pending with couriers','৳24,650','cod',{sub:'Normal · tap to drill down'}),
+      tile('Pending with couriers','••••','cod',{sub:'Masked · tap to reveal'}),
+      tile('Stuck parcels','2','alert',{warn:1,sub:'Warning accent',bg:'color-mix(in srgb,#B26A00 8%,transparent)'}),
+      tile('Revenue','৳92,300','chart',{sub:'provisional hint · 6 orders not final'})
+    ];
+    const darkChips = [['Delivered','s','checks'],['With courier','w','truck'],['Failed','d','alert'],['Draft','n','pencil']].map(([l,t,i]) => ({ label: l, fg: TD[t], bg: `color-mix(in srgb, ${TD[t]} 18%, transparent)`, icon: I(i, 14) }));
+    const tone = (t, icon, title, s, act) => ({ icon: I(icon, 22), fg: T[t], t: title, s, act });
+    const attn = [
+      tone('d','truck','ORD-0042 · 6 days with Pathao','No update. Delivered?','Call'),
+      tone('w','cod','COD overdue by 3 days','Steadfast · ৳6,200 · 5-day cycle','Record payout'),
+      tone('w','undo','ORD-0036 · return in transit 9 days','Customer refused · Redx','Track'),
+      tone('w','flag','Disputed settlement','Pathao · ৳440 short','Open order'),
+      tone('n','dl','No backup for 8 days','Last: 11 Oct','Create backup')
+    ];
+    const keys = ['1','2','3','4','5','6','7','8','9','','0','⌫'].map(l => ({ l, bd: l === '' ? 'transparent' : 'color-mix(in srgb,#f2f2f3 40%,transparent)' }));
+    const ld = (k, v, o = {}) => ({ k, v, exp: o.exp ? ' (expected)' : '', op: o.exp ? .7 : 1 });
+    const ledger = [ld('Expected COD','৳2,450'), ld('Collected by courier','৳2,450'), ld('Delivery + COD fee','−৳170',{exp:1}), ld('Net receivable','৳2,280'), ld('Outstanding','৳2,280')];
+    const mk = (name, sub, owed, od) => ({ name, sub, owed, od: od ? 'inline-flex' : 'none' });
+    const payRows = [
+      ['ORD-0031','8 Oct','৳2,100','৳2,100',1],['ORD-0033','9 Oct','৳1,540','৳1,540',1],['ORD-0034','9 Oct','৳980','৳980',1],['ORD-0035','10 Oct','৳3,200','৳2,760',1],['ORD-0038','12 Oct','৳1,400','৳0',0]
+    ].map(([no,d,o,a,c]) => ({ no, d, o, a, cb: c ? 'var(--color-text)' : 'transparent', ck: c ? I('check', 16) : '' }));
+    const cp = (k, v) => ({ k, v });
+    const pr = (k, v, o = {}) => ({ k, v, bt: o.top ? '1px solid var(--color-text)' : '1px solid var(--color-divider)', fs: o.big ? 17 : 14, fw: o.b ? 700 : 400, c: o.c || 'inherit' });
+    const pnl = [pr('Revenue','৳1,92,400'), pr('Product cost','−৳98,200'), pr('Courier fees','−৳14,380'), pr('Returns & write-offs','−৳6,900'), pr('Packaging','−৳3,200'), pr('Ads (on orders)','−৳8,000'), pr('Order profit','৳61,720',{b:1,top:1,big:1,c:'#1B7F3B'}), pr('Expenses · Rent','−৳12,000'), pr('Expenses · Salary','−৳15,000'), pr('Business profit','৳34,720',{b:1,top:1,big:1,c:'#1B7F3B'})];
+    const mi = (t, n) => ({ t, icon: I(n, 20), bt: '1px solid var(--color-divider)' });
+    const moreGroups = [
+      { t: 'People & catalog', items: [mi('Customers','user'), mi('Products','box'), mi('Couriers','truck')] },
+      { t: 'Money', items: [mi('Reports','chart'), mi('Expenses','receipt'), mi('Ad campaigns','mega'), mi('Returns','undo'), mi('Fix missing costs','alert')] },
+      { t: 'Communication', items: [mi('Message templates','file'), mi('Daily digest','bell')] },
+      { t: 'System', items: [mi('Security & privacy','shield'), mi('Data','dl'), mi('Settings','cog'), mi('Who changed what','clock')] }
+    ];
+    moreGroups.forEach(g => g.items[0].bt = 'none');
+    const mkArt = (b) => React.createElement('svg', { width: 200, height: 140, viewBox: '0 0 160 112', fill: 'none', stroke: '#416180', strokeWidth: 1.5, strokeLinejoin: 'miter', dangerouslySetInnerHTML: { __html: b + '<path d="M12 10v8M8 14h8M148 10v8M144 14h8M12 96v8M8 100h8M148 96v8M144 100h8" stroke-width="1" opacity=".5"/>' } });
+    const empties = [
+      { t: 'No orders yet', s: 'Orders from Facebook, WhatsApp or the phone appear here.', a: 'Create your first order', art: mkArt('<path d="M50 18h60v78l-8-5-8 5-8-5-8 5-8-5-8 5-8-5z"/><path d="M62 38h36M62 50h36M62 62h20"/><path d="M118 70h20v22h-20z"/>') },
+      { t: 'No customers yet', s: 'Add one while taking an order and they are saved for next time.', a: 'New customer', art: mkArt('<circle cx="64" cy="42" r="14"/><path d="M38 90c0-14 12-24 26-24s26 10 26 24z"/><path d="M96 38h34v36H96z"/><path d="M104 48h18M104 56h18M104 64h10"/>') },
+      { t: 'No products yet', s: 'Save prices and costs once. Profit stays accurate.', a: 'New product', art: mkArt('<path d="M80 16 120 36v40L80 96 40 76V36z"/><path d="M40 36l40 20 40-20M80 56v40"/>') },
+      { t: 'No couriers yet', s: 'Add the couriers you use to track parcels and fees.', a: 'New courier', art: mkArt('<path d="M26 30h60v46H26zM86 44h22l14 16v16H86z"/><circle cx="46" cy="80" r="8"/><circle cx="104" cy="80" r="8"/><path d="M36 42h38M36 54h24"/>') },
+      { t: 'No payouts yet', s: 'When a courier pays you, record it here to settle orders.', a: 'Record payout', art: mkArt('<path d="M34 34h82v52H34z"/><path d="M34 46h82"/><circle cx="96" cy="66" r="8"/><path d="M44 62h22M44 72h14"/><circle cx="124" cy="30" r="12"/><path d="M124 24v12M119 28h10"/>') },
+      { t: 'No returns', s: 'Failed or refused parcels you are waiting on show up here.', a: 'See all orders', art: mkArt('<path d="M44 40l36-18 36 18v36L80 94 44 76z"/><path d="M44 40l36 18 36-18M80 58v36"/><path d="M122 26h-22M110 18l-12 8 12 8"/>') },
+      { t: 'No data for this period', s: 'Pick another period, or take an order to start the report.', a: 'Change period', art: mkArt('<path d="M30 20v72h100"/><path d="M46 80V60M66 80V44M86 80V66M106 80V36" stroke-dasharray="3 3"/><path d="M46 58l20-16 20 22 20-28" opacity=".6"/>') },
+      { t: 'All clear', s: 'Nothing needs you right now.', a: 'Back to Home', art: mkArt('<circle cx="80" cy="56" r="30"/><path d="M66 56l10 10 18-20"/><path d="M36 100h88" stroke-dasharray="2 4"/>') }
+    ];
+    return {
+      empties,
+      ...this.more({ I, ic, ic14, T, ch, tile, nav, keys, rows, ledger, per }),
+      ...this.compose(this.more2({ I, ic, T, nav }), this.more2({ I, ic, T: TD, nav })),
+      ic, ic14, icons, iconSizes: [96, 64, 48, 32, 20], tokens, typeScale, taxonomy, tileStates, darkChips,
+      homes: [en, bn], rows, navOrders: nav(1), navCod: nav(3), navMore: nav(4), attn, keys, ledger,
+      detailChips: [ch('With courier','w','truck'), ch('COD with courier','w','cod'), ch('Overridden','n','pencil')],
+      codTiles: [tile('Pending with couriers','৳24,650','cod'), tile('COD in transit','৳11,300','truck'), tile('Disputed','৳1,240','flag',{warn:1}), tile('Received this month','৳86,400','wallet')],
+      couriers: [mk('Pathao','14 orders · oldest 9 days','৳12,420',1), mk('Steadfast','9 orders · oldest 4 days','৳8,230'), mk('RedX','4 orders · oldest 2 days','৳4,000')],
+      payRows, pnl, moreGroups,
+      riskChips: [ch('Refused last COD','d','flag'), ch('High return rate','d','undo')],
+      custStats: [cp('Orders','12'),cp('Delivered','58%'),cp('Returned','33%'),cp('Lifetime revenue','৳21,400'),cp('Lifetime profit','৳1,860'),cp('Last order','13 Oct')],
+      flows: [
+        ['1','First run → first order: S-01 → Home → S-09 → S-11'],['2','Repeat order <30 s: S-09 with risk banner → Take advance'],['3','From chat: S-10 → S-09 pre-filled'],['4','Dispatch day: S-06 select → S-16 Fast CN'],['5','Getting paid: S-28 → S-33 → S-32'],['6','Return & exchange: S-11 → S-14 / S-15'],['7','Month end: Home → S-37 P&L → Expenses'],['8','Safety: S-44 backup / restore'],['9','Helper role (future): S-48']
+      ].map(([n, t]) => ({ n, t })),
+      a11y: [
+        'Chips read "Status: With courier"; tiles read "Pending with couriers, 24,650 taka".',
+        'Every status = tone + icon + text; amber/red on rows never stands alone.',
+        'Targets ≥48dp (buttons 44–52, nav 64); 8dp between adjacent targets.',
+        'At 200% text: tile labels wrap to 2 lines, amounts never truncate; 2-col tiles drop to 1 col at 320dp.',
+        'Provisional values: dashed outline + "expected" text, not colour alone.',
+        'Focus order = visual order; focus ring 2px accent, 2px offset.',
+        'Charts always paired with Table toggle; ad slot labelled "Advertisement".'
+      ],
+      handoff: [
+        { a: 'App bar / Bottom nav', b: 'AppBar · NavigationBar (centre FAB via custom slot); rail ≥600dp' },
+        { a: 'Metric tile', b: 'Custom Card (outlined, 0 radius) + InkWell' },
+        { a: 'Status / profit chip', b: 'Custom Chip: icon + label, dashed border painter for provisional' },
+        { a: 'Order row', b: 'ListTile-based custom row, Dismissible swipe actions' },
+        { a: 'Sheets / dialogs', b: 'showModalBottomSheet (drag handle) · AlertDialog' },
+        { a: 'Segmented', b: 'SegmentedButton, 0 radius' },
+        { a: 'PIN pad', b: 'Custom grid, 64dp keys' },
+        { a: 'Theme', b: 'ThemeData seeded from tokens; Material You off; shape = RoundedRectangle(0)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

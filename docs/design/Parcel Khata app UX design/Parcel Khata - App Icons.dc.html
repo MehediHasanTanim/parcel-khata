@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/styles.css">
+<script src="_ds/industry-b0b19602-cd17-4d96-93c7-77dee88cdf2b/_ds_bundle.js"></script>
+</helmet>
+<div style="padding:56px;display:flex;flex-direction:column;gap:80px;width:1500px;font-family:var(--font-body);color:var(--color-text)">
+<div style="display:flex;gap:20px;font-size:14px;flex-wrap:wrap"><a href="Parcel Khata UX.dc.html">Overview</a><a href="Parcel Khata - System.dc.html">System</a><a href="Parcel Khata - Bangla.dc.html">Bangla</a></div>
+
+<section id="8b" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">8b</span><h1 style="margin:0;white-space:nowrap">Android — adaptive, legacy, monochrome, notification, Play Store</h1></div>
+<p style="max-width:900px;margin:0">Adaptive icon: 108dp layers, 72dp visible, glyph inside the 66dp safe circle. Background = steel with a faint 12dp grid; foreground = parcel + ৳ without registration marks (they would be masked off). Monochrome layer for Android 13 themed icons.</p>
+<div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:8px"><b>Adaptive · layers (xxxhdpi 432px)</b>
+<div style="display:flex;gap:12px;align-items:center">
+<div style="position:relative;width:160px;height:160px;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 0 0/16px 16px"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_background.png" style="position:absolute;inset:0;width:160px;height:160px"></div><span>+</span>
+<div style="position:relative;width:160px;height:160px;background:#416180"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_foreground.png" style="position:absolute;inset:0;width:160px;height:160px"><div style="position:absolute;left:26.7px;top:26.7px;width:106.6px;height:106.6px;border:1px dashed #f2b8b8"></div><div style="position:absolute;left:31px;top:31px;width:97.8px;height:97.8px;border-radius:50%;border:1px dashed #ffd27a"></div></div><span>+</span>
+<div style="position:relative;width:160px;height:160px;background:#ddd"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_monochrome.png" style="position:absolute;inset:0;width:160px;height:160px"></div></div>
+<span style="font-size:13px;opacity:.7">Background · Foreground (red = 72dp visible window, amber = 66dp safe zone) · Monochrome</span></div>
+</div>
+<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end">
+<sc-for list="{{ masks }}" as="m" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><div style="position:relative;width:96px;height:96px;overflow:hidden;border-radius:{{ m.r }}"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_background.png" style="position:absolute;left:-12px;top:-12px;width:120px;height:120px"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_foreground.png" style="position:absolute;left:-12px;top:-12px;width:120px;height:120px"></div><span style="font-size:13px">{{ m.n }}</span></div></sc-for>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center"><div style="width:96px;height:96px;border-radius:30px;background:#cfd8e3;position:relative;overflow:hidden"><img src="icons/android/res/mipmap-xxxhdpi/ic_launcher_monochrome.png" style="position:absolute;left:-12px;top:-12px;width:120px;height:120px;filter:invert(22%) sepia(30%) saturate(900%) hue-rotate(177deg) brightness(.8)"></div><span style="font-size:13px">Themed (Android 13)</span></div>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center"><div style="width:96px;height:96px;background:#16191B;display:flex;align-items:center;justify-content:center"><img src="icons/android/res/drawable-xxxhdpi/ic_stat_parcel.png" style="width:48px;height:48px"></div><span style="font-size:13px">Status-bar glyph</span></div>
+</div>
+<h4 style="margin:0">Every file</h4>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);gap:0;border:1px solid var(--color-divider);font-size:13px">
+<b style="padding:8px">Asset</b><sc-for list="{{ dens }}" as="d" hint-placeholder-count="5"><b style="padding:8px;border-left:1px solid var(--color-divider)">{{ d.n }} ×{{ d.m }}</b></sc-for>
+<sc-for list="{{ andRows }}" as="r" hint-placeholder-count="5"><div style="padding:8px;border-top:1px solid var(--color-divider)"><b>{{ r.n }}</b><div style="opacity:.7;font-size:12px">{{ r.u }}</div></div><sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><div style="padding:8px;border-top:1px solid var(--color-divider);border-left:1px solid var(--color-divider);display:flex;flex-direction:column;gap:6px;align-items:flex-start"><img src="{{ c.src }}" style="width:{{ c.show }}px;height:{{ c.show }}px;background:{{ r.bg }};outline:1px solid var(--color-divider)"><span>{{ c.px }}px</span></div></sc-for></sc-for></div>
+<div style="display:flex;gap:24px;align-items:flex-start"><div style="display:flex;flex-direction:column;gap:6px"><img src="icons/android/play-store-512.png" style="width:256px;height:256px;outline:1px solid var(--color-divider)"><b>Google Play · 512×512 PNG</b><span style="font-size:13px;opacity:.7;max-width:256px">Full-bleed square, no rounding or shadow (Play applies the mask). Under 1 MB.</span></div>
+<div style="font-size:13px;display:flex;flex-direction:column;gap:4px;max-width:520px"><b>Also required by Play Console (not an icon)</b><span>Feature graphic 1024×500 · phone screenshots 2–8 (min 320px, max 3840px, 16:9 or 9:16).</span><b style="margin-top:10px">Manifest</b><code>android:icon="@mipmap/ic_launcher"<br>android:roundIcon="@mipmap/ic_launcher_round"<br>&lt;meta-data … default_notification_icon → @drawable/ic_stat_parcel/&gt;</code></div></div>
+</section>
+
+<section id="8a" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:600 13px var(--font-body);background:var(--color-text);color:var(--color-bg);padding:3px 8px">8a</span><h1 style="margin:0;white-space:nowrap">iOS — AppIcon.appiconset</h1></div>
+<p style="max-width:900px;margin:0">Square, full-bleed, no transparency and no pre-rounded corners — iOS applies the squircle mask. Appearance variants for iOS 18: Light (default), Dark, Tinted (greyscale on black, system supplies the tint).</p>
+<div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start">
+<sc-for list="{{ ios3 }}" as="v" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:8px"><div style="width:220px;height:220px;border-radius:22.37%;overflow:hidden;outline:1px solid var(--color-divider)"><img src="{{ v.src }}" style="width:220px;height:220px;display:block"></div><b>{{ v.n }}</b><span style="font-size:13px;opacity:.7">1024×1024 · {{ v.f }}</span></div></sc-for>
+</div>
+<h4 style="margin:0">Every size (shown at actual pixels, capped 180)</h4>
+<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end">
+<sc-for list="{{ iosSizes }}" as="s" hint-placeholder-count="14"><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start"><img src="{{ s.src }}" style="width:{{ s.show }}px;height:{{ s.show }}px;border-radius:22.37%;outline:1px solid var(--color-divider)"><b style="font-size:13px">{{ s.px }}px</b><span style="font-size:12px;opacity:.7;max-width:120px">{{ s.use }}</span></div></sc-for>
+</div>
+<span style="font-size:13px;opacity:.75;max-width:900px">Stroke weight steps up at small sizes (≤64px: 5.5, ≤180px: 4.5, 1024: 3.6 in the 108 grid) so the ৳ mark stays legible on Settings and Spotlight rows. Drag <code>icons/ios/AppIcon.appiconset</code> into Assets.xcassets — Contents.json maps every file.</span>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const A = 'icons/android/res/';
+    const dens = [['mdpi',1],['hdpi',1.5],['xhdpi',2],['xxhdpi',3],['xxxhdpi',4]].map(([n,m]) => ({ n, m }));
+    const row = (n, u, dir, file, base, bg) => ({ n, u, bg, cells: dens.map(d => { const px = base * d.m; return { src: A + dir + '-' + d.n + '/' + file, px, show: Math.min(px, 96) }; }) });
+    const andRows = [
+      row('ic_launcher', 'Legacy · 48dp', 'mipmap', 'ic_launcher.png', 48, '#e9ecef'),
+      row('ic_launcher_round', 'Legacy round · 48dp', 'mipmap', 'ic_launcher_round.png', 48, '#e9ecef'),
+      row('…_background', 'Adaptive · 108dp', 'mipmap', 'ic_launcher_background.png', 108, '#e9ecef'),
+      row('…_foreground', 'Adaptive · 108dp', 'mipmap', 'ic_launcher_foreground.png', 108, '#416180'),
+      row('…_monochrome', 'Themed · 108dp', 'mipmap', 'ic_launcher_monochrome.png', 108, '#e9ecef'),
+      row('ic_stat_parcel', 'Notification · 24dp', 'drawable', 'ic_stat_parcel.png', 24, '#16191B')];
+    const masks = [{ n: 'Circle', r: '50%' }, { n: 'Squircle', r: '34%' }, { n: 'Rounded square', r: '22%' }, { n: 'Square', r: '0' }, { n: 'Teardrop', r: '50% 50% 50% 8%' }];
+    const I = 'icons/ios/AppIcon.appiconset/';
+    const ios3 = [{ n: 'Light (default)', f: 'Icon-1024.png', src: I + 'Icon-1024.png' }, { n: 'Dark', f: 'Icon-1024-dark.png', src: I + 'Icon-1024-dark.png' }, { n: 'Tinted', f: 'Icon-1024-tinted.png', src: I + 'Icon-1024-tinted.png' }];
+    const use = { '20':'Notification (iPad 1×) · 20pt','29':'Settings','40':'Spotlight','58':'Settings 2×','60':'Notification 3× · Spotlight iPad 1.5','76':'iPad app 1×','80':'Spotlight 2×','87':'Settings 3×','120':'Home 2× · Spotlight 3×','152':'iPad app 2×','167':'iPad Pro 2×','180':'iPhone Home 3×' };
+    const files = [['20',1],['20',2],['20',3],['29',1],['29',2],['29',3],['40',1],['40',2],['40',3],['60',2],['60',3],['76',1],['76',2],['83.5',2]];
+    const iosSizes = files.map(([pt, sc]) => { const px = Math.round(pt * sc); return { px, src: I + 'Icon-' + pt + '-' + sc + 'x.png', show: Math.min(px, 180), use: pt + 'pt @' + sc + 'x · ' + (use[px] || '') }; });
+    iosSizes.push({ px: 1024, src: I + 'Icon-1024.png', show: 180, use: 'App Store marketing' });
+    return { dens, andRows, masks, ios3, iosSizes };
+  }
+}
+</script>
+</body>
+</html>
