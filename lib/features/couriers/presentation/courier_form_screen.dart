@@ -299,6 +299,7 @@ class _CourierFormScreenState extends ConsumerState<CourierFormScreen> {
             Expanded(
               child: DropdownButtonFormField<String>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
                 initialValue: r.zone,
                 decoration: InputDecoration(labelText: l.zone),
                 items: [

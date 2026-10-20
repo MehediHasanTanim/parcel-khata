@@ -113,6 +113,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
               initialValue: s.defaultChannel,
               decoration: InputDecoration(labelText: l.defaultChannel),
               items: [
@@ -160,6 +161,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const SizedBox(height: 12),
             DropdownButtonFormField<String?>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
               initialValue: couriers.any((c) => c.id == s.defaultCourierId)
                   ? s.defaultCourierId
                   : null,
@@ -262,20 +264,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               value: s.highContrast,
               onChanged: (v) => _apply((x) => x.copyWith(highContrast: v)),
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l.language),
-              trailing: SegmentedButton<String>(
-                segments: [
-                  ButtonSegment(value: 'en', label: Text(l.languageEnglish)),
-                  ButtonSegment(value: 'bn', label: Text(l.languageBangla)),
-                ],
-                selected: {locale.languageCode},
-                onSelectionChanged: (sel) {
-                  ref.read(localeProvider.notifier).set(Locale(sel.first));
-                  _apply((x) => x.copyWith(languageCode: sel.first));
-                },
-              ),
+            // Stacked so the two segments never overflow at 320dp / 200% text.
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(l.language),
+                const SizedBox(height: 8),
+                SegmentedButton<String>(
+                  segments: [
+                    ButtonSegment(value: 'en', label: Text(l.languageEnglish)),
+                    ButtonSegment(value: 'bn', label: Text(l.languageBangla)),
+                  ],
+                  selected: {locale.languageCode},
+                  onSelectionChanged: (sel) {
+                    ref.read(localeProvider.notifier).set(Locale(sel.first));
+                    _apply((x) => x.copyWith(languageCode: sel.first));
+                  },
+                ),
+              ]),
             ),
           ]);
         },

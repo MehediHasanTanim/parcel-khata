@@ -35,6 +35,7 @@ class _AgeingScreenState extends ConsumerState<AgeingScreen> {
       body: ListView(padding: const EdgeInsets.all(16), children: [
         DropdownButtonFormField<String?>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
           initialValue: _courierId,
           decoration: InputDecoration(labelText: l.courier),
           items: [

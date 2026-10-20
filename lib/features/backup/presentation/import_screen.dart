@@ -171,6 +171,7 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
               padding: const EdgeInsets.only(top: 8),
               child: DropdownButtonFormField<int?>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
                 initialValue: _map[t],
                 decoration: InputDecoration(labelText: t, isDense: true),
                 items: [

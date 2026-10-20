@@ -337,6 +337,7 @@ Future<void> _correctDialog(BuildContext context, WidgetRef ref, Order o) async 
         content: Column(mainAxisSize: MainAxisSize.min, children: [
           DropdownButtonFormField<OrderStatus>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
             initialValue: target,
             items: [
               for (final s in OrderStatus.values.where((s) => s != OrderStatus.draft))

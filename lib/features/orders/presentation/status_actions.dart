@@ -305,6 +305,7 @@ class _CourierSheetState extends ConsumerState<_CourierSheet> {
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
               initialValue: couriers.any((c) => c.id == _courierId) ? _courierId : null,
               decoration: InputDecoration(labelText: l.courier),
               items: [
@@ -351,6 +352,7 @@ class _CourierSheetState extends ConsumerState<_CourierSheet> {
               Expanded(
                 child: DropdownButtonFormField<String>(
  icon: const Icon(LucideIcons300.chevronDown),
+ isExpanded: true,
                   initialValue: _zone,
                   decoration: InputDecoration(labelText: l.zone),
                   items: [
