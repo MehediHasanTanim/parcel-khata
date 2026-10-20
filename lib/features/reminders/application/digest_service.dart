@@ -37,7 +37,7 @@ class LocalDigestNotifier implements DigestNotifier {
     tz.setLocalLocation(tz.getLocation('Asia/Dhaka'));
     await _plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('@drawable/ic_stat_parcel'),
         // iOS: permission is requested explicitly from settings, never at
         // launch, so the system prompt appears with context.
         iOS: DarwinInitializationSettings(
