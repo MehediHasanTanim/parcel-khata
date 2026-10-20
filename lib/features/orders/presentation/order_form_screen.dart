@@ -663,6 +663,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 gap(20),
                 _heading(l.courier),
                 DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: couriers.any((c) => c.id == _courierId) ? _courierId : null,
                   decoration: InputDecoration(labelText: l.courier),
                   items: [
@@ -680,6 +681,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                   Row(children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
                         initialValue: _zone,
                         decoration: InputDecoration(labelText: l.zone),
                         items: [
@@ -717,6 +719,7 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
                 ],
                 gap(20),
                 DropdownButtonFormField<Channel>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: _channel,
                   decoration: InputDecoration(labelText: l.channel),
                   items: [

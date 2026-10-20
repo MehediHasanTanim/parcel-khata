@@ -297,6 +297,7 @@ class _PasteOrderScreenState extends ConsumerState<PasteOrderScreen> {
             Text(l.pasteAmbiguous, style: TextStyle(color: _tone(context, Confidence.medium))),
           const SizedBox(height: 8),
           DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
             initialValue: line.product?.id,
             isExpanded: true,
             decoration: InputDecoration(labelText: l.pasteMatch, isDense: true),

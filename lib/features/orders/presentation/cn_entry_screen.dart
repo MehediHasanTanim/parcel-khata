@@ -144,6 +144,7 @@ class _CnEntryScreenState extends ConsumerState<CnEntryScreen> {
       ),
       const SizedBox(height: 16),
       DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
         initialValue: couriers.any((c) => c.id == _courierId) ? _courierId : null,
         decoration: InputDecoration(labelText: l.courier),
         items: [for (final c in couriers) DropdownMenuItem(value: c.id, child: Text(c.name))],

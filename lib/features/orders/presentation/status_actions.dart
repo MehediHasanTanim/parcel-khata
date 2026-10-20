@@ -304,6 +304,7 @@ class _CourierSheetState extends ConsumerState<_CourierSheet> {
             Text(l.assignCourier, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
               initialValue: couriers.any((c) => c.id == _courierId) ? _courierId : null,
               decoration: InputDecoration(labelText: l.courier),
               items: [
@@ -349,6 +350,7 @@ class _CourierSheetState extends ConsumerState<_CourierSheet> {
             Row(children: [
               Expanded(
                 child: DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: _zone,
                   decoration: InputDecoration(labelText: l.zone),
                   items: [

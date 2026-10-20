@@ -117,6 +117,7 @@ class SecurityScreen extends ConsumerWidget {
           ListTile(
             title: Text(l.secTimeout),
             trailing: DropdownButton<int>(
+ icon: const Icon(LucideIcons300.chevronDown),
               value: const [0, 60, 300].contains(lock.timeoutSeconds) ? lock.timeoutSeconds : 60,
               items: [
                 DropdownMenuItem(value: 0, child: Text(l.secTimeoutNow)),

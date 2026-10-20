@@ -103,6 +103,7 @@ class _InitiateSheetState extends ConsumerState<_InitiateSheet> {
                 style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
               initialValue: _reason,
               decoration: InputDecoration(labelText: l.returnReason),
               items: [

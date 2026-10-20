@@ -238,6 +238,7 @@ class _ExpenseSheetState extends ConsumerState<_ExpenseSheet> {
             ),
             if (_cat == ExpenseCategory.ads && campaigns.isNotEmpty)
               DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
                 initialValue: campaigns.any((c) => c.id == _campaignId) ? _campaignId : null,
                 decoration: InputDecoration(labelText: l.expenseCampaign),
                 items: [

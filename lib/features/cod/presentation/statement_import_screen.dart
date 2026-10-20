@@ -293,6 +293,7 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
       ]),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
           initialValue: couriers.any((c) => c.id == _courierId) ? _courierId : null,
           decoration: InputDecoration(labelText: l.courier),
           items: [for (final c in couriers) DropdownMenuItem(value: c.id, child: Text(c.name))],
@@ -305,6 +306,7 @@ class _StatementImportScreenState extends ConsumerState<StatementImportScreen> {
         Row(children: [
           Expanded(
             child: DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
               initialValue: _profileId ?? 'preset:${_profile.name}',
               isExpanded: true,
               decoration: InputDecoration(labelText: l.stmtProfile),

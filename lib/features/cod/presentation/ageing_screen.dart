@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/features/cod/application/cod_queries.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 String bucketLabel(AppLocalizations l, AgeBucket b) => switch (b) {
       AgeBucket.d0to3 => l.bucket0to3,
@@ -33,6 +34,7 @@ class _AgeingScreenState extends ConsumerState<AgeingScreen> {
       appBar: AppBar(title: Text(l.ageingTitle)),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
           initialValue: _courierId,
           decoration: InputDecoration(labelText: l.courier),
           items: [

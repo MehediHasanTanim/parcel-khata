@@ -153,6 +153,7 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
                 ]),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: couriers.any((c) => c.id == _f.courierId) ? _f.courierId : null,
                   decoration: InputDecoration(labelText: l.courier),
                   items: [
@@ -166,6 +167,7 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<Channel?>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: _f.channel,
                   decoration: InputDecoration(labelText: l.channel),
                   items: [
@@ -179,6 +181,7 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<PaymentType?>(
+ icon: const Icon(LucideIcons300.chevronDown),
                   initialValue: _f.paymentType,
                   decoration: InputDecoration(labelText: l.paymentType),
                   items: [

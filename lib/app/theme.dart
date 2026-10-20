@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Status colors are always paired with an icon and text, never color alone.
 @immutable
@@ -194,6 +195,12 @@ abstract final class AppTheme {
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
       splashFactory: InkRipple.splashFactory,
+      actionIconTheme: ActionIconThemeData(
+        backButtonIconBuilder: (_) => const Icon(LucideIcons300.arrowLeft),
+        closeButtonIconBuilder: (_) => const Icon(LucideIcons300.x),
+        drawerButtonIconBuilder: (_) => const Icon(LucideIcons300.menu),
+        endDrawerButtonIconBuilder: (_) => const Icon(LucideIcons300.menu),
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: bg,
         foregroundColor: text,

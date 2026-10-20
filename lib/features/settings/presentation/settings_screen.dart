@@ -5,6 +5,7 @@ import 'package:parcel_khata/features/couriers/application/courier_repository.da
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/settings/domain/shop_settings.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 const _channels = ['facebook', 'whatsapp', 'instagram', 'phone', 'walk_in', 'other'];
 
@@ -111,6 +112,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             Text(l.defaults, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
+ icon: const Icon(LucideIcons300.chevronDown),
               initialValue: s.defaultChannel,
               decoration: InputDecoration(labelText: l.defaultChannel),
               items: [
@@ -157,6 +159,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String?>(
+ icon: const Icon(LucideIcons300.chevronDown),
               initialValue: couriers.any((c) => c.id == s.defaultCourierId)
                   ? s.defaultCourierId
                   : null,
@@ -200,6 +203,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               contentPadding: EdgeInsets.zero,
               title: Text(l.returnTransitDays),
               trailing: DropdownButton<int>(
+ icon: const Icon(LucideIcons300.chevronDown),
                 value: s.returnInTransitDays,
                 items: [
                   for (final d in const [3, 5, 7, 10, 14])
@@ -215,6 +219,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               contentPadding: EdgeInsets.zero,
               title: Text(l.riskReturnRateLabel),
               trailing: DropdownButton<int>(
+ icon: const Icon(LucideIcons300.chevronDown),
                 value: const [20, 30, 40, 50, 60].contains(s.riskReturnRatePercent) ? s.riskReturnRatePercent : const [20, 30, 40, 50, 60].first,
                 items: [
                   for (final d in const [20, 30, 40, 50, 60])
@@ -227,6 +232,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               contentPadding: EdgeInsets.zero,
               title: Text(l.riskMinOrdersLabel),
               trailing: DropdownButton<int>(
+ icon: const Icon(LucideIcons300.chevronDown),
                 value: const [2, 3, 4, 5].contains(s.riskMinOrders) ? s.riskMinOrders : const [2, 3, 4, 5].first,
                 items: [
                   for (final d in const [2, 3, 4, 5])
@@ -239,6 +245,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               contentPadding: EdgeInsets.zero,
               title: Text(l.riskRecencyLabel),
               trailing: DropdownButton<int>(
+ icon: const Icon(LucideIcons300.chevronDown),
                 value: const [30, 60, 90, 180, 365].contains(s.riskRefusalRecencyDays) ? s.riskRefusalRecencyDays : const [30, 60, 90, 180, 365].first,
                 items: [
                   for (final d in const [30, 60, 90, 180, 365])
