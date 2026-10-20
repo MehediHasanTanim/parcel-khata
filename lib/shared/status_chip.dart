@@ -25,12 +25,13 @@ class StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = toneColor(context, tone);
+    final hc = Theme.of(context).extension<StatusColors>()!.highContrast;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        border: Border.all(color: color),
+        color: hc ? Theme.of(context).colorScheme.surface : color.withValues(alpha: 0.12),
+        border: Border.all(color: color, width: hc ? 2 : 1),
       ),
       child: Row(children: [
         Icon(icon, size: 20, color: color),
@@ -65,9 +66,12 @@ class StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        // High contrast: a solid ground and a 2px border instead of a tint.
+        color: c.highContrast
+            ? Theme.of(context).colorScheme.surface
+            : color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.zero,
-        border: Border.all(color: color),
+        border: Border.all(color: color, width: c.highContrast ? 2 : 1),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Icon(icon, size: 14, color: color),

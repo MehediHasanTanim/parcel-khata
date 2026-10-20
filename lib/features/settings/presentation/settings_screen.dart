@@ -248,6 +248,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ),
             const Divider(height: 32),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.highContrast),
+              subtitle: Text(l.highContrastHelp),
+              value: s.highContrast,
+              onChanged: (v) => _apply((x) => x.copyWith(highContrast: v)),
+            ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(l.language),

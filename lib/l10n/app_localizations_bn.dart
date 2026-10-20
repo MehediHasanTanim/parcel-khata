@@ -2587,4 +2587,23 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get syncOfflineNote =>
       'অফলাইনেও কাজ চালিয়ে যেতে পারবেন। ইন্টারনেট এলে পরিবর্তন আপলোড হবে।';
+
+  @override
+  String get highContrast => 'উচ্চ কনট্রাস্ট';
+
+  @override
+  String get highContrastHelp =>
+      'পড়া সহজ করতে গাঢ় স্ট্যাটাস রং এবং বর্ডারসহ চিপ।';
+
+  @override
+  String get viewAsTable => 'টেবিলে দেখুন';
+
+  @override
+  String get viewAsChart => 'চার্টে দেখুন';
+
+  @override
+  String get colLabel => 'নাম';
+
+  @override
+  String get colValue => 'মান';
 }

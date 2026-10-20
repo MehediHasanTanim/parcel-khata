@@ -5059,6 +5059,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can keep working offline. Changes upload when the connection returns.'**
   String get syncOfflineNote;
+
+  /// No description provided for @highContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High contrast'**
+  String get highContrast;
+
+  /// No description provided for @highContrastHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Darker status colours and solid, bordered chips for easier reading.'**
+  String get highContrastHelp;
+
+  /// No description provided for @viewAsTable.
+  ///
+  /// In en, this message translates to:
+  /// **'View as table'**
+  String get viewAsTable;
+
+  /// No description provided for @viewAsChart.
+  ///
+  /// In en, this message translates to:
+  /// **'View as chart'**
+  String get viewAsChart;
+
+  /// No description provided for @colLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get colLabel;
+
+  /// No description provided for @colValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get colValue;
 }
 
 class _AppLocalizationsDelegate

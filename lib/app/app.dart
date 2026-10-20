@@ -31,11 +31,12 @@ class ParcelKhataApp extends ConsumerWidget {
           ref.read(localeProvider.notifier).set(Locale(code));
         }
       });
+    final highContrast = ref.watch(shopSettingsProvider).value?.highContrast ?? false;
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (c) => c.l10n.appName,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: AppTheme.light(highContrast: highContrast),
+      darkTheme: AppTheme.dark(highContrast: highContrast),
       locale: ref.watch(localeProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

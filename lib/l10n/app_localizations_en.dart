@@ -2593,4 +2593,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get syncOfflineNote =>
       'You can keep working offline. Changes upload when the connection returns.';
+
+  @override
+  String get highContrast => 'High contrast';
+
+  @override
+  String get highContrastHelp =>
+      'Darker status colours and solid, bordered chips for easier reading.';
+
+  @override
+  String get viewAsTable => 'View as table';
+
+  @override
+  String get viewAsChart => 'View as chart';
+
+  @override
+  String get colLabel => 'Label';
+
+  @override
+  String get colValue => 'Value';
 }

@@ -39,6 +39,7 @@ class ShopSettings {
     this.driveLastSuccessMs,
     this.driveLastError,
     this.adsRemoved = false,
+    this.highContrast = false,
   });
 
   static const defaultDigestKinds = [
@@ -114,6 +115,9 @@ class ShopSettings {
   /// inert without a store product, so this stays false until then.
   final bool adsRemoved;
 
+  /// Display: darker status colours and solid, bordered chips.
+  final bool highContrast;
+
   ShopSettings copyWith({
     String? businessName,
     String? businessPhone,
@@ -153,6 +157,7 @@ class ShopSettings {
     bool clearDriveError = false,
     bool clearLastBackup = false,
     bool? adsRemoved,
+    bool? highContrast,
   }) =>
       ShopSettings(
         businessName: businessName ?? this.businessName,
@@ -194,6 +199,7 @@ class ShopSettings {
         driveLastSuccessMs: driveLastSuccessMs ?? this.driveLastSuccessMs,
         driveLastError: clearDriveError ? null : (driveLastError ?? this.driveLastError),
         adsRemoved: adsRemoved ?? this.adsRemoved,
+        highContrast: highContrast ?? this.highContrast,
       );
 
   Map<String, Object?> toJson() => {
@@ -233,6 +239,7 @@ class ShopSettings {
         'driveLastSuccessMs': driveLastSuccessMs,
         'driveLastError': driveLastError,
         'adsRemoved': adsRemoved,
+        'highContrast': highContrast,
       };
 
   String encode() => jsonEncode(toJson());
@@ -289,6 +296,7 @@ class ShopSettings {
         driveLastSuccessMs: j['driveLastSuccessMs'] as int?,
         driveLastError: j['driveLastError'] as String?,
         adsRemoved: j['adsRemoved'] as bool? ?? d.adsRemoved,
+        highContrast: j['highContrast'] as bool? ?? d.highContrast,
       );
     } on FormatException {
       return const ShopSettings();

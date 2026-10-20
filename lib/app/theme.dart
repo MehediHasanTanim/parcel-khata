@@ -9,6 +9,7 @@ class StatusColors extends ThemeExtension<StatusColors> {
     required this.danger,
     required this.neutral,
     this.info = const Color(0xFF416180),
+    this.highContrast = false,
   });
 
   final Color success;
@@ -19,15 +20,24 @@ class StatusColors extends ThemeExtension<StatusColors> {
   /// Confirmed / in-progress states (steel accent).
   final Color info;
 
+  /// High-contrast display: chips become solid and 2px bordered.
+  final bool highContrast;
+
   @override
   StatusColors copyWith(
-          {Color? success, Color? warning, Color? danger, Color? neutral, Color? info}) =>
+          {Color? success,
+          Color? warning,
+          Color? danger,
+          Color? neutral,
+          Color? info,
+          bool? highContrast}) =>
       StatusColors(
         success: success ?? this.success,
         warning: warning ?? this.warning,
         danger: danger ?? this.danger,
         neutral: neutral ?? this.neutral,
         info: info ?? this.info,
+        highContrast: highContrast ?? this.highContrast,
       );
 
   @override
@@ -39,6 +49,7 @@ class StatusColors extends ThemeExtension<StatusColors> {
       danger: Color.lerp(danger, other.danger, t)!,
       neutral: Color.lerp(neutral, other.neutral, t)!,
       info: Color.lerp(info, other.info, t)!,
+      highContrast: t < 0.5 ? highContrast : other.highContrast,
     );
   }
 }
@@ -66,9 +77,18 @@ abstract final class AppTheme {
   static const fontHeading = 'BarlowCondensed';
   static const _bnFallback = ['NotoSansBengali'];
 
-  static ThemeData light() => _build(
+  static ThemeData light({bool highContrast = false}) => _build(
         Brightness.light,
-        const StatusColors(
+        highContrast
+            ? const StatusColors(
+                success: Color(0xFF0F5A28),
+                warning: Color(0xFF6B3F00),
+                danger: Color(0xFF8E1515),
+                neutral: Color(0xFF3B3E42),
+                info: Color(0xFF27405C),
+                highContrast: true,
+              )
+            : const StatusColors(
           success: Color(0xFF1B7F3B),
           warning: Color(0xFFB26A00),
           danger: Color(0xFFC62828),
@@ -77,9 +97,18 @@ abstract final class AppTheme {
         ),
       );
 
-  static ThemeData dark() => _build(
+  static ThemeData dark({bool highContrast = false}) => _build(
         Brightness.dark,
-        const StatusColors(
+        highContrast
+            ? const StatusColors(
+                success: Color(0xFF8BE0A8),
+                warning: Color(0xFFFFCC80),
+                danger: Color(0xFFFFB4AB),
+                neutral: Color(0xFFD5D8DC),
+                info: Color(0xFFBFD9F2),
+                highContrast: true,
+              )
+            : const StatusColors(
           success: Color(0xFF66D18A),
           warning: Color(0xFFFFB74D),
           danger: Color(0xFFFF8A80),

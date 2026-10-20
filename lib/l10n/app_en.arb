@@ -1059,5 +1059,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "highContrast": "High contrast",
+  "highContrastHelp": "Darker status colours and solid, bordered chips for easier reading.",
+  "viewAsTable": "View as table",
+  "viewAsChart": "View as chart",
+  "colLabel": "Label",
+  "colValue": "Value"
 }
