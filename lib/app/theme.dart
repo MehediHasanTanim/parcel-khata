@@ -115,6 +115,8 @@ abstract final class AppTheme {
       outline: text.withValues(alpha: 0.55),
       outlineVariant: divider,
       error: status.danger,
+      errorContainer: Color.alphaBlend(status.danger.withValues(alpha: 0.12), bg),
+      onErrorContainer: dark ? const Color(0xFFFFB4AB) : const Color(0xFF8E1515),
     );
 
     TextStyle heading(double size, {double? height}) => TextStyle(
