@@ -1051,5 +1051,7 @@
   "viewAsTable": "টেবিলে দেখুন",
   "viewAsChart": "চার্টে দেখুন",
   "colLabel": "নাম",
-  "colValue": "মান"
+  "colValue": "মান",
+  "navNewOrderShort": "নতুন",
+  "selectAnOrder": "একটি অর্ডার বাছুন"
 }

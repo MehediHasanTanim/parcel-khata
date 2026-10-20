@@ -8,6 +8,11 @@ import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 void main() {
   testWidgets('shell shows 5 destinations and navigates', (t) async {
+    // Phone-sized surface: from 600dp wide the bottom bar becomes a rail.
+    t.view
+      ..physicalSize = const Size(400, 800)
+      ..devicePixelRatio = 1;
+    addTearDown(t.view.reset);
     final c = await bootTestApp();
     await t.pumpWidget(UncontrolledProviderScope(container: c, child: const ParcelKhataApp()));
     await t.pumpAndSettle();

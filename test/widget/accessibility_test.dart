@@ -30,6 +30,11 @@ void main() {
   });
 
   testWidgets('navigation destinations expose text labels', (t) async {
+    // Phone-sized surface: from 600dp wide the bottom bar becomes a rail.
+    t.view
+      ..physicalSize = const Size(400, 800)
+      ..devicePixelRatio = 1;
+    addTearDown(t.view.reset);
     final c = await bootTestApp();
     await t.pumpWidget(UncontrolledProviderScope(container: c, child: const ParcelKhataApp()));
     await t.pumpAndSettle();

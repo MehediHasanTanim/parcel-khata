@@ -44,9 +44,12 @@ final _courierProvider = FutureProvider.family<Courier?, String>(
     (ref, id) => ref.watch(courierRepositoryProvider).getById(id));
 
 class OrderDetailScreen extends ConsumerWidget {
-  const OrderDetailScreen({required this.orderId, super.key});
+  const OrderDetailScreen({required this.orderId, this.embedded = false, super.key});
 
   final String orderId;
+
+  /// Shown inside the wide Orders pane: no back arrow.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,7 +57,8 @@ class OrderDetailScreen extends ConsumerWidget {
     final async = ref.watch(orderDetailProvider(orderId));
     return async.when(
       loading: () => Scaffold(
-          appBar: AppBar(), body: const Center(child: CircularProgressIndicator())),
+          appBar: AppBar(automaticallyImplyLeading: !embedded),
+          body: const Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(appBar: AppBar(), body: Center(child: Text('$e'))),
       data: (d) {
         if (d == null) return Scaffold(appBar: AppBar());
@@ -64,6 +68,7 @@ class OrderDetailScreen extends ConsumerWidget {
         final repo = ref.read(orderRepositoryProvider);
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: !embedded,
             title: Text(o.orderNo),
             actions: [
               PopupMenuButton<String>(
@@ -331,6 +336,7 @@ Future<void> _correctDialog(BuildContext context, WidgetRef ref, Order o) async 
         title: Text(l.correctStatus),
         content: Column(mainAxisSize: MainAxisSize.min, children: [
           DropdownButtonFormField<OrderStatus>(
+ icon: const Icon(LucideIcons300.chevronDown),
             initialValue: target,
             items: [
               for (final s in OrderStatus.values.where((s) => s != OrderStatus.draft))

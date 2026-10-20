@@ -2606,4 +2606,10 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get colValue => 'মান';
+
+  @override
+  String get navNewOrderShort => 'নতুন';
+
+  @override
+  String get selectAnOrder => 'একটি অর্ডার বাছুন';
 }

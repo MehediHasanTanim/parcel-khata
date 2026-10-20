@@ -13,6 +13,7 @@ import 'package:parcel_khata/features/couriers/domain/stuck_parcel_policy.dart';
 import 'package:parcel_khata/features/orders/application/order_repository.dart';
 import 'package:parcel_khata/features/orders/application/order_status_service.dart';
 import 'package:parcel_khata/features/orders/domain/order_enums.dart';
+import 'package:parcel_khata/features/orders/presentation/order_detail_screen.dart';
 import 'package:parcel_khata/features/orders/presentation/order_labels.dart';
 import 'package:parcel_khata/features/orders/presentation/status_actions.dart';
 import 'package:parcel_khata/features/profit/presentation/profit_panel.dart';
@@ -64,6 +65,9 @@ final ordersSortProvider =
 /// Order list with keyset pagination, search, filters, sort, multi-select
 /// bulk actions and swipe shortcuts. [customerId] restricts to one customer;
 /// [initialFilter]/[title]/[measure] make it a dashboard drill-down.
+/// Width from which Orders shows list and detail side by side (rail + 380dp list + detail).
+const kTwoPaneWidth = 800.0;
+
 class OrdersScreen extends ConsumerStatefulWidget {
   const OrdersScreen({
     this.customerId,
@@ -88,6 +92,9 @@ class OrdersScreen extends ConsumerStatefulWidget {
 }
 
 class _OrdersScreenState extends ConsumerState<OrdersScreen> {
+  /// Order shown in the right pane on wide screens.
+  String? _paneOrderId;
+
   static const _statusFilters = [
     OrderStatus.confirmed,
     OrderStatus.packed,
@@ -347,6 +354,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
     final l = context.l10n;
     final drafts = ref.watch(draftCountProvider).value ?? 0;
     final selected = _filter.statuses;
+    // Tablet / iPad: list on the left, the chosen order's detail on the right.
+    final wide = widget._isMainTab && MediaQuery.sizeOf(context).width >= kTwoPaneWidth;
     return Scaffold(
       appBar: _selecting
           ? AppBar(
@@ -461,7 +470,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                 ]),
               ),
             ),
-      body: Column(children: [
+      body: _twoPane(
+          wide,
+          Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
           child: TextField(
@@ -585,13 +596,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                         final id = item.order.id;
                         final tile = OrderTile(
                           item: item,
-                          selected: _selected.contains(id),
+                          selected: _selected.contains(id) || (wide && id == _paneOrderId),
                           onLongPress: () => setState(() => _selected.add(id)),
                           onTap: _selecting
                               ? () => setState(() {
                                     if (!_selected.remove(id)) _selected.add(id);
                                   })
-                              : null,
+                              : wide
+                                  ? () => setState(() => _paneOrderId = id)
+                                  : null,
                         );
                         if (_selecting) return tile;
                         // Swipe right = delivered, swipe left = hand to courier.
@@ -617,8 +630,25 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
         // Never on a customer's own order list (personal data on screen).
         if (!_selecting && widget.customerId == null && widget.measure == null)
           const AdSlot(AdPlacement.ordersListFooter),
-      ]),
+      ])),
     );
+  }
+
+  Widget _twoPane(bool wide, Widget list) {
+    if (!wide) return list;
+    final id = _paneOrderId;
+    return Row(children: [
+      SizedBox(width: 380, child: list),
+      const VerticalDivider(width: 1),
+      Expanded(
+        child: id == null
+            ? EmptyState(
+                icon: LucideIcons300.receiptText,
+                title: context.l10n.selectAnOrder,
+              )
+            : OrderDetailScreen(key: ValueKey(id), orderId: id, embedded: true),
+      ),
+    ]);
   }
 
   Widget _swipeBg(BuildContext c, Alignment a, IconData icon, String label) => Container(

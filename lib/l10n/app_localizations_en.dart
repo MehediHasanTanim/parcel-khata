@@ -2612,4 +2612,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get colValue => 'Value';
+
+  @override
+  String get navNewOrderShort => 'New';
+
+  @override
+  String get selectAnOrder => 'Select an order';
 }

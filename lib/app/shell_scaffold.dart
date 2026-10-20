@@ -6,7 +6,8 @@ import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 import 'package:lucide_icons_flutter/lucide_icons_600.dart';
 
-/// Bottom navigation: Home - Orders - (+) New order - COD - More.
+/// Bottom navigation: Home - Orders - (+) New order - COD - More. From 600dp
+/// wide (tablets, iPad) it becomes a navigation rail with New order on top.
 class ShellScaffold extends StatelessWidget {
   const ShellScaffold({required this.shell, super.key});
 
@@ -15,12 +16,48 @@ class ShellScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    // On 320dp phones the long centre label wraps and misaligns the bar.
+    final narrow = MediaQuery.sizeOf(context).width < 360;
     final scheme = Theme.of(context).colorScheme;
     final accent = scheme.primary;
     final onAccent = scheme.onPrimary;
+    if (MediaQuery.sizeOf(context).width >= 600) {
+      return Scaffold(
+        body: Row(children: [
+          NavigationRail(
+            selectedIndex: shell.currentIndex,
+            labelType: NavigationRailLabelType.all,
+            onDestinationSelected: (i) =>
+                shell.goBranch(i, initialLocation: i == shell.currentIndex),
+            leading: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: FloatingActionButton(
+                tooltip: l.navNewOrder,
+                onPressed: () => unawaited(context.push('/orders/new')),
+                child: const Icon(LucideIcons600.plus),
+              ),
+            ),
+            destinations: [
+              NavigationRailDestination(
+                  icon: const Icon(LucideIcons300.house), label: Text(l.navHome)),
+              NavigationRailDestination(
+                  icon: const Icon(LucideIcons300.receiptText), label: Text(l.navOrders)),
+              NavigationRailDestination(
+                  icon: const Icon(LucideIcons300.banknote), label: Text(l.navCod)),
+              NavigationRailDestination(
+                  icon: const Icon(LucideIcons300.ellipsis), label: Text(l.navMore)),
+            ],
+          ),
+          const VerticalDivider(width: 1),
+          Expanded(child: shell),
+        ]),
+      );
+    }
     return Scaffold(
       body: shell,
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(border: Border(top: BorderSide(color: scheme.onSurface))),
+        child: NavigationBar(
         // Destinations: 0 Home, 1 Orders, 2 (+) New order, 3 COD, 4 More.
         // The center action opens the form; it is not a branch.
         selectedIndex: shell.currentIndex < 2 ? shell.currentIndex : shell.currentIndex + 1,
@@ -44,7 +81,7 @@ class ShellScaffold extends StatelessWidget {
           NavigationDestination(
               icon: _NewOrderGlyph(color: accent, onColor: onAccent),
               selectedIcon: _NewOrderGlyph(color: accent, onColor: onAccent),
-              label: l.navNewOrder),
+              label: narrow ? l.navNewOrderShort : l.navNewOrder),
           NavigationDestination(
               icon: const Icon(LucideIcons300.banknote),
               selectedIcon: const Icon(LucideIcons300.banknote),
@@ -54,6 +91,7 @@ class ShellScaffold extends StatelessWidget {
               selectedIcon: const Icon(LucideIcons300.ellipsis),
               label: l.navMore),
         ],
+        ),
       ),
     );
   }

@@ -5095,6 +5095,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Value'**
   String get colValue;
+
+  /// No description provided for @navNewOrderShort.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get navNewOrderShort;
+
+  /// No description provided for @selectAnOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an order'**
+  String get selectAnOrder;
 }
 
 class _AppLocalizationsDelegate

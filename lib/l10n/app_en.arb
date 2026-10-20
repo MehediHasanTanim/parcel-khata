@@ -1065,5 +1065,7 @@
   "viewAsTable": "View as table",
   "viewAsChart": "View as chart",
   "colLabel": "Label",
-  "colValue": "Value"
+  "colValue": "Value",
+  "navNewOrderShort": "New",
+  "selectAnOrder": "Select an order"
 }
