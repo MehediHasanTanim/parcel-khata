@@ -1029,5 +1029,21 @@
   "moreGroupPeople": "মানুষ ও ক্যাটালগ",
   "moreGroupMoney": "টাকাপয়সা",
   "moreGroupComms": "যোগাযোগ",
-  "moreGroupSystem": "সিস্টেম"
+  "moreGroupSystem": "সিস্টেম",
+  "syncTitle": "সিঙ্কের অবস্থা",
+  "syncOffTitle": "সিঙ্ক বন্ধ আছে",
+  "syncOffBody": "আপনার তথ্য এই ফোনেই আছে। কোথাও পাঠানো হচ্ছে না।",
+  "syncStateSynced": "সিঙ্ক হয়েছে",
+  "syncStateSyncing": "সিঙ্ক হচ্ছে…",
+  "syncStatePending": "অপেক্ষায় {n}",
+  "syncStateError": "সিঙ্ক ব্যর্থ",
+  "syncStateRevoked": "অ্যাক্সেস সরানো হয়েছে",
+  "syncLastSync": "সর্বশেষ সিঙ্ক",
+  "syncNever": "কখনও না",
+  "syncPendingChanges": "আপলোডের অপেক্ষায় পরিবর্তন",
+  "syncConflictsTitle": "দেখা দরকার",
+  "syncNoConflicts": "কোনো সংঘাত নেই",
+  "syncMarkResolved": "সমাধান হয়েছে",
+  "syncRetry": "আবার চেষ্টা করুন",
+  "syncOfflineNote": "অফলাইনেও কাজ চালিয়ে যেতে পারবেন। ইন্টারনেট এলে পরিবর্তন আপলোড হবে।"
 }

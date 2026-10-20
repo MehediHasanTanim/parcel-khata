@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/sync/presentation/sync_status_screen.dart';
 import 'package:parcel_khata/features/sync/presentation/activity_screen.dart';
 import 'package:parcel_khata/features/sync/domain/permissions.dart';
 import 'package:parcel_khata/shared/permission_gate.dart';
@@ -156,6 +157,7 @@ final appRouter = GoRouter(
     GoRoute(path: '/settings/security', builder: (_, __) => const SecurityScreen()),
     GoRoute(path: '/settings/data', builder: (_, __) => const PermissionGate(action: Capability.manageSettings, child: DataScreen())),
     GoRoute(path: '/settings/import', builder: (_, __) => const PermissionGate(action: Capability.manageSettings, child: ImportScreen())),
+    GoRoute(path: '/settings/sync', builder: (_, __) => const SyncStatusScreen()),
     GoRoute(path: '/settings/activity', builder: (_, __) => const PermissionGate(action: Capability.viewActivity, child: ActivityScreen())),
     GoRoute(
       path: '/settings/notifications',

@@ -16,6 +16,7 @@ import 'package:parcel_khata/features/settings/application/settings_repository.d
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:parcel_khata/shared/blueprint.dart';
+import 'package:parcel_khata/shared/sync_pill.dart';
 import 'package:lucide_icons_flutter/lucide_icons_300.dart';
 
 /// Opens a filtered order list whose header total equals the tapped tile.
@@ -59,6 +60,7 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l.homeTitle),
         actions: [
+          const SyncPill(),
           IconButton(
             tooltip: l.attentionTitle,
             onPressed: () => context.push('/attention'),
@@ -75,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
         onRefresh: () async => ref.invalidate(dashboardProvider),
         child: ListView(padding: const EdgeInsets.all(16), children: [
           SizedBox(
-            height: 44,
+            height: 44 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
             child: ListView(scrollDirection: Axis.horizontal, children: [
               for (final p in PeriodPreset.values)
                 Padding(
@@ -107,7 +109,7 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 12),
           if (views.isNotEmpty)
             SizedBox(
-              height: 40,
+              height: 40 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
               child: ListView(scrollDirection: Axis.horizontal, children: [
                 for (final v in views)
                   Padding(

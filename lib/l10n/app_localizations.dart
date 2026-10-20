@@ -4963,6 +4963,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get moreGroupSystem;
+
+  /// No description provided for @syncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync status'**
+  String get syncTitle;
+
+  /// No description provided for @syncOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync is off'**
+  String get syncOffTitle;
+
+  /// No description provided for @syncOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data lives on this phone. Nothing is sent anywhere.'**
+  String get syncOffBody;
+
+  /// No description provided for @syncStateSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced'**
+  String get syncStateSynced;
+
+  /// No description provided for @syncStateSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing…'**
+  String get syncStateSyncing;
+
+  /// No description provided for @syncStatePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending {n}'**
+  String syncStatePending(int n);
+
+  /// No description provided for @syncStateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed'**
+  String get syncStateError;
+
+  /// No description provided for @syncStateRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Access removed'**
+  String get syncStateRevoked;
+
+  /// No description provided for @syncLastSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Last sync'**
+  String get syncLastSync;
+
+  /// No description provided for @syncNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get syncNever;
+
+  /// No description provided for @syncPendingChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes waiting to upload'**
+  String get syncPendingChanges;
+
+  /// No description provided for @syncConflictsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a look'**
+  String get syncConflictsTitle;
+
+  /// No description provided for @syncNoConflicts.
+  ///
+  /// In en, this message translates to:
+  /// **'No conflicts'**
+  String get syncNoConflicts;
+
+  /// No description provided for @syncMarkResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark resolved'**
+  String get syncMarkResolved;
+
+  /// No description provided for @syncRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get syncRetry;
+
+  /// No description provided for @syncOfflineNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can keep working offline. Changes upload when the connection returns.'**
+  String get syncOfflineNote;
 }
 
 class _AppLocalizationsDelegate

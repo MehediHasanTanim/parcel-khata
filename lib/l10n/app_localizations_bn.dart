@@ -2536,4 +2536,55 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get moreGroupSystem => 'সিস্টেম';
+
+  @override
+  String get syncTitle => 'সিঙ্কের অবস্থা';
+
+  @override
+  String get syncOffTitle => 'সিঙ্ক বন্ধ আছে';
+
+  @override
+  String get syncOffBody => 'আপনার তথ্য এই ফোনেই আছে। কোথাও পাঠানো হচ্ছে না।';
+
+  @override
+  String get syncStateSynced => 'সিঙ্ক হয়েছে';
+
+  @override
+  String get syncStateSyncing => 'সিঙ্ক হচ্ছে…';
+
+  @override
+  String syncStatePending(int n) {
+    return 'অপেক্ষায় $n';
+  }
+
+  @override
+  String get syncStateError => 'সিঙ্ক ব্যর্থ';
+
+  @override
+  String get syncStateRevoked => 'অ্যাক্সেস সরানো হয়েছে';
+
+  @override
+  String get syncLastSync => 'সর্বশেষ সিঙ্ক';
+
+  @override
+  String get syncNever => 'কখনও না';
+
+  @override
+  String get syncPendingChanges => 'আপলোডের অপেক্ষায় পরিবর্তন';
+
+  @override
+  String get syncConflictsTitle => 'দেখা দরকার';
+
+  @override
+  String get syncNoConflicts => 'কোনো সংঘাত নেই';
+
+  @override
+  String get syncMarkResolved => 'সমাধান হয়েছে';
+
+  @override
+  String get syncRetry => 'আবার চেষ্টা করুন';
+
+  @override
+  String get syncOfflineNote =>
+      'অফলাইনেও কাজ চালিয়ে যেতে পারবেন। ইন্টারনেট এলে পরিবর্তন আপলোড হবে।';
 }

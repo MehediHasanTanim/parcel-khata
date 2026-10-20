@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/features/sync/application/role_providers.dart';
+import 'package:parcel_khata/features/sync/application/sync_status_provider.dart';
 import 'package:parcel_khata/dev/seeder.dart';
 import 'package:parcel_khata/features/couriers/application/courier_repository.dart';
 import 'package:parcel_khata/features/cod/application/payout_service.dart';
@@ -27,6 +30,21 @@ class DebugMenuScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.debugMenu)),
       body: ListView(children: [
+        ListTile(
+          leading: const Icon(LucideIcons300.refreshCw),
+          title: const Text('Sync status (S-49)'),
+          onTap: () => context.push('/settings/sync'),
+        ),
+        ListTile(
+          leading: const Icon(LucideIcons300.cloud),
+          title: const Text('Mark sync enabled (no server, shows pending pill)'),
+          onTap: () async {
+            final m = ScaffoldMessenger.of(context);
+            await ref.read(syncEngineProvider).enable();
+            ref.invalidate(syncStatusProvider);
+            m.showSnackBar(const SnackBar(content: Text('Sync enabled locally')));
+          },
+        ),
         ListTile(
           leading: const Icon(LucideIcons300.sparkles),
           title: const Text('Seed demo data (60 orders, mixed statuses, payouts)'),

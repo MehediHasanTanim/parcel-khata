@@ -1036,5 +1036,28 @@
   "moreGroupPeople": "People & catalog",
   "moreGroupMoney": "Money",
   "moreGroupComms": "Communication",
-  "moreGroupSystem": "System"
+  "moreGroupSystem": "System",
+  "syncTitle": "Sync status",
+  "syncOffTitle": "Sync is off",
+  "syncOffBody": "Your data lives on this phone. Nothing is sent anywhere.",
+  "syncStateSynced": "Synced",
+  "syncStateSyncing": "Syncing…",
+  "syncStatePending": "Pending {n}",
+  "syncStateError": "Sync failed",
+  "syncStateRevoked": "Access removed",
+  "syncLastSync": "Last sync",
+  "syncNever": "Never",
+  "syncPendingChanges": "Changes waiting to upload",
+  "syncConflictsTitle": "Needs a look",
+  "syncNoConflicts": "No conflicts",
+  "syncMarkResolved": "Mark resolved",
+  "syncRetry": "Try again",
+  "syncOfflineNote": "You can keep working offline. Changes upload when the connection returns.",
+  "@syncStatePending": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

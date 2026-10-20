@@ -2541,4 +2541,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreGroupSystem => 'System';
+
+  @override
+  String get syncTitle => 'Sync status';
+
+  @override
+  String get syncOffTitle => 'Sync is off';
+
+  @override
+  String get syncOffBody =>
+      'Your data lives on this phone. Nothing is sent anywhere.';
+
+  @override
+  String get syncStateSynced => 'Synced';
+
+  @override
+  String get syncStateSyncing => 'Syncing…';
+
+  @override
+  String syncStatePending(int n) {
+    return 'Pending $n';
+  }
+
+  @override
+  String get syncStateError => 'Sync failed';
+
+  @override
+  String get syncStateRevoked => 'Access removed';
+
+  @override
+  String get syncLastSync => 'Last sync';
+
+  @override
+  String get syncNever => 'Never';
+
+  @override
+  String get syncPendingChanges => 'Changes waiting to upload';
+
+  @override
+  String get syncConflictsTitle => 'Needs a look';
+
+  @override
+  String get syncNoConflicts => 'No conflicts';
+
+  @override
+  String get syncMarkResolved => 'Mark resolved';
+
+  @override
+  String get syncRetry => 'Try again';
+
+  @override
+  String get syncOfflineNote =>
+      'You can keep working offline. Changes upload when the connection returns.';
 }
