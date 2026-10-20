@@ -1,4 +1,7 @@
+import 'dart:ui' show FontFeature;
+
 import 'package:flutter/material.dart';
+import 'package:parcel_khata/app/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/time/providers.dart';
@@ -12,6 +15,7 @@ import 'package:parcel_khata/features/search/application/saved_view_repository.d
 import 'package:parcel_khata/features/settings/application/settings_repository.dart';
 import 'package:parcel_khata/features/search/presentation/saved_views_sheet.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
+import 'package:parcel_khata/shared/blueprint.dart';
 
 /// Opens a filtered order list whose header total equals the tapped tile.
 void openDrillDown(
@@ -51,11 +55,6 @@ class HomeScreen extends ConsumerWidget {
         };
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/orders/new'),
-        icon: const Icon(Icons.add),
-        label: Text(l.navNewOrder),
-      ),
       appBar: AppBar(
         title: Text(l.homeTitle),
         actions: [
@@ -185,7 +184,7 @@ class _SectionsState extends ConsumerState<_Sections> {
     final hideAmounts = settings?.hideAmountsOnDashboard ?? false;
     final hideProfit = settings?.hideProfitInLists ?? false;
 
-    Widget tile(TileId id, String label, IconData icon) {
+    Widget tile(TileId id, String label, IconData icon, {bool warn = false}) {
       final t = data.tiles[id]!;
       final isProfit = const {
         TileId.profitFinal,
@@ -198,6 +197,7 @@ class _SectionsState extends ConsumerState<_Sections> {
       return _TileCard(
         label: label,
         icon: icon,
+        warn: warn,
         value: masked ? '••••' : formatMeasure(t.measure, t.value),
         onTap: () {
           if (masked && !(hideProfit && isProfit)) {
@@ -218,7 +218,11 @@ class _SectionsState extends ConsumerState<_Sections> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
-              child: Text(title, style: Theme.of(context).textTheme.titleMedium),
+              child: Text(title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65))),
             ),
             // Row height follows the text scale so tiles never clip at 200%.
             GridView(
@@ -254,13 +258,13 @@ class _SectionsState extends ConsumerState<_Sections> {
             context.push('/cod/payouts');
           },
         ),
-        tile(TileId.disputed, l.codDisputed, Icons.flag_outlined),
+        tile(TileId.disputed, l.codDisputed, Icons.flag_outlined, warn: true),
       ]),
       section(l.sectionOps, [
         tile(TileId.ordersInPeriod, l.tileOrders, Icons.receipt_long_outlined),
         tile(TileId.toDispatch, l.tileToDispatch, Icons.outbox_outlined),
         tile(TileId.inTransit, l.tileInTransitOps, Icons.directions_bike_outlined),
-        tile(TileId.stuck, l.tileStuck, Icons.hourglass_bottom),
+        tile(TileId.stuck, l.tileStuck, Icons.hourglass_bottom, warn: true),
         tile(TileId.returnsAwaiting, l.tileReturnsAwaiting, Icons.assignment_return_outlined),
       ]),
       section(l.sectionPerformance, [
@@ -283,34 +287,44 @@ class _TileCard extends StatelessWidget {
     required this.icon,
     required this.value,
     required this.onTap,
+    this.warn = false,
   });
 
   final String label;
   final IconData icon;
   final String value;
   final VoidCallback onTap;
+  final bool warn;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    return Card(
-      margin: EdgeInsets.zero,
+    final warnColor = t.extension<StatusColors>()!.warning;
+    return Blueprint(
+      borderColor: warn ? warnColor : null,
       child: InkWell(
-        borderRadius: BorderRadius.zero,
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              Icon(icon, size: 18),
+              Icon(icon, size: 16, color: warn ? warnColor : null),
               const SizedBox(width: 6),
-              Expanded(child: Text(label, style: t.textTheme.labelMedium, maxLines: 2)),
+              Expanded(
+                child: Text(label,
+                    style: t.textTheme.bodySmall?.copyWith(color: warn ? warnColor : null),
+                    maxLines: 2),
+              ),
             ]),
             const Spacer(),
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
-              child: Text(value, style: t.textTheme.titleLarge),
+              child: Text(value,
+                  style: t.textTheme.headlineSmall?.copyWith(
+                    fontSize: 26,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  )),
             ),
           ]),
         ),

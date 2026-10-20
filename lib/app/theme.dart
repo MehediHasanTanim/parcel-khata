@@ -279,7 +279,7 @@ abstract final class AppTheme {
         backgroundColor: bg,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        indicatorColor: scheme.primaryContainer,
+        indicatorColor: Colors.transparent,
         indicatorShape: square,
         labelTextStyle: WidgetStateProperty.resolveWith(
           (s) => TextStyle(

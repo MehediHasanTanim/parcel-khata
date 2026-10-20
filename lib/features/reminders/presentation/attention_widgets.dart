@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parcel_khata/app/theme.dart';
 import 'package:parcel_khata/core/money/money.dart';
 import 'package:parcel_khata/core/time/providers.dart';
 import 'package:parcel_khata/features/couriers/domain/tracking_url.dart';
@@ -46,6 +47,17 @@ StatusTone attentionTone(AttentionKind k) => switch (k) {
       _ => StatusTone.neutral,
     };
 
+Color _toneColor(BuildContext context, StatusTone tone) {
+  final c = Theme.of(context).extension<StatusColors>()!;
+  return switch (tone) {
+    StatusTone.success => c.success,
+    StatusTone.warning => c.warning,
+    StatusTone.danger => c.danger,
+    StatusTone.neutral => c.neutral,
+    StatusTone.info => c.info,
+  };
+}
+
 /// One queue entry with one-tap actions (feature spec F11).
 class AttentionTile extends ConsumerWidget {
   const AttentionTile({required this.item, super.key});
@@ -60,7 +72,7 @@ class AttentionTile extends ConsumerWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           InkWell(
             onTap: () {
@@ -71,7 +83,8 @@ class AttentionTile extends ConsumerWidget {
               }
             },
             child: Row(children: [
-              Icon(attentionIcon(item.kind)),
+              Icon(attentionIcon(item.kind),
+                  size: 20, color: _toneColor(context, attentionTone(item.kind))),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

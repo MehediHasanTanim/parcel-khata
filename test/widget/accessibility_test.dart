@@ -37,7 +37,7 @@ void main() {
       of: find.byType(NavigationBar),
       matching: find.byType(Text),
     );
-    expect(labels.evaluate().length, greaterThanOrEqualTo(4));
+    expect(labels.evaluate().length, greaterThanOrEqualTo(5));
     await shutDown(t, c);
   });
 }

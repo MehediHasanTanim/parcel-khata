@@ -6,12 +6,11 @@ import 'package:parcel_khata/app/app.dart';
 import 'helpers/app_harness.dart';
 
 void main() {
-  testWidgets('shell shows 4 destinations and a New order FAB and navigates', (t) async {
+  testWidgets('shell shows 5 destinations and navigates', (t) async {
     final c = await bootTestApp();
     await t.pumpWidget(UncontrolledProviderScope(container: c, child: const ParcelKhataApp()));
     await t.pumpAndSettle();
-    expect(find.byType(NavigationDestination), findsNWidgets(4));
-    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(NavigationDestination), findsNWidgets(5));
     await t.tap(find.descendant(
       of: find.byType(NavigationBar),
       matching: find.byIcon(Icons.receipt_long_outlined),
