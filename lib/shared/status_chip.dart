@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parcel_khata/app/theme.dart';
 
-enum StatusTone { success, warning, danger, neutral }
+enum StatusTone { success, warning, danger, neutral, info }
 
 /// Always shows icon + text so meaning never depends on color alone.
 class StatusChip extends StatelessWidget {
@@ -19,18 +19,19 @@ class StatusChip extends StatelessWidget {
       StatusTone.warning => c.warning,
       StatusTone.danger => c.danger,
       StatusTone.neutral => c.neutral,
+      StatusTone.info => c.info,
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: color),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 16, color: color),
+        Icon(icon, size: 14, color: color),
         const SizedBox(width: 6),
-        Text(label, style: TextStyle(color: color, fontWeight: FontWeight.w600)),
+        Text(label, style: TextStyle(color: color, fontWeight: FontWeight.w600, fontSize: 13)),
       ]),
     );
   }

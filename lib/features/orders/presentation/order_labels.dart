@@ -38,6 +38,7 @@ StatusTone statusTone(OrderStatus s) => switch (s) {
       OrderStatus.cancelled =>
         StatusTone.danger,
       OrderStatus.handedToCourier || OrderStatus.inTransit => StatusTone.warning,
+      OrderStatus.confirmed || OrderStatus.packed => StatusTone.info,
       _ => StatusTone.neutral,
     };
 

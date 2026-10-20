@@ -135,7 +135,7 @@ class _ScanSheetState extends State<_ScanSheet> {
             SizedBox(
               height: 280,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.zero,
                 child: widget.builder(
                   context,
                   ScannerHandle(
