@@ -166,17 +166,51 @@ class _Table extends StatelessWidget {
   }
 }
 
-/// Bar chart of at most 8 labelled values (always paired with a table).
-class _Bars extends StatelessWidget {
+/// Bar chart of at most 8 labelled values. A toggle swaps the chart for a
+/// plain label/value table (always available, e.g. for screen readers).
+class _Bars extends StatefulWidget {
   const _Bars({required this.labels, required this.values});
 
   final List<String> labels;
   final List<double> values;
 
   @override
+  State<_Bars> createState() => _BarsState();
+}
+
+class _BarsState extends State<_Bars> {
+  bool _table = false;
+
+  @override
   Widget build(BuildContext context) {
-    final n = values.length > 8 ? 8 : values.length;
+    final l = context.l10n;
+    final n = widget.values.length > 8 ? 8 : widget.values.length;
     if (n == 0) return const SizedBox.shrink();
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Align(
+        alignment: Alignment.centerRight,
+        child: TextButton.icon(
+          onPressed: () => setState(() => _table = !_table),
+          icon: Icon(_table ? LucideIcons300.chartColumn : LucideIcons300.table, size: 18),
+          label: Text(_table ? l.viewAsChart : l.viewAsTable),
+        ),
+      ),
+      if (_table)
+        _Table(
+          columns: [l.colLabel, l.colValue],
+          rows: [
+            for (var i = 0; i < n; i++)
+              [widget.labels[i], widget.values[i].toStringAsFixed(0)],
+          ],
+        )
+      else
+        _chart(context, n),
+    ]);
+  }
+
+  Widget _chart(BuildContext context, int n) {
+    final labels = widget.labels;
+    final values = widget.values;
     final color = Theme.of(context).colorScheme.primary;
     final neg = Theme.of(context).colorScheme.error;
     return SizedBox(
