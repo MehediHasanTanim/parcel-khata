@@ -289,6 +289,56 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
         _ => l.methodOther,
       };
 
+  /// One payable order: checkbox, details and the applied amount. At large
+  /// text sizes the amount field drops under the details so digits never clip.
+  Widget _allocationRow(AppLocalizations l, ThemeData t, PayableOrder p) {
+    final stacked = MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final field = TextField(
+      controller: _amounts[p.order.id],
+      enabled: _selected.contains(p.order.id),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(
+        isDense: true,
+        prefixText: '৳ ',
+        hintText: l.amountApplied,
+      ),
+      onChanged: (_) => setState(() {}),
+    );
+    final info = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(p.order.orderNo, style: t.textTheme.titleSmall),
+      Text(
+        '${l.outstandingLabel}: ${p.reconcile.outstanding.format()}'
+        '${p.order.deliveredAt == null ? '' : ' · ${formatDate(p.order.deliveredAt!)}'}',
+        style: t.textTheme.bodySmall,
+      ),
+    ]);
+    final check = Checkbox(
+      value: _selected.contains(p.order.id),
+      onChanged: (v) {
+        setState(() {
+          v == true ? _selected.add(p.order.id) : _selected.remove(p.order.id);
+        });
+        _autoAllocate();
+      },
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      child: stacked
+          ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                check,
+                Expanded(child: info),
+              ]),
+              Padding(padding: const EdgeInsets.only(left: 48, top: 4), child: field),
+            ])
+          : Row(children: [
+              check,
+              Expanded(child: info),
+              SizedBox(width: 136, child: field),
+            ]),
+    );
+  }
+
   Widget _sumRow(ThemeData t, String k, String v) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -355,45 +405,7 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
             child: Text(l.selectOrdersTitle, style: t.textTheme.titleSmall),
           ),
-          for (final p in _payable)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: Row(children: [
-                Checkbox(
-                  value: _selected.contains(p.order.id),
-                  onChanged: (v) {
-                    setState(() {
-                      v == true ? _selected.add(p.order.id) : _selected.remove(p.order.id);
-                    });
-                    _autoAllocate();
-                  },
-                ),
-                Expanded(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(p.order.orderNo, style: t.textTheme.titleSmall),
-                    Text(
-                      '${l.outstandingLabel}: ${p.reconcile.outstanding.format()}'
-                      '${p.order.deliveredAt == null ? '' : ' · ${formatDate(p.order.deliveredAt!)}'}',
-                      style: t.textTheme.bodySmall,
-                    ),
-                  ]),
-                ),
-                SizedBox(
-                  width: 136,
-                  child: TextField(
-                    controller: _amounts[p.order.id],
-                    enabled: _selected.contains(p.order.id),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      prefixText: '৳ ',
-                      hintText: l.amountApplied,
-                    ),
-                    onChanged: (_) => setState(() {}),
-                  ),
-                ),
-              ]),
-            ),
+          for (final p in _payable) _allocationRow(l, t, p),
           Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: _errorBox()),
           const SizedBox(height: 80),
         ]),
