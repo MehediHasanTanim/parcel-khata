@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/l10n/l10n.dart';
 import 'package:lucide_icons_flutter/lucide_icons_300.dart';
+import 'package:lucide_icons_flutter/lucide_icons_600.dart';
 
 /// Bottom navigation: Home - Orders - (+) New order - COD - More.
 class ShellScaffold extends StatelessWidget {
@@ -70,6 +71,6 @@ class _NewOrderGlyph extends StatelessWidget {
         width: 40,
         height: 32,
         color: color,
-        child: Icon(LucideIcons300.plus, color: onColor, size: 24),
+        child: Icon(LucideIcons600.plus, color: onColor, size: 24),
       );
 }
