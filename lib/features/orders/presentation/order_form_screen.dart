@@ -759,7 +759,8 @@ class _OrderFormScreenState extends ConsumerState<OrderFormScreen> {
     Widget row(String k, String v, {bool bold = false}) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(k, style: bold ? Theme.of(context).textTheme.titleSmall : null),
+            Flexible(
+                child: Text(k, style: bold ? Theme.of(context).textTheme.titleSmall : null)),
             Text(v, style: bold ? Theme.of(context).textTheme.titleSmall : null),
           ]),
         );

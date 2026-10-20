@@ -292,7 +292,8 @@ class _PayoutFlowScreenState extends ConsumerState<PayoutFlowScreen> {
   Widget _sumRow(ThemeData t, String k, String v) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(k),
+          Flexible(child: Text(k)),
+          const SizedBox(width: 8),
           Text(v, style: t.textTheme.titleLarge?.copyWith(fontSize: 19)),
         ]),
       );

@@ -515,7 +515,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           ),
         if (_activeChips(l).isNotEmpty)
           SizedBox(
-            height: 48,
+            height: 48 * MediaQuery.textScalerOf(context).scale(1).clamp(1, 2),
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -660,19 +660,28 @@ class OrderTile extends ConsumerWidget {
       stuckDays: item.courierStuckDays ?? 0,
     );
     final th = Theme.of(context);
-    return ListTile(
-      shape: Border(top: BorderSide(color: th.colorScheme.outlineVariant)),
-      minVerticalPadding: 10,
-      selected: selected,
-      selectedTileColor: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
-      onTap: onTap ?? () => context.push('/orders/${o.id}'),
-      onLongPress: onLongPress,
-      leading: selected ? const Icon(LucideIcons300.circleCheck) : null,
-      title: Text('${o.orderNo} · ${item.customerName ?? '—'}',
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 6),
-        child: Wrap(spacing: 6, runSpacing: 4, children: [
+    // A plain row (not a ListTile) so the trailing column can grow with the
+    // text scale instead of overflowing a fixed-height tile.
+    return Material(
+      color: selected ? th.colorScheme.primaryContainer.withValues(alpha: 0.4) : Colors.transparent,
+      child: InkWell(
+        onTap: onTap ?? () => context.push('/orders/${o.id}'),
+        onLongPress: onLongPress,
+        child: Container(
+          decoration:
+              BoxDecoration(border: Border(top: BorderSide(color: th.colorScheme.outlineVariant))),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            if (selected) ...[
+              const Icon(LucideIcons300.circleCheck),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('${o.orderNo} · ${item.customerName ?? '—'}',
+                    style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                const SizedBox(height: 6),
+                Wrap(spacing: 6, runSpacing: 4, children: [
           StatusChip(
               label: statusLabel(l, status),
               icon: statusIcon(status),
@@ -697,9 +706,11 @@ class OrderTile extends ConsumerWidget {
               tone: stuck == StuckLevel.red ? StatusTone.danger : StatusTone.warning,
             ),
         ]),
-      ),
-      trailing: trailing ??
-          Column(
+              ]),
+            ),
+            const SizedBox(width: 12),
+            trailing ??
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -710,6 +721,9 @@ class OrderTile extends ConsumerWidget {
                     )),
                 Text(formatDate(o.orderDate), style: Theme.of(context).textTheme.bodySmall),
               ]),
+          ]),
+        ),
+      ),
     );
   }
 }
