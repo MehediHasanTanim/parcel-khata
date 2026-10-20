@@ -1032,5 +1032,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "moreGroupPeople": "People & catalog",
+  "moreGroupMoney": "Money",
+  "moreGroupComms": "Communication",
+  "moreGroupSystem": "System"
 }

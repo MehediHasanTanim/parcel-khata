@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parcel_khata/shared/blueprint.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcel_khata/core/db/app_database.dart';
@@ -123,11 +124,15 @@ class _StatsCard extends StatelessWidget {
     if (s == null) return const SizedBox.shrink();
     Widget cell(String k, String v) => Expanded(
           child: Column(children: [
-            Text(v, style: Theme.of(context).textTheme.titleMedium),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(v,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 20)),
+            ),
             Text(k, style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
           ]),
         );
-    return Card(
+    return Blueprint(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

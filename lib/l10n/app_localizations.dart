@@ -4939,6 +4939,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Step {n} of 3'**
   String payoutStepOf(int n);
+
+  /// No description provided for @moreGroupPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People & catalog'**
+  String get moreGroupPeople;
+
+  /// No description provided for @moreGroupMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get moreGroupMoney;
+
+  /// No description provided for @moreGroupComms.
+  ///
+  /// In en, this message translates to:
+  /// **'Communication'**
+  String get moreGroupComms;
+
+  /// No description provided for @moreGroupSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get moreGroupSystem;
 }
 
 class _AppLocalizationsDelegate

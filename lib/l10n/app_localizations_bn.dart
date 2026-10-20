@@ -2524,4 +2524,16 @@ class AppLocalizationsBn extends AppLocalizations {
   String payoutStepOf(int n) {
     return 'ধাপ $n / ৩';
   }
+
+  @override
+  String get moreGroupPeople => 'মানুষ ও ক্যাটালগ';
+
+  @override
+  String get moreGroupMoney => 'টাকাপয়সা';
+
+  @override
+  String get moreGroupComms => 'যোগাযোগ';
+
+  @override
+  String get moreGroupSystem => 'সিস্টেম';
 }

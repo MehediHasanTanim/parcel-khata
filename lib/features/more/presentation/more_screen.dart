@@ -21,6 +21,7 @@ class MoreScreen extends ConsumerWidget {
         Expanded(
           child: ListView(
         children: [
+          _GroupHeader(l.moreGroupPeople),
           ListTile(
             leading: const Icon(Icons.people_outline),
             title: Text(l.customers),
@@ -36,6 +37,7 @@ class MoreScreen extends ConsumerWidget {
             title: Text(l.couriers),
             onTap: () => context.push('/couriers'),
           ),
+          _GroupHeader(l.moreGroupMoney),
           if (ref.watch(canProvider(Capability.viewReports)))
           ListTile(
             leading: const Icon(Icons.insights),
@@ -66,6 +68,7 @@ class MoreScreen extends ConsumerWidget {
             title: Text(l.fixMissingCosts),
             onTap: () => context.push('/orders/cost-missing'),
           ),
+          _GroupHeader(l.moreGroupComms),
           ListTile(
             leading: const Icon(Icons.chat_outlined),
             title: Text(l.messageTemplates),
@@ -77,6 +80,7 @@ class MoreScreen extends ConsumerWidget {
             title: Text(l.digestSettings),
             onTap: () => context.push('/settings/notifications'),
           ),
+          _GroupHeader(l.moreGroupSystem),
           if (ref.watch(canProvider(Capability.manageSettings)))
           ListTile(
             leading: const Icon(Icons.security_outlined),
@@ -119,6 +123,23 @@ class MoreScreen extends ConsumerWidget {
         ),
         const AdSlot(AdPlacement.moreFooter),
       ]),
+    );
+  }
+}
+
+class _GroupHeader extends StatelessWidget {
+  const _GroupHeader(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+      child: Text(title,
+          style: t.textTheme.labelMedium
+              ?.copyWith(color: t.colorScheme.onSurface.withValues(alpha: 0.65))),
     );
   }
 }

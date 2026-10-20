@@ -2529,4 +2529,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String payoutStepOf(int n) {
     return 'Step $n of 3';
   }
+
+  @override
+  String get moreGroupPeople => 'People & catalog';
+
+  @override
+  String get moreGroupMoney => 'Money';
+
+  @override
+  String get moreGroupComms => 'Communication';
+
+  @override
+  String get moreGroupSystem => 'System';
 }
